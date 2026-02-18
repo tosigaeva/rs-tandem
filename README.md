@@ -16,13 +16,13 @@ Its flexible architecture allows for easy addition of new exercises and scalable
 ## Team
 
 - **Alena Deviatova**  
-  [![GitHub](https://img.shields.io/badge/GitHub-deviatovae-181717?style=flat&logo=github)](https://github.com/alice-johnson)
+  [![GitHub](https://img.shields.io/badge/GitHub-deviatovae-181717?style=flat&logo=github)](https://github.com/deviatovae)
 
 - **Anastasiia Barkovskaia**  
-  [![GitHub](https://img.shields.io/badge/GitHub-tosigaeva-181717?style=flat&logo=github)](https://github.com/bob-smith)
+  [![GitHub](https://img.shields.io/badge/GitHub-tosigaeva-181717?style=flat&logo=github)](https://github.com/tosigaeva)
 
 - **Merab Kopaleishvili**  
-  [![GitHub](https://img.shields.io/badge/GitHub-mero93-181717?style=flat&logo=github)](https://github.com/charlie-lee)
+  [![GitHub](https://img.shields.io/badge/GitHub-mero93-181717?style=flat&logo=github)](https://github.com/mero93)
 
 - **Anastasiya Krauchuk**  
-  [![GitHub](https://img.shields.io/badge/GitHub-hamsterk-181717?style=flat&logo=github)](https://github.com/dana-kim)
+  [![GitHub](https://img.shields.io/badge/GitHub-hamsterk-181717?style=flat&logo=github)](https://github.com/hamsterk)
