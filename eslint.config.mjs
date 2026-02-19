@@ -14,6 +14,12 @@ const eslintConfig = defineConfig([
   unicorn.configs['recommended'],
   prettierConfig,
   {
+    files: ['lib/utils.ts'],
+    rules: {
+      'unicorn/prevent-abbreviations': 'off',
+    },
+  },
+  {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     linterOptions: {
       noInlineConfig: true,
