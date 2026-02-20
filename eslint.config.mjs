@@ -11,8 +11,14 @@ import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  unicorn.configs['flat/recommended'],
+  unicorn.configs['recommended'],
   prettierConfig,
+  {
+    files: ['lib/utils.ts'],
+    rules: {
+      'unicorn/prevent-abbreviations': 'off',
+    },
+  },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     linterOptions: {
@@ -72,6 +78,7 @@ const eslintConfig = defineConfig([
 
   globalIgnores([
     ".next/**",
+    "**/.next/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
