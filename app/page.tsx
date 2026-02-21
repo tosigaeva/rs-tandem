@@ -8,17 +8,17 @@ export default function Page() {
     <div className="bg-background text-foreground flex min-h-screen flex-col">
       <Header />
       <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-screen items-center justify-center px-6 text-center">
-        <div>
+        <div className="m-10">
           <h1 className="text-5xl font-bold sm:text-6xl">RS Tandem</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
             Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms,
             problem solving, and core JS concepts in a fun way.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-8 flex justify-center gap-4 p-5">
             <PrimaryButton>Sign in</PrimaryButton>
             <PrimaryButton variant="secondary">Register</PrimaryButton>
           </div>
-          <div className="flex items-center justify-center p-20">
+          <div className="flex items-center justify-center">
             <Image
               src="/landing-logo-mobile.png"
               width={1052}
@@ -28,15 +28,13 @@ export default function Page() {
             />
           </div>
         </div>
-        <div className="p-7">
-          <Image
-            src="/landing-logo-desktop.jpg"
-            width={870}
-            height={500}
-            className="hidden rounded-3xl md:block"
-            alt="JS logo"
-          />
-        </div>
+        <Image
+          src="/landing-logo-desktop.jpg"
+          width={870}
+          height={500}
+          className="hidden rounded-3xl md:block"
+          alt="JS logo"
+        />
       </main>
     </div>
   );
