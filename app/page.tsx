@@ -1,3 +1,6 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 import { Header } from '@/components/header';
@@ -19,22 +22,34 @@ export default function Page() {
             <PrimaryButton variant="secondary">Register</PrimaryButton>
           </div>
           <div className="flex items-center justify-center">
-            <Image
-              src="/landing-logo-mobile.png"
-              width={1052}
-              height={1052}
-              className="block rounded-3xl md:hidden"
-              alt="JS logo"
-            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Image
+                src="/landing-logo-mobile.png"
+                width={1052}
+                height={1052}
+                className="block rounded-3xl md:hidden"
+                alt="JS logo"
+              />
+            </motion.div>
           </div>
         </div>
-        <Image
-          src="/landing-logo-desktop.jpg"
-          width={870}
-          height={500}
-          className="hidden rounded-3xl md:block"
-          alt="JS logo"
-        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Image
+            src="/landing-logo-desktop.jpg"
+            width={870}
+            height={500}
+            className="hidden rounded-3xl md:block"
+            alt="JS logo"
+          />
+        </motion.div>
       </main>
     </div>
   );
