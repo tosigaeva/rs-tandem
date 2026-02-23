@@ -1,23 +1,16 @@
-'use client';
+import Link from 'next/link';
 
-import { useRouter } from 'next/navigation';
-
+import { getUser } from '@/api/user.api';
 import { PrimaryButton } from '@/components/primary-button';
 import { Routes } from '@/lib/routes';
-import { getUser } from '@/lib/user';
 
 const messages = {
   greeting: 'Hello',
   startPracticeButton: 'Start Practice',
 };
 
-export default function Page() {
-  const router = useRouter();
-  const user = getUser();
-
-  const toLibrary = () => {
-    router.push(Routes.Library);
-  };
+export default async function Page() {
+  const user = await getUser();
 
   return (
     <main className="text-foreground px-6">
@@ -26,7 +19,9 @@ export default function Page() {
           {messages.greeting}, {user.name}!
         </h1>
       </section>
-      <PrimaryButton onClick={toLibrary}>{messages.startPracticeButton}</PrimaryButton>
+      <PrimaryButton asChild>
+        <Link href={Routes.Library}>{messages.startPracticeButton}</Link>
+      </PrimaryButton>
     </main>
   );
 }
