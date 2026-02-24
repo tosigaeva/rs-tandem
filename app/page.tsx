@@ -18,8 +18,7 @@ export default function Page() {
             problem solving, and core JS concepts in a fun way.
           </p>
           <div className="mt-8 flex justify-center gap-4 p-5">
-            <PrimaryButton>Sign in</PrimaryButton>
-            <PrimaryButton variant="secondary">Register</PrimaryButton>
+            <PrimaryButton size="lg">Get started!</PrimaryButton>
           </div>
           <div className="flex items-center justify-center">
             <motion.div
