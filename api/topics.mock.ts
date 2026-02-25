@@ -1,25 +1,100 @@
-import { Topic } from '@/types/topic';
+import { TopicsResponse } from '@/types/topic';
 
-export const mockTopics: Topic[] = [
-  {
-    id: '1',
-    name: 'Conditional Statements',
-    level: 'beginner',
-    description: 'if, else if, else, ternary operator',
-    tag: 'Java Script',
-  },
-  {
-    id: '2',
-    name: 'Arrays Advanced',
-    level: 'intermediate',
-    description: 'map, filter, reduce, some, every, find',
-    tag: 'Java Script',
-  },
-  {
-    id: '3',
-    name: 'Advanced Closures & Currying',
-    level: 'advanced',
-    description: 'functions with closures, currying',
-    tag: 'Java Script',
-  },
-];
+export const mockLibraryTopics: TopicsResponse = {
+  userTopics: [
+    {
+      id: '1',
+      name: 'Conditional Statements',
+      level: 'beginner',
+      description: 'if, else if, else, ternary operator if, else if, else, ternary operator',
+      tag: 'JavaScript',
+      progress: '15',
+      lastTrainingTime: '2026-02-21T09:30:00Z',
+    },
+    {
+      id: '2',
+      name: 'Arrays Advanced',
+      level: 'intermediate',
+      description: 'map, filter, reduce, some, every, find',
+      tag: 'JavaScript',
+      progress: '80',
+      lastTrainingTime: '2026-02-24T18:10:00Z',
+    },
+    {
+      id: '3',
+      name: 'Asynchronous Patterns',
+      level: 'intermediate',
+      description: 'callbacks, promises, async/await',
+      tag: 'JavaScript',
+      progress: '45',
+      lastTrainingTime: '2026-02-23T07:45:00Z',
+    },
+  ],
+  topics: [
+    {
+      id: '1',
+      name: 'Variables & Data Types',
+      level: 'beginner',
+      description: 'let, const, var, strings, numbers, boolean values',
+      tag: 'JavaScript',
+    },
+    {
+      id: '2',
+      name: 'Objects',
+      level: 'beginner',
+      description: 'object creation, property access, and methods',
+      tag: 'JavaScript',
+    },
+    {
+      id: '3',
+      name: 'Basic DOM Manipulatio',
+      level: 'beginner',
+      description: 'getElementById, querySelector, innerHTML',
+      tag: 'JavaScript',
+    },
+    {
+      id: '4',
+      name: 'Console & Debugging',
+      level: 'beginner',
+      description: 'console.log, console.table, debugger',
+      tag: 'JavaScript',
+    },
+    {
+      id: '5',
+      name: 'Error Handling',
+      level: 'intermediate',
+      description: 'try/catch, throw',
+      tag: 'JavaScript',
+    },
+    {
+      id: '6',
+      name: 'Promises',
+      level: 'intermediate',
+      description: 'promise, then, catch, finally',
+      tag: 'JavaScript',
+    },
+    {
+      id: '7',
+      name: 'ES6 Modules',
+      level: 'intermediate',
+      description: 'import, export, default export',
+      tag: 'JavaScript',
+    },
+    {
+      id: '8',
+      name: 'Advanced Closures & Currying',
+      level: 'advanced',
+      description: 'functions with closures, currying',
+      tag: 'JavaScript',
+    },
+    {
+      id: '9',
+      name: 'ES6+ Features',
+      level: 'advanced',
+      description: 'spread, rest, destructuring, optional chaining',
+      tag: 'JavaScript',
+    },
+  ],
+  currentPage: 1,
+  totalPages: 3,
+};

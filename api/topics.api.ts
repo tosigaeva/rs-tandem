@@ -1,6 +1,6 @@
-import { mockTopics } from '@/api/topics.mock';
-import { Topic } from '@/types/topic';
+import { mockLibraryTopics } from '@/api/topics.mock';
+import { TopicsResponse } from '@/types/topic';
 
-export async function getTopics(): Promise<Topic[]> {
-  return mockTopics;
+export async function getLibraryTopics(): Promise<TopicsResponse> {
+  return mockLibraryTopics;
 }
