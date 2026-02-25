@@ -4,11 +4,16 @@ export type Topic = {
   level: string;
   description: string;
   tag: string;
-  progress?: string;
 };
 
-export type UserTopic = {
-  id: string;
-  topicId: string;
+export type UserTopic = Topic & {
   progress: string;
+  lastTrainingTime: string;
+};
+
+export type TopicsResponse = {
+  userTopics: UserTopic[];
+  topics: Topic[];
+  currentPage: number;
+  totalPages: number;
 };
