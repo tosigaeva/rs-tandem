@@ -1,5 +1,8 @@
+import Link from 'next/link';
+
 import { getLibraryTopics } from '@/api/topics.api';
 import { TopicCard } from '@/components/topic-card';
+import { Routes } from '@/lib/routes';
 
 export default async function Page() {
   const { userTopics, topics } = await getLibraryTopics();
@@ -13,10 +16,11 @@ export default async function Page() {
 
       <section className="space-y-6">
         <h2 className="text-xl font-semibold">Continue Learning</h2>
-
         <ul className="flex flex-wrap justify-start gap-2">
           {userTopics.map((topic) => (
-            <TopicCard topic={topic} key={topic.id} />
+            <Link href={`${Routes.Library}/${topic.id}`} key={topic.id}>
+              <TopicCard topic={topic} />
+            </Link>
           ))}
         </ul>
       </section>
@@ -26,7 +30,9 @@ export default async function Page() {
 
         <ul className="flex flex-wrap justify-start gap-2">
           {topics.map((topic) => (
-            <TopicCard topic={topic} key={topic.id} />
+            <Link href={`${Routes.Library}/${topic.id}`} key={topic.id}>
+              <TopicCard topic={topic} />
+            </Link>
           ))}
         </ul>
       </section>
