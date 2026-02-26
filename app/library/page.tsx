@@ -1,8 +1,12 @@
-import Link from 'next/link';
-
 import { getLibraryTopics } from '@/api/topics.api';
-import { TopicCard } from '@/components/topic-card';
-import { Routes } from '@/lib/routes';
+import { TopicList } from '@/components/library/topics-list';
+
+const messages = {
+  title: 'Library',
+  description: 'Track your progress and explore new topics.',
+  userTopicsTitle: 'Continue Learning',
+  topicsTitle: 'Explore More',
+};
 
 export default async function Page() {
   const { userTopics, topics } = await getLibraryTopics();
@@ -10,32 +14,12 @@ export default async function Page() {
   return (
     <main className="mx-auto max-w-5xl space-y-12 py-10 sm:px-6">
       <section className="space-y-2">
-        <h1 className="text-4xl font-semibold tracking-tight">Library</h1>
-        <p className="text-muted-foreground">Track your progress and explore new topics.</p>
+        <h1 className="text-4xl font-semibold tracking-tight">{messages.title}</h1>
+        <p className="text-muted-foreground">{messages.description}</p>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-xl font-semibold">Continue Learning</h2>
-        <ul className="flex flex-wrap justify-start gap-2">
-          {userTopics.map((topic) => (
-            <Link href={`${Routes.Library}/${topic.id}`} key={topic.id}>
-              <TopicCard topic={topic} />
-            </Link>
-          ))}
-        </ul>
-      </section>
-
-      <section className="space-y-6 border-t pt-12">
-        <h2 className="text-xl font-semibold">Explore More</h2>
-
-        <ul className="flex flex-wrap justify-start gap-2">
-          {topics.map((topic) => (
-            <Link href={`${Routes.Library}/${topic.id}`} key={topic.id}>
-              <TopicCard topic={topic} />
-            </Link>
-          ))}
-        </ul>
-      </section>
+      <TopicList title={messages.userTopicsTitle} topics={userTopics} />
+      <TopicList title={messages.topicsTitle} topics={topics} bordered />
     </main>
   );
 }
