@@ -1,0 +1,19 @@
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+
+export default function NotFound() {
+  return (
+    <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-screen flex-col items-center justify-center px-6 text-center">
+      <div className="m-10">
+        <h1 className="text-5xl font-bold sm:text-6xl">404 - Not Found</h1>
+        <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
+          The page you are looking for does not exist.
+        </p>
+      </div>
+      <Button variant="outline" size="lg">
+        <Link href="/">Go to Main page</Link>
+      </Button>
+    </div>
+  );
+}
