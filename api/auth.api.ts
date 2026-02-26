@@ -54,4 +54,14 @@ export const authApi = {
       return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
     }
   },
+
+  getUSer: async () => {
+    const supabase = await supabaseServer();
+
+    try {
+      return await supabase.auth.getUser();
+    } catch (error: unknown) {
+      return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
+    }
+  },
 };
