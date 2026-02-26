@@ -1,4 +1,4 @@
-import { getLibraryTopics } from '@/api/topics.api';
+import { getTopicsOverview } from '@/api/topics.api';
 import { TopicList } from '@/components/library/topics-list';
 
 const messages = {
@@ -9,7 +9,7 @@ const messages = {
 };
 
 export default async function Page() {
-  const { userTopics, topics } = await getLibraryTopics();
+  const { userTopics, topics } = await getTopicsOverview();
 
   return (
     <main className="mx-auto max-w-5xl space-y-12 py-10 sm:px-6">
