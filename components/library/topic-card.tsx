@@ -25,7 +25,7 @@ export function TopicCard({ topic }: TopicCardProperties) {
         </CardTitle>
         <CardDescription className="line-clamp-2 min-h-10 text-sm">{topic.description}</CardDescription>
       </CardHeader>
-      <CardContent>{isUserTopic(topic) && <Progress value={Number(topic.progress)} className="h-2" />}</CardContent>
+      <CardContent>{isUserTopic(topic) && <Progress value={topic.progress} className="h-2" />}</CardContent>
       <CardFooter>
         <Badge variant="outline" className="text-xs font-normal">
           {topic.subject}

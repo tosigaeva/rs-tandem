@@ -8,7 +8,7 @@ export const mockLibraryTopics: TopicsResponse = {
       level: 'beginner',
       description: 'if, else if, else, ternary operator if, else if, else, ternary operator',
       subject: 'JavaScript',
-      progress: '15',
+      progress: 15,
       lastTrainedAt: '2026-02-21T09:30:00Z',
     },
     {
@@ -17,7 +17,7 @@ export const mockLibraryTopics: TopicsResponse = {
       level: 'intermediate',
       description: 'map, filter, reduce, some, every, find',
       subject: 'JavaScript',
-      progress: '80',
+      progress: 80,
       lastTrainedAt: '2026-02-24T18:10:00Z',
     },
     {
@@ -26,7 +26,7 @@ export const mockLibraryTopics: TopicsResponse = {
       level: 'intermediate',
       description: 'callbacks, promises, async/await',
       subject: 'JavaScript',
-      progress: '45',
+      progress: 45,
       lastTrainedAt: '2026-02-23T07:45:00Z',
     },
   ],

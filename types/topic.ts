@@ -7,7 +7,7 @@ export type Topic = {
 };
 
 export type UserTopic = Topic & {
-  progress: string;
+  progress: number;
   lastTrainedAt: string;
 };
 
