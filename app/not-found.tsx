@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import AnimatedCounter from '@/components/animated-counter';
 import { Button } from '@/components/ui/button';
+import { Routes } from '@/lib/routes';
 
 export default function NotFound() {
   return (
@@ -17,7 +18,7 @@ export default function NotFound() {
           </p>
         </div>
         <Button variant="outline" size="lg" asChild>
-          <Link href="/">Go to Main page</Link>
+          <Link href={Routes.Home}>Go to Main page</Link>
         </Button>
       </div>
     </div>
