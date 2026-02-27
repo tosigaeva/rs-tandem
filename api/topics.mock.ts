@@ -95,6 +95,4 @@ export const mockLibraryTopics: TopicsResponse = {
       subject: 'JavaScript',
     },
   ],
-  currentPage: 1,
-  totalPages: 3,
 };

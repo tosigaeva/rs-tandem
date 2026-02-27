@@ -14,6 +14,4 @@ export type UserTopic = Topic & {
 export type TopicsResponse = {
   userTopics: UserTopic[];
   topics: Topic[];
-  currentPage: number;
-  totalPages: number;
 };
