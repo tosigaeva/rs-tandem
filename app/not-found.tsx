@@ -9,14 +9,14 @@ export default function NotFound() {
       <div className="border-secondary rounded-lg border-2 p-10">
         <div className="m-10">
           <h1 className="text-5xl font-bold sm:text-6xl">
-            {<AnimatedCounter startValue={100} endValue={404} animationDuration={2} />}
+            <AnimatedCounter startValue={100} endValue={404} animationDuration={2} />
           </h1>
           <p className="text-2xl">Not Found</p>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
             The page you are looking for does not exist.
           </p>
         </div>
-        <Button variant="outline" size="lg">
+        <Button variant="outline" size="lg" asChild>
           <Link href="/">Go to Main page</Link>
         </Button>
       </div>
