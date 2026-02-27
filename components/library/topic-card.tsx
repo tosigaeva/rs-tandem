@@ -7,7 +7,7 @@ type TopicCardProperties = {
 };
 
 const isUserTopic = (topic: Topic | UserTopic): topic is UserTopic => {
-  return 'progress' in topic && 'lastTrainingTime' in topic;
+  return 'progress' in topic && 'lastTrainedAt' in topic;
 };
 
 export function TopicCard({ topic }: TopicCardProperties) {
@@ -28,7 +28,7 @@ export function TopicCard({ topic }: TopicCardProperties) {
       <CardContent>{isUserTopic(topic) && <Progress value={Number(topic.progress)} className="h-2" />}</CardContent>
       <CardFooter>
         <Badge variant="outline" className="text-xs font-normal">
-          {topic.tag}
+          {topic.subject}
         </Badge>
       </CardFooter>
     </Card>

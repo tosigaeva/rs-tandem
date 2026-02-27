@@ -3,12 +3,12 @@ export type Topic = {
   name: string;
   level: string;
   description: string;
-  tag: string;
+  subject: string;
 };
 
 export type UserTopic = Topic & {
   progress: string;
-  lastTrainingTime: string;
+  lastTrainedAt: string;
 };
 
 export type TopicsResponse = {
