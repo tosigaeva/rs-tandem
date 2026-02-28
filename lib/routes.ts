@@ -6,6 +6,7 @@ export enum Routes {
 }
 
 export const RoutePermissions: Record<Routes, 'public' | 'protected'> = {
+  [Routes.Home]: 'public',
   [Routes.Login]: 'public',
   [Routes.Dashboard]: 'protected',
   [Routes.Library]: 'protected',
