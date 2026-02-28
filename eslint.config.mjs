@@ -75,7 +75,14 @@ const eslintConfig = defineConfig([
       'better-tailwindcss/no-unnecessary-whitespace': 'error',
     },
   },
-
+  {
+    files: ['components/ui/**/*.{js,jsx,ts,tsx}'],
+    rules: {
+      '@typescript-eslint/strict-boolean-expressions': 'off',
+      'unicorn/no-null': 'off',
+      'unicorn/prevent-abbreviations': 'off',
+    },
+  },
   globalIgnores([
     ".next/**",
     "**/.next/**",
