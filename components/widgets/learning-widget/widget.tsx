@@ -21,6 +21,7 @@ export function LearningWidget({ questions }: LearningWidgetProperties) {
         setApi={setApi}
         opts={{
           align: 'start',
+          watchDrag: false,
         }}
         className="w-full"
       >
