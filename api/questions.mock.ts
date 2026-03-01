@@ -178,6 +178,6 @@ const mockLearningQuestions: Question[] = [
   },
 ];
 
-export function getMockQuestion(): Question {
-  return mockLearningQuestions[Math.floor(Math.random() * mockLearningQuestions.length)];
+export function getMockQuestions(count: number = 10): Question[] {
+  return mockLearningQuestions.slice(0, count);
 }

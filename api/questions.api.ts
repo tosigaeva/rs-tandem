@@ -1,6 +1,6 @@
-import { getMockQuestion } from '@/api/questions.mock';
+import { getMockQuestions } from '@/api/questions.mock';
 import { Question } from '@/types/question';
 
-export async function getQuestion(): Promise<Question> {
-  return getMockQuestion();
+export async function getQuestions(count: number = 10): Promise<Question[]> {
+  return getMockQuestions(count);
 }
