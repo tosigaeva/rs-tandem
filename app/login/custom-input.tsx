@@ -53,14 +53,17 @@ export const CustomInput = ({ name, label, type, placeholder, classes }: InputPr
 
   return (
     <div className={cn('flex w-full flex-col gap-1.5', classes)}>
-      <label className="text-sm font-medium text-slate-700">{label}</label>
-      <div className="relative flex w-fit align-middle">
+      <label className="text-sm font-medium text-slate-700" htmlFor={name}>
+        {label}
+      </label>
+      <div className={cn('relative flex w-full align-middle')}>
         <input
           {...register(name)}
+          id={name}
           type={visibility ? 'text' : type}
           placeholder={placeholder}
           className={cn(
-            'rounded-md border bg-amber-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
+            'w-full rounded-md border bg-amber-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
             hasError ? 'border-red-500 bg-red-50' : 'border-slate-300 focus:border-blue-500'
           )}
         />
