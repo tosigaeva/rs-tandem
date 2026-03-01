@@ -1,4 +1,5 @@
 'use client';
+import { Button } from '@/components/ui/button';
 import { SignUpSchema, signUpSchema } from '@/types/schemas/authorization-schemas';
 
 import { CustomForm } from './custom-form';
@@ -20,14 +21,18 @@ export default function LoginPage() {
           { name: 'password', label: 'Password', type: 'password' },
           { name: 'confirmPassword', label: 'Confirm Password', type: 'password' },
         ]}
+        defaultValues={{
+          email: '',
+          password: '',
+          confirmPassword: '',
+        }}
+        dependencies={{
+          password: ['confirmPassword'],
+        }}
       />
-      <button
-        form="login-form"
-        type="submit"
-        className="mt-6 w-full rounded-md bg-blue-600 p-3 font-semibold text-white hover:bg-blue-700"
-      >
+      <Button variant={'default'} form="login-form" type="submit" className="w-full">
         Create Account
-      </button>
+      </Button>
     </div>
   );
 }
