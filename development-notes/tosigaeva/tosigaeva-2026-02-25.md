@@ -11,9 +11,11 @@
 ### Дата: 2026-02-25
 
 **Сделано:**  Добавила список тем на страницу *Library*. Использовала компоненты *Card, Badge и Progress* из библиотеки *shadcn/ui* и сверстала карточку темы.
+
 <img src="./images/2026-02-25-library-upload-progress.png" alt="Library card with upload progress" width="400" height="250">
 
 Поняла, что *Upload progress* утяжеляет UI, поэтому переделала:
+
 <img src="./images/2026-02-25-library-no-progress.png" alt="Library card without upload progress" width="400" height="250">
 
 Пока остановилась на этом варианте, но сомневаюсь – возможно, стоит добавить под индикатором надпись `{procent} completed` для ясности.
@@ -27,9 +29,11 @@
 2. *Explore More* — темы, которые ещё не были начаты.
 
 В результате структура страницы стала более наглядной.
+
 <img src="./images/2026-02-25-library-sections.png" alt="Library page split into sections" width="600" height="500">
 
 Если пользователь ещё не начал тренировку, будет отображаться только одна секция с надписью *Start Learning*.
+
 <img src="./images/2026-02-25-library-start-learning.png" alt="Library page with Start Learning section" width="600" height="400">
 
 Дополнительно планирую добавить поиск по темам, фильтры и пагинацию.
