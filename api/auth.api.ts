@@ -35,6 +35,10 @@ export async function signUp({ email, password, username }: { email: string; pas
     });
 
     if (error) {
+      if (error?.message.includes('profiles_username_key') || error.code === '23505') {
+        throw new Error('Username already exists');
+      }
+
       throw new Error(error.message);
     }
 
