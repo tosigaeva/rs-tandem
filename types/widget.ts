@@ -9,3 +9,7 @@ export type TopicWidgetsResponse = {
   topic: string;
   widgets: Widget[];
 };
+
+export enum WidgetType  {
+  Quiz = "quiz"
+}
