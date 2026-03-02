@@ -12,6 +12,8 @@ The platform uses modular widgets to deliver hands-on exercises, manage training
 
 Its flexible architecture allows for easy addition of new exercises and scalable session management, helping learners improve efficiently.
 
+## Deploy link
+[View deployed app](https://rs-tandem.vercel.app/)
 
 ## Team
 
