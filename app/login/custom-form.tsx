@@ -12,6 +12,7 @@ export type FormProperties<T extends FieldValues> = {
   schema: z.ZodType<T, unknown, $ZodTypeInternals<T, FieldValues>>;
   fields: InputProperties[];
   onSubmit: (data: T) => void;
+  onValidationChange?: (isValid: boolean) => void;
   defaultValues?: Record<string, string | number>;
   dependencies?: Partial<Record<keyof T, (keyof T)[]>>;
 };
@@ -23,6 +24,7 @@ export const CustomForm = <T extends FieldValues>({
   onSubmit,
   defaultValues,
   dependencies,
+  onValidationChange,
 }: FormProperties<T>) => {
   const methods = useForm({
     resolver: zodResolver(schema),
@@ -33,8 +35,12 @@ export const CustomForm = <T extends FieldValues>({
   const {
     watch,
     trigger,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isValid },
   } = methods;
+
+  useEffect(() => {
+    onValidationChange?.(isValid);
+  }, [isValid, onValidationChange]);
 
   useEffect(() => {
     if (!dependencies) return;
