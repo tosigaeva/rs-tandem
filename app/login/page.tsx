@@ -1,17 +1,20 @@
 'use client';
 import { useState } from 'react';
 
+import { signIn, signUp } from '@/api/auth.api';
 import { Button } from '@/components/ui/button';
 import { SignInSchema, signInSchema, SignUpSchema, signUpSchema } from '@/types/schemas/authorization-schemas';
 
 import { CustomForm } from './custom-form';
 
-const handleRegister = (data: SignUpSchema) => {
-  console.log('register successful:', data);
+const handleRegister = async (data: SignUpSchema) => {
+  const result = await signUp(data);
+  console.log('register successful:', result);
 };
 
-const handleLogin = (data: SignInSchema) => {
-  console.log('login successful:', data);
+const handleLogin = async (data: SignInSchema) => {
+  const result = await signIn(data);
+  console.log('login successful:', result);
 };
 
 export default function LoginPage() {

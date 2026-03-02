@@ -1,11 +1,11 @@
-import { supabaseServer } from '@/lib/supabase/server';
+import { supabaseBrowser } from '@/lib/supabase/client';
 
-export async function signIn(email: string, password: string) {
+export async function signIn({ email, password }: { email: string; password: string }) {
   if (!email || !password) {
     throw new Error('Email and password are required');
   }
 
-  const supabase = await supabaseServer();
+  const supabase = await supabaseBrowser();
 
   try {
     return await supabase.auth.signInWithPassword({
@@ -17,12 +17,12 @@ export async function signIn(email: string, password: string) {
   }
 }
 
-export async function signUp(email: string, password: string, username: string) {
+export async function signUp({ email, password, username }: { email: string; password: string; username: string }) {
   if (!email || !password || !username) {
     throw new Error('Email, password and username are required');
   }
 
-  const supabase = await supabaseServer();
+  const supabase = await supabaseBrowser();
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -45,7 +45,7 @@ export async function signUp(email: string, password: string, username: string) 
 }
 
 export async function signOut() {
-  const supabase = await supabaseServer();
+  const supabase = await supabaseBrowser();
 
   try {
     return await supabase.auth.signOut();
@@ -55,7 +55,7 @@ export async function signOut() {
 }
 
 export async function getUser() {
-  const supabase = await supabaseServer();
+  const supabase = await supabaseBrowser();
 
   try {
     return await supabase.auth.getUser();
