@@ -1,25 +1,24 @@
-import { getTopicWidgets } from '@/api/widgets.api';
-import {getQuestions} from "@/app/library/[topicId]/widget/[widgetId]/page";
-import {getTopic} from "@/api/topics.api";
-import QuestionsRunner from "@/app/library/[topicId]/questions-runner";
-import {WidgetType} from "@/types/widget";
-import {quizStrategy} from "@/components/library/widget/quiz-widget";
-import {WidgetStrategy} from "@/components/library/widget/widget-engine";
+import { getQuestions } from '@/api/questions.api';
+import { getTopic } from '@/api/topics.api';
+import QuestionsRunner from '@/components/library/widget/questions-runner';
 
 type PageProperties = {
-  params: Promise<{ topicId: string }>
+  params: Promise<{ topicId: string }>;
 };
 
 export default async function Page({ params }: PageProperties) {
   const { topicId } = await params;
 
-  const topic = await getTopic(topicId)
-  const questions = getQuestions(topicId);
+  const topic = await getTopic(topicId);
+  const questions = await getQuestions(topicId);
 
   const messages = {
     description: 'Choose a widget to practice.',
   };
 
+  if (topic === undefined) {
+    return 'No topic found.';
+  }
 
   return (
     <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">

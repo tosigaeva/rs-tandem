@@ -10,6 +10,6 @@ export type TopicWidgetsResponse = {
   widgets: Widget[];
 };
 
-export enum WidgetType  {
-  Quiz = "quiz"
+export enum WidgetType {
+  Quiz = 'quiz',
 }

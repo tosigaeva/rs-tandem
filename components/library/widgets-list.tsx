@@ -1,7 +1,8 @@
+import Link from 'next/link';
+
 import WidgetCard from '@/components/library/widget-card';
+import { Routes } from '@/lib/routes';
 import { Widget } from '@/types/widget';
-import {Routes} from "@/lib/routes";
-import Link from "next/link";
 
 type WidgetListProperties = {
   widgets: Widget[];

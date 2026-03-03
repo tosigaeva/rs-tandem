@@ -2,7 +2,7 @@ import { getTopicWidgets } from '@/api/widgets.api';
 import WidgetList from '@/components/library/widgets-list';
 
 type PageProperties = {
-  params: Promise<{ topicId: string }>
+  params: Promise<{ topicId: string }>;
 };
 
 export default async function Page({ params }: PageProperties) {
