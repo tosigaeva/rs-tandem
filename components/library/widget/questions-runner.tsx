@@ -11,11 +11,25 @@ type QuestionsRunnerProperties = {
 };
 
 export default function QuestionsRunner({ questions }: QuestionsRunnerProperties) {
-  const [currentQuestion] = useState(questions[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const isFinished = currentIndex >= questions.length;
+
+  const onCheck = () => {
+    setCurrentIndex((previousIndex) => previousIndex + 1);
+  };
+
+  if (isFinished) return <div>Results</div>;
+
+  const currentQuestion = questions[currentIndex];
 
   return (
     <section>
-      <Question questionPayload={currentQuestion.payload} Component={getWidgetComponent(currentQuestion.type)} />
+      <Question
+        questionPayload={currentQuestion.payload}
+        Component={getWidgetComponent(currentQuestion.type)}
+        onCheck={onCheck}
+      />
     </section>
   );
 }

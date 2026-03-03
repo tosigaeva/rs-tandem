@@ -6,6 +6,7 @@ import { WidgetType } from '@/types/widget';
 
 type WidgetComponentProperties = {
   questionPayload: QuestionPayload;
+  onCheck: () => void;
 };
 export type WidgetComponent = ComponentType<WidgetComponentProperties>;
 

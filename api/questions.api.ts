@@ -25,7 +25,6 @@ function mapQuestion(response: QuestionResponse): Question | undefined {
 }
 
 export async function getQuestions(topicId: string): Promise<Question[]> {
-  console.log(topicId);
   return mockQuestions.map(mapQuestion).filter((question): question is Question => question !== undefined);
 }
 
