@@ -15,3 +15,17 @@ widgets.set(
   WidgetType.Quiz,
   dynamic<WidgetComponentProperties>(() => import('@/components/library/widget/quiz-widget/component'))
 );
+
+export function getWidgetComponent(widgetType: WidgetType): WidgetComponent {
+  const Component: WidgetComponent | undefined = widgets.get(widgetType);
+
+  if (Component === undefined) {
+    throw new Error(`Unknown widget type: ${widgetType}`);
+  }
+
+  if (widgetType !== WidgetType.Quiz) {
+    throw new Error(`Unsupported question type: ${widgetType}`);
+  }
+
+  return Component;
+}
