@@ -1,17 +1,18 @@
-import { QuizWidget } from '@/components/library/widget/quiz-widget/type';
+import { PrimaryButton } from '@/components/primary-button';
+import { QuestionPayload } from '@/types/question';
 
-type WidgetListProperties = {
-  widget: QuizWidget;
+type WidgetComponentProperties = {
+  questionPayload: QuestionPayload;
 };
 
-export default function Component({ widget }: WidgetListProperties) {
+export default function Component({ questionPayload }: WidgetComponentProperties) {
   return (
     <>
-      {widget.payload.options.map((option) => (
+      {questionPayload.options.map((option) => (
         <p key={option.ru}>{option.ru}</p>
       ))}
 
-      <button onClick={() => {}}>Check</button>
+      <PrimaryButton onClick={() => {}}>Check</PrimaryButton>
     </>
   );
 }

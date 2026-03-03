@@ -1,12 +1,11 @@
 import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 
-import { QuizWidget } from '@/components/library/widget/quiz-widget/type';
+import { QuestionPayload } from '@/types/question';
 import { WidgetType } from '@/types/widget';
 
-type Widget = QuizWidget;
 type WidgetComponentProperties = {
-  widget: Widget;
+  questionPayload: QuestionPayload;
 };
 export type WidgetComponent = ComponentType<WidgetComponentProperties>;
 
@@ -21,10 +20,6 @@ export function getWidgetComponent(widgetType: WidgetType): WidgetComponent {
 
   if (Component === undefined) {
     throw new Error(`Unknown widget type: ${widgetType}`);
-  }
-
-  if (widgetType !== WidgetType.Quiz) {
-    throw new Error(`Unsupported question type: ${widgetType}`);
   }
 
   return Component;

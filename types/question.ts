@@ -1,14 +1,14 @@
-import { QuizPayload } from '@/components/library/widget/quiz-widget/type';
-import { WidgetType } from '@/types/widget';
+import { QuizPayload, QuizWidget } from '@/components/library/widget/quiz-widget/type';
+
+export type QuestionPayload = QuizPayload;
+export type QuestionWidget = QuizWidget;
 
 export type Question = {
   id: string;
   version: number;
   difficulty: number;
   tags: string[];
-  type: WidgetType;
-  payload: QuizPayload;
-};
+} & QuestionWidget;
 
 export type QuizResponse = {
   type: 'quiz';
