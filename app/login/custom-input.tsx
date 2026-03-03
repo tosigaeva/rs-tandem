@@ -1,6 +1,6 @@
 'use client';
 import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -14,9 +14,10 @@ export type InputProperties = {
   type: 'text' | 'password' | 'email' | 'number';
   placeholder?: string;
   classes?: string;
+  dependencies?: string[];
 };
 
-export const CustomInput = ({ name, label, type, placeholder, classes }: InputProperties) => {
+export const CustomInput = ({ name, label, type, placeholder, classes, dependencies }: InputProperties) => {
   const {
     register,
     formState: { errors, touchedFields, dirtyFields },
@@ -43,13 +44,21 @@ export const CustomInput = ({ name, label, type, placeholder, classes }: InputPr
     return () => {
       clearTimeout(timer);
     };
-  });
+  }, [value]);
 
   useEffect(() => {
     if (debouncedValue !== undefined && hasInteracted) {
       trigger(name);
+
+      if (dependencies && dependencies.length > 0) {
+        dependencies.forEach((dependency) => {
+          if (Boolean(dirtyFields[dependency])) {
+            trigger(dependency);
+          }
+        });
+      }
     }
-  }, [debouncedValue, name, trigger, hasInteracted]);
+  }, [debouncedValue, name, trigger, hasInteracted, dependencies, dirtyFields]);
 
   return (
     <div className={cn('flex w-full flex-col gap-1.5', classes)}>

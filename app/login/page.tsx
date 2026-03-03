@@ -31,18 +31,14 @@ export default function LoginPage() {
       fields={[
         { name: 'username', label: 'Username', type: 'text', classes: 'md:col-span-2' },
         { name: 'email', label: 'Email Address', type: 'email', classes: 'md:col-span-2' },
-        { name: 'password', label: 'Password', type: 'password' },
+        {
+          name: 'password',
+          label: 'Password',
+          type: 'password',
+          dependencies: ['confirmPassword'],
+        },
         { name: 'confirmPassword', label: 'Confirm Password', type: 'password' },
       ]}
-      defaultValues={{
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      }}
-      dependencies={{
-        password: ['confirmPassword'],
-      }}
     />
   );
 
@@ -56,10 +52,6 @@ export default function LoginPage() {
         { name: 'email', label: 'Email Address', type: 'email', classes: 'md:col-span-2' },
         { name: 'password', label: 'Password', type: 'password', classes: 'md:col-span-2' },
       ]}
-      defaultValues={{
-        password: '',
-        confirmPassword: '',
-      }}
     />
   );
 

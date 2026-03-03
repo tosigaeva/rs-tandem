@@ -14,7 +14,6 @@ export type FormProperties<T extends FieldValues> = {
   onSubmit: (data: T) => void;
   onValidationChange?: (isValid: boolean) => void;
   defaultValues?: Record<string, string | number>;
-  dependencies?: Partial<Record<keyof T, (keyof T)[]>>;
 };
 
 export const CustomForm = <T extends FieldValues>({
@@ -23,7 +22,6 @@ export const CustomForm = <T extends FieldValues>({
   fields,
   onSubmit,
   defaultValues,
-  dependencies,
   onValidationChange,
 }: FormProperties<T>) => {
   const methods = useForm({
@@ -33,39 +31,17 @@ export const CustomForm = <T extends FieldValues>({
   });
 
   const {
-    watch,
-    trigger,
-    formState: { dirtyFields, isValid },
+    formState: { isValid },
   } = methods;
 
   useEffect(() => {
     onValidationChange?.(isValid);
   }, [isValid, onValidationChange]);
 
-  useEffect(() => {
-    if (!dependencies) return;
-
-    const subscription = watch((_value, { name }) => {
-      if (name == undefined) return;
-
-      const relatedFields = dependencies[name];
-
-      if (relatedFields && relatedFields.length > 0) {
-        relatedFields.forEach((fieldPath) => {
-          if (Boolean(dirtyFields[fieldPath.toString()])) {
-            trigger(fieldPath.toString());
-          }
-        });
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch, trigger, dependencies, dirtyFields]);
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} id={id} className="w-full">
-        <div className="grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">
+        <div className="mb-2 grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">
           {fields.map((field) => (
             <CustomInput key={field.name} {...field} />
           ))}
