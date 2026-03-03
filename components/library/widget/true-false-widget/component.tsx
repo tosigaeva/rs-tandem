@@ -1,17 +1,16 @@
-import { QuizPayload } from '@/components/library/widget/quiz-widget/type';
+import { TrueFalsePayload } from '@/components/library/widget/true-false-widget/type';
 import { PrimaryButton } from '@/components/primary-button';
 
 type WidgetComponentProperties = {
-  questionPayload: QuizPayload;
+  questionPayload: TrueFalsePayload;
   onCheck: () => void;
 };
 
 export default function Component({ questionPayload, onCheck }: WidgetComponentProperties) {
   return (
     <>
-      {questionPayload.options.map((option) => (
-        <p key={option.ru}>{option.ru}</p>
-      ))}
+      <p>{questionPayload.statement.ru}</p>
+      <p>{questionPayload.explanation.ru}</p>
 
       <PrimaryButton onClick={onCheck}>Check</PrimaryButton>
     </>

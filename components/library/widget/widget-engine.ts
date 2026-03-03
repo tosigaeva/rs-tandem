@@ -1,23 +1,36 @@
 import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 
-import { QuestionPayload } from '@/types/question';
+import { CodeCompletionPayload } from '@/components/library/widget/code-completion-widget/type';
+import { QuizPayload } from '@/components/library/widget/quiz-widget/type';
+import { TrueFalsePayload } from '@/components/library/widget/true-false-widget/type';
 import { WidgetType } from '@/types/widget';
 
-type WidgetComponentProperties = {
-  questionPayload: QuestionPayload;
+export type WidgetPayloadMap = {
+  [WidgetType.Quiz]: QuizPayload;
+  [WidgetType.TrueFalse]: TrueFalsePayload;
+  [WidgetType.CodeCompletion]: CodeCompletionPayload;
+};
+
+type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
+  questionPayload: WidgetPayloadMap[T];
   onCheck: () => void;
 };
-export type WidgetComponent = ComponentType<WidgetComponentProperties>;
 
-export const widgets = new Map<WidgetType, WidgetComponent>();
-widgets.set(
-  WidgetType.Quiz,
-  dynamic<WidgetComponentProperties>(() => import('@/components/library/widget/quiz-widget/component'))
+export type WidgetComponent<T extends WidgetType = WidgetType> = ComponentType<WidgetComponentProperties<T>>;
+export const widgets: {
+  [K in WidgetType]?: WidgetComponent<K>;
+} = {};
+widgets[WidgetType.Quiz] = dynamic<WidgetComponentProperties<WidgetType.Quiz>>(
+  () => import('@/components/library/widget/quiz-widget/component')
+);
+widgets[WidgetType.TrueFalse] = dynamic(() => import('@/components/library/widget/true-false-widget/component'));
+widgets[WidgetType.CodeCompletion] = dynamic(
+  () => import('@/components/library/widget/code-completion-widget/component')
 );
 
-export function getWidgetComponent(widgetType: WidgetType): WidgetComponent {
-  const Component: WidgetComponent | undefined = widgets.get(widgetType);
+export function getWidgetComponent<T extends WidgetType>(widgetType: T): WidgetComponent<T> {
+  const Component: WidgetComponent<T> | undefined = widgets[widgetType];
 
   if (Component === undefined) {
     throw new Error(`Unknown widget type: ${widgetType}`);

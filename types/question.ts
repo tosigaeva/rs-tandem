@@ -1,7 +1,9 @@
+import { CodeCompletionPayload, CodeCompletionWidget } from '@/components/library/widget/code-completion-widget/type';
 import { QuizPayload, QuizWidget } from '@/components/library/widget/quiz-widget/type';
+import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/true-false-widget/type';
 
-export type QuestionPayload = QuizPayload;
-export type QuestionWidget = QuizWidget;
+export type QuestionPayload = QuizPayload | TrueFalsePayload | CodeCompletionPayload;
+export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget;
 
 export type Question = {
   id: string;

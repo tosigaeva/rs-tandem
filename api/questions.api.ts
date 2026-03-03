@@ -20,6 +20,37 @@ function mapQuestion(response: QuestionResponse): Question | undefined {
         },
       };
     }
+    case WidgetType.TrueFalse: {
+      const payload = response.payload;
+      return {
+        id: response.id,
+        topicId: response.topicId,
+        version: response.version,
+        difficulty: response.difficulty,
+        tags: response.tags,
+        type: WidgetType.TrueFalse,
+        payload: {
+          statement: mapToLocale(payload.statement),
+          explanation: mapToLocale(payload.explanation),
+        },
+      };
+    }
+    case WidgetType.CodeCompletion: {
+      const payload = response.payload;
+      return {
+        id: response.id,
+        topicId: response.topicId,
+        version: response.version,
+        difficulty: response.difficulty,
+        tags: response.tags,
+        type: WidgetType.CodeCompletion,
+        payload: {
+          code: payload.code,
+          blanks: payload.blanks,
+          hints: payload.hints.map((option) => mapToLocale(option)),
+        },
+      };
+    }
   }
 
   return undefined;
