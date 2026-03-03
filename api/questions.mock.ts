@@ -3,6 +3,7 @@ import { QuestionsResponse } from '@/types/question';
 export const mockQuestions: QuestionsResponse = [
   {
     id: 'quiz-001',
+    topicId: '1',
     type: 'quiz',
     version: 1,
     difficulty: 1,
@@ -22,6 +23,7 @@ export const mockQuestions: QuestionsResponse = [
   },
   {
     id: 'tf-001',
+    topicId: '1',
     type: 'true-false',
     version: 1,
     difficulty: 1,
@@ -39,6 +41,7 @@ export const mockQuestions: QuestionsResponse = [
   },
   {
     id: 'cc-001',
+    topicId: '1',
     type: 'code-completion',
     version: 1,
     difficulty: 2,

@@ -5,6 +5,7 @@ export type QuestionWidget = QuizWidget;
 
 export type Question = {
   id: string;
+  topicId: string;
   version: number;
   difficulty: number;
   tags: string[];
@@ -37,6 +38,7 @@ export type CodeCompletionResponse = {
 
 export type QuestionResponse = {
   id: string;
+  topicId: string;
   version: number;
   difficulty: number;
   tags: string[];

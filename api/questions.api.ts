@@ -9,6 +9,7 @@ function mapQuestion(response: QuestionResponse): Question | undefined {
       const payload = response.payload;
       return {
         id: response.id,
+        topicId: response.topicId,
         version: response.version,
         difficulty: response.difficulty,
         tags: response.tags,
@@ -25,10 +26,8 @@ function mapQuestion(response: QuestionResponse): Question | undefined {
 }
 
 export async function getQuestions(topicId: string): Promise<Question[]> {
-  return mockQuestions.map(mapQuestion).filter((question): question is Question => question !== undefined);
-}
-
-export async function getQuestion(topicId: string, questionId: string): Promise<Question | undefined> {
-  const questions = await getQuestions(topicId);
-  return questions.find((question) => question.id === questionId);
+  return mockQuestions
+    .map(mapQuestion)
+    .filter((question) => question?.topicId === topicId)
+    .filter((question): question is Question => question !== undefined);
 }
