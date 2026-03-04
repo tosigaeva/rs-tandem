@@ -3,7 +3,6 @@ export enum Routes {
   Dashboard = '/dashboard',
   Library = '/library',
   Login = '/login',
-  Widget = '/widget',
 }
 
 export const RoutePermissions: Record<Routes, 'public' | 'protected'> = {
@@ -11,5 +10,4 @@ export const RoutePermissions: Record<Routes, 'public' | 'protected'> = {
   [Routes.Login]: 'public',
   [Routes.Dashboard]: 'protected',
   [Routes.Library]: 'protected',
-  [Routes.Widget]: 'protected',
 };
