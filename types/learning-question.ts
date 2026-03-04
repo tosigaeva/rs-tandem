@@ -5,6 +5,5 @@ export type Question = {
 
 type LearningPayload = {
   question: string;
-  options: string[];
   correctAnswer: string;
 };
