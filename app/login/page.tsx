@@ -24,14 +24,15 @@ const handleLogin = async (data: SchemaData) => {
 export default function LoginPage() {
   const [loginMode, toggleMode] = useState(true);
 
-  const [formValid, setValidState] = useState(false);
+  const [isLoginValid, setLoginValid] = useState(false);
+  const [isRegisterValid, setRegisterValid] = useState(false);
 
   const registerForm = (
     <CustomForm
       id="register-form"
       schemaKey="Register"
       onSubmit={handleRegister}
-      onValidationChange={setValidState}
+      onValidationChange={setRegisterValid}
       fields={[
         { name: 'username', label: 'Username', type: 'text', classes: 'md:col-span-2' },
         { name: 'email', label: 'Email Address', type: 'email', classes: 'md:col-span-2' },
@@ -51,7 +52,7 @@ export default function LoginPage() {
       id="login-form"
       schemaKey="Login"
       onSubmit={handleLogin}
-      onValidationChange={setValidState}
+      onValidationChange={setLoginValid}
       fields={[
         { name: 'email', label: 'Email Address', type: 'email', classes: 'md:col-span-2' },
         { name: 'password', label: 'Password', type: 'password', classes: 'md:col-span-2' },
@@ -60,7 +61,7 @@ export default function LoginPage() {
   );
 
   return (
-    <div className="mx-auto max-w-lg p-8">
+    <div className="mx-auto mt-5 max-w-lg p-8">
       <h1 className="mb-6 text-2xl font-bold">{loginMode ? 'Login' : ' Create Account'}</h1>
       {!loginMode && registerForm}
       {loginMode && loginForm}
@@ -69,7 +70,7 @@ export default function LoginPage() {
         form={loginMode ? 'login-form' : 'register-form'}
         type="submit"
         className="mb-3 w-full"
-        disabled={!formValid}
+        disabled={(loginMode && !isLoginValid) || (!loginMode && !isRegisterValid)}
       >
         {loginMode ? 'Login' : 'Create Account'}
       </Button>
