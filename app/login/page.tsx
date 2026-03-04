@@ -3,18 +3,22 @@ import { useState } from 'react';
 
 import { signIn, signUp } from '@/api/auth.api';
 import { Button } from '@/components/ui/button';
-import { SignInSchema, signInSchema, SignUpSchema, signUpSchema } from '@/types/schemas/authorization-schemas';
+import { SchemaData } from '@/types/schemas/schemas';
 
 import { CustomForm } from './custom-form';
 
-const handleRegister = async (data: SignUpSchema) => {
-  const result = await signUp(data);
-  console.log('register successful:', result);
+const handleRegister = async (data: SchemaData) => {
+  if ('email' in data && 'password' in data && 'username' in data) {
+    const result = await signUp(data);
+    console.log('register successful:', result);
+  }
 };
 
-const handleLogin = async (data: SignInSchema) => {
-  const result = await signIn(data);
-  console.log('login successful:', result);
+const handleLogin = async (data: SchemaData) => {
+  if ('email' in data && 'password' in data) {
+    const result = await signIn(data);
+    console.log('login successful:', result);
+  }
 };
 
 export default function LoginPage() {
@@ -25,7 +29,7 @@ export default function LoginPage() {
   const registerForm = (
     <CustomForm
       id="register-form"
-      schema={signUpSchema}
+      schemaKey="Register"
       onSubmit={handleRegister}
       onValidationChange={setValidState}
       fields={[
@@ -45,7 +49,7 @@ export default function LoginPage() {
   const loginForm = (
     <CustomForm
       id="login-form"
-      schema={signInSchema}
+      schemaKey="Login"
       onSubmit={handleLogin}
       onValidationChange={setValidState}
       fields={[

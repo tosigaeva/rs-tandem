@@ -1,30 +1,26 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { $ZodTypeInternals } from 'zod/v4/core';
+
+import { CustomSchemaKey, getSchema, SchemaData, SchemaRegistry } from '@/types/schemas/schemas';
 
 import { CustomInput, InputProperties } from './custom-input';
 
-export type FormProperties<T extends FieldValues> = {
+export type FormProperties = {
   id: string;
-  schema: z.ZodType<T, unknown, $ZodTypeInternals<T, FieldValues>>;
+  schemaKey: CustomSchemaKey;
   fields: InputProperties[];
-  onSubmit: (data: T) => void;
+  onSubmit: (data: z.infer<SchemaRegistry[CustomSchemaKey]>) => void;
   onValidationChange?: (isValid: boolean) => void;
-  defaultValues?: Record<string, string | number>;
+  defaultValues?: DefaultValues<z.infer<SchemaRegistry[CustomSchemaKey]>>;
 };
 
-export const CustomForm = <T extends FieldValues>({
-  id,
-  schema,
-  fields,
-  onSubmit,
-  defaultValues,
-  onValidationChange,
-}: FormProperties<T>) => {
-  const methods = useForm({
+export const CustomForm = ({ id, schemaKey, fields, onSubmit, defaultValues, onValidationChange }: FormProperties) => {
+  const schema = getSchema(schemaKey);
+
+  const methods = useForm<SchemaData>({
     resolver: zodResolver(schema),
     mode: 'all',
     defaultValues,
