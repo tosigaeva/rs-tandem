@@ -13,7 +13,7 @@ export default async function Page({ params }: PageProperties) {
 
   const topic = await getTopic(topicId);
   const questions = await getQuestions(topicId);
-
+  console.log(questions);
   if (!topic) notFound();
 
   return (
