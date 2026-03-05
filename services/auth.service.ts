@@ -42,7 +42,7 @@ export const authService = {
     }
   },
 
-  login: async (data: UserLogin) => {
+  login: async (data: UserLogin): Promise<boolean> => {
     useAuth.getState().setAuthorizing(true);
 
     const { data: user, error } = await signIn(data).finally(() => useAuth.getState().setAuthorizing(false));
@@ -56,10 +56,14 @@ export const authService = {
       cacheUserInfo(user);
 
       toast.success('Login successful');
+
+      return true;
     }
+
+    return false;
   },
 
-  register: async (data: UserRegister) => {
+  register: async (data: UserRegister): Promise<boolean> => {
     useAuth.getState().setAuthorizing(true);
 
     const { data: user, error } = await signUp(data).finally(() => useAuth.getState().setAuthorizing(false));
@@ -73,7 +77,11 @@ export const authService = {
       cacheUserInfo(user);
 
       toast.success('Register successful');
+
+      return true;
     }
+
+    return false;
   },
 
   logout: async () => {

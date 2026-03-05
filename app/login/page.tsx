@@ -1,31 +1,54 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { signIn, signUp } from '@/api/auth.api';
 import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
 import { SchemaData } from '@/types/schemas/schemas';
 
 import { CustomForm } from './custom-form';
-
-const handleRegister = async (data: SchemaData) => {
-  if ('email' in data && 'password' in data && 'username' in data) {
-    const result = await signUp(data);
-    console.log('register successful:', result);
-  }
-};
-
-const handleLogin = async (data: SchemaData) => {
-  if ('email' in data && 'password' in data) {
-    const result = await signIn(data);
-    console.log('login successful:', result);
-  }
-};
 
 export default function LoginPage() {
   const [loginMode, toggleMode] = useState(true);
 
   const [isLoginValid, setLoginValid] = useState(false);
   const [isRegisterValid, setRegisterValid] = useState(false);
+
+  const router = useRouter();
+  const searchParameters = useSearchParams();
+
+  const redirect = () => {
+    let redirectUrl = '/dashboard';
+
+    const redirectParameter = searchParameters.get('redirect');
+
+    if (redirectParameter != undefined) {
+      redirectUrl = redirectParameter;
+    }
+
+    router.push(redirectUrl);
+  };
+
+  const handleRegister = async (data: SchemaData) => {
+    if ('email' in data && 'password' in data && 'username' in data) {
+      const result = await authService.register(data);
+
+      if (result) {
+        redirect();
+      }
+    }
+  };
+
+  const handleLogin = async (data: SchemaData) => {
+    if ('email' in data && 'password' in data) {
+      const result = await authService.login(data);
+
+      if (result) {
+        redirect();
+      }
+    }
+  };
 
   const registerForm = (
     <CustomForm
