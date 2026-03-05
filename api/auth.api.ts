@@ -96,7 +96,11 @@ export async function signOut() {
   const supabase = supabaseBrowser();
 
   try {
-    return await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+
+    if (error != undefined) {
+      throw new Error(error.message);
+    }
   } catch (error: unknown) {
     return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
   }
