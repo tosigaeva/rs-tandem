@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import styles from './flip-card.module.css';
+import styles from './FlipCard.module.css';
 
 type AnswerState = boolean | undefined | null;
 
