@@ -1,10 +1,9 @@
-import { Locale } from '@/types/locale';
 import { WidgetType } from '@/types/widget';
 
 export type CodeCompletionPayload = {
   code: string;
   blanks: string[];
-  hints: Record<Locale, string>[];
+  hints: string[];
 };
 
 export type CodeCompletionWidget = {
