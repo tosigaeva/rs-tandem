@@ -1,11 +1,12 @@
 'use client';
 
-import './flip-card.css';
-
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+
+import styles from './flip-card.module.css';
 
 type AnswerState = boolean | undefined | null;
 
@@ -19,9 +20,9 @@ export function FlipCard({ front, back }: { front: string; back: string }) {
   };
 
   return (
-    <div className="flip-card">
-      <div className={`flip-card-inner ${isFlipped ? 'flipped' : ''}`}>
-        <Card className="flip-card-front">
+    <div className={styles['flip-card']}>
+      <div className={cn(styles['flip-card-inner'], isFlipped && styles.flipped)}>
+        <Card className={styles['flip-card-front']}>
           <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
             <div className="text-center text-lg">{front}</div>
             <Button
@@ -42,7 +43,7 @@ export function FlipCard({ front, back }: { front: string; back: string }) {
             </Button>
           </CardContent>
         </Card>
-        <Card className="flip-card-back">
+        <Card className={styles['flip-card-back']}>
           <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
             <div className="text-center text-lg">{back}</div>
             <Button
