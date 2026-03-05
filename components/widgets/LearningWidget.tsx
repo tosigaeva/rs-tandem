@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 
-import { FlipCard } from '@/components/flip-card';
+import { FlipCard } from '@/components/FlipCard';
 import { Button } from '@/components/ui/button';
 import type { CarouselApi } from '@/components/ui/carousel';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
