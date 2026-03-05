@@ -22,11 +22,11 @@ export const widgets: {
   [K in WidgetType]?: WidgetComponent<K>;
 } = {};
 widgets[WidgetType.Quiz] = dynamic<WidgetComponentProperties<WidgetType.Quiz>>(
-  () => import('@/components/library/widget/quiz-widget/component')
+  () => import('@/components/library/widget/quiz-widget/Component')
 );
-widgets[WidgetType.TrueFalse] = dynamic(() => import('@/components/library/widget/true-false-widget/component'));
+widgets[WidgetType.TrueFalse] = dynamic(() => import('@/components/library/widget/true-false-widget/Component'));
 widgets[WidgetType.CodeCompletion] = dynamic(
-  () => import('@/components/library/widget/code-completion-widget/component')
+  () => import('@/components/library/widget/code-completion-widget/Component')
 );
 
 export function getWidgetComponent<T extends WidgetType>(widgetType: T): WidgetComponent<T> {

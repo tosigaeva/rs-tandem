@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import Question from '@/components/library/widget/question';
+import Question from '@/components/library/widget/Question';
 import { getWidgetComponent } from '@/components/library/widget/widget-engine';
 import { Question as QuestionType } from '@/types/question';
 
