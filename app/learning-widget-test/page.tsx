@@ -1,5 +1,3 @@
-'use client';
-
 import { getMockQuestions } from '@/api/learning-questions.mock';
 import { LearningWidget } from '@/components/widgets/learning-widget/widget';
 
