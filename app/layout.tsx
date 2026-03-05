@@ -2,6 +2,8 @@ import './globals.css';
 
 import { Toaster } from 'sonner';
 
+import { Providers } from '@/providers/providers';
+
 const DEFAULT_TOASTER_DURATION = 3500;
 
 export default function RootLayout({
@@ -12,8 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Toaster position="bottom-center" richColors expand={true} duration={DEFAULT_TOASTER_DURATION} />
+        <Providers>
+          {children}
+          <Toaster position="bottom-center" richColors expand={true} duration={DEFAULT_TOASTER_DURATION} />
+        </Providers>
       </body>
     </html>
   );
