@@ -65,6 +65,7 @@ export async function getQuestions(
       )
       .eq('question.topicId', topicId);
 
+    // Add widget_type filter only if defined
     if (widgetType !== undefined) {
       query = query.eq('widget_type', widgetType);
     }
