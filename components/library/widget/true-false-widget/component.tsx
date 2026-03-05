@@ -9,8 +9,8 @@ type WidgetComponentProperties = {
 export default function Component({ questionPayload, onCheck }: WidgetComponentProperties) {
   return (
     <>
-      <p>{questionPayload.statement.ru}</p>
-      <p>{questionPayload.explanation.ru}</p>
+      <p>{questionPayload.statement}</p>
+      <p>{questionPayload.explanation}</p>
 
       <PrimaryButton onClick={onCheck}>Check</PrimaryButton>
     </>

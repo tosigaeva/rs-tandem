@@ -9,8 +9,8 @@ type WidgetComponentProperties = {
 export default function Component({ questionPayload, onCheck }: WidgetComponentProperties) {
   return (
     <>
-      {questionPayload.options.map((option) => (
-        <p key={option.ru}>{option.ru}</p>
+      {questionPayload.options.map((option, key) => (
+        <p key={key}>{option}</p>
       ))}
 
       <PrimaryButton onClick={onCheck}>Check</PrimaryButton>

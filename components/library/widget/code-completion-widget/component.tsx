@@ -10,11 +10,11 @@ export default function Component({ questionPayload, onCheck }: WidgetComponentP
   return (
     <>
       <p>{questionPayload.code}</p>
-      {questionPayload.blanks.map((option) => (
-        <p key={option}>{option}</p>
+      {questionPayload.blanks.map((option, key) => (
+        <p key={key}>{option}</p>
       ))}
-      {questionPayload.hints.map((option) => (
-        <p key={option.ru}>{option.ru}</p>
+      {questionPayload.hints.map((option, key) => (
+        <p key={key}>{option}</p>
       ))}
 
       <PrimaryButton onClick={onCheck}>Check</PrimaryButton>

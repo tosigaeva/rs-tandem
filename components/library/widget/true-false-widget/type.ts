@@ -1,9 +1,8 @@
-import { Locale } from '@/types/locale';
 import { WidgetType } from '@/types/widget';
 
 export type TrueFalsePayload = {
-  statement: Record<Locale, string>;
-  explanation: Record<Locale, string>;
+  statement: string;
+  explanation: string;
 };
 
 export type TrueFalseWidget = {

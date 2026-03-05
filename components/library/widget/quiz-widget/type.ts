@@ -1,9 +1,8 @@
-import { Locale } from '@/types/locale';
 import { WidgetType } from '@/types/widget';
 
 export type QuizPayload = {
-  question: Record<Locale, string>;
-  options: Record<Locale, string>[];
+  question: string;
+  options: string[];
 };
 
 export type QuizWidget = {
