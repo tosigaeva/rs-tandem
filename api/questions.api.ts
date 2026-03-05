@@ -73,6 +73,10 @@ export async function getQuestions(
     const { data, error } = await query;
     console.log(error);
 
+    if (data === null) {
+      return [];
+    }
+
     return data
       .map((q) => ({
         id: q.id,
