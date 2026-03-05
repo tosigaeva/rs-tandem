@@ -1,12 +1,11 @@
 'use client';
 import { useState } from 'react';
 
+import { FlipCard } from '@/components/flip-card';
 import { Button } from '@/components/ui/button';
 import type { CarouselApi } from '@/components/ui/carousel';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Question } from '@/types/learning-question';
-
-import { FlipCard } from './flip-card';
 
 type LearningWidgetProperties = {
   questions: Question[];

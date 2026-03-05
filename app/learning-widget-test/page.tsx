@@ -1,5 +1,5 @@
 import { getMockQuestions } from '@/api/learning-questions.mock';
-import { LearningWidget } from '@/components/widgets/learning-widget/widget';
+import { LearningWidget } from '@/components/widgets/learning-widget';
 
 export default function Page() {
   const questions = getMockQuestions();
