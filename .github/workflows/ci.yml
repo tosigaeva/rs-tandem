@@ -85,6 +85,6 @@ jobs:
           Build: $BUILD_RESULT
           $PR_URL"
 
-          curl -H "Content-Type: application/json" \
-               -d "{\"content\":\"$MESSAGE\"}" \
-               $DISCORD_WEBHOOK
+          PAYLOAD=$(jq -n --arg content "$MESSAGE" '{content: $content}')
+
+          curl -H "Content-Type: application/json" -d "$PAYLOAD" $DISCORD_WEBHOOK
