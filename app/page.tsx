@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-import { PrimaryButton } from '@/components/primary-button';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 export default function Page() {
   return (

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import AnimatedCounter from '@/components/animated-counter';
+import AnimatedCounter from '@/components/AnimatedCounter';
 import { Button } from '@/components/ui/button';
 import { Routes } from '@/lib/routes';
 

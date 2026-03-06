@@ -41,6 +41,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-correct-answer: var(--correct-answer);
+  --color-correct-answer-muted: var(--correct-answer-muted);
+  --color-wrong-answer: var(--wrong-answer);
+  --color-wrong-answer-muted: var(--wrong-answer-muted);
 }
 
 :root {
@@ -76,6 +80,10 @@
   --sidebar-accent-foreground: #111111;
   --sidebar-border: #1e293b;
   --sidebar-ring: #c19f2e;
+  --correct-answer: #8bb864;
+  --correct-answer-muted: #c0d2b0;
+  --wrong-answer: #b13f3f;
+  --wrong-answer-muted: #ec7f7f;
 }
 
 .dark {
@@ -110,6 +118,10 @@
   --sidebar-accent-foreground: #f9f4e5;
   --sidebar-border: #334155;
   --sidebar-ring: #dabf65;
+  --correct-answer: #8bb864;
+  --correct-answer-muted: #c0d2b0;
+  --wrong-answer: #b13f3f;
+  --wrong-answer-muted: #e35d5d;
 }
 
 html {
