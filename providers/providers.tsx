@@ -1,5 +1,5 @@
-import { AuthProvider } from './global-spinner.provider';
+import { GlobalSpinnerProvider } from './global-spinner.provider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <GlobalSpinnerProvider>{children}</GlobalSpinnerProvider>;
 }
