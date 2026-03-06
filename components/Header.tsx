@@ -16,23 +16,17 @@ import {
 import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getCurrentRoute } from '@/lib/utils';
 import { authService, useAuth } from '@/services/auth.service';
+import { LocaleDictionary, localeService, useLocale } from '@/services/locale.service';
 
 import { Button } from './ui/button';
 
+const handleLocaleChange = (locale: string) => localeService.setLocale(locale);
+
 export function Header() {
   const { user, isAuthorized, isAuthorizing } = useAuth();
+  const { locale: currentLocale } = useLocale();
 
   const router = useRouter();
-
-  const currentLocale = 'en';
-
-  const currentFlag = () => {
-    if (currentLocale === 'en') {
-      return 'gb';
-    }
-
-    return currentLocale;
-  };
 
   const routes = Routes;
   const routePermissions = RoutePermissions;
@@ -63,6 +57,7 @@ export function Header() {
 
   useEffect(() => {
     if (!isInitialized.current) {
+      localeService.initializeLocale();
       authService.initialize();
       isInitialized.current = true;
     }
@@ -93,7 +88,7 @@ export function Header() {
                 <DropdownMenuItem
                   key={route}
                   asChild
-                  className={cn('cursor-pointer', pathname === route && 'bg-secondary text-white')}
+                  className={cn('cursor-pointer', pathname === route && 'bg-primary text-white')}
                 >
                   <Link
                     href={route}
@@ -152,14 +147,39 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant={'outline'} size={'xs'} disabled={isAuthorizing}>
                 <Image
-                  src={`https://flagcdn.com/w20/${currentFlag()}.png`}
+                  src={`https://flagcdn.com/w20/${currentLocale}.png`}
                   alt="flag"
-                  className="menu-flag"
+                  className="menu-flag height-auto width-auto"
                   width={20}
                   height={10}
                 />
               </Button>
             </DropdownMenuTrigger>
+
+            <DropdownMenuContent>
+              {Object.entries(LocaleDictionary).map(([locale, info]) => {
+                return (
+                  <DropdownMenuItem asChild key={locale} onClick={() => handleLocaleChange(locale)}>
+                    <div
+                      className={cn(
+                        'text-primary flex w-full justify-start font-bold capitalize underline-offset-4 hover:underline',
+                        currentLocale === locale ? 'bg-primary text-white' : ''
+                      )}
+                    >
+                      <Image
+                        src={`https://flagcdn.com/w20/${locale}.png`}
+                        alt="flag"
+                        className="menu-flag height-auto width-auto"
+                        width={20}
+                        height={10}
+                      />
+
+                      {info.language}
+                    </div>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>

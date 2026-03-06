@@ -19,7 +19,7 @@ export enum Language {
   belorussian = 'беларуская',
 }
 
-export const LocaleDirectory: Record<Locale, { languageCode: LanguageCode; language: Language }> = {
+export const LocaleDictionary: Record<Locale, { languageCode: LanguageCode; language: Language }> = {
   [Locale.gb]: { languageCode: LanguageCode.en, language: Language.english },
   [Locale.ru]: { languageCode: LanguageCode.ru, language: Language.russian },
   [Locale.by]: { languageCode: LanguageCode.by, language: Language.belorussian },
@@ -34,10 +34,10 @@ type LocaleStore = {
 
 export const useLocale = create<LocaleStore>((set) => ({
   locale: Locale.gb,
-  languageCode: LocaleDirectory[Locale.gb].languageCode,
-  language: LocaleDirectory[Locale.gb].language,
+  languageCode: LocaleDictionary[Locale.gb].languageCode,
+  language: LocaleDictionary[Locale.gb].language,
   setLocale: (locale) =>
-    set({ locale, languageCode: LocaleDirectory[locale].languageCode, language: LocaleDirectory[locale].language }),
+    set({ locale, languageCode: LocaleDictionary[locale].languageCode, language: LocaleDictionary[locale].language }),
 }));
 
 const localeCookieName = 'custom_locale';
