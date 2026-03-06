@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { create } from 'zustand';
 
 import { getUser, signIn, signOut, signUp } from '@/api/auth.api';
-import { User2, UserLogin, UserRegister } from '@/types/user';
+import { User2, UserSignIn, UserSignUp } from '@/types/user';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -15,7 +15,7 @@ type AuthStore = {
   setAuthorizing: (isAuthorizing: boolean) => void;
 };
 
-const useAuth = create<AuthStore>((set) => ({
+export const useAuth = create<AuthStore>((set) => ({
   user: undefined,
   isAuthorized: false,
   isAuthorizing: false,
@@ -25,66 +25,86 @@ const useAuth = create<AuthStore>((set) => ({
 
 export const authService = {
   initialize: async () => {
+    if (useAuth.getState().isAuthorized) return;
+
     const user = retrieveCachedUserInfo();
 
-    if (user != undefined || getSupabaseAuthCookieName() != undefined) {
+    try {
       useAuth.getState().setAuthorizing(true);
 
-      const { data: userInfo } = await getUser();
+      if (user != undefined || getSupabaseAuthCookieName() != undefined) {
+        const { data: userInfo } = await getUser();
 
-      if (userInfo != undefined) {
-        useAuth.getState().setUser(userInfo, true);
-        cacheUserInfo(userInfo);
+        if (userInfo == undefined) {
+          useAuth.getState().setUser(undefined, false);
+          cleanCachedUserInfo();
+        } else {
+          useAuth.getState().setUser(userInfo, true);
+          cacheUserInfo(userInfo);
 
-        toast.success('Authorization successful');
-        useAuth.getState().setAuthorizing(false);
+          toast.success('Authorization successful');
+          return true;
+        }
+
+        toast.info('Redirecting...');
+        return false;
       }
+    } finally {
+      useAuth.getState().setAuthorizing(false);
     }
   },
 
-  login: async (data: UserLogin): Promise<boolean> => {
-    useAuth.getState().setAuthorizing(true);
+  signIn: async (data: UserSignIn): Promise<boolean> => {
+    try {
+      useAuth.getState().setAuthorizing(true);
 
-    const { data: user, error } = await signIn(data).finally(() => useAuth.getState().setAuthorizing(false));
+      const { data: user, error } = await signIn(data);
 
-    if (error != undefined) {
-      toast.error(error);
+      if (error != undefined) {
+        toast.error(error);
+      }
+
+      if (user != undefined) {
+        useAuth.getState().setUser(user, true);
+        cacheUserInfo(user);
+
+        toast.success('Signed in successfully');
+
+        return true;
+      }
+
+      return false;
+    } finally {
+      useAuth.getState().setAuthorizing(false);
     }
-
-    if (user != undefined) {
-      useAuth.getState().setUser(user, true);
-      cacheUserInfo(user);
-
-      toast.success('Login successful');
-
-      return true;
-    }
-
-    return false;
   },
 
-  register: async (data: UserRegister): Promise<boolean> => {
-    useAuth.getState().setAuthorizing(true);
+  signUp: async (data: UserSignUp): Promise<boolean> => {
+    try {
+      useAuth.getState().setAuthorizing(true);
 
-    const { data: user, error } = await signUp(data).finally(() => useAuth.getState().setAuthorizing(false));
+      const { data: user, error } = await signUp(data);
 
-    if (error != undefined) {
-      toast.error(error);
+      if (error != undefined) {
+        toast.error(error);
+      }
+
+      if (user != undefined) {
+        useAuth.getState().setUser(user, true);
+        cacheUserInfo(user);
+
+        toast.success('Signed up successfully');
+
+        return true;
+      }
+
+      return false;
+    } finally {
+      useAuth.getState().setAuthorizing(false);
     }
-
-    if (user != undefined) {
-      useAuth.getState().setUser(user, true);
-      cacheUserInfo(user);
-
-      toast.success('Register successful');
-
-      return true;
-    }
-
-    return false;
   },
 
-  logout: async () => {
+  signOut: async () => {
     useAuth.getState().setAuthorizing(true);
 
     const response = await signOut().finally(() => useAuth.getState().setAuthorizing(false));
@@ -92,7 +112,7 @@ export const authService = {
     useAuth.getState().setUser(undefined, false);
     cleanCachedUserInfo();
 
-    toast.info('Logout successful');
+    toast.info('Signed out successfully');
 
     if (!response || response.error != undefined) {
       removeSupabaseAuthCookie();

@@ -3,14 +3,12 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-import { Header } from '@/components/header';
 import { PrimaryButton } from '@/components/primary-button';
 
 export default function Page() {
   return (
     <div className="bg-background text-foreground flex min-h-screen flex-col">
-      <Header />
-      <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-screen items-center justify-center px-6 text-center">
+      <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-full items-center justify-center px-6 text-center">
         <div className="m-10">
           <h1 className="text-5xl font-bold sm:text-6xl">RS Tandem</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">

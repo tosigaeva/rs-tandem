@@ -6,7 +6,7 @@ import { Routes } from '@/lib/routes';
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-screen flex-col items-center justify-center px-6 text-center">
+    <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-6 text-center">
       <div className="border-secondary rounded-lg border-2 p-10">
         <div className="m-10">
           <h1 className="text-5xl font-bold sm:text-6xl">

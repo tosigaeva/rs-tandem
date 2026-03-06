@@ -9,10 +9,10 @@ export type User2 = {
   email: string;
 };
 
-export type UserLogin = {
+export type UserSignIn = {
   password: string;
 } & Pick<User2, 'email'>;
 
-export type UserRegister = {
+export type UserSignUp = {
   password: string;
 } & Omit<User2, 'id'>;
