@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { validateQuestion } from '@/api/validation.api';
+import { validateQuestion } from '@/api/trainer.api';
 import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
 import { getWidgetComponent } from '@/components/library/widget/widget.engine';
 import { Question as QuestionType } from '@/types/question';

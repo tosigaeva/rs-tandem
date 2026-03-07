@@ -1,4 +1,4 @@
-import { getTopicsOverview } from '@/api/topics.api';
+import { getTopicsOverview } from '@/api/trainer.api';
 import { TopicList } from '@/components/library/TopicsList';
 
 const messages = {
