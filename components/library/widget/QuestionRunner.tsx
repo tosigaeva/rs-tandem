@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import Question from '@/components/library/widget/Question';
+import QuestionWrapper from '@/components/library/widget/QuestionWrapper';
 import { getWidgetComponent } from '@/components/library/widget/widget-engine';
 import { Question as QuestionType } from '@/types/question';
 
@@ -10,7 +10,7 @@ type QuestionsRunnerProperties = {
   questions: QuestionType[];
 };
 
-export default function QuestionsRunner({ questions }: QuestionsRunnerProperties) {
+export default function QuestionRunner({ questions }: QuestionsRunnerProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const isFinished = currentIndex >= questions.length;
@@ -25,7 +25,7 @@ export default function QuestionsRunner({ questions }: QuestionsRunnerProperties
 
   return (
     <section>
-      <Question
+      <QuestionWrapper
         questionPayload={currentQuestion.payload}
         Component={getWidgetComponent(currentQuestion.type)}
         onCheck={onCheck}

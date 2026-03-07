@@ -7,6 +7,6 @@ type QuestionProperties = {
   onCheck: () => void;
 };
 
-export default function Question({ questionPayload, Component, onCheck }: QuestionProperties) {
+export default function QuestionWrapper({ questionPayload, Component, onCheck }: QuestionProperties) {
   return <Component questionPayload={questionPayload} onCheck={onCheck} />;
 }

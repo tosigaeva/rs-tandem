@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { getQuestions } from '@/api/questions.api';
 import { getTopic } from '@/api/topics.api';
-import QuestionsRunner from '@/components/library/widget/QuestionRunner';
+import QuestionRunner from '@/components/library/widget/QuestionRunner';
 
 type PageProperties = {
   params: Promise<{ topicId: string }>;
@@ -22,7 +22,7 @@ export default async function Page({ params }: PageProperties) {
         <h1 className="text-4xl font-semibold tracking-tight">{topic.name}</h1>
       </section>
 
-      <QuestionsRunner questions={questions}></QuestionsRunner>
+      <QuestionRunner questions={questions}></QuestionRunner>
     </main>
   );
 }
