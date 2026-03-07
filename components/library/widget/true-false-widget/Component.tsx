@@ -1,5 +1,5 @@
 import { TrueFalsePayload } from '@/components/library/widget/true-false-widget/type';
-import { PrimaryButton } from '@/components/primary-button';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
   questionPayload: TrueFalsePayload;
