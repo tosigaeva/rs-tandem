@@ -3,13 +3,13 @@ import z from 'zod';
 import { signInSchema, signUpSchema } from './authorization-schemas';
 
 export type SchemaRegistry = {
-  Login: typeof signInSchema;
-  Register: typeof signUpSchema;
+  SignIn: typeof signInSchema;
+  SignUp: typeof signUpSchema;
 };
 
 export const CustomSchemas = {
-  Login: signInSchema,
-  Register: signUpSchema,
+  SignIn: signInSchema,
+  SignUp: signUpSchema,
 } satisfies SchemaRegistry;
 
 export type CustomSchemaKey = keyof typeof CustomSchemas;
