@@ -58,7 +58,7 @@ export async function getQuestions(
     id,
     widget_type,
     payload,
-    question:question_id (
+    question:question_id!inner (
       topicId
     )
   `
