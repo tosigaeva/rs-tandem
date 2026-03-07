@@ -1,4 +1,4 @@
-import { PrimaryButton } from '@/components/primary-button';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 export function Header() {
   return (
