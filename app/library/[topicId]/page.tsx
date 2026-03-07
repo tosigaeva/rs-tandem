@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { getQuestions } from '@/api/questions.api';
 import { getTopic } from '@/api/topics.api';
-import QuestionsRunner from '@/components/library/widget/QuestionRunner';
+import QuestionsRunner from '@/components/library/widget/runners/default/QuestionRunner';
 
 type PageProperties = {
   params: Promise<{ topicId: string }>;

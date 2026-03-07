@@ -1,43 +1,19 @@
-import { CodeCompletionPayload, CodeCompletionWidget } from '@/components/library/widget/code-completion-widget/type';
-import { QuizPayload, QuizWidget } from '@/components/library/widget/quiz-widget/type';
-import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/true-false-widget/type';
+import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
+import { QuizPayload } from '@/components/library/widget/ui/quiz-widget/type';
+import { TrueFalsePayload } from '@/components/library/widget/ui/true-false-widget/type';
 import { WidgetType } from '@/types/widget';
 
 export type QuestionPayload = QuizPayload | TrueFalsePayload | CodeCompletionPayload;
-export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget;
 
-export type Question = {
+export type WidgetPayloadMap = {
+  [WidgetType.Quiz]: QuizPayload;
+  [WidgetType.TrueFalse]: TrueFalsePayload;
+  [WidgetType.CodeCompletion]: CodeCompletionPayload;
+};
+
+export type Question<T extends WidgetType = WidgetType> = {
   id: string;
   topicId: string;
-} & QuestionWidget;
-
-export type QuizResponse = {
-  type: WidgetType.Quiz;
-  payload: {
-    question: string;
-    options: string[];
-  };
+  type: T;
+  payload: WidgetPayloadMap[T];
 };
-
-export type TrueFalseResponse = {
-  type: WidgetType.TrueFalse;
-  payload: {
-    statement: string;
-    explanation: string;
-  };
-};
-
-export type CodeCompletionResponse = {
-  type: WidgetType.CodeCompletion;
-  payload: {
-    code: string;
-    blanks: string[];
-    hints: string[];
-  };
-};
-
-export type QuestionResponse = {
-  id: string;
-  topicId: string;
-} & (QuizResponse | TrueFalseResponse | CodeCompletionResponse);
-export type QuestionsResponse = QuestionResponse[];
