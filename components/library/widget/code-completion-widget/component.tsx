@@ -1,5 +1,5 @@
 import { CodeCompletionPayload } from '@/components/library/widget/code-completion-widget/type';
-import { PrimaryButton } from '@/components/primary-button';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
   questionPayload: CodeCompletionPayload;

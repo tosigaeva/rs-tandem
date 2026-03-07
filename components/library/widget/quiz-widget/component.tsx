@@ -1,5 +1,5 @@
 import { QuizPayload } from '@/components/library/widget/quiz-widget/type';
-import { PrimaryButton } from '@/components/primary-button';
+import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
   questionPayload: QuizPayload;
