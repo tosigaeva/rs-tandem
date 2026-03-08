@@ -1,14 +1,18 @@
+import { validateQuestion } from '@/api/trainer.api';
 import { QuizPayload } from '@/components/library/widget/ui/quiz-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: QuizPayload;
-  onCheck: (questionId: string, answer: string) => Promise<void>;
+  onCheck: (p: boolean | undefined) => Promise<void>;
 };
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
   const answer = '';
+  const validate = async () => {
+    await onCheck(await validateQuestion(questionId, answer));
+  };
 
   return (
     <>
@@ -16,7 +20,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck 
         <p key={key}>{option}</p>
       ))}
 
-      <PrimaryButton onClick={() => onCheck(questionId, answer)}>Check</PrimaryButton>
+      <PrimaryButton onClick={() => validate()}>Check</PrimaryButton>
     </>
   );
 }

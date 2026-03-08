@@ -1,17 +1,22 @@
 'use client';
 import { useState } from 'react';
 
-import { FlipCard } from '@/components/FlipCard';
+import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
+import { getWidgetComponent } from '@/components/library/widget/widget.engine';
 import { Button } from '@/components/ui/button';
 import type { CarouselApi } from '@/components/ui/carousel';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Question } from '@/types/learning-question';
+import { Question as QuestionType } from '@/types/question';
 
-type LearningWidgetProperties = {
-  questions: Question[];
+type QuestionsRunnerProperties = {
+  questions: QuestionType[];
 };
 
-export function LearningWidget({ questions }: LearningWidgetProperties) {
+const onCheck = async (p: boolean | undefined) => {
+  console.log('verdict validateQuestion', p);
+};
+
+export function SliderQuestionRunner({ questions }: QuestionsRunnerProperties) {
   const [api, setApi] = useState<CarouselApi>();
 
   return (
@@ -27,7 +32,12 @@ export function LearningWidget({ questions }: LearningWidgetProperties) {
         <CarouselContent>
           {questions.map((question) => (
             <CarouselItem key={question.id} className="flex justify-center">
-              <FlipCard front={question.payload.question} back={question.payload.correctAnswer} />
+              <QuestionWrapper
+                questionId={question.id}
+                questionPayload={question.payload}
+                WidgetComponent={getWidgetComponent(question.type)}
+                onCheck={onCheck}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>

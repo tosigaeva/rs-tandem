@@ -5,7 +5,7 @@ type QuestionProperties = {
   WidgetComponent: WidgetComponent;
   questionId: string;
   questionPayload: QuestionPayload;
-  onCheck: (questionId: string, answer: string) => Promise<void>;
+  onCheck: (p: boolean | undefined) => Promise<void>;
 };
 
 export default function QuestionWrapper({ WidgetComponent, questionId, questionPayload, onCheck }: QuestionProperties) {

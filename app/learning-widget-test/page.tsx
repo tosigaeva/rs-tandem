@@ -1,12 +1,12 @@
-import { getMockQuestions } from '@/api/learning-questions.mock';
-import { LearningWidget } from '@/components/widgets/LearningWidget';
+import { getFlipQuestions } from '@/api/trainer.api';
+import { SliderQuestionRunner } from '@/components/library/widget/runners/slider/SliderQuestionRunner';
 
 export default function Page() {
-  const questions = getMockQuestions();
+  const questions = getFlipQuestions();
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <LearningWidget questions={questions} />
+      <SliderQuestionRunner questions={questions} />
     </div>
   );
 }
