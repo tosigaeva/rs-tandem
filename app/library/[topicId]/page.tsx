@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { getQuestions } from '@/api/questions.api';
-import { getTopic } from '@/api/topics.api';
-import QuestionRunner from '@/components/library/widget/QuestionRunner';
+import { getQuestions, getTopic } from '@/api/trainer.api';
+import QuestionsRunner from '@/components/library/widget/runners/default/QuestionRunner';
 
 type PageProperties = {
   params: Promise<{ topicId: string }>;
@@ -22,7 +21,7 @@ export default async function Page({ params }: PageProperties) {
         <h1 className="text-4xl font-semibold tracking-tight">{topic.name}</h1>
       </section>
 
-      <QuestionRunner questions={questions}></QuestionRunner>
+      <QuestionsRunner questions={questions}></QuestionsRunner>
     </main>
   );
 }

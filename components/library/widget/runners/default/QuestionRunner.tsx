@@ -2,20 +2,21 @@
 
 import { useState } from 'react';
 
-import QuestionWrapper from '@/components/library/widget/QuestionWrapper';
-import { getWidgetComponent } from '@/components/library/widget/widget-engine';
+import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
+import { getWidgetComponent } from '@/components/library/widget/widget.engine';
 import { Question as QuestionType } from '@/types/question';
 
 type QuestionsRunnerProperties = {
   questions: QuestionType[];
 };
 
-export default function QuestionRunner({ questions }: QuestionsRunnerProperties) {
+export default function QuestionsRunner({ questions }: QuestionsRunnerProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const isFinished = currentIndex >= questions.length;
 
-  const onCheck = () => {
+  const onCheck = async (p: boolean | undefined) => {
+    console.log('verdict validateQuestion', p);
     setCurrentIndex((previousIndex) => previousIndex + 1);
   };
 
@@ -26,8 +27,9 @@ export default function QuestionRunner({ questions }: QuestionsRunnerProperties)
   return (
     <section>
       <QuestionWrapper
+        questionId={currentQuestion.id}
         questionPayload={currentQuestion.payload}
-        Component={getWidgetComponent(currentQuestion.type)}
+        WidgetComponent={getWidgetComponent(currentQuestion.type)}
         onCheck={onCheck}
       />
     </section>
