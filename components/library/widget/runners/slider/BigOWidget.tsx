@@ -63,7 +63,7 @@ export function BigOCanvas({ question, codeExample }: BigOCanvasProperties) {
   useEffect(() => {
     const canvas = canvasReference.current;
     if (!canvas) return;
-    const context = canvas.getContext('2d');
+    const context = setupCanvas(canvas, width, height);
     if (!context) return;
 
     context.clearRect(0, 0, width, height);
@@ -157,4 +157,21 @@ function drawAxes(context: CanvasRenderingContext2D, width: number, height: numb
 
   context.fillText('Time', 0, 0);
   context.restore();
+}
+
+function setupCanvas(canvas: HTMLCanvasElement, width: number, height: number) {
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
+
+  const context = canvas.getContext('2d');
+  if (!context) return;
+
+  context.scale(dpr, dpr);
+
+  return context;
 }
