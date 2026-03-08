@@ -8,7 +8,7 @@ type Complexity = {
 };
 
 const complexities: Complexity[] = [
-  { name: 'O(1)', func: (n: number) => 1 },
+  { name: 'O(1)', func: () => 1 },
   { name: 'O(log n)', func: (n: number) => Math.log2(n) },
   { name: 'O(n)', func: (n: number) => n },
   { name: 'O(n log n)', func: (n: number) => n * Math.log2(n) },
@@ -62,6 +62,7 @@ export function BigOCanvas({ width = 600, height = 400 }: BigOCanvasProperties) 
     context.clearRect(0, 0, width, height);
 
     context.strokeStyle = '#000';
+    context.lineWidth = 1;
     context.beginPath();
     context.moveTo(padding, padding);
     context.lineTo(padding, height - padding);
@@ -82,7 +83,7 @@ export function BigOCanvas({ width = 600, height = 400 }: BigOCanvasProperties) 
       }
 
       context.strokeStyle = selectedLine === index ? '#FF0000' : '#000';
-      context.lineWidth = selectedLine === index ? 4 : 2;
+      context.lineWidth = selectedLine === index ? 2 : 1;
       context.stroke();
     });
   }, [width, height, selectedLine]);
