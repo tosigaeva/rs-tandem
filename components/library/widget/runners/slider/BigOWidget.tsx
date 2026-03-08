@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { PrimaryButton } from '../PrimaryButton';
+import { Card } from '../ui/card';
+
 type Complexity = {
   name: string;
   func: (n: number) => number;
@@ -18,11 +21,15 @@ const complexities: Complexity[] = [
 const padding = 50;
 
 type BigOCanvasProperties = {
-  width?: number;
-  height?: number;
+  question?: string;
+  codeExample?: string;
+  answer?: string;
+  onSelect?: (complexity: string) => void;
 };
 
-export function BigOCanvas({ width = 400, height = 400 }: BigOCanvasProperties) {
+export function BigOCanvas({ question, codeExample }: BigOCanvasProperties) {
+  const width = 400;
+  const height = 300;
   const canvasReference = useRef<HTMLCanvasElement>(null);
   const [selectedLine, setSelectedLine] = useState<number | undefined>();
 
@@ -88,7 +95,7 @@ export function BigOCanvas({ width = 400, height = 400 }: BigOCanvasProperties) 
   const selectedName = selectedLine === undefined ? '' : (complexities[selectedLine]?.name ?? '');
 
   return (
-    <div>
+    <div className="flex flex-col items-center gap-4">
       <canvas
         ref={canvasReference}
         width={width}
@@ -96,7 +103,14 @@ export function BigOCanvas({ width = 400, height = 400 }: BigOCanvasProperties) 
         style={{ border: '1px solid #ccc' }}
         onClick={handleClick}
       />
-      <p>Selected: {selectedName}</p>
+      <Card className="w-full max-w-md p-4">
+        <h2>{question}</h2>
+        <p>{codeExample}</p>
+      </Card>
+      <Card className="w-full max-w-md p-4">
+        <p>Selected: {selectedName}</p>
+      </Card>
+      <PrimaryButton disabled={!selectedName}>Submit Answer</PrimaryButton>
     </div>
   );
 }
