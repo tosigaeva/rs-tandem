@@ -22,7 +22,7 @@ type BigOCanvasProperties = {
   height?: number;
 };
 
-export function BigOCanvas({ width = 600, height = 400 }: BigOCanvasProperties) {
+export function BigOCanvas({ width = 400, height = 400 }: BigOCanvasProperties) {
   const canvasReference = useRef<HTMLCanvasElement>(null);
   const [selectedLine, setSelectedLine] = useState<number | undefined>();
 
@@ -63,11 +63,8 @@ export function BigOCanvas({ width = 600, height = 400 }: BigOCanvasProperties) 
 
     context.strokeStyle = '#000';
     context.lineWidth = 1;
-    context.beginPath();
-    context.moveTo(padding, padding);
-    context.lineTo(padding, height - padding);
-    context.lineTo(width - padding, height - padding);
-    context.stroke();
+
+    drawAxes(context, width, height);
 
     const maxX = 10;
     const maxY = Math.max(...complexities.map((c) => c.func(maxX)));
@@ -76,7 +73,7 @@ export function BigOCanvas({ width = 600, height = 400 }: BigOCanvasProperties) 
       context.beginPath();
       for (let x = 1; x <= maxX; x += 0.1) {
         const canvasX = padding + ((x - 1) / (maxX - 1)) * (width - 2 * padding);
-        const canvasY = height - padding - (c.func(x) / maxY) * (height - 2 * padding);
+        const canvasY = height - padding - 5 - (c.func(x) / maxY) * (height - 2 * padding);
 
         if (x === 1) context.moveTo(canvasX, canvasY);
         else context.lineTo(canvasX, canvasY);
@@ -102,4 +99,48 @@ export function BigOCanvas({ width = 600, height = 400 }: BigOCanvasProperties) 
       <p>Selected: {selectedName}</p>
     </div>
   );
+}
+
+function drawAxes(context: CanvasRenderingContext2D, width: number, height: number) {
+  context.strokeStyle = '#000';
+  context.lineWidth = 1;
+
+  // Y axis
+  context.beginPath();
+  context.moveTo(padding, height - padding);
+  context.lineTo(padding, padding);
+  context.stroke();
+
+  // X axis
+  context.beginPath();
+  context.moveTo(padding, height - padding);
+  context.lineTo(width - padding, height - padding);
+  context.stroke();
+
+  // Y arrow
+  context.beginPath();
+  context.moveTo(padding, padding);
+  context.lineTo(padding - 5, padding + 10);
+  context.lineTo(padding + 5, padding + 10);
+  context.closePath();
+  context.fill();
+
+  // X arrow
+  context.beginPath();
+  context.moveTo(width - padding, height - padding);
+  context.lineTo(width - padding - 10, height - padding - 5);
+  context.lineTo(width - padding - 10, height - padding + 5);
+  context.closePath();
+  context.fill();
+
+  context.font = '14px sans-serif';
+
+  context.fillText('Input Size (n)', width / 2, height - 15);
+
+  context.save();
+  context.translate(25, height / 2);
+  context.rotate(-Math.PI / 2);
+
+  context.fillText('Time', 0, 0);
+  context.restore();
 }
