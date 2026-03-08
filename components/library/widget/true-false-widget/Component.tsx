@@ -1,5 +1,5 @@
 import { TrueFalsePayload } from '@/components/library/widget/true-false-widget/type';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import QuestionCard from '@/components/QuestionCard';
 
 type WidgetComponentProperties = {
   questionPayload: TrueFalsePayload;
@@ -8,11 +8,11 @@ type WidgetComponentProperties = {
 
 export default function Component({ questionPayload, onCheck }: WidgetComponentProperties) {
   return (
-    <>
-      <p>{questionPayload.statement}</p>
-      <p>{questionPayload.explanation}</p>
-
-      <PrimaryButton onClick={onCheck}>Check</PrimaryButton>
-    </>
+    <QuestionCard
+      question={questionPayload.statement}
+      options={['true', 'false']}
+      instruction={'True or False'}
+      onCheck={onCheck}
+    />
   );
 }
