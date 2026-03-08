@@ -12,15 +12,6 @@ export const mockQuestions: QuestionsResponse = [
     },
   },
   {
-    id: 'quiz-002',
-    topicId: '1',
-    type: WidgetType.Quiz,
-    payload: {
-      question: `What does <i>typeof null</i> return? <code>const animal = {\n  type: 'Dog',\n  sound() {\n    return 'Bark!';\n  }\n};\n\nconst pet = Object.create(animal);\n\nconsole.log(pet.type);</code>`,
-      options: ['null', 'undefined', 'object', 'NaN'],
-    },
-  },
-  {
     id: 'tf-001',
     topicId: '1',
     type: WidgetType.TrueFalse,

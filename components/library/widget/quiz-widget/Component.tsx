@@ -8,6 +8,7 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Field, FieldDescription, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { hashString } from '@/lib/utils';
 
 type WidgetComponentProperties = {
   questionPayload: QuizPayload;
@@ -15,8 +16,17 @@ type WidgetComponentProperties = {
 };
 
 export default function Component({ questionPayload, onCheck }: WidgetComponentProperties) {
+  const payloadHash = hashString(JSON.stringify(questionPayload));
+  const [formId, setFormId] = useState(payloadHash);
   const [selected, setSelected] = useState<string | undefined>();
 
+  if (formId !== payloadHash) {
+    setFormId(payloadHash);
+    setSelected(undefined);
+  }
+
+  const isSelected = selected !== undefined;
+  const buttonText = isSelected ? 'Check Answer' : 'Select an answer';
   return (
     <section className="mx-auto max-w-2xl space-y-8">
       <Card>
@@ -25,9 +35,9 @@ export default function Component({ questionPayload, onCheck }: WidgetComponentP
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>Select one answer</CardDescription>
-          <RadioGroup value={selected ?? undefined} onValueChange={setSelected}>
+          <RadioGroup key={formId} onValueChange={(option) => setSelected(option)}>
             {questionPayload.options.map((option, index) => (
-              <FieldLabel key={option} className="cursor-pointer">
+              <FieldLabel key={hashString(questionPayload.question + option)} className="cursor-pointer">
                 <Field orientation="horizontal">
                   <RadioGroupItem value={option} />
                   <FieldTitle>{option}</FieldTitle>
@@ -37,8 +47,8 @@ export default function Component({ questionPayload, onCheck }: WidgetComponentP
             ))}
           </RadioGroup>
 
-          <PrimaryButton onClick={onCheck} disabled={selected === undefined} className="mt-4 w-full py-6">
-            Check
+          <PrimaryButton onClick={onCheck} disabled={!isSelected} className="mt-4 w-full py-6">
+            {buttonText}
           </PrimaryButton>
         </CardContent>
       </Card>
