@@ -14,8 +14,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { RoutePermissions, Routes } from '@/lib/routes';
-import { cn, getCurrentRoute } from '@/lib/utils';
-import { authService, useAuth } from '@/services/auth.service';
+import { cn, getNavigation } from '@/lib/utils';
+import { authService } from '@/services/authorization/auth.service';
+import { useAuth } from '@/services/authorization/auth.store';
 import { LocaleDictionary, localeService, useLocale } from '@/services/locale.service';
 
 import { Button } from './ui/button';
@@ -34,7 +35,7 @@ export function Header() {
   const pathname = usePathname();
 
   const handleUnauthorizedAccess = useCallback(() => {
-    const currentRoute = getCurrentRoute(pathname);
+    const currentRoute = getNavigation(pathname);
 
     if (currentRoute != undefined) {
       const permission = RoutePermissions[currentRoute];

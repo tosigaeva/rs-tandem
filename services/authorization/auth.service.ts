@@ -1,27 +1,13 @@
 import Cookies from 'js-cookie';
 import { toast } from 'sonner';
-import { create } from 'zustand';
 
-import { getUser, signIn, signOut, signUp } from '@/api/auth.api';
-import { User2, UserSignIn, UserSignUp } from '@/types/user';
+import { getUser, signIn, signOut, signUp } from '@/services/authorization/auth.client';
+import { CustomSchemas } from '@/types/schemas/schemas';
+import { UserDetails, UserSignIn, UserSignUp } from '@/types/user';
+
+import { useAuth } from './auth.store';
 
 const USER_STORAGE_KEY = 'user';
-
-type AuthStore = {
-  user: User2 | undefined;
-  isAuthorized: boolean;
-  isAuthorizing: boolean;
-  setUser: (user: User2 | undefined, isAuthorized?: boolean) => void;
-  setAuthorizing: (isAuthorizing: boolean) => void;
-};
-
-export const useAuth = create<AuthStore>((set) => ({
-  user: undefined,
-  isAuthorized: false,
-  isAuthorizing: false,
-  setUser: (user, isAuthorized) => set({ user, isAuthorized }),
-  setAuthorizing: (isAuthorizing) => set({ isAuthorizing }),
-}));
 
 export const authService = {
   initialize: async () => {
@@ -57,6 +43,9 @@ export const authService = {
   signIn: async (data: UserSignIn): Promise<boolean> => {
     try {
       useAuth.getState().setAuthorizing(true);
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      console.log('pausing done');
 
       const { data: user, error } = await signIn(data);
 
@@ -120,22 +109,26 @@ export const authService = {
   },
 };
 
-function cacheUserInfo(user: User2) {
+function cacheUserInfo(user: UserDetails) {
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
 }
 
-function retrieveCachedUserInfo(): User2 | undefined {
+function retrieveCachedUserInfo(): UserDetails | undefined {
   try {
     const data = localStorage.getItem(USER_STORAGE_KEY);
 
-    if (data != undefined) {
-      const user = JSON.parse(data);
+    if (data == undefined) return;
 
-      if (user != undefined && typeof user === 'object' && 'id' in user && 'email' in user && 'username' in user) {
-        useAuth.getState().setUser(user);
+    const user = JSON.parse(data);
 
-        return user;
-      }
+    const schema = CustomSchemas.UserSchema;
+
+    const result = schema.safeParse(user).success;
+
+    if (result) {
+      useAuth.getState().setUser(user);
+
+      return user;
     }
   } catch {
     cleanCachedUserInfo();

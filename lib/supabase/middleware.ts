@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { RoutePermissions, Routes } from '../routes';
-import { getCurrentRoute } from '../utils';
+import { getNavigation } from '../utils';
 import { supabaseServer } from './server';
 
 export async function updateSession(request: NextRequest) {
@@ -15,12 +15,10 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
 
-  const correctPath = getCurrentRoute(path);
+  const correctPath = getNavigation(path);
 
   if (correctPath != undefined) {
     const status = RoutePermissions[correctPath];
-
-    console.log('status', status);
 
     if (status === 'authorized' && !user) {
       const url = request.nextUrl.clone();
@@ -29,7 +27,7 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     } else if (status === 'unauthorized' && user) {
       const url = request.nextUrl.clone();
-      url.pathname = '/dashboard';
+      url.pathname = Routes.Dashboard;
       return NextResponse.redirect(url);
     }
   }

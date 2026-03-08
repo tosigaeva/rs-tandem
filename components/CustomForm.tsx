@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { CustomSchemaKey, getSchema, SchemaData, SchemaRegistry } from '@/types/schemas/schemas';
 
-import { CustomInput, InputProperties } from './custom-input';
+import { CustomInput, InputProperties } from './CustomInput';
 
 export type FormProperties = {
   id: string;

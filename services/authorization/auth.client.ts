@@ -1,5 +1,5 @@
 import { supabaseBrowser } from '@/lib/supabase/client';
-import { User2 } from '@/types/user';
+import { UserDetails } from '@/types/user';
 
 export async function signIn({
   email,
@@ -7,7 +7,7 @@ export async function signIn({
 }: {
   email: string;
   password: string;
-}): Promise<{ data: User2 | undefined; error?: string }> {
+}): Promise<{ data: UserDetails | undefined; error?: string }> {
   if (!email || !password) {
     throw new Error('Email and password are required');
   }
@@ -55,7 +55,7 @@ export async function signUp({
   email: string;
   password: string;
   username: string;
-}): Promise<{ data: User2 | undefined; error?: string }> {
+}): Promise<{ data: UserDetails | undefined; error?: string }> {
   if (!email || !password || !username) {
     throw new Error('Email, password and username are required');
   }
@@ -106,7 +106,7 @@ export async function signOut() {
   }
 }
 
-export async function getUser(): Promise<{ data: User2 | undefined; error?: string }> {
+export async function getUser(): Promise<{ data: UserDetails | undefined; error?: string }> {
   const supabase = supabaseBrowser();
 
   try {

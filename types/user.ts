@@ -3,7 +3,7 @@ export type User = {
   name: string;
 };
 
-export type User2 = {
+export type UserDetails = {
   id: string;
   username: string;
   email: string;
@@ -11,8 +11,8 @@ export type User2 = {
 
 export type UserSignIn = {
   password: string;
-} & Pick<User2, 'email'>;
+} & Pick<UserDetails, 'email'>;
 
 export type UserSignUp = {
   password: string;
-} & Omit<User2, 'id'>;
+} & Omit<UserDetails, 'id'>;

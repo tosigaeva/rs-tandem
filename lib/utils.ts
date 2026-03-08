@@ -7,6 +7,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getCurrentRoute(path: string) {
-  return Object.values(Routes).find((route) => route === path);
+export function getNavigation(path: string): Routes | undefined {
+  const navigation = path.split('/')[1] || '';
+
+  return Object.values(Routes).find((route) => `/${navigation}` === route);
 }
