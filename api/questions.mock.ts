@@ -7,7 +7,16 @@ export const mockQuestions: QuestionsResponse = [
     topicId: '1',
     type: WidgetType.Quiz,
     payload: {
-      question: 'What does typeof null return?',
+      question: 'What does <i>typeof null</i> return? <code>example of code \n with new line</code>',
+      options: ['null', 'undefined', 'object', 'NaN'],
+    },
+  },
+  {
+    id: 'quiz-002',
+    topicId: '1',
+    type: WidgetType.Quiz,
+    payload: {
+      question: `What does <i>typeof null</i> return? <code>const animal = {\n  type: 'Dog',\n  sound() {\n    return 'Bark!';\n  }\n};\n\nconst pet = Object.create(animal);\n\nconsole.log(pet.type);</code>`,
       options: ['null', 'undefined', 'object', 'NaN'],
     },
   },
@@ -16,8 +25,8 @@ export const mockQuestions: QuestionsResponse = [
     topicId: '1',
     type: WidgetType.TrueFalse,
     payload: {
-      statement: 'Promise.all() returns results in order of completion',
-      explanation: 'Promise.all() preserves input array order, regardless of completion time',
+      statement: '<code>Promise.all()</code> returns results in order of completion',
+      explanation: '<code>Promise.all()</code> preserves input array order, regardless of completion time',
     },
   },
   {

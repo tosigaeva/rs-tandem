@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import CodeBlock from '@/components/CodeBlock';
 import { QuizPayload } from '@/components/library/widget/quiz-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
@@ -20,7 +21,7 @@ export default function Component({ questionPayload, onCheck }: WidgetComponentP
     <section className="mx-auto max-w-2xl space-y-8">
       <Card>
         <CardHeader>
-          <h2 className="text-xl font-semibold">{questionPayload.question}</h2>
+          <CodeBlock code={questionPayload.question} />
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>Select one answer</CardDescription>
