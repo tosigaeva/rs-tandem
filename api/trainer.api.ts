@@ -2,19 +2,104 @@ import { mockLearningQuestions } from '@/api/mocks/learning-questions.mock';
 import { mockQuestions } from '@/api/mocks/questions.mock';
 import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
 import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
+import { supabaseServer } from '@/lib/supabase/server';
 import { BaseQuestion, Question } from '@/types/question';
 import { LibraryTopicsResponse, Topic } from '@/types/topic';
 import { WidgetType } from '@/types/widget';
 
 export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
+  if (process.env.MOCK_MODE === 'production') {
+    const supabase = await supabaseServer();
+    const query = supabase.from('topics').select('id, title');
+
+    const { data, error } = await query;
+    console.log(error);
+
+    if (data === null) {
+      return {
+        userTopics: mockLibraryTopics.userTopics,
+        topics: [],
+      };
+    }
+
+    return {
+      userTopics: mockLibraryTopics.userTopics,
+      topics: data.map((topic) => ({
+        id: topic.id,
+        name: topic.title,
+        level: 'Super',
+        description: 'Mock',
+        subject: 'mock topic',
+      })),
+    };
+  }
+
   return mockLibraryTopics;
 }
 
 export async function getTopic(topicId: string): Promise<Topic | undefined> {
+  if (process.env.MOCK_MODE === 'production') {
+    const supabase = await supabaseServer();
+    const query = supabase.from('topics').select('id, title').eq('id', topicId).single();
+
+    const { data, error } = await query;
+    console.log(error);
+
+    if (data === null) {
+      return undefined;
+    }
+
+    return {
+      id: topicId,
+      name: data.title,
+      level: '1',
+      description: 'Mock',
+      subject: 'mock topic',
+    };
+  }
+
   return mockTopics.find((topic) => topic.id === topicId);
 }
 
-export async function getQuestions(topicId: string): Promise<Question[]> {
+export async function getQuestions(
+  topicId: string,
+  widgetType: WidgetType | undefined = undefined
+): Promise<Question[]> {
+  if (process.env.MOCK_MODE === 'production') {
+    const supabase = await supabaseServer();
+    let query = supabase
+      .from('question_variant')
+      .select(
+        `
+    id,
+    widget_type,
+    payload,
+    question:question_id!inner (
+      topicId
+    )
+  `
+      )
+      .eq('question.topicId', topicId);
+
+    // Add widget_type filter only if defined
+    if (widgetType !== undefined) {
+      query = query.eq('widget_type', widgetType);
+    }
+
+    const { data, error } = await query;
+    console.log(error);
+
+    if (data === null) {
+      return [];
+    }
+
+    return data.map((q) => ({
+      id: q.id,
+      topicId: topicId,
+      type: q.widget_type,
+      payload: q.payload,
+    }));
+  }
   return mockQuestions.filter((question) => question?.topicId === topicId);
 }
 
