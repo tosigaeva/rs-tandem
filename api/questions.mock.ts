@@ -16,8 +16,8 @@ export const mockQuestions: QuestionsResponse = [
     topicId: '1',
     type: WidgetType.TrueFalse,
     payload: {
-      statement: '<code>Promise.all()</code> returns results in order of completion',
-      explanation: '<code>Promise.all()</code> preserves input array order, regardless of completion time',
+      statement: '<i>Promise.all()</i> returns results in order of completion',
+      explanation: '<i>Promise.all()</i> preserves input array order, regardless of completion time',
     },
   },
   {
