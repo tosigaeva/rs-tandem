@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { getUser } from '@/api/user.api';
-import { PrimaryButton } from '@/components/primary-button';
+import { PrimaryButton } from '@/components/PrimaryButton';
 import { Routes } from '@/lib/routes';
 
 const messages = {
