@@ -1,15 +1,17 @@
 import z from 'zod';
 
-import { signInSchema, signUpSchema } from './authorization-schemas';
+import { signInSchema, signUpSchema, userSchema } from './authorization-schemas';
 
 export type SchemaRegistry = {
-  Login: typeof signInSchema;
-  Register: typeof signUpSchema;
+  SignInSchema: typeof signInSchema;
+  SignUpSchema: typeof signUpSchema;
+  UserSchema: typeof userSchema;
 };
 
 export const CustomSchemas = {
-  Login: signInSchema,
-  Register: signUpSchema,
+  SignInSchema: signInSchema,
+  SignUpSchema: signUpSchema,
+  UserSchema: userSchema,
 } satisfies SchemaRegistry;
 
 export type CustomSchemaKey = keyof typeof CustomSchemas;
