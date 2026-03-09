@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -124,11 +124,14 @@
   --wrong-answer-muted: #e35d5d;
 }
 
+html {
+  scrollbar-gutter: stable !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }

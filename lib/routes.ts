@@ -2,12 +2,12 @@ export enum Routes {
   Home = '/',
   Dashboard = '/dashboard',
   Library = '/library',
-  Login = '/login',
+  SignIn = '/sign-in',
 }
 
-export const RoutePermissions: Record<Routes, 'public' | 'protected'> = {
-  [Routes.Home]: 'public',
-  [Routes.Login]: 'public',
-  [Routes.Dashboard]: 'protected',
-  [Routes.Library]: 'protected',
+export const RoutePermissions: Record<Routes, 'all' | 'authorized' | 'unauthorized'> = {
+  [Routes.Home]: 'all',
+  [Routes.SignIn]: 'unauthorized',
+  [Routes.Dashboard]: 'authorized',
+  [Routes.Library]: 'authorized',
 };

@@ -16,28 +16,23 @@ export const signInSchema = z.object({
     .refine((value) => numberCheck.test(value), 'Password must contain a number'),
 });
 
-export type SignInSchema = z.infer<typeof signInSchema>;
+const signUpFields = signInSchema.extend({
+  username: z
+    .string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(12, 'Username must be at most 12 characters')
+    .refine((v) => usernameCheck.test(v), 'Invalid username'),
+  confirmPassword: z.string(),
+});
 
-export const signUpSchema = signInSchema
-  .extend({
-    username: z
-      .string()
-      .min(3, 'Username must be at least 3 characters')
-      .max(12, 'Username must be at most 12 characters')
-      .refine(
-        (value) => usernameCheck.test(value),
-        'Username can only contain letters, numbers, underscores and dashes'
-      ),
-    confirmPassword: z.string(),
-  })
-  .superRefine(({ confirmPassword, password }, context) => {
-    if (confirmPassword !== password) {
-      context.addIssue({
-        message: "Passwords don't match",
-        path: ['confirmPassword'],
-        code: 'custom',
-      });
-    }
-  });
+export const signUpSchema = signUpFields.superRefine(({ confirmPassword, password }, context) => {
+  if (confirmPassword !== password) {
+    context.addIssue({
+      message: "Passwords don't match",
+      path: ['confirmPassword'],
+      code: 'custom',
+    });
+  }
+});
 
-export type SignUpSchema = z.infer<typeof signUpSchema>;
+export const userSchema = signUpFields.omit({ password: true, confirmPassword: true });
