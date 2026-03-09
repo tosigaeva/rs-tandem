@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { RoutePermissions, Routes } from '../routes';
+import { getNavigation } from '../utils';
 import { supabaseServer } from './server';
 
 export async function updateSession(request: NextRequest) {
@@ -12,15 +13,23 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isProtected = Object.entries(RoutePermissions).some(
-    ([route, status]) => request.nextUrl.pathname.startsWith(route) && status === 'protected'
-  );
+  const path = request.nextUrl.pathname;
 
-  if (isProtected && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = Routes.Login;
-    url.searchParams.set('redirect', request.nextUrl.pathname);
-    return NextResponse.redirect(url);
+  const correctPath = getNavigation(path);
+
+  if (correctPath != undefined) {
+    const status = RoutePermissions[correctPath];
+
+    if (status === 'authorized' && !user) {
+      const url = request.nextUrl.clone();
+      url.pathname = Routes.SignIn;
+      url.searchParams.set('redirect', request.nextUrl.pathname);
+      return NextResponse.redirect(url);
+    } else if (status === 'unauthorized' && user) {
+      const url = request.nextUrl.clone();
+      url.pathname = Routes.Dashboard;
+      return NextResponse.redirect(url);
+    }
   }
 
   return response;

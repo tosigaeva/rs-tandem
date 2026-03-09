@@ -1,5 +1,5 @@
-import { getTopicsOverview } from '@/api/topics.api';
-import { TopicList } from '@/components/library/topics-list';
+import { getTopicsOverview } from '@/api/trainer.api';
+import { TopicList } from '@/components/library/TopicsList';
 
 const messages = {
   title: 'Library',

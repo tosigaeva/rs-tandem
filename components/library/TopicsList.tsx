@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Routes } from '@/lib/routes';
 import { Topic, UserTopic } from '@/types/topic';
 
-import { TopicCard } from './topic-card';
+import { TopicCard } from './TopicCard';
 
 type TopicListProperties = {
   title: string;
