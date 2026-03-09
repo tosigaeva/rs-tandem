@@ -1,43 +1,24 @@
-import { CodeCompletionPayload, CodeCompletionWidget } from '@/components/library/widget/code-completion-widget/type';
-import { QuizPayload, QuizWidget } from '@/components/library/widget/quiz-widget/type';
-import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/true-false-widget/type';
+import {
+  CodeCompletionPayload,
+  CodeCompletionWidget,
+} from '@/components/library/widget/ui/code-completion-widget/type';
+import { FlipCardPayload, FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
+import { QuizPayload, QuizWidget } from '@/components/library/widget/ui/quiz-widget/type';
+import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/ui/true-false-widget/type';
 import { WidgetType } from '@/types/widget';
 
-export type QuestionPayload = QuizPayload | TrueFalsePayload | CodeCompletionPayload;
-export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget;
+export type QuestionPayload = QuizPayload | TrueFalsePayload | CodeCompletionPayload | FlipCardPayload;
+export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget | FlipCardWidget;
 
-export type Question = {
+export type WidgetPayloadMap = {
+  [WidgetType.Quiz]: QuizPayload;
+  [WidgetType.TrueFalse]: TrueFalsePayload;
+  [WidgetType.CodeCompletion]: CodeCompletionPayload;
+  [WidgetType.FlipCard]: FlipCardPayload;
+};
+
+export type BaseQuestion = {
   id: string;
   topicId: string;
-} & QuestionWidget;
-
-export type QuizResponse = {
-  type: WidgetType.Quiz;
-  payload: {
-    question: string;
-    options: string[];
-  };
 };
-
-export type TrueFalseResponse = {
-  type: WidgetType.TrueFalse;
-  payload: {
-    statement: string;
-    explanation: string;
-  };
-};
-
-export type CodeCompletionResponse = {
-  type: WidgetType.CodeCompletion;
-  payload: {
-    code: string;
-    blanks: string[];
-    hints: string[];
-  };
-};
-
-export type QuestionResponse = {
-  id: string;
-  topicId: string;
-} & (QuizResponse | TrueFalseResponse | CodeCompletionResponse);
-export type QuestionsResponse = QuestionResponse[];
+export type Question = BaseQuestion & QuestionWidget;

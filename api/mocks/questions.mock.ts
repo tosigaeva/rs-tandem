@@ -1,13 +1,13 @@
-import { QuestionsResponse } from '@/types/question';
+import { Question } from '@/types/question';
 import { WidgetType } from '@/types/widget';
 
-export const mockQuestions: QuestionsResponse = [
+export const mockQuestions: Question[] = [
   {
     id: 'quiz-001',
     topicId: '1',
     type: WidgetType.Quiz,
     payload: {
-      question: 'What does typeof null return?',
+      question: 'What does <i>typeof null</i> return? <code>example of code \n with new line</code>',
       options: ['null', 'undefined', 'object', 'NaN'],
     },
   },
@@ -16,8 +16,8 @@ export const mockQuestions: QuestionsResponse = [
     topicId: '1',
     type: WidgetType.TrueFalse,
     payload: {
-      statement: 'Promise.all() returns results in order of completion',
-      explanation: 'Promise.all() preserves input array order, regardless of completion time',
+      statement: '<i>Promise.all()</i> returns results in order of completion',
+      explanation: '<i>Promise.all()</i> preserves input array order, regardless of completion time',
     },
   },
   {

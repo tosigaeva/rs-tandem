@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import Question from '@/components/library/widget/Question';
-import { getWidgetComponent } from '@/components/library/widget/widget-engine';
+import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
+import { getWidgetComponent } from '@/components/library/widget/widget.engine';
 import { Question as QuestionType } from '@/types/question';
 
 type QuestionsRunnerProperties = {
@@ -15,7 +15,8 @@ export default function QuestionsRunner({ questions }: QuestionsRunnerProperties
 
   const isFinished = currentIndex >= questions.length;
 
-  const onCheck = () => {
+  const onCheck = async (p: boolean | undefined) => {
+    console.log('verdict validateQuestion', p);
     setCurrentIndex((previousIndex) => previousIndex + 1);
   };
 
@@ -25,9 +26,10 @@ export default function QuestionsRunner({ questions }: QuestionsRunnerProperties
 
   return (
     <section>
-      <Question
+      <QuestionWrapper
+        questionId={currentQuestion.id}
         questionPayload={currentQuestion.payload}
-        Component={getWidgetComponent(currentQuestion.type)}
+        WidgetComponent={getWidgetComponent(currentQuestion.type)}
         onCheck={onCheck}
       />
     </section>
