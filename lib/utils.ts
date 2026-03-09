@@ -11,6 +11,7 @@ export function getNavigation(path: string): Routes | undefined {
   const navigation = path.split('/')[1] || '';
 
   return Object.values(Routes).find((route) => `/${navigation}` === route);
+}
 
 export function hashString(str: string) {
   let hash = 0;
