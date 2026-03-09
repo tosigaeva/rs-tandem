@@ -1,6 +1,5 @@
-import { validateQuestion } from '@/api/trainer.api';
 import { TrueFalsePayload } from '@/components/library/widget/ui/true-false-widget/type';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import QuestionCard from '@/components/QuestionCard';
 
 type WidgetComponentProperties = {
   questionId: string;
@@ -9,17 +8,13 @@ type WidgetComponentProperties = {
 };
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
-  const answer = '';
-  const validate = async () => {
-    await onCheck(await validateQuestion(questionId, answer));
-  };
-
   return (
-    <>
-      <p>{questionPayload.statement}</p>
-      <p>{questionPayload.explanation}</p>
-
-      <PrimaryButton onClick={() => validate()}>Check</PrimaryButton>
-    </>
+    <QuestionCard
+      questionId={questionId}
+      question={questionPayload.statement}
+      options={['true', 'false']}
+      instruction={'True or False'}
+      onCheck={onCheck}
+    />
   );
 }

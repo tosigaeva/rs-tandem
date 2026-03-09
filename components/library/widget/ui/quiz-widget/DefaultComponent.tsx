@@ -1,6 +1,5 @@
-import { validateQuestion } from '@/api/trainer.api';
 import { QuizPayload } from '@/components/library/widget/ui/quiz-widget/type';
-import { PrimaryButton } from '@/components/PrimaryButton';
+import QuestionCard from '@/components/QuestionCard';
 
 type WidgetComponentProperties = {
   questionId: string;
@@ -9,18 +8,13 @@ type WidgetComponentProperties = {
 };
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
-  const answer = '';
-  const validate = async () => {
-    await onCheck(await validateQuestion(questionId, answer));
-  };
-
   return (
-    <>
-      {questionPayload.options.map((option, key) => (
-        <p key={key}>{option}</p>
-      ))}
-
-      <PrimaryButton onClick={() => validate()}>Check</PrimaryButton>
-    </>
+    <QuestionCard
+      questionId={questionId}
+      question={questionPayload.question}
+      options={questionPayload.options}
+      instruction={'Select one answer'}
+      onCheck={onCheck}
+    />
   );
 }
