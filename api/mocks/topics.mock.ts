@@ -1,6 +1,6 @@
-import { TopicsResponse } from '@/types/topic';
+import { LibraryTopicsResponse, TopicsResponse } from '@/types/topic';
 
-export const mockLibraryTopics: TopicsResponse = {
+export const mockLibraryTopics: LibraryTopicsResponse = {
   userTopics: [
     {
       id: '1',
@@ -96,3 +96,69 @@ export const mockLibraryTopics: TopicsResponse = {
     },
   ],
 };
+
+export const mockTopics: TopicsResponse = [
+  {
+    id: '1',
+    name: 'Variables & Data Types',
+    level: 'beginner',
+    description: 'let, const, var, strings, numbers, boolean values',
+    subject: 'JavaScript',
+  },
+  {
+    id: '2',
+    name: 'Objects',
+    level: 'beginner',
+    description: 'object creation, property access, and methods',
+    subject: 'JavaScript',
+  },
+  {
+    id: '3',
+    name: 'Basic DOM Manipulatio',
+    level: 'beginner',
+    description: 'getElementById, querySelector, innerHTML',
+    subject: 'JavaScript',
+  },
+  {
+    id: '4',
+    name: 'Console & Debugging',
+    level: 'beginner',
+    description: 'console.log, console.table, debugger',
+    subject: 'JavaScript',
+  },
+  {
+    id: '5',
+    name: 'Error Handling',
+    level: 'intermediate',
+    description: 'try/catch, throw',
+    subject: 'JavaScript',
+  },
+  {
+    id: '6',
+    name: 'Promises',
+    level: 'intermediate',
+    description: 'promise, then, catch, finally',
+    subject: 'JavaScript',
+  },
+  {
+    id: '7',
+    name: 'ES6 Modules',
+    level: 'intermediate',
+    description: 'import, export, default export',
+    subject: 'JavaScript',
+  },
+  {
+    id: '8',
+    name: 'Advanced Closures & Currying',
+    level: 'advanced',
+    description: 'functions with closures, currying',
+    subject: 'JavaScript',
+  },
+  {
+    id: '9',
+    name: 'ES6+ Features',
+    level: 'advanced',
+    description: 'spread, rest, destructuring, optional chaining',
+    subject: 'JavaScript',
+  },
+];

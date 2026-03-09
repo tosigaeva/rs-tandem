@@ -11,7 +11,9 @@ export type UserTopic = Topic & {
   lastTrainedAt: string;
 };
 
-export type TopicsResponse = {
+export type LibraryTopicsResponse = {
   userTopics: UserTopic[];
   topics: Topic[];
 };
+
+export type TopicsResponse = Topic[];
