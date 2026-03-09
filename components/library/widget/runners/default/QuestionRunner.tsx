@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import { validateQuestion } from '@/api/trainer.api';
 import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
 import { getWidgetComponent } from '@/components/library/widget/widget.engine';
 import { Question as QuestionType } from '@/types/question';
@@ -16,9 +15,8 @@ export default function QuestionsRunner({ questions }: QuestionsRunnerProperties
 
   const isFinished = currentIndex >= questions.length;
 
-  const onCheck = async (questionId: string, answer: string) => {
-    const verdict = validateQuestion(questionId, answer);
-    console.log('verdict validateQuestion', verdict);
+  const onCheck = async (p: boolean | undefined) => {
+    console.log('verdict validateQuestion', p);
     setCurrentIndex((previousIndex) => previousIndex + 1);
   };
 

@@ -8,12 +8,13 @@ export type WidgetSkinsMap = {
   [WidgetType.Quiz]: 'default';
   [WidgetType.TrueFalse]: 'default';
   [WidgetType.CodeCompletion]: 'default';
+  [WidgetType.FlipCard]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
   questionId: string;
   questionPayload: WidgetPayloadMap[T];
-  onCheck: (questionId: string, answer: string) => Promise<void>;
+  onCheck: (p: boolean | undefined) => Promise<void>;
 };
 export type WidgetComponent<T extends WidgetType = WidgetType> = ComponentType<WidgetComponentProperties<T>>;
 export const widgetRegistry: {
@@ -34,6 +35,11 @@ export const widgetRegistry: {
   [WidgetType.CodeCompletion]: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeCompletion>>(
       () => import('@/components/library/widget/ui/code-completion-widget/DefaultComponent')
+    ),
+  },
+  [WidgetType.FlipCard]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.FlipCard>>(
+      () => import('@/components/library/widget/ui/flip-card/FlipCard')
     ),
   },
 };
