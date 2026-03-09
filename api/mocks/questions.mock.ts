@@ -1,7 +1,7 @@
-import { QuestionsResponse } from '@/types/question';
+import { Question } from '@/types/question';
 import { WidgetType } from '@/types/widget';
 
-export const mockQuestions: QuestionsResponse = [
+export const mockQuestions: Question[] = [
   {
     id: 'quiz-001',
     topicId: '1',
