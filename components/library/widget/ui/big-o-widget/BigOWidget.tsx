@@ -5,10 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card } from '@/components/ui/card';
 
-type Complexity = {
-  name: string;
-  func: (n: number) => number;
-};
+import { drawAxes, setupCanvas } from './canvas.helpers';
+import { BigOCanvasProperties, Complexity } from './type';
 
 const complexities: Complexity[] = [
   { name: 'O(1)', func: () => 1 },
@@ -19,14 +17,6 @@ const complexities: Complexity[] = [
 ];
 
 const padding = 50;
-
-type BigOCanvasProperties = {
-  question: string;
-  codeExample: string;
-  selectedComplexity?: string;
-  onSelect: (complexity: string) => void;
-  onSubmit: () => void;
-};
 
 export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect, onSubmit }: BigOCanvasProperties) {
   const width = 400;
@@ -75,7 +65,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
     context.strokeStyle = '#000';
     context.lineWidth = 1;
 
-    drawAxes(context, width, height);
+    drawAxes(context, width, height, padding);
 
     const maxX = 10;
     const maxY = Math.max(...complexities.map((c) => c.func(maxX)));
@@ -120,65 +110,4 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       </PrimaryButton>
     </div>
   );
-}
-
-function drawAxes(context: CanvasRenderingContext2D, width: number, height: number) {
-  context.strokeStyle = '#000';
-  context.lineWidth = 1;
-
-  // Y axis
-  context.beginPath();
-  context.moveTo(padding, height - padding);
-  context.lineTo(padding, padding);
-  context.stroke();
-
-  // X axis
-  context.beginPath();
-  context.moveTo(padding, height - padding);
-  context.lineTo(width - padding, height - padding);
-  context.stroke();
-
-  // Y arrow
-  context.beginPath();
-  context.moveTo(padding, padding);
-  context.lineTo(padding - 5, padding + 10);
-  context.lineTo(padding + 5, padding + 10);
-  context.closePath();
-  context.fill();
-
-  // X arrow
-  context.beginPath();
-  context.moveTo(width - padding, height - padding);
-  context.lineTo(width - padding - 10, height - padding - 5);
-  context.lineTo(width - padding - 10, height - padding + 5);
-  context.closePath();
-  context.fill();
-
-  context.font = '14px sans-serif';
-
-  context.fillText('Input Size (n)', width / 2, height - 15);
-
-  context.save();
-  context.translate(25, height / 2);
-  context.rotate(-Math.PI / 2);
-
-  context.fillText('Time', 0, 0);
-  context.restore();
-}
-
-function setupCanvas(canvas: HTMLCanvasElement, width: number, height: number) {
-  const dpr = window.devicePixelRatio || 1;
-
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
-
-  canvas.style.width = `${width}px`;
-  canvas.style.height = `${height}px`;
-
-  const context = canvas.getContext('2d');
-  if (!context) return;
-
-  context.scale(dpr, dpr);
-
-  return context;
 }
