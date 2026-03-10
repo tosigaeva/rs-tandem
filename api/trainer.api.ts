@@ -40,7 +40,7 @@ export async function validateQuestion(questionId: string, answer: string): Prom
 
 export function getFlipQuestions(): (BaseQuestion & FlipCardWidget)[] {
   return mockLearningQuestions.map((question) => {
-    let payload;
+    let payload: { question: string } = { question: '' };
     switch (question.type) {
       case WidgetType.Quiz: {
         payload = {
