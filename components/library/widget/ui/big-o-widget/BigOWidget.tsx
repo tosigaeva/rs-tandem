@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { PrimaryButton } from '../PrimaryButton';
-import { Card } from '../ui/card';
+import { PrimaryButton } from '@/components/PrimaryButton';
+import { Card } from '@/components/ui/card';
 
 type Complexity = {
   name: string;
@@ -21,13 +21,14 @@ const complexities: Complexity[] = [
 const padding = 50;
 
 type BigOCanvasProperties = {
-  question?: string;
-  codeExample?: string;
-  answer?: string;
-  onSelect?: (complexity: string) => void;
+  question: string;
+  codeExample: string;
+  selectedComplexity?: string;
+  onSelect: (complexity: string) => void;
+  onSubmit: () => void;
 };
 
-export function BigOCanvas({ question, codeExample }: BigOCanvasProperties) {
+export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect, onSubmit }: BigOCanvasProperties) {
   const width = 400;
   const height = 300;
   const canvasReference = useRef<HTMLCanvasElement>(null);
@@ -57,7 +58,10 @@ export function BigOCanvas({ question, codeExample }: BigOCanvasProperties) {
       }
     });
 
-    setSelectedLine(closest);
+    if (closest !== undefined) {
+      setSelectedLine(closest);
+      onSelect(complexities[closest].name);
+    }
   };
 
   useEffect(() => {
@@ -92,7 +96,8 @@ export function BigOCanvas({ question, codeExample }: BigOCanvasProperties) {
     });
   }, [width, height, selectedLine]);
 
-  const selectedName = selectedLine === undefined ? '' : (complexities[selectedLine]?.name ?? '');
+  const selectedName =
+    selectedComplexity ?? (selectedLine === undefined ? '' : (complexities[selectedLine]?.name ?? ''));
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -110,7 +115,9 @@ export function BigOCanvas({ question, codeExample }: BigOCanvasProperties) {
       <Card className="w-full max-w-md p-4">
         <p>Selected: {selectedName}</p>
       </Card>
-      <PrimaryButton disabled={!selectedName}>Submit Answer</PrimaryButton>
+      <PrimaryButton disabled={selectedName === ''} onClick={onSubmit}>
+        Submit Answer
+      </PrimaryButton>
     </div>
   );
 }

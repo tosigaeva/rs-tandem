@@ -31,6 +31,10 @@ export async function validateQuestion(questionId: string, answer: string): Prom
     return answer === 'filter';
   }
 
+  if (questionId === 'big-o-001') {
+    return answer === 'O(n)';
+  }
+
   return undefined;
 }
 
