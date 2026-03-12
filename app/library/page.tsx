@@ -1,5 +1,7 @@
 import { getTopicsOverview } from '@/api/trainer.api';
 import { TopicList } from '@/components/library/TopicsList';
+import Pagination from '@/components/Pagination';
+import { Routes } from '@/lib/routes';
 
 const messages = {
   title: 'Library',
@@ -11,8 +13,16 @@ const messages = {
   },
 };
 
-export default async function Page() {
-  const { userTopics, topics } = await getTopicsOverview();
+type PageProperties = {
+  searchParams: Promise<{ page?: string }>;
+};
+
+export default async function Page({ searchParams }: PageProperties) {
+  const { page } = await searchParams;
+  const currentPage = Number(page ?? 1);
+
+  const { userTopics, topics } = await getTopicsOverview(currentPage);
+
   const hasUserTopics = userTopics?.length > 0;
   const topicsTitle = hasUserTopics ? messages.section.explore : messages.section.start;
 
@@ -24,7 +34,15 @@ export default async function Page() {
       </section>
 
       {hasUserTopics && <TopicList title={messages.section.continue} topics={userTopics} />}
-      <TopicList title={topicsTitle} topics={topics} />
+
+      <section className="space-y-8">
+        <TopicList title={topicsTitle} topics={topics.items} />
+        <Pagination
+          currentPage={topics.pagination.page}
+          totalPages={topics.pagination.totalPages}
+          basePath={Routes.Library}
+        />
+      </section>
     </main>
   );
 }

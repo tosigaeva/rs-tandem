@@ -1,3 +1,5 @@
+import { Paginated } from '@/types/pagination';
+
 export type Topic = {
   id: string;
   name: string;
@@ -13,7 +15,5 @@ export type UserTopic = Topic & {
 
 export type LibraryTopicsResponse = {
   userTopics: UserTopic[];
-  topics: Topic[];
+  topics: Paginated<Topic>;
 };
-
-export type TopicsResponse = Topic[];
