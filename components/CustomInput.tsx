@@ -33,6 +33,8 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
   const value = watch(name);
   const [debouncedValue, setDebouncedValue] = useState(value);
 
+  const isEmpty = () => value == undefined || value == '';
+
   const hasInteracted = Boolean(touchedFields[name]) || Boolean(dirtyFields[name]);
   const hasError = Boolean(errors[name]) && hasInteracted;
 
@@ -88,7 +90,11 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
           </Button>
         )}
       </div>
-      <div className="min-h-5">{hasError && <p className="text-xs font-medium text-red-500">{errorMessage}</p>}</div>
+      <div className="min-h-5">
+        {hasError && (
+          <p className="text-xs font-medium text-red-500">{isEmpty() ? 'Field is required' : errorMessage}</p>
+        )}
+      </div>
     </div>
   );
 };
