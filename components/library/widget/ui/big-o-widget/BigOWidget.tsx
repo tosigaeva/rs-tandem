@@ -146,7 +146,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
               }}
             />
           </HoverCardTrigger>
-          <HoverCardContent side="top" sideOffset={10}>
+          <HoverCardContent side="top" className="w-fit px-2 py-1">
             {hoveredLine !== undefined && complexities[hoveredLine]?.name}
           </HoverCardContent>
         </HoverCard>
