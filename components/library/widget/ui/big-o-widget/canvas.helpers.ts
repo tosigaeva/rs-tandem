@@ -1,6 +1,7 @@
 import { Complexity } from './type';
 
 export const PADDING = 50;
+export const TOOLTIP_HINT = 'Click on a curve to select complexity of the algorithm';
 
 export const COMPLEXITIES: Complexity[] = [
   { name: 'O(1)', func: () => 1 },
