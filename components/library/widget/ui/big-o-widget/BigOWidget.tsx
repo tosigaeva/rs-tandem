@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card } from '@/components/ui/card';
 
@@ -100,7 +101,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       />
       <Card className="w-full max-w-md p-4">
         <h2>{question}</h2>
-        <p>{codeExample}</p>
+        <CodeBlock code={codeExample} />
       </Card>
       <Card className="w-full max-w-md p-4">
         <p>Selected: {selectedName}</p>
