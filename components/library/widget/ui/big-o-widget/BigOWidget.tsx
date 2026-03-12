@@ -106,7 +106,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
         <p>Selected: {selectedName}</p>
       </Card>
       <PrimaryButton disabled={selectedName === ''} onClick={onSubmit}>
-        Submit Answer
+        Check Answer
       </PrimaryButton>
     </div>
   );
