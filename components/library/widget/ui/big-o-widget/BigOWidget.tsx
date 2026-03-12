@@ -26,6 +26,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
   const canvasReference = useRef<HTMLCanvasElement>(null);
   const [selectedLine, setSelectedLine] = useState<number | undefined>();
   const [hoveredLine, setHoveredLine] = useState<number | undefined>();
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const getClosestComplexity = (mouseX: number, mouseY: number): number | undefined => {
     const minX = 1;
@@ -73,6 +74,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
+    setMousePos({ x: mouseX, y: mouseY });
     const closest = getClosestComplexity(mouseX, mouseY);
     setHoveredLine(closest);
   };
@@ -121,20 +123,34 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <HoverCard open={hoveredLine !== undefined}>
-        <HoverCardTrigger asChild>
-          <canvas
-            ref={canvasReference}
-            width={width}
-            height={height}
-            style={{ border: '1px solid #ccc' }}
-            onClick={handleClick}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          />
-        </HoverCardTrigger>
-        <HoverCardContent>{hoveredLine !== undefined && complexities[hoveredLine]?.name}</HoverCardContent>
-      </HoverCard>
+      <div className="relative">
+        <canvas
+          ref={canvasReference}
+          width={width}
+          height={height}
+          style={{ border: '1px solid #ccc' }}
+          onClick={handleClick}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        />
+        <HoverCard open={hoveredLine !== undefined}>
+          <HoverCardTrigger asChild>
+            <div
+              style={{
+                position: 'absolute',
+                left: mousePos.x,
+                top: mousePos.y,
+                pointerEvents: 'none',
+                width: 1,
+                height: 1,
+              }}
+            />
+          </HoverCardTrigger>
+          <HoverCardContent side="top" sideOffset={10}>
+            {hoveredLine !== undefined && complexities[hoveredLine]?.name}
+          </HoverCardContent>
+        </HoverCard>
+      </div>
       <Card className="w-full max-w-md p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
