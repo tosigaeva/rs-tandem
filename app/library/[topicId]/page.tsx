@@ -1,17 +1,27 @@
 import { notFound } from 'next/navigation';
 
 import { getQuestions, getTopic } from '@/api/trainer.api';
+import { getWidgetsByTopic } from '@/api/widget.api';
 import QuestionsRunner from '@/components/library/widget/runners/default/QuestionRunner';
+import WidgetList from '@/components/WidgetList';
+import { toWidgetType } from '@/types/widget';
 
 type PageProperties = {
   params: Promise<{ topicId: string }>;
+  searchParams: Promise<{ widgetType?: string }>;
 };
 
-export default async function Page({ params }: PageProperties) {
+export default async function Page({ params, searchParams }: PageProperties) {
   const { topicId } = await params;
+  const { widgetType } = await searchParams;
 
-  const topic = await getTopic(topicId);
-  const questions = await getQuestions(topicId);
+  const selectedWidgetType = toWidgetType(widgetType);
+
+  const [topic, widgets, questions] = await Promise.all([
+    getTopic(topicId),
+    getWidgetsByTopic(topicId),
+    getQuestions(topicId, selectedWidgetType),
+  ]);
 
   if (!topic) notFound();
 
@@ -21,7 +31,11 @@ export default async function Page({ params }: PageProperties) {
         <h1 className="text-4xl font-semibold tracking-tight">{topic.name}</h1>
       </section>
 
-      <QuestionsRunner questions={questions}></QuestionsRunner>
+      {selectedWidgetType === undefined ? (
+        <WidgetList widgets={widgets} topicId={topicId} />
+      ) : (
+        <QuestionsRunner questions={questions} />
+      )}
     </main>
   );
 }

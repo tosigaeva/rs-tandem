@@ -14,8 +14,16 @@ export async function getTopic(topicId: string): Promise<Topic | undefined> {
   return mockTopics.find((topic) => topic.id === topicId);
 }
 
-export async function getQuestions(topicId: string): Promise<Question[]> {
-  return mockQuestions.filter((question) => question?.topicId === topicId);
+export async function getQuestions(topicId: string, widgetType?: WidgetType): Promise<Question[]> {
+  let questions = mockQuestions;
+
+  questions = questions.filter((q) => q.topicId === topicId);
+
+  if (widgetType !== undefined) {
+    questions = questions.filter((q) => q.type === widgetType);
+  }
+
+  return questions;
 }
 
 export async function validateQuestion(questionId: string, answer: string): Promise<boolean | undefined> {
