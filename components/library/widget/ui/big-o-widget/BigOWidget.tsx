@@ -14,6 +14,7 @@ import {
   getClosestComplexity,
   PADDING,
   setupCanvas,
+  TOOLTIP_HINT,
 } from './canvas.helpers';
 import { BigOCanvasProperties } from './type';
 
@@ -104,6 +105,14 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       <Card className="w-full max-w-md p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <p className="text-muted-foreground cursor-help text-sm">Hint</p>
+          </HoverCardTrigger>
+          <HoverCardContent side="bottom" className="w-fit px-2 py-1">
+            {TOOLTIP_HINT}
+          </HoverCardContent>
+        </HoverCard>
       </Card>
       <Card className="w-full max-w-md p-4">
         <p>Selected: {selectedName}</p>
