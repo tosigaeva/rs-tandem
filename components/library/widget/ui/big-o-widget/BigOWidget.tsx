@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card } from '@/components/ui/card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 import { drawAxes, setupCanvas } from './canvas.helpers';
 import { BigOCanvasProperties, Complexity } from './type';
@@ -24,14 +25,9 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
   const height = 300;
   const canvasReference = useRef<HTMLCanvasElement>(null);
   const [selectedLine, setSelectedLine] = useState<number | undefined>();
+  const [hoveredLine, setHoveredLine] = useState<number | undefined>();
 
-  const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = canvasReference.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-
+  const getClosestComplexity = (mouseX: number, mouseY: number): number | undefined => {
     const minX = 1;
     const maxX = 5;
     const maxY = Math.max(...complexities.map((c) => c.func(maxX) - c.func(minX)));
@@ -52,10 +48,37 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       }
     });
 
+    return closest;
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasReference.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    const closest = getClosestComplexity(mouseX, mouseY);
+
     if (closest !== undefined) {
       setSelectedLine(closest);
       onSelect(complexities[closest].name);
     }
+  };
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasReference.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    const closest = getClosestComplexity(mouseX, mouseY);
+    setHoveredLine(closest);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredLine(undefined);
   };
 
   useEffect(() => {
@@ -98,13 +121,20 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <canvas
-        ref={canvasReference}
-        width={width}
-        height={height}
-        style={{ border: '1px solid #ccc' }}
-        onClick={handleClick}
-      />
+      <HoverCard open={hoveredLine !== undefined}>
+        <HoverCardTrigger asChild>
+          <canvas
+            ref={canvasReference}
+            width={width}
+            height={height}
+            style={{ border: '1px solid #ccc' }}
+            onClick={handleClick}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          />
+        </HoverCardTrigger>
+        <HoverCardContent>{hoveredLine !== undefined && complexities[hoveredLine]?.name}</HoverCardContent>
+      </HoverCard>
       <Card className="w-full max-w-md p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
