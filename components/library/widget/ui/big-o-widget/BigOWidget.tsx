@@ -32,15 +32,18 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    const maxX = 10;
-    const maxY = Math.max(...complexities.map((c) => c.func(maxX)));
+    const minX = 1;
+    const maxX = 5;
+    const maxY = Math.max(...complexities.map((c) => c.func(maxX) - c.func(minX)));
 
     let closest: number | undefined;
     let minDistance = 10;
     complexities.forEach((c, index) => {
-      for (let x = 1; x <= maxX; x += 0.1) {
-        const canvasX = padding + ((x - 1) / (maxX - 1)) * (width - 2 * padding);
-        const canvasY = height - padding - (c.func(x) / maxY) * (height - 2 * padding);
+      const startValue = c.func(minX);
+      for (let x = minX; x <= maxX; x += 0.1) {
+        const canvasX = padding + ((x - minX) / (maxX - minX)) * (width - 2 * padding);
+        const normalizedY = c.func(x) - startValue;
+        const canvasY = height - padding - (normalizedY / maxY) * (height - 2 * padding);
         const distance = Math.hypot(canvasX - mouseX, canvasY - mouseY);
         if (distance < minDistance) {
           minDistance = distance;
@@ -68,16 +71,19 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
 
     drawAxes(context, width, height, padding);
 
-    const maxX = 10;
-    const maxY = Math.max(...complexities.map((c) => c.func(maxX)));
+    const minX = 1;
+    const maxX = 5;
+    const maxY = Math.max(...complexities.map((c) => c.func(maxX) - c.func(minX)));
 
     complexities.forEach((c, index) => {
+      const startValue = c.func(minX);
       context.beginPath();
-      for (let x = 1; x <= maxX; x += 0.1) {
-        const canvasX = padding + ((x - 1) / (maxX - 1)) * (width - 2 * padding);
-        const canvasY = height - padding - 5 - (c.func(x) / maxY) * (height - 2 * padding);
+      for (let x = minX; x <= maxX; x += 0.1) {
+        const canvasX = padding + ((x - minX) / (maxX - minX)) * (width - 2 * padding);
+        const normalizedY = c.func(x) - startValue;
+        const canvasY = height - padding - 5 - (normalizedY / maxY) * (height - 2 * padding);
 
-        if (x === 1) context.moveTo(canvasX, canvasY);
+        if (x === minX) context.moveTo(canvasX, canvasY);
         else context.lineTo(canvasX, canvasY);
       }
 
