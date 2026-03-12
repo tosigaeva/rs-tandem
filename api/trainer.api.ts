@@ -31,12 +31,16 @@ export async function validateQuestion(questionId: string, answer: string): Prom
     return answer === 'filter';
   }
 
+  if (questionId === 'big-o-001') {
+    return answer === 'O(n)';
+  }
+
   return undefined;
 }
 
 export function getFlipQuestions(): (BaseQuestion & FlipCardWidget)[] {
   return mockLearningQuestions.map((question) => {
-    let payload;
+    let payload: { question: string } = { question: '' };
     switch (question.type) {
       case WidgetType.Quiz: {
         payload = {
