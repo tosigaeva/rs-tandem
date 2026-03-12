@@ -37,7 +37,6 @@ export const mockQuestions: Question[] = [
     payload: {
       question: 'What is the time complexity of this algorithm?',
       codeExample: 'for (let i = 0; i < n; i++) { console.log(i); }',
-      answer: 'O(n)',
     },
   },
 ];
