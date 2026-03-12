@@ -79,7 +79,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
           ref={canvasReference}
           width={width}
           height={height}
-          style={{ border: '1px solid #ccc' }}
+          style={{ border: '1px solid #ccc', cursor: hoveredLine === undefined ? 'default' : 'pointer' }}
           onClick={handleClick}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -102,7 +102,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
           </HoverCardContent>
         </HoverCard>
       </div>
-      <Card className="w-full max-w-md p-4">
+      <Card className="w-full max-w-md cursor-default p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
         <HoverCard>
@@ -114,7 +114,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
           </HoverCardContent>
         </HoverCard>
       </Card>
-      <Card className="w-full max-w-md p-4">
+      <Card className="w-full max-w-md cursor-default p-4">
         <p>Selected: {selectedName}</p>
       </Card>
       <PrimaryButton disabled={selectedName === ''} onClick={onSubmit}>
