@@ -41,17 +41,11 @@ export function Header() {
 
     const currentRoute = getNavigation(pathname);
 
-    console.log(currentRoute);
-
     if (currentRoute != undefined) {
       const permission = RoutePermissions[currentRoute];
 
       if (!isAuthorized && permission === 'authorized') {
-        console.log('isAuthorized', isAuthorized, permission);
-
         const redirectPath = `${Routes.SignIn}?redirect=${encodeURIComponent(pathname)}`;
-
-        console.log('handleUnauthorizedAccess');
 
         router.push(redirectPath);
       }

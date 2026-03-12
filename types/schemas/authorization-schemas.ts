@@ -1,19 +1,15 @@
 import z from 'zod';
 
-// const lowerCaseCheck = /[a-z]/;
 const upperCaseCheck = /[A-Z]/;
-// const numberCheck = /\d/;
 const usernameCheck = /^[a-zA-Z0-9_-]+$/;
+const passwordMinLength = 1;
 
 export const signInSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.email({ message: 'Invalid email address' }),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    // .max(16, 'Password must be at most 16 characters'),
-    // .refine((value) => lowerCaseCheck.test(value), 'Password must contain a lowercase letter')
+    .min(passwordMinLength, `Password must be at least ${passwordMinLength} characters`)
     .refine((value) => upperCaseCheck.test(value), 'Password must contain an uppercase letter'),
-  // .refine((value) => numberCheck.test(value), 'Password must contain a number'),
 });
 
 const signUpFields = signInSchema.extend({
