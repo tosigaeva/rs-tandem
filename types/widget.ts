@@ -3,6 +3,7 @@ export enum WidgetType {
   TrueFalse = 'true-false',
   CodeCompletion = 'code-completion',
   FlipCard = 'flip-card',
+  BigONotation = 'big-o',
 }
 
 export type Widget = {

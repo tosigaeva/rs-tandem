@@ -30,4 +30,13 @@ export const mockQuestions: Question[] = [
       hints: ['This method returns a new array with elements that pass the test'],
     },
   },
+  {
+    id: 'big-o-001',
+    topicId: '1',
+    type: WidgetType.BigONotation,
+    payload: {
+      question: 'What is the time complexity of this algorithm?',
+      codeExample: 'for (let i = 0; i < n; i++) { console.log(i); }',
+    },
+  },
 ];
