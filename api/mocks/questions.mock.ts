@@ -36,7 +36,7 @@ export const mockQuestions: Question[] = [
     type: WidgetType.BigONotation,
     payload: {
       question: 'What is the time complexity of this algorithm?',
-      codeExample: 'for (let i = 0; i < n; i++) { console.log(i); }',
+      codeExample: '<code>for (let i = 0; i < n; i++) { \n  console.log(i); \n}</code>',
     },
   },
 ];
