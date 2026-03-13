@@ -1,13 +1,34 @@
 import { mockLearningQuestions } from '@/api/mocks/learning-questions.mock';
 import { mockQuestions } from '@/api/mocks/questions.mock';
-import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
+import { mockTopics, mockUserTopics } from '@/api/mocks/topics.mock';
 import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { BaseQuestion, Question } from '@/types/question';
 import { LibraryTopicsResponse, Topic } from '@/types/topic';
 import { WidgetType } from '@/types/widget';
 
-export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
-  return mockLibraryTopics;
+const DEFAULT_LIMIT = 6;
+
+export async function getTopicsOverview(
+  page: number = 1,
+  limit: number = DEFAULT_LIMIT
+): Promise<LibraryTopicsResponse> {
+  const start = (page - 1) * limit;
+  const items = mockTopics.slice(start, start + limit);
+
+  const paginatedTopics = {
+    items,
+    pagination: {
+      page,
+      limit,
+      total: mockTopics.length,
+      totalPages: Math.ceil(mockTopics.length / limit),
+    },
+  };
+
+  return {
+    userTopics: mockUserTopics,
+    topics: paginatedTopics,
+  };
 }
 
 export async function getTopic(topicId: string): Promise<Topic | undefined> {
