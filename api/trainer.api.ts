@@ -21,7 +21,7 @@ export async function getTopicsOverview(
       page,
       limit,
       total: mockTopics.length,
-      totalPages: Math.floor(mockTopics.length / limit),
+      totalPages: Math.ceil(mockTopics.length / limit),
     },
   };
 
