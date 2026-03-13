@@ -1,15 +1,8 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Widget } from '@/types/widget';
+import { AllWidget, Widget } from '@/types/widget';
 
 type WidgetCardProperties = {
-  widget:
-    | Widget
-    | {
-        type: 'all';
-        title: string;
-        description: string;
-        icon: string;
-      };
+  widget: Widget | AllWidget;
 };
 
 export default function WidgetCard({ widget }: WidgetCardProperties) {

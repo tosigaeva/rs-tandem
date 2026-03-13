@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 import WidgetCard from '@/components/WidgetCard';
 import { Routes } from '@/lib/routes';
-import { Widget, WidgetFilter } from '@/types/widget';
+import { AllWidget, Widget } from '@/types/widget';
 
-const ALL_WIDGET: Widget = {
+const ALL_WIDGET: AllWidget = {
   type: 'all',
   icon: 'A',
   title: 'All Exercises',
@@ -17,7 +17,7 @@ type WidgetListProperties = {
 };
 
 export default function WidgetList({ widgets, topicId }: WidgetListProperties) {
-  const widgetsWithAll = [ALL_WIDGET, ...widgets];
+  const widgetsWithAll = [...widgets, ALL_WIDGET];
   return (
     <section>
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
