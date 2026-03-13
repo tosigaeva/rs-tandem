@@ -17,6 +17,6 @@ export default async function TopicContent({ topicId, widgetType }: TopicContent
     return <WidgetList widgets={widgets} topicId={topicId} />;
   }
 
-  const questions = await getQuestions(topicId, selectedFilter === 'all' ? undefined : selectedFilter);
+  const questions = await getQuestions(topicId, selectedFilter);
   return <QuestionsRunner questions={questions} />;
 }

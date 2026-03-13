@@ -3,7 +3,7 @@ import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
 import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { BaseQuestion, Question } from '@/types/question';
 import { LibraryTopicsResponse, Topic } from '@/types/topic';
-import { WidgetType } from '@/types/widget';
+import { WidgetFilter, WidgetType } from '@/types/widget';
 
 export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
   return mockLibraryTopics;
@@ -13,13 +13,13 @@ export async function getTopic(topicId: string): Promise<Topic | undefined> {
   return mockTopics.find((topic) => topic.id === topicId);
 }
 
-export async function getQuestions(topicId: string, widgetType?: WidgetType): Promise<Question[]> {
+export async function getQuestions(topicId: string, filter?: WidgetFilter): Promise<Question[]> {
   let questions = mockQuestions;
 
   questions = questions.filter((q) => q.topicId === topicId);
 
-  if (widgetType !== undefined) {
-    questions = questions.filter((q) => q.type === widgetType);
+  if (filter !== undefined) {
+    questions = questions.filter((q) => (filter === 'all' ? q.type !== WidgetType.FlipCard : q.type === filter));
   }
 
   return questions;
