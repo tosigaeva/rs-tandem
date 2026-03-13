@@ -34,7 +34,11 @@ export function Header() {
 
   const pathname = usePathname();
 
+  const isInitialized = useRef(false);
+
   const handleUnauthorizedAccess = useCallback(() => {
+    if (!isInitialized.current || isAuthorizing) return;
+
     const currentRoute = getNavigation(pathname);
 
     if (currentRoute != undefined) {
@@ -46,7 +50,7 @@ export function Header() {
         router.push(redirectPath);
       }
     }
-  }, [isAuthorized, pathname, router]);
+  }, [isAuthorizing, isAuthorized, pathname, router]);
 
   const handleSignOut = async () => {
     await authService.signOut();
@@ -54,21 +58,16 @@ export function Header() {
     handleUnauthorizedAccess();
   };
 
-  const isInitialized = useRef(false);
-
   useEffect(() => {
     if (!isInitialized.current) {
       localeService.initializeLocale();
-      authService.initialize();
-      isInitialized.current = true;
+      authService.initialize().finally(() => (isInitialized.current = true));
     }
   }, []);
 
   useEffect(() => {
-    if (isAuthorizing) return;
-
     handleUnauthorizedAccess();
-  }, [handleUnauthorizedAccess, isAuthorized, isAuthorizing]);
+  }, [handleUnauthorizedAccess, isAuthorized]);
 
   return (
     <header

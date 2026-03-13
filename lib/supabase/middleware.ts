@@ -23,7 +23,7 @@ export async function updateSession(request: NextRequest) {
     if (status === 'authorized' && !user) {
       const url = request.nextUrl.clone();
       url.pathname = Routes.SignIn;
-      url.searchParams.set('redirect', request.nextUrl.pathname);
+      url.searchParams.set('redirect', path);
       return NextResponse.redirect(url);
     } else if (status === 'unauthorized' && user) {
       const url = request.nextUrl.clone();
