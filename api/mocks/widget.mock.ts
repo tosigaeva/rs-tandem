@@ -25,4 +25,10 @@ export const mockWidgets = [
     description: 'Flip the card to reveal the explanation.',
     icon: 'F',
   },
+  {
+    type: WidgetType.BigONotation,
+    title: 'Big O Notation',
+    description: 'Hover lines to see values and select the correct complexity.',
+    icon: 'O',
+  },
 ];
