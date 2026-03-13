@@ -31,31 +31,36 @@ export const mockQuestions: Question[] = [
     },
   },
   {
+    id: 'big-o-001',
+    topicId: '1',
+    type: WidgetType.BigONotation,
+    payload: {
+      question: 'What is the time complexity of this algorithm?',
+      codeExample: '<code>for (let i = 0; i < n; i++) { \n  console.log(i); \n}</code>',
+    },
+  },
+  {
     id: 'Learning-1',
     topicId: '1',
-    type: WidgetType.Quiz,
+    type: WidgetType.FlipCard,
     payload: {
       question: 'Closure',
-      options: ['Closure', 'undefined', 'object', 'NaN'],
     },
   },
   {
     id: 'Learning-2',
     topicId: '1',
-    type: WidgetType.TrueFalse,
+    type: WidgetType.FlipCard,
     payload: {
-      statement: 'Hoisting',
-      explanation: '<i>Hoisting()</i> preserves input array order, regardless of completion time',
+      question: 'Hoisting',
     },
   },
   {
     id: 'Learning-3',
     topicId: '1',
-    type: WidgetType.CodeCompletion,
+    type: WidgetType.FlipCard,
     payload: {
-      code: 'Event Loop',
-      blanks: ['___'],
-      hints: ['This method returns a new array with elements that pass the test'],
+      question: 'Event Loop',
     },
   },
   {
@@ -69,29 +74,25 @@ export const mockQuestions: Question[] = [
   {
     id: 'Learning-5',
     topicId: '1',
-    type: WidgetType.Quiz,
+    type: WidgetType.FlipCard,
     payload: {
       question: 'Callback Function',
-      options: ['null', 'Callback Function', 'object', 'NaN'],
     },
   },
   {
     id: 'Learning-6',
     topicId: '1',
-    type: WidgetType.TrueFalse,
+    type: WidgetType.FlipCard,
     payload: {
-      statement: 'Arrow Function',
-      explanation: '<i>Arrow Function()</i> preserves input array order, regardless of completion time',
+      question: 'Arrow Function',
     },
   },
   {
     id: 'Learning-7',
     topicId: '1',
-    type: WidgetType.CodeCompletion,
+    type: WidgetType.FlipCard,
     payload: {
-      code: 'Prototype',
-      blanks: ['___'],
-      hints: ['This method returns a new array with elements that pass the test'],
+      question: 'Prototype',
     },
   },
   {
@@ -105,19 +106,17 @@ export const mockQuestions: Question[] = [
   {
     id: 'Learning-9',
     topicId: '1',
-    type: WidgetType.Quiz,
+    type: WidgetType.FlipCard,
     payload: {
       question: 'Strict Mode',
-      options: ['null', 'Callback Function', 'Strict Mode', 'NaN'],
     },
   },
   {
     id: 'Learning-10',
     topicId: '1',
-    type: WidgetType.TrueFalse,
+    type: WidgetType.FlipCard,
     payload: {
-      statement: 'Debouncing',
-      explanation: '<i>Debouncing()</i> preserves input array order, regardless of completion time',
+      question: 'Debouncing',
     },
   },
 ];
