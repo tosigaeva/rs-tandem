@@ -1,4 +1,3 @@
-import { mockLearningQuestions } from '@/api/mocks/learning-questions.mock';
 import { mockQuestions } from '@/api/mocks/questions.mock';
 import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
 import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
@@ -47,42 +46,7 @@ export async function validateQuestion(questionId: string, answer: string): Prom
 }
 
 export function getFlipQuestions(): (BaseQuestion & FlipCardWidget)[] {
-  return mockLearningQuestions.map((question) => {
-    let payload: { question: string } = { question: '' };
-    switch (question.type) {
-      case WidgetType.Quiz: {
-        payload = {
-          question: question.payload.question,
-        };
-        break;
-      }
-      case WidgetType.TrueFalse: {
-        payload = {
-          question: question.payload.statement,
-        };
-        break;
-      }
-      case WidgetType.CodeCompletion: {
-        payload = {
-          question: question.payload.code,
-        };
-        break;
-      }
-      case WidgetType.FlipCard: {
-        payload = {
-          question: question.payload.question,
-        };
-        break;
-      }
-    }
-
-    return {
-      id: question.id,
-      topicId: question.topicId,
-      type: WidgetType.FlipCard,
-      payload: payload,
-    };
-  });
+  return mockQuestions.filter((question) => question.type === WidgetType.FlipCard);
 }
 
 export async function getAnswer(questionId: string): Promise<string> {
