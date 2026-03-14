@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { getAnswer } from '@/api/trainer.api';
 import { FlipCardPayload } from '@/components/library/widget/ui/flip-card/type';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,24 +7,21 @@ import { cn } from '@/lib/utils';
 
 import styles from './FlipCard.module.css';
 
-type AnswerState = boolean | undefined | null;
-
 type WidgetComponentProperties = {
-  questionId: string;
   questionPayload: FlipCardPayload;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  onCheck: (answer: string) => Promise<void>;
 };
 
-export default function FlipCard({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
+export default function FlipCard({ questionPayload, onCheck }: WidgetComponentProperties) {
   const [answer, setAnswer] = useState('');
   const [isFlipped, setFlipped] = useState(false);
-  const [selected, setSelected] = useState<AnswerState>();
+  const [selected, setSelected] = useState('');
 
-  const handleSelect = async (value: AnswerState) => {
+  const handleSelect = async (value: string) => {
     setSelected(value);
-    setAnswer(await getAnswer(questionId));
+    setAnswer(value);
     setFlipped(true);
-    await onCheck(true);
+    await onCheck(value);
   };
 
   return (
@@ -38,15 +34,15 @@ export default function FlipCard({ questionId, questionPayload, onCheck }: Widge
               className={`${
                 (selected ?? false) ? 'bg-correct-answer' : 'bg-correct-answer-muted'
               } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(true)}
+              onClick={() => handleSelect('true')}
             >
               I know this
             </Button>
             <Button
               className={`${
-                selected === false ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
+                selected === 'false' ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
               } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(false)}
+              onClick={() => handleSelect('false')}
             >
               I don&apos;t know this
             </Button>
@@ -57,17 +53,17 @@ export default function FlipCard({ questionId, questionPayload, onCheck }: Widge
             <div className="text-center text-lg">{answer}</div>
             <Button
               className={`${
-                (selected ?? false) ? 'bg-correct-answer' : 'bg-correct-answer-muted'
+                (selected ?? 'false') ? 'bg-correct-answer' : 'bg-correct-answer-muted'
               } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(true)}
+              onClick={() => handleSelect('true')}
             >
               I know this
             </Button>
             <Button
               className={`${
-                selected === false ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
+                selected === 'false' ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
               } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(false)}
+              onClick={() => handleSelect('false')}
             >
               I don&apos;t know this
             </Button>

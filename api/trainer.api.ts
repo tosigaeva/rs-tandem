@@ -18,9 +18,9 @@ export async function getQuestions(topicId: string): Promise<Question[]> {
   return mockQuestions.filter((question) => question?.topicId === topicId);
 }
 
-export async function validateQuestion(questionId: string, answer: string): Promise<boolean | undefined> {
+export async function validateAnswer(questionId: string, answer: unknown): Promise<boolean | undefined> {
   if (questionId === 'quiz-001') {
-    return answer === 'null';
+    return answer === 'object';
   }
 
   if (questionId === 'tf-001') {

@@ -3,11 +3,10 @@ import { QuestionPayload } from '@/types/question';
 
 type QuestionProperties = {
   WidgetComponent: WidgetComponent;
-  questionId: string;
   questionPayload: QuestionPayload;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  onCheck: (answer: string) => Promise<void>;
 };
 
-export default function QuestionWrapper({ WidgetComponent, questionId, questionPayload, onCheck }: QuestionProperties) {
-  return <WidgetComponent questionId={questionId} questionPayload={questionPayload} onCheck={onCheck} />;
+export default function QuestionWrapper({ WidgetComponent, questionPayload, onCheck }: QuestionProperties) {
+  return <WidgetComponent questionPayload={questionPayload} onCheck={onCheck} />;
 }

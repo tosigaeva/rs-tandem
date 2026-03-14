@@ -1,17 +1,15 @@
-import { validateQuestion } from '@/api/trainer.api';
 import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
-  questionId: string;
   questionPayload: CodeCompletionPayload;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  onCheck: (answer: string) => Promise<void>;
 };
 
-export default function DefaultComponent({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionPayload, onCheck }: WidgetComponentProperties) {
   const answer = '';
   const validate = async () => {
-    await onCheck(await validateQuestion(questionId, answer));
+    await onCheck(answer);
   };
 
   return (

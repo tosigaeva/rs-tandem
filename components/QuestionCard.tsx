@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { validateQuestion } from '@/api/trainer.api';
 import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
@@ -9,11 +8,10 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { hashString } from '@/lib/utils';
 
 type QuestionCardProperties = {
-  questionId: string;
   question: string;
   options: string[];
   instruction: string;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  onCheck: (answer: string) => Promise<void>;
 };
 
 export const messages = {
@@ -21,7 +19,7 @@ export const messages = {
   selectAnOption: 'Select an answer',
 };
 
-export default function QuestionCard({ questionId, question, options, instruction, onCheck }: QuestionCardProperties) {
+export default function QuestionCard({ question, options, instruction, onCheck }: QuestionCardProperties) {
   const payloadHash = hashString(JSON.stringify(question));
   const [formId, setFormId] = useState(payloadHash);
   const [selected, setSelected] = useState<string | undefined>();
@@ -33,7 +31,7 @@ export default function QuestionCard({ questionId, question, options, instructio
 
   const handleClick = async () => {
     if (selected !== undefined) {
-      await onCheck(await validateQuestion(questionId, selected));
+      await onCheck(selected);
     }
   };
 
@@ -59,7 +57,7 @@ export default function QuestionCard({ questionId, question, options, instructio
             ))}
           </RadioGroup>
 
-          <PrimaryButton onClick={() => handleClick()} disabled={!isSelected} className="mt-4 w-full py-6">
+          <PrimaryButton onClick={handleClick} disabled={!isSelected} className="mt-4 w-full py-6">
             {buttonText}
           </PrimaryButton>
         </CardContent>
