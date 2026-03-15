@@ -44,7 +44,9 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Closure',
+      term: 'Closure',
+      definition:
+        'A function that remembers and can access variables from its lexical scope even after the outer function has finished executing.',
     },
   },
   {
@@ -52,7 +54,9 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Hoisting',
+      term: 'Hoisting',
+      definition:
+        'JavaScript behavior where variable and function declarations are moved to the top of their containing scope during compilation.',
     },
   },
   {
@@ -60,7 +64,9 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Event Loop',
+      term: 'Event Loop',
+      definition:
+        'The mechanism that handles asynchronous callbacks by continuously checking the call stack and task queue.',
     },
   },
   {
@@ -68,7 +74,8 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Promise',
+      term: 'Promise',
+      definition: 'An object representing the eventual completion or failure of an asynchronous operation.',
     },
   },
   {
@@ -76,7 +83,8 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Callback Function',
+      term: 'Callback Function',
+      definition: 'A function passed as an argument to another function to be executed later.',
     },
   },
   {
@@ -84,7 +92,8 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Arrow Function',
+      term: 'Arrow Function',
+      definition: 'A shorter function syntax introduced in ES6 that does not have its own this binding.',
     },
   },
   {
@@ -92,7 +101,8 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Prototype',
+      term: 'Prototype',
+      definition: 'An object from which other objects inherit properties and methods in JavaScript.',
     },
   },
   {
@@ -100,7 +110,9 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Destructuring',
+      term: 'Destructuring',
+      definition:
+        'A syntax that allows extracting values from arrays or properties from objects into distinct variables.',
     },
   },
   {
@@ -108,7 +120,8 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Strict Mode',
+      term: 'Strict Mode',
+      definition: 'A restricted variant of JavaScript that eliminates some silent errors and prevents unsafe actions.',
     },
   },
   {
@@ -116,7 +129,9 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.FlipCard,
     payload: {
-      question: 'Debouncing',
+      term: 'Debouncing',
+      definition:
+        'A technique that limits how often a function is executed by delaying its invocation until after a specified time has passed.',
     },
   },
 ];
