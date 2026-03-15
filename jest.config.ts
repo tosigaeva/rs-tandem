@@ -10,6 +10,9 @@ const config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-syntax-highlighter|refractor|hastscript|property-information|hast-util-parse-selector|space-separated-tokens|comma-separated-tokens)/)',
+  ],
 };
 
 export default createJestConfig(config);
