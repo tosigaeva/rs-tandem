@@ -2,17 +2,21 @@ import { TrueFalsePayload } from '@/components/library/widget/ui/true-false-widg
 import QuestionCard from '@/components/QuestionCard';
 
 type WidgetComponentProperties = {
+  questionId: string;
   questionPayload: TrueFalsePayload;
-  onCheck: (answer: string) => Promise<void>;
+  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
-export default function DefaultComponent({ questionPayload, onCheck }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   return (
     <QuestionCard
+      questionId={questionId}
       question={questionPayload.statement}
       options={['true', 'false']}
       instruction={'True or False'}
       onCheck={onCheck}
+      onNext={onNext}
     />
   );
 }

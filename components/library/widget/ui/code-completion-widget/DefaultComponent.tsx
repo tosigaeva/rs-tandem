@@ -3,13 +3,15 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
   questionPayload: CodeCompletionPayload;
-  onCheck: (answer: string) => Promise<void>;
+  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
-export default function DefaultComponent({ questionPayload, onCheck }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const answer = '';
   const validate = async () => {
     await onCheck(answer);
+    onNext();
   };
 
   return (

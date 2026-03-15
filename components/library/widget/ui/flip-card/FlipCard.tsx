@@ -9,7 +9,7 @@ import styles from './FlipCard.module.css';
 
 type WidgetComponentProperties = {
   questionPayload: FlipCardPayload;
-  onCheck: (answer: string) => Promise<void>;
+  onCheck: (answer: string) => Promise<boolean | undefined>;
 };
 
 export default function FlipCard({ questionPayload, onCheck }: WidgetComponentProperties) {

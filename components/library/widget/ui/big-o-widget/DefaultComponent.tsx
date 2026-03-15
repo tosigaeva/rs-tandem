@@ -7,10 +7,11 @@ import { BigOPayload } from '@/components/library/widget/ui/big-o-widget/type';
 
 type WidgetComponentProperties = {
   questionPayload: BigOPayload;
-  onCheck: (answer: string) => Promise<void>;
+  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
-export default function DefaultComponent({ questionPayload, onCheck }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [selectedComplexity, setSelectedComplexity] = useState<string>('');
 
   const handleSelect = (complexity: string) => {
@@ -19,6 +20,7 @@ export default function DefaultComponent({ questionPayload, onCheck }: WidgetCom
 
   const handleSubmit = async () => {
     await onCheck(selectedComplexity);
+    onNext();
   };
 
   return (

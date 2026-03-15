@@ -18,19 +18,20 @@ export default function QuestionsRunner({ questions }: QuestionsRunnerProperties
 
   if (currentQuestion === undefined) return <div>Results</div>;
 
+  const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
+
   const onCheck = async (answer: string) => {
-    console.log('Selected raw answer in runner:', answer);
-    const result = await validateAnswer(currentQuestion.id, answer);
-    console.log(result);
-    setCurrentIndex((previousIndex) => previousIndex + 1);
+    return await validateAnswer(currentQuestion.id, answer);
   };
 
   return (
     <section>
       <QuestionWrapper
+        questionId={currentQuestion.id}
         questionPayload={currentQuestion.payload}
         WidgetComponent={getWidgetComponent(currentQuestion.type)}
         onCheck={onCheck}
+        onNext={nextQuestion}
       />
     </section>
   );
