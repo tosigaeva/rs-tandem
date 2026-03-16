@@ -12,7 +12,7 @@ export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; er
       .from('topic_widget_summary')
       .select('*')
       .filter('last_accessed_at', 'not.is', 'null')
-      .order('last_accessed_at', { ascending: true })
+      .order('last_accessed_at', { ascending: false })
       .limit(3);
 
     if (error) {
