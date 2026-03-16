@@ -6,6 +6,7 @@ import { Question } from '@/types/question';
 import { WidgetType } from '@/types/widget';
 
 const getWidgetComponentMock = jest.fn((_type: WidgetType) => {
+  console.log(_type);
   return function MockWidget({ questionId, onCheck }: { questionId: string; onCheck: (p: boolean) => Promise<void> }) {
     return <button onClick={() => onCheck(true)}>{questionId}</button>;
   };

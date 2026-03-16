@@ -9,7 +9,7 @@ jest.mock('@/components/CodeBlock', () => ({
 }));
 
 describe('QuestionCard', () => {
-  it('disables check button until option selected', async () => {
+  it('is disabled by default', () => {
     render(
       <QuestionCard
         questionId="q1"
