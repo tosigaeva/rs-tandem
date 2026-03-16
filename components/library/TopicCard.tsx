@@ -14,7 +14,7 @@ export function TopicCard({ topic }: TopicCardProperties) {
           <Badge variant="secondary" className="text-xs capitalize">
             {topic.level}
           </Badge>
-          <span className="text-muted-foreground text-xs">{`(${topic.correctAnswers}/${topic.totalAnswers})`}</span>
+          <span className="text-muted-foreground text-xs">{`(${topic.correctAnswers}/${topic.totalQuestions})`}</span>
         </div>
         <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
           {topic.name}
@@ -22,7 +22,7 @@ export function TopicCard({ topic }: TopicCardProperties) {
         <CardDescription className="line-clamp-2 min-h-10 text-sm">{topic.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Progress value={(topic.correctAnswers / topic.totalAnswers) * 100} className="h-2" />
+        <Progress value={(topic.correctAnswers / topic.totalQuestions) * 100} className="h-2" />
       </CardContent>
       <CardFooter>
         <Badge variant="outline" className="text-xs font-normal">

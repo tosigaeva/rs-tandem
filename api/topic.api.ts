@@ -57,16 +57,16 @@ export async function getTopics(
       query.not('id', 'in', `(${skipIds.join(',')})`);
     }
 
-    const from = Math.max(page - 1, 0) * size;
-    let to = from + size - 1;
-
     const correctedCount = count - skipIds.length;
+
+    const from = Math.max(page - 1, 0) * size;
+    const to = Math.min(from + size - 1, correctedCount - 1);
 
     if (from > correctedCount) {
       throw new Error('Out of bounds');
-    } else if (to > correctedCount) {
-      to = correctedCount;
     }
+
+    if (size > correctedCount) size = correctedCount;
 
     query.order(orderBy, { ascending }).order('id', { ascending: true }).range(from, to);
 
@@ -76,7 +76,7 @@ export async function getTopics(
       throw viewError;
     }
 
-    const totalPages = Math.ceil(count / size);
+    const totalPages = Math.ceil(correctedCount / size);
 
     if (data != undefined) {
       const array = z.array(TopicSchema).safeParse(data);
@@ -86,7 +86,7 @@ export async function getTopics(
           items: array.data,
           page,
           size,
-          count,
+          count: correctedCount,
           orderBy,
           ascending,
           totalPages,

@@ -17,13 +17,13 @@ export const WidgetSchema = z
   .object({
     type: z.enum(WidgetType),
     last_accessed_at: z.coerce.date().nullable(),
-    total_answers: z.number(),
+    total_questions: z.number(),
     correct_answers: z.number(),
   })
   .transform((data) => ({
     type: data.type,
     lastAccessedAt: data.last_accessed_at,
-    totalAnswers: data.total_answers,
+    totalQuestions: data.total_questions,
     correctAnswers: data.correct_answers,
   }));
 
@@ -47,7 +47,7 @@ export const TopicSchema = z
     description: data.description,
     subject: data.subject,
     lastAccessedAt: data.last_accessed_at,
-    totalAnswers: data.widgets.reduce((sum, widget) => (sum += widget.totalAnswers), 0),
+    totalQuestions: data.widgets.reduce((sum, widget) => (sum += widget.totalQuestions), 0),
     correctAnswers: data.widgets.reduce((sum, widget) => (sum += widget.correctAnswers), 0),
     createdAt: data.created_at,
     widgets: data.widgets,
