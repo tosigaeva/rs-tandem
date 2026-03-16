@@ -1,13 +1,9 @@
 import { Badge, Progress } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Topic, UserTopic } from '@/types/topic';
+import { Topic } from '@/types/schemas/database-schemas';
 
 type TopicCardProperties = {
-  topic: Topic | UserTopic;
-};
-
-const isUserTopic = (topic: Topic | UserTopic): topic is UserTopic => {
-  return 'progress' in topic && 'lastTrainedAt' in topic;
+  topic: Topic;
 };
 
 export function TopicCard({ topic }: TopicCardProperties) {
@@ -18,14 +14,16 @@ export function TopicCard({ topic }: TopicCardProperties) {
           <Badge variant="secondary" className="text-xs capitalize">
             {topic.level}
           </Badge>
-          {isUserTopic(topic) && <span className="text-muted-foreground text-xs">{topic.progress}%</span>}
+          <span className="text-muted-foreground text-xs">{`(${topic.correctAnswers}/${topic.totalAnswers})`}</span>
         </div>
         <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
           {topic.name}
         </CardTitle>
         <CardDescription className="line-clamp-2 min-h-10 text-sm">{topic.description}</CardDescription>
       </CardHeader>
-      <CardContent>{isUserTopic(topic) && <Progress value={topic.progress} className="h-2" />}</CardContent>
+      <CardContent>
+        <Progress value={(topic.correctAnswers / topic.totalAnswers) * 100} className="h-2" />
+      </CardContent>
       <CardFooter>
         <Badge variant="outline" className="text-xs font-normal">
           {topic.subject}
