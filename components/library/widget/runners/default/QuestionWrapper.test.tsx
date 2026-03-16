@@ -1,13 +1,19 @@
 import { render, screen } from '@testing-library/react';
 
 import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
-import { QuizPayload } from '@/components/library/widget/ui/quiz-widget/type';
+import { QuestionPayload } from '@/types/question';
 
 describe('QuestionWrapper', () => {
   it('renders provided widget component with props', () => {
-    const WidgetComponent = ({ questionId, questionPayload }: { questionId: string; questionPayload: QuizPayload }) => (
+    const WidgetComponent = ({
+      questionId,
+      questionPayload,
+    }: {
+      questionId: string;
+      questionPayload: QuestionPayload;
+    }) => (
       <div data-testid="widget">
-        {questionId}:{questionPayload.question}
+        {questionId}:{'question' in questionPayload ? questionPayload.question : 'payload'}
       </div>
     );
 
