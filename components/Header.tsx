@@ -1,6 +1,6 @@
 'use client';
 
-import { LogIn, LogOut, Menu, SquareMenu } from 'lucide-react';
+import { LogIn, LogOut, Menu, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -19,9 +19,9 @@ import { authService } from '@/services/authorization/auth.service';
 import { useAuth } from '@/services/authorization/auth.store';
 import { LocaleDictionary, localeService, useLocale } from '@/services/locale.service';
 
-import { Button } from './ui/button';
-
 const handleLocaleChange = (locale: string) => localeService.setLocale(locale);
+const headerActionButtonClass =
+  'border-primary/40 bg-gradient-to-b from-primary/10 to-accent/10 text-foreground shadow-xs shadow-primary/10 backdrop-blur-sm hover:border-primary/70 hover:from-primary/80 hover:to-accent/70 hover:text-primary-foreground';
 
 export function Header() {
   const { user, isAuthorized, isAuthorizing } = useAuth();
@@ -73,69 +73,76 @@ export function Header() {
     <header
       className={cn('border-border bg-card relative z-25 border-b', isAuthorizing ? 'cursor-wait select-none' : '')}
     >
-      <div className="relative mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" disabled={isAuthorizing}>
-              <Menu className="h-5 w-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48">
-            {Object.entries(routePermissions).map(([route, permission]) => {
-              if (!displayRoute(permission, isAuthorized)) return;
-
-              return (
-                <DropdownMenuItem
-                  key={route}
-                  asChild
-                  className={cn('cursor-pointer', pathname === route && 'bg-primary text-white')}
-                >
-                  <Link
-                    href={route}
-                    className="text-primary flex w-full justify-center font-bold capitalize underline-offset-4 hover:underline"
-                  >
-                    {route.slice(1).replaceAll('-', ' ') || 'home'}
-                  </Link>
-                </DropdownMenuItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <Button
-          variant={'accent'}
-          size={'lg'}
-          disabled={isAuthorizing}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <h1 className="text-lg">e-learing center</h1>
-        </Button>
-
-        <div className="flex h-fit w-fit items-start justify-end gap-2.5">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-6">
+        <div className="flex flex-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <PrimaryButton disabled={isAuthorizing} onClick={() => !isAuthorized && router.push(routes.SignIn)}>
+              <PrimaryButton variant="outline" size="icon" disabled={isAuthorizing} className={headerActionButtonClass}>
+                <Menu className="h-5 w-5" />
+              </PrimaryButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-48 space-y-0.5 p-0.5">
+              {Object.entries(routePermissions).map(([route, permission]) => {
+                if (!displayRoute(permission, isAuthorized)) return;
+
+                return (
+                  <DropdownMenuItem
+                    key={route}
+                    asChild
+                    className={cn('cursor-pointer', pathname === route && 'bg-primary text-white')}
+                  >
+                    <Link
+                      href={route}
+                      className="text-primary flex w-full justify-center font-bold capitalize underline-offset-4 hover:underline"
+                    >
+                      {route.slice(1).replaceAll('-', ' ') || 'home'}
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <h1
+          className={cn(
+            'text-accent shrink-0 text-lg font-semibold uppercase',
+            pathname === Routes.Home ? 'hidden' : 'hidden md:block'
+          )}
+        >
+          JS Interview Trainer
+        </h1>
+
+        <div className="flex flex-1 items-start justify-end gap-2.5">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <PrimaryButton
+                variant="outline"
+                disabled={isAuthorizing}
+                onClick={() => !isAuthorized && router.push(routes.SignIn)}
+                className={headerActionButtonClass}
+              >
                 {user ? (
                   <>
-                    <SquareMenu></SquareMenu> {user.username}
+                    <User /> {user.username}
                   </>
                 ) : (
                   <>
-                    <LogIn></LogIn> Sign In
+                    <LogIn /> Sign In
                   </>
                 )}
               </PrimaryButton>
             </DropdownMenuTrigger>
 
             {isAuthorized && (
-              <DropdownMenuContent align="start" className="w-48">
+              <DropdownMenuContent align="start" className="w-48 space-y-0.5 p-0.5">
                 <DropdownMenuItem
                   asChild
                   className="focus:color-white cursor-pointer font-bold text-red-900 focus:bg-red-900 focus:text-white"
                   onClick={handleSignOut}
                 >
                   <div>
-                    <LogOut className="text-inherit"></LogOut>
+                    <LogOut className="text-inherit" />
                     Sign Out
                   </div>
                 </DropdownMenuItem>
@@ -145,24 +152,24 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={'outline'} size={'xs'} disabled={isAuthorizing}>
+              <PrimaryButton variant="outline" size="icon" disabled={isAuthorizing} className={headerActionButtonClass}>
                 <Image
                   src={`https://flagcdn.com/w20/${currentLocale}.png`}
                   alt="flag"
                   className="menu-flag height-auto width-auto"
-                  width={20}
-                  height={10}
+                  width={24}
+                  height={12}
                 />
-              </Button>
+              </PrimaryButton>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent>
+            <DropdownMenuContent className="space-y-0.5 p-0.5">
               {Object.entries(LocaleDictionary).map(([locale, info]) => {
                 return (
                   <DropdownMenuItem asChild key={locale} onClick={() => handleLocaleChange(locale)}>
                     <div
                       className={cn(
-                        'text-primary flex w-full justify-start font-bold capitalize underline-offset-4 hover:underline',
+                        'text-primary flex w-full justify-start font-bold capitalize',
                         currentLocale === locale ? 'bg-primary text-white' : ''
                       )}
                     >
@@ -170,8 +177,8 @@ export function Header() {
                         src={`https://flagcdn.com/w20/${locale}.png`}
                         alt="flag"
                         className="menu-flag height-auto width-auto"
-                        width={20}
-                        height={10}
+                        width={24}
+                        height={12}
                       />
 
                       {info.language}
