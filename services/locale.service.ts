@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { z } from 'zod';
 import { create } from 'zustand';
 
 export enum Locale {
@@ -24,6 +25,10 @@ export const LocaleDictionary: Record<Locale, { languageCode: LanguageCode; lang
   [Locale.ru]: { languageCode: LanguageCode.ru, language: Language.russian },
   [Locale.by]: { languageCode: LanguageCode.by, language: Language.belorussian },
 };
+
+export const LocaleStringSchema = z.record(z.enum(LanguageCode), z.string().min(1, 'Translation cannot be empty'));
+
+export type LocaleString = z.infer<typeof LocaleStringSchema>;
 
 type LocaleStore = {
   locale: Locale;
