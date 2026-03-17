@@ -7,10 +7,10 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 
 export default function Page() {
   return (
-    <div className="bg-background text-foreground flex min-h-screen flex-col">
-      <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-full items-center justify-center px-6 text-center">
+    <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
+      <main className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
         <div className="m-10">
-          <h1 className="text-5xl font-bold sm:text-6xl">RS Tandem</h1>
+          <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
             Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms,
             problem solving, and core JS concepts in a fun way.
