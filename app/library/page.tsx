@@ -1,5 +1,5 @@
-import { getTopicsOverview } from '@/api/trainer.api';
 import { TopicList } from '@/components/library/TopicsList';
+import { TopicService } from '@/services/topic.service';
 
 const messages = {
   title: 'Library',
@@ -12,9 +12,13 @@ const messages = {
 };
 
 export default async function Page() {
-  const { userTopics, topics } = await getTopicsOverview();
-  const hasUserTopics = userTopics?.length > 0;
-  const topicsTitle = hasUserTopics ? messages.section.explore : messages.section.start;
+  const { data: recentTopics } = await TopicService.loadRecentTopics();
+
+  const skipIds = recentTopics?.map((topic) => topic.id) || [];
+
+  const topicsTitle = skipIds.length > 0 ? messages.section.explore : messages.section.start;
+
+  const { data: topicsPage } = await TopicService.loadTopics(skipIds);
 
   return (
     <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
@@ -23,8 +27,8 @@ export default async function Page() {
         <p className="text-muted-foreground">{messages.description}</p>
       </section>
 
-      {hasUserTopics && <TopicList title={messages.section.continue} topics={userTopics} />}
-      <TopicList title={topicsTitle} topics={topics} />
+      {recentTopics && <TopicList title={messages.section.continue} topics={recentTopics} />}
+      {topicsPage && <TopicList title={topicsTitle} topics={topicsPage.items} />}
     </main>
   );
 }
