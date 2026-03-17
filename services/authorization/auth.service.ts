@@ -44,9 +44,6 @@ export const authService = {
     try {
       useAuth.getState().setAuthorizing(true);
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      console.log('pausing done');
-
       const { data: user, error } = await signIn(data);
 
       if (error != undefined) {

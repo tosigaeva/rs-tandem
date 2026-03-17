@@ -1,10 +1,9 @@
-import { mockLearningQuestions } from '@/api/mocks/learning-questions.mock';
 import { mockQuestions } from '@/api/mocks/questions.mock';
 import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
 import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { BaseQuestion, Question } from '@/types/question';
 import { LibraryTopicsResponse, Topic } from '@/types/topic';
-import { WidgetType } from '@/types/widget';
+import { WidgetFilter, WidgetType } from '@/types/widget';
 
 export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
   return mockLibraryTopics;
@@ -14,8 +13,16 @@ export async function getTopic(topicId: string): Promise<Topic | undefined> {
   return mockTopics.find((topic) => topic.id === topicId);
 }
 
-export async function getQuestions(topicId: string): Promise<Question[]> {
-  return mockQuestions.filter((question) => question?.topicId === topicId);
+export async function getQuestions(topicId: string, filter?: WidgetFilter): Promise<Question[]> {
+  let questions = mockQuestions;
+
+  questions = questions.filter((q) => q.topicId === topicId);
+
+  if (filter !== undefined) {
+    questions = questions.filter((q) => (filter === 'all' ? q.type !== WidgetType.FlipCard : q.type === filter));
+  }
+
+  return questions;
 }
 
 export async function validateQuestion(questionId: string, answer: string): Promise<boolean | undefined> {
@@ -31,46 +38,15 @@ export async function validateQuestion(questionId: string, answer: string): Prom
     return answer === 'filter';
   }
 
+  if (questionId === 'big-o-001') {
+    return answer === 'O(n)';
+  }
+
   return undefined;
 }
 
 export function getFlipQuestions(): (BaseQuestion & FlipCardWidget)[] {
-  return mockLearningQuestions.map((question) => {
-    let payload;
-    switch (question.type) {
-      case WidgetType.Quiz: {
-        payload = {
-          question: question.payload.question,
-        };
-        break;
-      }
-      case WidgetType.TrueFalse: {
-        payload = {
-          question: question.payload.statement,
-        };
-        break;
-      }
-      case WidgetType.CodeCompletion: {
-        payload = {
-          question: question.payload.code,
-        };
-        break;
-      }
-      case WidgetType.FlipCard: {
-        payload = {
-          question: question.payload.question,
-        };
-        break;
-      }
-    }
-
-    return {
-      id: question.id,
-      topicId: question.topicId,
-      type: WidgetType.FlipCard,
-      payload: payload,
-    };
-  });
+  return mockQuestions.filter((question) => question.type === WidgetType.FlipCard);
 }
 
 export async function getAnswer(questionId: string): Promise<string> {
