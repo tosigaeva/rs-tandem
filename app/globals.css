@@ -55,13 +55,13 @@
   --card-foreground: #0f172a;
   --popover: #ffffff;
   --popover-foreground: #0f172a;
-  --primary: #c19f2e;
+  --primary: #dabf65;
   --primary-foreground: #111111;
   --secondary: #eadaa7;
   --secondary-foreground: #111111;
   --muted: #f9f4e5;
   --muted-foreground: #6b7280;
-  --accent: #dabf65;
+  --accent: #c19f2e;
   --accent-foreground: #111111;
   --destructive: #b91c1c;
   --border: #eadaa7;
@@ -93,13 +93,13 @@
   --card-foreground: #f9f4e5;
   --popover: #111b3a;
   --popover-foreground: #f9f4e5;
-  --primary: #dabf65;
+  --primary: #c19f2e;
   --primary-foreground: #111111;
   --secondary: #1e293b;
   --secondary-foreground: #f9f4e5;
   --muted: #1e293b;
   --muted-foreground: #cbd5e1;
-  --accent: #c19f2e;
+  --accent: #dabf65;
   --accent-foreground: #111111;
   --destructive: #ef4444;
   --border: #334155;
@@ -131,6 +131,13 @@ html {
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+  a,
+  a:hover,
+  a:focus,
+  a:active,
+  a:visited {
+    text-decoration: none !important;
   }
   body {
     @apply bg-background text-foreground;
