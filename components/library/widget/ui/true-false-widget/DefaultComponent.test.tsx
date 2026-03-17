@@ -18,6 +18,7 @@ describe('TrueFalse DefaultComponent', () => {
         questionId="q1"
         questionPayload={{ statement: 'Statement', explanation: 'Explanation' }}
         onCheck={async () => {}}
+        onNext={() => {}}
       />
     );
 

@@ -17,10 +17,11 @@ describe('QuestionCard', () => {
         options={['a', 'b']}
         instruction="Pick one"
         onCheck={async () => {}}
+        onNext={() => {}}
       />
     );
 
-    const button = screen.getByRole('button', { name: messages.selectAnOption });
+    const button = screen.getByRole('button', { name: messages.checkAnswer });
     expect(button).toBeDisabled();
   });
 });

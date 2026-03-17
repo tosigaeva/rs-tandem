@@ -4,12 +4,12 @@ import { TopicList } from '@/components/library/TopicsList';
 import { Topic } from '@/types/topic';
 
 describe('TopicList', () => {
-  it.skip('renders list of topics with links', () => {
+  it('renders list of topics with links', () => {
     const topics: Topic[] = [
       { id: '1', name: 'Variables', level: 'beginner', description: 'desc', subject: 'JS' },
       { id: '2', name: 'Objects', level: 'beginner', description: 'desc', subject: 'JS' },
     ];
-    // render(<TopicList title="Explore" topics={topics} />);
+    render(<TopicList title="Explore" topics={topics} />);
     expect(screen.getByText('Explore')).toBeInTheDocument();
     expect(screen.getByText('Variables')).toBeInTheDocument();
     expect(screen.getByText('Objects')).toBeInTheDocument();

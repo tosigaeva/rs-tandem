@@ -18,6 +18,7 @@ describe('Quiz DefaultComponent', () => {
         questionId="q1"
         questionPayload={{ question: 'What?', options: ['a', 'b'] }}
         onCheck={async () => {}}
+        onNext={() => {}}
       />
     );
 

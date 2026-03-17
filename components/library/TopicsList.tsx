@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
 import { Routes } from '@/lib/routes';
-import { Topic } from '@/types/schemas/database-schemas';
+import { Topic, UserTopic } from '@/types/topic';
 
 import { TopicCard } from './TopicCard';
 
 type TopicListProperties = {
   title: string;
-  topics: Topic[];
+  topics: (Topic | UserTopic)[];
 };
 
 export function TopicList({ title, topics }: TopicListProperties) {

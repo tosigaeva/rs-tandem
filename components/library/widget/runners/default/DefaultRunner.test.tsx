@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import QuestionsRunner from '@/components/library/widget/runners/default/QuestionRunner';
+import QuestionsRunner from '@/components/library/widget/runners/default/DefaultRunner';
 import { Question } from '@/types/question';
 import { WidgetType } from '@/types/widget';
 
 const getWidgetComponentMock = jest.fn((_type: WidgetType) => {
   console.log(_type);
-  return function MockWidget({ questionId, onCheck }: { questionId: string; onCheck: (p: boolean) => Promise<void> }) {
-    return <button onClick={() => onCheck(true)}>{questionId}</button>;
+  return function MockWidget({ questionId, onNext }: { questionId: string; onNext: () => void }) {
+    return <button onClick={() => onNext()}>{questionId}</button>;
   };
 });
 
@@ -16,7 +16,7 @@ jest.mock('@/components/library/widget/widget.engine', () => ({
   getWidgetComponent: (type: WidgetType) => getWidgetComponentMock(type),
 }));
 
-describe('QuestionsRunner', () => {
+describe('DefaultRunner', () => {
   it('renders questions sequentially and shows results at the end', async () => {
     const user = userEvent.setup();
     const questions: Question[] = [
