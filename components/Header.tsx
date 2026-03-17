@@ -120,11 +120,14 @@ export function Header() {
                 variant="outline"
                 disabled={isAuthorizing}
                 onClick={() => !isAuthorized && router.push(routes.SignIn)}
-                className={headerActionButtonClass}
+                className={cn(headerActionButtonClass, user && 'max-w-48')}
               >
                 {user ? (
                   <>
-                    <User /> {user.username}
+                    <User />
+                    <span className="max-w-32 truncate" title={user.username}>
+                      {user.username}
+                    </span>
                   </>
                 ) : (
                   <>
