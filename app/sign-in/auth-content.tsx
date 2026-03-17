@@ -23,7 +23,7 @@ export default function AuthContent() {
 
     const validRoute = getNavigation(redirectParameter ?? '');
 
-    router.push(validRoute ?? Routes.Dashboard);
+    router.replace(validRoute != undefined && redirectParameter != undefined ? redirectParameter : Routes.Dashboard);
   };
 
   const handleSignIn = async (data: SchemaData) => {

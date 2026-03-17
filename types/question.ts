@@ -1,3 +1,4 @@
+import { BigOPayload, BigOWidget } from '@/components/library/widget/ui/big-o-widget/type';
 import {
   CodeCompletionPayload,
   CodeCompletionWidget,
@@ -7,14 +8,15 @@ import { QuizPayload, QuizWidget } from '@/components/library/widget/ui/quiz-wid
 import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/ui/true-false-widget/type';
 import { WidgetType } from '@/types/widget';
 
-export type QuestionPayload = QuizPayload | TrueFalsePayload | CodeCompletionPayload | FlipCardPayload;
-export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget | FlipCardWidget;
+export type QuestionPayload = QuizPayload | TrueFalsePayload | CodeCompletionPayload | FlipCardPayload | BigOPayload;
+export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget | FlipCardWidget | BigOWidget;
 
 export type WidgetPayloadMap = {
   [WidgetType.Quiz]: QuizPayload;
   [WidgetType.TrueFalse]: TrueFalsePayload;
   [WidgetType.CodeCompletion]: CodeCompletionPayload;
   [WidgetType.FlipCard]: FlipCardPayload;
+  [WidgetType.BigONotation]: BigOPayload;
 };
 
 export type BaseQuestion = {

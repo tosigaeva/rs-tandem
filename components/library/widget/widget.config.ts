@@ -9,6 +9,7 @@ export type WidgetSkinsMap = {
   [WidgetType.TrueFalse]: 'default';
   [WidgetType.CodeCompletion]: 'default';
   [WidgetType.FlipCard]: 'default';
+  [WidgetType.BigONotation]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
@@ -40,6 +41,11 @@ export const widgetRegistry: {
   [WidgetType.FlipCard]: {
     default: dynamic<WidgetComponentProperties<WidgetType.FlipCard>>(
       () => import('@/components/library/widget/ui/flip-card/FlipCard')
+    ),
+  },
+  [WidgetType.BigONotation]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
+      () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent')
     ),
   },
 };
