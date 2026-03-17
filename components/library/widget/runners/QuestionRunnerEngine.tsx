@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { validateAnswer } from '@/api/trainer.api';
+import { validateAnswer } from '@/api/validate.api';
 import { Question as QuestionType } from '@/types/question';
 
 type RunnerRenderProperties = {
