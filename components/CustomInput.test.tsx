@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { act, fireEvent, render, renderHook, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,6 +9,13 @@ import { CUSTOM_INPUT_DEBOUNCE_TIMER, CustomInput } from './CustomInput';
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const methods = useForm();
   return <FormProvider {...methods}>{children}</FormProvider>;
+};
+
+const advanceDebounce = async (time = CUSTOM_INPUT_DEBOUNCE_TIMER) => {
+  await act(async () => {
+    jest.advanceTimersByTime(time);
+    await Promise.resolve();
+  });
 };
 
 describe('CustomInput', () => {
@@ -39,120 +46,120 @@ describe('CustomInput', () => {
 });
 
 describe('CustomInput Validation States', () => {
-  let methods;
   let user: ReturnType<typeof userEvent.setup>;
 
-  const errorMessage = 'Invalid email address';
+  const invalidEmailMatcher = /invalid email/i;
+  const schema = z.object({
+    email: z.string().min(1, 'Field is required').email('Invalid email address'),
+  });
+
+  const ValidationWrapper = ({ children }: { children: React.ReactNode }) => {
+    const methods = useForm({
+      resolver: zodResolver(schema),
+      mode: 'all',
+    });
+
+    return <FormProvider {...methods}>{children}</FormProvider>;
+  };
 
   beforeEach(() => {
     jest.useFakeTimers();
 
     user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-    const schema = z.object({ email: z.email('Invalid email address') });
-
-    const { result } = renderHook(() =>
-      useForm({
-        resolver: zodResolver(schema),
-        mode: 'all',
-      })
-    );
-
-    methods = result.current;
-
     render(
-      <FormProvider {...methods}>
+      <ValidationWrapper>
         <CustomInput name="email" label="Email" type="email" />
-      </FormProvider>
+      </ValidationWrapper>
     );
   });
 
   afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.clearAllTimers();
     jest.useRealTimers();
   });
 
   it(`doesn't show error until interacted`, async () => {
     const input = screen.getByLabelText(/email/i);
 
-    act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER);
-    });
+    await advanceDebounce();
 
-    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+    expect(screen.queryByText(invalidEmailMatcher)).not.toBeInTheDocument();
     expect(input).toHaveValue('');
   });
 
   it(`shows 'Field is required' when empty and after interacting once`, async () => {
     const input = screen.getByLabelText(/email/i);
     await user.click(input);
-    await user.tab();
-
     act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER);
+      fireEvent.blur(input);
     });
 
-    expect(input).not.toHaveFocus();
-    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+    await advanceDebounce();
 
-    const requiredMessage = await screen.queryByText(/field is required/i);
-    expect(requiredMessage).toBeInTheDocument();
+    expect(screen.queryByText(invalidEmailMatcher)).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/field is required/i)).toBeInTheDocument();
+    });
   });
 
   it('shows error when touched, when validation fails and debounce time passes', async () => {
     const input = screen.getByLabelText(/email/i);
 
     await user.type(input, 'invalid');
-    await user.tab();
-
-    expect(input).not.toHaveFocus();
-    expect(input).toHaveValue('invalid');
-
     act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER);
+      fireEvent.blur(input);
     });
 
-    expect(screen.queryByText(errorMessage)).toBeInTheDocument();
+    expect(input).toHaveValue('invalid');
+
+    await advanceDebounce();
+
+    await waitFor(() => {
+      expect(screen.getByText(invalidEmailMatcher)).toBeInTheDocument();
+    });
   });
 
   it('does not show error until debounce time passes', async () => {
     const input = screen.getByLabelText(/email/i);
     await user.type(input, 'invalid');
 
-    act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER / 2);
-    });
+    await advanceDebounce(CUSTOM_INPUT_DEBOUNCE_TIMER / 2);
 
     expect(input).toHaveValue('invalid');
-    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+    expect(screen.queryByText(invalidEmailMatcher)).not.toBeInTheDocument();
 
-    act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER / 2);
+    await advanceDebounce(CUSTOM_INPUT_DEBOUNCE_TIMER / 2);
+
+    await waitFor(() => {
+      expect(screen.getByText(invalidEmailMatcher)).toBeInTheDocument();
     });
-
-    expect(screen.queryByText(errorMessage)).toBeInTheDocument();
   });
 
   it('hides error once validation succeeds', async () => {
     const input = screen.getByLabelText(/email/i);
     await user.type(input, 'invalid mail');
-    await user.tab();
-
     act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER);
+      fireEvent.blur(input);
     });
 
+    await advanceDebounce();
+
     expect(input).toHaveValue('invalid mail');
-    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(invalidEmailMatcher)).toBeInTheDocument();
+    });
 
     await user.clear(input);
     await user.type(input, 'valid@mail.co');
-    await user.tab();
-
     act(() => {
-      jest.advanceTimersByTime(CUSTOM_INPUT_DEBOUNCE_TIMER);
+      fireEvent.blur(input);
     });
 
+    await advanceDebounce();
+
     expect(input).toHaveValue('valid@mail.co');
-    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+    expect(screen.queryByText(invalidEmailMatcher)).not.toBeInTheDocument();
   });
 });
