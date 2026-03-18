@@ -35,9 +35,9 @@ export default function Page() {
       value: 'big-o',
       label: 'Big O',
       title: 'Select correct Big O notation',
-      image: '/example-big-o.jpg',
-      width: 704,
-      height: 1018,
+      image: '/example-big-o-cut.jpg',
+      width: 697,
+      height: 798,
       containerClass: 'mx-auto h-[500px] w-full max-w-4xl',
     },
   ];
