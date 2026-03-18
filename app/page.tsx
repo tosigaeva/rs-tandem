@@ -13,6 +13,35 @@ export default function Page() {
   const { isAuthorized } = useAuth();
   const router = useRouter();
 
+  const FEATURES = [
+    {
+      value: 'quiz',
+      label: 'Quiz',
+      title: 'Select correct answer',
+      image: '/example-quiz.jpg',
+      width: 1046,
+      height: 480,
+    },
+    {
+      value: 'flip-card',
+      label: 'Flip Card',
+      title: 'Reveal definition',
+      image: '/example-flip.jpg',
+      width: 644,
+      height: 490,
+      containerClass: 'mx-auto h-[500px] w-full max-w-4xl',
+    },
+    {
+      value: 'big-o',
+      label: 'Big O',
+      title: 'Select correct Big O notation',
+      image: '/example-big-o.jpg',
+      width: 704,
+      height: 1018,
+      containerClass: 'mx-auto h-[500px] w-full max-w-4xl',
+    },
+  ];
+
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
       <div className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
@@ -57,43 +86,30 @@ export default function Page() {
           />
         </motion.div>
       </div>
-      <div className="mx-auto mt-20 mb-10 flex w-full max-w-7xl items-center justify-center px-6 text-center">
-        <Tabs defaultValue="quiz">
+      <div className="mx-auto mb-10 flex w-full items-center justify-center px-6 text-center">
+        <Tabs defaultValue={FEATURES[0].value}>
           <TabsList variant="line">
-            <TabsTrigger value="quiz">Quiz</TabsTrigger>
-            <TabsTrigger value="flip-card">Flip Card</TabsTrigger>
-            <TabsTrigger value="big-o">Big O</TabsTrigger>
+            {FEATURES.map((feature) => (
+              <TabsTrigger key={feature.value} value={feature.value}>
+                {feature.label}
+              </TabsTrigger>
+            ))}
           </TabsList>
-          <TabsContent value="quiz">
-            Select correct answer
-            <Image
-              src="/example-quiz.jpg"
-              width={1046}
-              height={480}
-              className="mx-auto mt-10 rounded-3xl"
-              alt="Quiz example"
-            />
-          </TabsContent>
-          <TabsContent value="flip-card">
-            Reveal definition
-            <Image
-              src="/example-flip.jpg"
-              width={644}
-              height={490}
-              className="mx-auto mt-10 rounded-3xl"
-              alt="Quiz example"
-            />
-          </TabsContent>
-          <TabsContent value="big-o">
-            Select correct Big O notation
-            <Image
-              src="/example-big-o.jpg"
-              width={704}
-              height={1018}
-              className="mx-auto mt-10 rounded-3xl"
-              alt="Quiz example"
-            />
-          </TabsContent>
+          {FEATURES.map((feature) => (
+            <TabsContent key={feature.value} value={feature.value}>
+              <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
+
+              <div className={feature.containerClass ?? ''}>
+                <Image
+                  src={feature.image}
+                  width={feature.width}
+                  height={feature.height}
+                  className="mx-auto h-full w-auto rounded-3xl object-contain"
+                  alt={feature.label}
+                />
+              </div>
+            </TabsContent>
+          ))}
         </Tabs>
       </div>
     </div>
