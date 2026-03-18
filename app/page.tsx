@@ -2,10 +2,16 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { Routes } from '@/lib/routes';
+import { useAuth } from '@/services/authorization/auth.store';
 
 export default function Page() {
+  const { isAuthorized } = useAuth();
+  const router = useRouter();
+
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
       <main className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
@@ -16,7 +22,9 @@ export default function Page() {
             problem solving, and core JS concepts in a fun way.
           </p>
           <div className="mt-8 flex justify-center gap-4 p-5">
-            <PrimaryButton size="lg">Get started!</PrimaryButton>
+            <PrimaryButton size="lg" onClick={() => router.push(isAuthorized ? Routes.Dashboard : Routes.SignIn)}>
+              Get started!
+            </PrimaryButton>
           </div>
           <div className="flex items-center justify-center">
             <motion.div
