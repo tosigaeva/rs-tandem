@@ -29,7 +29,6 @@ export default function Page() {
       image: '/example-flip.jpg',
       width: 644,
       height: 490,
-      containerClass: 'mx-auto h-[500px] w-full max-w-4xl',
     },
     {
       value: 'big-o',
@@ -38,14 +37,13 @@ export default function Page() {
       image: '/example-big-o-cut.jpg',
       width: 697,
       height: 798,
-      containerClass: 'mx-auto h-[500px] w-full max-w-4xl',
     },
   ];
 
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
       <div className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
-        <div className="m-10">
+        <div className="m-10 h-full justify-center">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
             Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms,
@@ -86,7 +84,7 @@ export default function Page() {
           />
         </motion.div>
       </div>
-      <div className="mx-auto mb-10 flex w-full items-center justify-center px-6 text-center">
+      <div className="mb-10 w-full justify-center px-6 text-center">
         <Tabs defaultValue={FEATURES[0].value}>
           <TabsList variant="line">
             {FEATURES.map((feature) => (
@@ -98,13 +96,12 @@ export default function Page() {
           {FEATURES.map((feature) => (
             <TabsContent key={feature.value} value={feature.value}>
               <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
-
-              <div className={feature.containerClass ?? ''}>
+              <div className="mx-auto h-75 w-full max-w-4xl md:h-125">
                 <Image
                   src={feature.image}
                   width={feature.width}
                   height={feature.height}
-                  className="mx-auto h-full w-auto rounded-3xl object-contain"
+                  className="mx-auto h-full w-auto rounded-3xl object-contain object-top md:object-center"
                   alt={feature.label}
                 />
               </div>
