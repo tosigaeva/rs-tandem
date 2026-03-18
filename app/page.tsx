@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Routes } from '@/lib/routes';
 import { useAuth } from '@/services/authorization/auth.store';
 
@@ -14,7 +15,7 @@ export default function Page() {
 
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
-      <main className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
+      <div className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
         <div className="m-10">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
@@ -55,7 +56,46 @@ export default function Page() {
             alt="JS logo"
           />
         </motion.div>
-      </main>
+      </div>
+      <div className="mx-auto mt-20 mb-10 flex w-full max-w-7xl items-center justify-center px-6 text-center">
+        <Tabs defaultValue="quiz">
+          <TabsList variant="line">
+            <TabsTrigger value="quiz">Quiz</TabsTrigger>
+            <TabsTrigger value="flip-card">Flip Card</TabsTrigger>
+            <TabsTrigger value="big-o">Big O</TabsTrigger>
+          </TabsList>
+          <TabsContent value="quiz">
+            Select correct answer
+            <Image
+              src="/example-quiz.jpg"
+              width={1046}
+              height={480}
+              className="mx-auto mt-10 rounded-3xl"
+              alt="Quiz example"
+            />
+          </TabsContent>
+          <TabsContent value="flip-card">
+            Reveal definition
+            <Image
+              src="/example-flip.jpg"
+              width={644}
+              height={490}
+              className="mx-auto mt-10 rounded-3xl"
+              alt="Quiz example"
+            />
+          </TabsContent>
+          <TabsContent value="big-o">
+            Select correct Big O notation
+            <Image
+              src="/example-big-o.jpg"
+              width={704}
+              height={1018}
+              className="mx-auto mt-10 rounded-3xl"
+              alt="Quiz example"
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
