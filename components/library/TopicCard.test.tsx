@@ -4,7 +4,7 @@ import { TopicCard } from '@/components/library/TopicCard';
 import { Topic, UserTopic } from '@/types/topic';
 
 describe('TopicCard', () => {
-  it.skip('renders basic topic fields', () => {
+  it('renders basic topic fields', () => {
     const topic: Topic = {
       id: '1',
       name: 'Variables',
@@ -13,7 +13,7 @@ describe('TopicCard', () => {
       subject: 'JavaScript',
     };
 
-    // render(<TopicCard topic={topic} />);
+    render(<TopicCard topic={topic} />);
 
     expect(screen.getByText('beginner')).toBeInTheDocument();
     expect(screen.getByText('Variables')).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('TopicCard', () => {
     expect(screen.queryByText(/%/)).not.toBeInTheDocument();
   });
 
-  it.skip('renders progress for user topic', () => {
+  it('renders progress for user topic', () => {
     const topic: UserTopic = {
       id: '2',
       name: 'Promises',
@@ -33,13 +33,13 @@ describe('TopicCard', () => {
       lastTrainedAt: '2026-02-24T18:10:00Z',
     };
 
-    // const { container } = render(<TopicCard topic={topic} />);
+    const { container } = render(<TopicCard topic={topic} />);
 
     expect(screen.getByText('intermediate')).toBeInTheDocument();
     expect(screen.getByText('Promises')).toBeInTheDocument();
     expect(screen.getByText('promise, then, catch')).toBeInTheDocument();
     expect(screen.getByText('JavaScript')).toBeInTheDocument();
     expect(screen.getByText('42%')).toBeInTheDocument();
-    // expect(container.querySelector("[data-slot='progress']")).toBeTruthy();
+    expect(container.querySelector("[data-slot='progress']")).toBeTruthy();
   });
 });
