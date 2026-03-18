@@ -42,7 +42,7 @@ export default function Page() {
 
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
-      <div className="mx-auto flex flex-1 items-center justify-center px-6 text-center">
+      <div className="m-10 mx-auto flex flex-1 items-center justify-center px-6 text-center">
         <div className="m-10 h-full justify-center">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
@@ -64,7 +64,7 @@ export default function Page() {
                 src="/landing-logo-mobile.png"
                 width={1052}
                 height={1052}
-                className="block rounded-3xl md:hidden"
+                className="block max-h-75 w-auto rounded-3xl md:hidden"
                 alt="JS logo"
               />
             </motion.div>
@@ -79,7 +79,7 @@ export default function Page() {
             src="/landing-logo-desktop.jpg"
             width={870}
             height={500}
-            className="hidden rounded-3xl md:block"
+            className="hidden max-h-200 w-auto rounded-3xl md:block"
             alt="JS logo"
           />
         </motion.div>
@@ -96,7 +96,7 @@ export default function Page() {
           {FEATURES.map((feature) => (
             <TabsContent key={feature.value} value={feature.value}>
               <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
-              <div className="mx-auto h-75 w-full max-w-4xl md:h-125">
+              <div className="mx-auto h-70 w-full max-w-4xl">
                 <Image
                   src={feature.image}
                   width={feature.width}
