@@ -1,7 +1,6 @@
 'use client';
 
 import { LogIn, LogOut, Menu, SquareMenu } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef } from 'react';
@@ -15,17 +14,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
+import { useLocale } from '@/providers/locale.provider';
 import { authService } from '@/services/authorization/auth.service';
 import { useAuth } from '@/services/authorization/auth.store';
-import { LocaleDictionary, localeService, useLocale } from '@/services/locale.service';
+import { LocaleDictionary, localeService } from '@/services/locale/locale.service';
 
 import { Button } from './ui/button';
 
-const handleLocaleChange = (locale: string) => localeService.setLocale(locale);
-
 export function Header() {
   const { user, isAuthorized, isAuthorizing } = useAuth();
-  const { locale: currentLocale } = useLocale();
+
+  const { locale: currentLocale, languageCode } = useLocale();
 
   const router = useRouter();
 
@@ -35,6 +34,12 @@ export function Header() {
   const pathname = usePathname();
 
   const isInitialized = useRef(false);
+
+  const handleLocaleChange = (newLocale: string) => {
+    localeService.setLocale(newLocale);
+
+    router.refresh();
+  };
 
   const handleUnauthorizedAccess = useCallback(() => {
     if (!isInitialized.current || isAuthorizing) return;
@@ -60,7 +65,6 @@ export function Header() {
 
   useEffect(() => {
     if (!isInitialized.current) {
-      localeService.initializeLocale();
       authService.initialize().finally(() => (isInitialized.current = true));
     }
   }, []);
@@ -145,14 +149,8 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={'outline'} size={'xs'} disabled={isAuthorizing}>
-                <Image
-                  src={`https://flagcdn.com/w20/${currentLocale}.png`}
-                  alt="flag"
-                  className="menu-flag height-auto width-auto"
-                  width={20}
-                  height={10}
-                />
+              <Button variant={'outline'} size={'xs'} disabled={isAuthorizing} className="uppercase">
+                {languageCode}
               </Button>
             </DropdownMenuTrigger>
 
@@ -166,14 +164,6 @@ export function Header() {
                         currentLocale === locale ? 'bg-primary text-white' : ''
                       )}
                     >
-                      <Image
-                        src={`https://flagcdn.com/w20/${locale}.png`}
-                        alt="flag"
-                        className="menu-flag height-auto width-auto"
-                        width={20}
-                        height={10}
-                      />
-
                       {info.language}
                     </div>
                   </DropdownMenuItem>

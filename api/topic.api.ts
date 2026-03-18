@@ -2,7 +2,7 @@ import z from 'zod';
 
 import { supabaseServer } from '@/lib/supabase/server';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { Topic, TopicSchema } from '@/types/schemas/database-schemas';
+import { Topic, TopicSchema } from '@/types/schemas/topic-schema';
 
 export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; error?: string }> {
   try {

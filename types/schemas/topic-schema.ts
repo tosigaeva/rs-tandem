@@ -1,13 +1,19 @@
 import { z } from 'zod';
 
-import { LanguageCode, LocaleString, LocaleStringSchema } from '@/services/locale.service';
+import { LanguageCode } from '@/services/locale/locale.service';
 
-import { WidgetType } from '../widget';
+import { LocaleString, LocaleStringSchema } from './locale-schemas';
+import { WidgetSchema } from './widget-schema';
 
 export enum Level {
   beginner = 'beginner',
   intermediate = 'intermediate',
   advanced = 'advanced',
+}
+
+export enum Subject {
+  javascript = 'JavaScript',
+  typescript = 'TypeScript',
 }
 
 export const LevelLocales: Record<Level, LocaleString> = {
@@ -28,36 +34,13 @@ export const LevelLocales: Record<Level, LocaleString> = {
   },
 };
 
-export enum Subject {
-  javascript = 'JavaScript',
-  typescript = 'TypeScript',
-}
-
-export const WidgetSchema = z
-  .object({
-    type: z.enum(WidgetType),
-    name: LocaleStringSchema,
-    last_accessed_at: z.coerce.date().nullable(),
-    total_questions: z.number(),
-    correct_answers: z.number(),
-  })
-  .transform((data) => ({
-    type: data.type,
-    name: LocaleStringSchema,
-    lastAccessedAt: data.last_accessed_at,
-    totalQuestions: data.total_questions,
-    correctAnswers: data.correct_answers,
-  }));
-
-export type Widget = z.infer<typeof WidgetSchema>;
-
 export const TopicSchema = z
   .object({
     id: z.number(),
     name: LocaleStringSchema,
-    level: z.enum(Level),
+    level: z.nativeEnum(Level),
     description: LocaleStringSchema,
-    subject: z.enum(Subject),
+    subject: z.nativeEnum(Subject),
     last_accessed_at: z.coerce.date().nullable(),
     created_at: z.coerce.date(),
     widgets: z.array(WidgetSchema).default([]),

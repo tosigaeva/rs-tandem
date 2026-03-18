@@ -1,6 +1,6 @@
 import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { Topic } from '@/types/schemas/database-schemas';
+import { Topic } from '@/types/schemas/topic-schema';
 
 import { getRecentTopics, getTopics } from '../api/topic.api';
 
