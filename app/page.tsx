@@ -86,7 +86,7 @@ export default function Page() {
       </div>
       <div className="mb-10 w-full justify-center px-6 text-center">
         <Tabs defaultValue={FEATURES[0].value}>
-          <TabsList variant="line">
+          <TabsList variant="line" className="mx-auto mb-6 w-full max-w-4xl justify-start border-b border-neutral-300">
             {FEATURES.map((feature) => (
               <TabsTrigger key={feature.value} value={feature.value}>
                 {feature.label}
