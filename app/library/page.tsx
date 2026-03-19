@@ -1,7 +1,7 @@
+import { getTopicsOverview } from '@/api/trainer.api';
 import { TopicList } from '@/components/library/TopicsList';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
 import { LanguageCode } from '@/services/locale/locale.service';
-import { TopicService } from '@/services/topic.service';
 
 const messages = {
   title: {
@@ -36,13 +36,9 @@ const messages = {
 export default async function Page() {
   const languageCode = await getServerLanguageCode();
 
-  const { data: recentTopics } = await TopicService.loadRecentTopics();
-
-  const skipIds = recentTopics?.map((topic) => topic.id) || [];
-
-  const topicsTitle = skipIds.length > 0 ? messages.section.explore : messages.section.start;
-
-  const { data: topicsPage } = await TopicService.loadTopics(skipIds);
+  const { recentTopics, topicsPage } = await getTopicsOverview();
+  const hasRecentTopics = recentTopics != undefined && recentTopics.length > 0;
+  const topicsTitle = hasRecentTopics ? messages.section.explore : messages.section.start;
 
   return (
     <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
@@ -52,7 +48,7 @@ export default async function Page() {
       </section>
 
       {recentTopics && <TopicList title={messages.section.continue[languageCode]} topics={recentTopics} />}
-      {topicsPage && <TopicList title={topicsTitle[languageCode]} topics={topicsPage.items} />}
+      {topicsPage && <TopicList title={topicsTitle[languageCode]} topics={topicsPage.items} displayProgress={false} />}
     </main>
   );
 }

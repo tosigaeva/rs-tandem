@@ -38,12 +38,12 @@ export const TopicSchema = z
   .object({
     id: z.number(),
     name: LocaleStringSchema,
-    level: z.nativeEnum(Level),
+    level: z.enum(Level),
     description: LocaleStringSchema,
-    subject: z.nativeEnum(Subject),
+    subject: z.enum(Subject),
     last_accessed_at: z.coerce.date().nullable(),
     created_at: z.coerce.date(),
-    widgets: z.array(WidgetSchema).default([]),
+    widgets: z.array(z.lazy(() => WidgetSchema)).default([]),
   })
   .transform((data) => ({
     id: data.id,
@@ -51,11 +51,19 @@ export const TopicSchema = z
     level: data.level,
     description: data.description,
     subject: data.subject,
-    lastAccessedAt: data.last_accessed_at,
-    totalQuestions: data.widgets.reduce((sum, widget) => (sum += widget.totalQuestions), 0),
-    correctAnswers: data.widgets.reduce((sum, widget) => (sum += widget.correctAnswers), 0),
+    lastTrainedAt: data.last_accessed_at ?? undefined,
+    progress: calculateProgress(
+      data.widgets.reduce((sum, widget) => (sum += widget.correctAnswers), 0),
+      data.widgets.reduce((sum, widget) => (sum += widget.totalQuestions), 0)
+    ),
     createdAt: data.created_at,
-    widgets: data.widgets,
+    widgets: [],
   }));
 
 export type Topic = z.infer<typeof TopicSchema>;
+
+const calculateProgress = (correctAnswers: number, totalQuestions: number) => {
+  if (totalQuestions === 0) return 0;
+
+  return (correctAnswers / totalQuestions) * 100;
+};

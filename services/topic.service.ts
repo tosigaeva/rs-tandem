@@ -15,7 +15,7 @@ export const TopicService = {
     });
   },
 
-  loadTopics: (
+  loadTopicsPage: (
     skipIds: number[] = [],
     pageInfo?: PageInfo<'Topic'>
   ): Promise<{ data: PaginatedResult<Topic, 'Topic'> | undefined; error?: string }> => {
