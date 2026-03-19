@@ -75,7 +75,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-6">
         <div className="flex flex-1">
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <PrimaryButton variant="outline" size="icon" disabled={isAuthorizing} className={headerActionButtonClass}>
                 <Menu className="h-5 w-5" />
@@ -114,7 +114,7 @@ export function Header() {
         </h1>
 
         <div className="flex flex-1 items-start justify-end gap-2.5">
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <PrimaryButton
                 variant="outline"
@@ -153,7 +153,7 @@ export function Header() {
             )}
           </DropdownMenu>
 
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <PrimaryButton variant="outline" size="icon" disabled={isAuthorizing} className={headerActionButtonClass}>
                 <Image
