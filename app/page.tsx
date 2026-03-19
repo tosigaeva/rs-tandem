@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,7 +11,6 @@ import { useAuth } from '@/services/authorization/auth.store';
 
 export default function Page() {
   const { isAuthorized } = useAuth();
-  const router = useRouter();
 
   const FEATURES = [
     {
@@ -42,16 +41,16 @@ export default function Page() {
 
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
-      <div className="m-10 mx-auto flex flex-1 items-center justify-center px-6 text-center">
-        <div className="m-10 h-full justify-center">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-6 py-10 text-center">
+        <div className="h-full justify-center">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
             Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms,
             problem solving, and core JS concepts in a fun way.
           </p>
           <div className="mt-8 flex justify-center gap-4 p-5">
-            <PrimaryButton size="lg" onClick={() => router.push(isAuthorized ? Routes.Dashboard : Routes.SignIn)}>
-              Get started!
+            <PrimaryButton size="lg" asChild>
+              <Link href={isAuthorized ? Routes.Dashboard : Routes.SignIn}>Get started!</Link>
             </PrimaryButton>
           </div>
           <div className="flex items-center justify-center">
@@ -64,7 +63,7 @@ export default function Page() {
                 src="/landing-logo-mobile.png"
                 width={1052}
                 height={1052}
-                className="block max-h-75 w-auto rounded-3xl md:hidden"
+                className="block max-h-72 w-auto rounded-3xl md:hidden"
                 alt="JS logo"
               />
             </motion.div>
@@ -79,12 +78,12 @@ export default function Page() {
             src="/landing-logo-desktop.jpg"
             width={870}
             height={500}
-            className="hidden max-h-200 w-auto rounded-3xl md:block"
+            className="hidden max-h-96 w-auto rounded-3xl md:block"
             alt="JS logo"
           />
         </motion.div>
       </div>
-      <div className="mb-10 w-full justify-center px-6 text-center">
+      <div className="mx-auto mb-10 w-full max-w-6xl px-6 text-center">
         <Tabs defaultValue={FEATURES[0].value}>
           <TabsList variant="line" className="mx-auto mb-6 w-full max-w-4xl justify-start border-b border-neutral-300">
             {FEATURES.map((feature) => (
@@ -96,7 +95,7 @@ export default function Page() {
           {FEATURES.map((feature) => (
             <TabsContent key={feature.value} value={feature.value}>
               <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
-              <div className="mx-auto h-70 w-full max-w-4xl">
+              <div className="mx-auto min-h-72 w-full max-w-4xl">
                 <Image
                   src={feature.image}
                   width={feature.width}
