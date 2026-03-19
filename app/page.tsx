@@ -85,7 +85,7 @@ export default function Page() {
       </div>
       <div className="mx-auto mb-10 w-full max-w-6xl px-6 text-center">
         <Tabs defaultValue={FEATURES[0].value}>
-          <TabsList variant="line" className="mx-auto mb-6 w-full max-w-4xl justify-start border-b border-neutral-300">
+          <TabsList variant="line" className="mx-auto mb-6 h-7 w-full justify-start border-b border-neutral-300 p-1">
             {FEATURES.map((feature) => (
               <TabsTrigger key={feature.value} value={feature.value}>
                 {feature.label}
@@ -95,7 +95,7 @@ export default function Page() {
           {FEATURES.map((feature) => (
             <TabsContent key={feature.value} value={feature.value}>
               <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
-              <div className="mx-auto min-h-72 w-full max-w-4xl">
+              <div className="mx-auto h-72 w-full max-w-4xl">
                 <Image
                   src={feature.image}
                   width={feature.width}
