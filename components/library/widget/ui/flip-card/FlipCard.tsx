@@ -49,22 +49,24 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
           </CardContent>
         </Card>
       </div>
-      <Button
-        className={`${
-          selected === 'true' ? 'bg-correct-answer' : 'bg-correct-answer-muted'
-        } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
-        onClick={(event) => handleSelect('true', event)}
-      >
-        I know this
-      </Button>
-      <Button
-        className={`${
-          selected === 'false' ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
-        } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
-        onClick={(event) => handleSelect('false', event)}
-      >
-        I don&apos;t know this
-      </Button>
+      <div className="m-2 flex justify-center gap-1">
+        <Button
+          className={`${
+            selected === 'true' ? 'bg-correct-answer' : 'bg-correct-answer-muted'
+          } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
+          onClick={(event) => handleSelect('true', event)}
+        >
+          I know this
+        </Button>
+        <Button
+          className={`${
+            selected === 'false' ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
+          } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
+          onClick={(event) => handleSelect('false', event)}
+        >
+          I don&apos;t know this
+        </Button>
+      </div>
     </div>
   );
 }
