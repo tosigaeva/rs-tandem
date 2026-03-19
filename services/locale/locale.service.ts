@@ -33,15 +33,6 @@ export type LocaleInfo = {
 };
 
 export const localeService = {
-  getLocaleInfo(): LocaleInfo {
-    const cookieLocale = Cookies.get()[localeCookieName] ?? Locale.gb;
-
-    const locale = validateLocale(cookieLocale);
-    const entry = LocaleDictionary[locale];
-
-    return { locale, ...entry };
-  },
-
   setLocale(newLocale: string): void {
     const valid = validateLocale(newLocale);
 

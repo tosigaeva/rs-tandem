@@ -29,18 +29,18 @@ export function Header() {
 
   const router = useRouter();
 
+  const handleLocaleChange = (newLocale: string) => {
+    localeService.setLocale(newLocale);
+
+    router.refresh();
+  };
+
   const routes = Routes;
   const routePermissions = RoutePermissions;
 
   const pathname = usePathname();
 
   const isInitialized = useRef(false);
-
-  const handleLocaleChange = (newLocale: string) => {
-    localeService.setLocale(newLocale);
-
-    router.refresh();
-  };
 
   const handleUnauthorizedAccess = useCallback(() => {
     if (!isInitialized.current || isAuthorizing) return;
