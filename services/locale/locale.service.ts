@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { create } from 'zustand';
 
 export enum Locale {
   gb = 'gb',
@@ -15,13 +16,13 @@ export enum LanguageCode {
 export enum Language {
   english = 'english',
   russian = 'русский',
-  belorussian = 'беларуская',
+  belarusian = 'беларуская',
 }
 
 export const LocaleDictionary: Record<Locale, { languageCode: LanguageCode; language: Language }> = {
   [Locale.gb]: { languageCode: LanguageCode.en, language: Language.english },
   [Locale.ru]: { languageCode: LanguageCode.ru, language: Language.russian },
-  [Locale.by]: { languageCode: LanguageCode.by, language: Language.belorussian },
+  [Locale.by]: { languageCode: LanguageCode.by, language: Language.belarusian },
 };
 
 export const localeCookieName = 'custom_locale';
@@ -32,14 +33,48 @@ export type LocaleInfo = {
   language: Language;
 };
 
-export const localeService = {
-  setLocale(newLocale: string): void {
-    const valid = validateLocale(newLocale);
+export const validateLocale = (inspectLocale: string | undefined) => {
+  if (inspectLocale === undefined) return Locale.gb;
 
-    Cookies.set(localeCookieName, valid, { expires: 365, path: '/' });
-  },
-};
-
-export const validateLocale = (inspectLocale: string) => {
   return Object.values(Locale).find((locale) => locale === inspectLocale) ?? Locale.gb;
 };
+
+type LocaleState = {
+  locale: Locale;
+  languageCode: LanguageCode;
+  language: Language;
+  setLocale: (newLocale: Locale) => void;
+};
+
+export const getLocaleFromCookies = () => {
+  return validateLocale(Cookies.get(localeCookieName));
+};
+
+export const useLocale = create<LocaleState>((set) => ({
+  locale: Locale.gb,
+  languageCode: LanguageCode.en,
+  language: Language.english,
+
+  setLocale: (newLocale: string) => {
+    const valid = validateLocale(newLocale);
+
+    Cookies.set(localeCookieName, valid, { expires: 365 });
+    const languageInfo = LocaleDictionary[valid];
+    set({ locale: valid, ...languageInfo });
+  },
+}));
+
+// export const useLocale = create<LocaleState>((set) => {
+//   const locale = validateLocale(Cookies.get(localeCookieName));
+//   const languageInfo = LocaleDictionary[locale];
+
+//   const setLocale = (newLocale: string) => {
+//     const valid = validateLocale(newLocale);
+
+//     Cookies.set(localeCookieName, valid, { expires: 365 });
+//     const languageInfo = LocaleDictionary[valid];
+//     set({ locale: valid, ...languageInfo });
+//   };
+
+//   return { locale, ...languageInfo, setLocale };
+// });

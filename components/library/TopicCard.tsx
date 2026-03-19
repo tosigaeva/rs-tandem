@@ -2,7 +2,8 @@
 
 import { Badge, Progress } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useLocale } from '@/providers/locale.provider';
+import { useTranslation } from '@/hooks/use-translation';
+import { useLocale } from '@/services/locale/locale.service';
 import { LevelLocales, Topic } from '@/types/schemas/topic-schema';
 
 type TopicCardProperties = {
@@ -12,6 +13,7 @@ type TopicCardProperties = {
 
 export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
   const { languageCode } = useLocale();
+  const { translate } = useTranslation();
 
   return (
     <Card className="group transform-gp w-xs shrink-0 cursor-pointer transition-all duration-300 ease-out hover:scale-105">
@@ -23,9 +25,9 @@ export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
           {displayProgress && <span className="text-muted-foreground text-xs">{`${topic.progress.toFixed(2)}%`}</span>}
         </div>
         <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
-          {topic.name[languageCode]}
+          {translate(topic.name)}
         </CardTitle>
-        <CardDescription className="line-clamp-2 min-h-10 text-sm">{topic.description[languageCode]}</CardDescription>
+        <CardDescription className="line-clamp-2 min-h-10 text-sm">{translate(topic.description)}</CardDescription>
       </CardHeader>
       <CardContent>{displayProgress && <Progress value={topic.progress} className="h-2" />}</CardContent>
       <CardFooter>

@@ -1,12 +1,15 @@
 import { render, screen } from '@testing-library/react';
 
 import { TopicList } from '@/components/library/TopicsList';
-import { LocaleProvider } from '@/providers/locale.provider';
-import { Locale } from '@/services/locale/locale.service';
+import { Locale, useLocale } from '@/services/locale/locale.service';
 import { Level, Subject, Topic } from '@/types/schemas/topic-schema';
 
 describe('TopicList', () => {
   it('renders list of topics with links', () => {
+    useLocale.setState({
+      locale: Locale.gb,
+    });
+
     const topics: Topic[] = [
       {
         id: 1,
@@ -15,7 +18,7 @@ describe('TopicList', () => {
         description: { en: 'desc', ru: 'описание', by: 'апісанне' },
         subject: Subject.javascript,
         progress: 0,
-        lastTrainedAt: undefined, // Or null
+        lastTrainedAt: undefined,
         createdAt: new Date(),
         widgets: [],
       },
@@ -32,11 +35,7 @@ describe('TopicList', () => {
       },
     ];
 
-    render(
-      <LocaleProvider locale={Locale.gb}>
-        <TopicList title="Explore" topics={topics} />
-      </LocaleProvider>
-    );
+    render(<TopicList title="Explore" topics={topics} />);
 
     expect(screen.getByText('Explore')).toBeInTheDocument();
     expect(screen.getByText('Variables')).toBeInTheDocument();

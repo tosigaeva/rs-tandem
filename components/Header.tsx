@@ -14,10 +14,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
-import { useLocale } from '@/providers/locale.provider';
 import { authService } from '@/services/authorization/auth.service';
 import { useAuth } from '@/services/authorization/auth.store';
-import { LocaleDictionary, localeService } from '@/services/locale/locale.service';
+import { getLocaleFromCookies, LocaleDictionary, useLocale, validateLocale } from '@/services/locale/locale.service';
 
 const headerActionButtonClass =
   'border-primary/40 bg-gradient-to-b from-primary/10 to-accent/10 text-foreground shadow-xs shadow-primary/10 backdrop-blur-sm hover:border-primary/70 hover:from-primary/80 hover:to-accent/70 hover:text-primary-foreground';
@@ -25,14 +24,14 @@ const headerActionButtonClass =
 export function Header() {
   const { user, isAuthorized, isAuthorizing } = useAuth();
 
-  const { locale: currentLocale, languageCode } = useLocale();
+  const { locale: currentLocale, languageCode, setLocale } = useLocale();
 
   const router = useRouter();
 
   const handleLocaleChange = (newLocale: string) => {
-    localeService.setLocale(newLocale);
+    const valid = validateLocale(newLocale);
 
-    router.refresh();
+    setLocale(valid);
   };
 
   const routes = Routes;
@@ -66,6 +65,9 @@ export function Header() {
 
   useEffect(() => {
     if (!isInitialized.current) {
+      const savedLocale = getLocaleFromCookies();
+      setLocale(savedLocale);
+
       authService.initialize().finally(() => (isInitialized.current = true));
     }
   }, []);

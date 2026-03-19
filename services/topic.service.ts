@@ -28,7 +28,7 @@ export const TopicService = {
   },
 };
 
-const getQueryParameters = (pageInfo: PageInfo<'Topic'>) => {
+export const getQueryParameters = (pageInfo: PageInfo<'Topic'>) => {
   return Object.entries(pageInfo)
     .toSorted(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => `${key}=${value}`)

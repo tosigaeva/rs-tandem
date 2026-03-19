@@ -4,7 +4,7 @@ import { Toaster } from 'sonner';
 
 import { Header } from '@/components/Header';
 import { Providers } from '@/providers/providers';
-import { getServerLocale } from '@/services/locale/locale.server';
+import { getServerLanguageCode } from '@/services/locale/locale.server';
 
 const DEFAULT_TOASTER_DURATION = 3500;
 
@@ -13,12 +13,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getServerLocale();
+  const locale = await getServerLanguageCode();
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
-        <Providers locale={locale}>
+        <Providers>
           <Header />
           {children}
           <Toaster

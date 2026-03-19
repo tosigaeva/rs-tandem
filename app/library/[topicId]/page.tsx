@@ -9,11 +9,20 @@ type PageProperties = {
   searchParams: Promise<{ widgetType?: string }>;
 };
 
+const getTopicId = (topicParameter: string): number => {
+  const topicId = Number(topicParameter);
+
+  if (Number.isNaN(topicId)) return -1;
+
+  return topicId;
+};
+
 export default async function Page({ params, searchParams }: PageProperties) {
   const languageCode = await getServerLanguageCode();
 
   const { topicId } = await params;
-  const topic = await getTopic(Number(topicId));
+  const id = getTopicId(topicId);
+  const topic = await getTopic(id);
 
   if (!topic) notFound();
 

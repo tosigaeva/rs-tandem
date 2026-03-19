@@ -1,11 +1,16 @@
 import { render, screen } from '@testing-library/react';
 
 import { TopicCard } from '@/components/library/TopicCard';
-import { LocaleProvider } from '@/providers/locale.provider';
-import { Locale } from '@/services/locale/locale.service';
+import { Locale, useLocale } from '@/services/locale/locale.service';
 import { Level, Subject, Topic } from '@/types/schemas/topic-schema';
 
 describe('TopicCard', () => {
+  beforeEach(() => {
+    useLocale.setState({
+      locale: Locale.gb,
+    });
+  });
+
   it('renders basic topic fields', () => {
     const topic: Topic = {
       id: 1,
@@ -27,11 +32,7 @@ describe('TopicCard', () => {
       widgets: [],
     };
 
-    render(
-      <LocaleProvider locale={Locale.gb}>
-        <TopicCard topic={topic} displayProgress={false} />
-      </LocaleProvider>
-    );
+    render(<TopicCard topic={topic} displayProgress={false} />);
 
     expect(screen.getByText('beginner')).toBeInTheDocument();
     expect(screen.getByText('Variables')).toBeInTheDocument();
@@ -61,11 +62,7 @@ describe('TopicCard', () => {
       widgets: [],
     };
 
-    const { container } = render(
-      <LocaleProvider locale={Locale.gb}>
-        <TopicCard topic={topic} displayProgress={true} />
-      </LocaleProvider>
-    );
+    const { container } = render(<TopicCard topic={topic} displayProgress={true} />);
 
     expect(screen.getByText('intermediate')).toBeInTheDocument();
     expect(screen.getByText('Promises')).toBeInTheDocument();
