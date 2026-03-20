@@ -2,7 +2,8 @@ import { mockQuestions } from '@/api/mocks/questions.mock';
 import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
 import { TopicService } from '@/services/topic.service';
 import { Question } from '@/types/question';
-import { LibraryTopicsResponse, Topic } from '@/types/topic';
+import { Topic } from '@/types/schemas/topic-schema';
+import { LibraryTopicsResponse } from '@/types/topic';
 import { WidgetFilter, WidgetType } from '@/types/widget';
 
 export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
@@ -10,37 +11,19 @@ export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
     return mockLibraryTopics;
   }
 
-  const { data: recentTopics } = await TopicService.loadRecentTopics();
+  const { data: recentTopics, error: recentTopicsError } = await TopicService.loadRecentTopics();
   const skipIds = recentTopics?.map((topic) => topic.id) || [];
-  const { data: topicsPage } = await TopicService.loadTopics(skipIds);
+  const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds);
 
   return {
-    userTopics:
-      recentTopics === undefined
-        ? []
-        : recentTopics.map((topic) => ({
-            id: String(topic.id),
-            name: topic.name,
-            level: topic.level,
-            description: topic.description,
-            subject: topic.subject,
-            progress: 100,
-            lastTrainedAt: String(topic.lastAccessedAt),
-          })),
-    topics:
-      topicsPage === undefined
-        ? []
-        : topicsPage.items.map((topic) => ({
-            id: String(topic.id),
-            name: topic.name,
-            level: topic.level,
-            description: topic.description,
-            subject: topic.subject,
-          })),
+    recentTopics,
+    recentTopicsError,
+    topicsPage,
+    topicsPageError,
   };
 }
 
-export async function getTopic(topicId: string): Promise<Topic | undefined> {
+export async function getTopic(topicId: number): Promise<Topic | undefined> {
   return mockTopics.find((topic) => topic.id === topicId);
 }
 
