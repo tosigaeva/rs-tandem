@@ -30,12 +30,14 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   const onCheck = async (answer: string) => {
     const result = await validateAnswer(currentQuestion.id, answer);
 
-    await trackQuestionAttempt({
-      questionId: currentQuestion.id,
-      isSuccess: result,
-    }).catch((error: unknown) => {
-      console.error('Track activity failed', error);
-    });
+    try {
+      await trackQuestionAttempt({
+        questionId: currentQuestion.id,
+        isSuccess: result,
+      });
+    } catch {
+      // ignored due to not blocking answer validation flow.
+    }
 
     return result;
   };
