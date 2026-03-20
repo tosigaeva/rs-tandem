@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
-import { getTopic } from '@/api/trainer.api';
 import TopicContent from '@/app/library/[topicId]/TopicContent';
+import { getTopic } from '@/data/trainer.api';
 import { toPositiveInteger } from '@/lib/parse-id';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
 

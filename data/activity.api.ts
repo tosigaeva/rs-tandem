@@ -8,15 +8,6 @@ const activityViewRowSchema = z.object({
   count: z.number().int().nonnegative(),
 });
 
-const activityDaysSchema = z.array(
-  z.object({
-    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    count: z.number().int().nonnegative(),
-  })
-);
-
-type ActivityViewRow = z.infer<typeof activityViewRowSchema>;
-
 export async function getDailyActivity(limit = 120): Promise<{ data: ActivityDay[] | undefined; error?: string }> {
   try {
     const supabase = await supabaseServer();
@@ -54,18 +45,11 @@ export async function getDailyActivity(limit = 120): Promise<{ data: ActivityDay
       throw new Error('Invalid profile_questions_daily_activity format');
     }
 
-    const days: ActivityDay[] = rows.data.map((row: ActivityViewRow) => ({
+    const days: ActivityDay[] = rows.data.map((row) => ({
       date: row.day,
       count: row.count,
     }));
-
-    const parsed = activityDaysSchema.safeParse(days);
-
-    if (!parsed.success) {
-      throw new Error('Invalid activity day format');
-    }
-
-    return { data: parsed.data };
+    return { data: days };
   } catch (error: unknown) {
     return {
       data: undefined,

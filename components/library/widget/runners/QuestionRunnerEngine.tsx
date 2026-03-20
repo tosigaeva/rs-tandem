@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import { trackQuestionAttempt } from '@/api/activity.client';
-import { validateAnswer } from '@/api/validate.api';
+import { trackQuestionAttempt } from '@/data/activity.client';
+import { validateAnswer } from '@/data/validate.api';
 import { Question as QuestionType } from '@/types/question';
 
 type RunnerRenderProperties = {

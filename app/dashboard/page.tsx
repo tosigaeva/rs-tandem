@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
-import { getDailyActivity } from '@/api/activity.api';
-import { getUser } from '@/api/user.api';
 import { DailyActivityCard } from '@/components/dashboard/activity';
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { getDailyActivity } from '@/data/activity.api';
+import { getUser } from '@/data/user.api';
 import { Routes } from '@/lib/routes';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
 import { AppMessages } from '@/services/locale/messages';
