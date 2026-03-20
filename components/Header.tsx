@@ -1,7 +1,6 @@
 'use client';
 
 import { LogIn, LogOut, Menu, User } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef } from 'react';
@@ -17,17 +16,21 @@ import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
 import { authService } from '@/services/authorization/auth.service';
 import { useAuth } from '@/services/authorization/auth.store';
-import { LocaleDictionary, localeService, useLocale } from '@/services/locale.service';
+import { getLocaleFromCookies, LocaleDictionary, useLocale } from '@/services/locale/locale.service';
 
-const handleLocaleChange = (locale: string) => localeService.setLocale(locale);
 const headerActionButtonClass =
   'border-primary/40 bg-gradient-to-b from-primary/10 to-accent/10 text-foreground shadow-xs shadow-primary/10 backdrop-blur-sm hover:border-primary/70 hover:from-primary/80 hover:to-accent/70 hover:text-primary-foreground';
 
 export function Header() {
   const { user, isAuthorized, isAuthorizing } = useAuth();
-  const { locale: currentLocale } = useLocale();
+
+  const { locale: currentLocale, languageCode, setLocale } = useLocale();
 
   const router = useRouter();
+
+  const handleLocaleChange = (newLocale: string) => {
+    setLocale(newLocale);
+  };
 
   const routes = Routes;
   const routePermissions = RoutePermissions;
@@ -60,10 +63,12 @@ export function Header() {
 
   useEffect(() => {
     if (!isInitialized.current) {
-      localeService.initializeLocale();
+      const savedLocale = getLocaleFromCookies();
+      setLocale(savedLocale);
+
       authService.initialize().finally(() => (isInitialized.current = true));
     }
-  }, []);
+  }, [setLocale]);
 
   useEffect(() => {
     handleUnauthorizedAccess();
@@ -155,14 +160,13 @@ export function Header() {
 
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <PrimaryButton variant="outline" size="icon" disabled={isAuthorizing} className={headerActionButtonClass}>
-                <Image
-                  src={`https://flagcdn.com/w20/${currentLocale}.png`}
-                  alt="flag"
-                  className="menu-flag height-auto width-auto"
-                  width={24}
-                  height={12}
-                />
+              <PrimaryButton
+                variant="outline"
+                size="icon"
+                disabled={isAuthorizing}
+                className={cn(headerActionButtonClass, 'uppercase')}
+              >
+                {languageCode}
               </PrimaryButton>
             </DropdownMenuTrigger>
 
@@ -176,14 +180,6 @@ export function Header() {
                         currentLocale === locale ? 'bg-primary text-white' : ''
                       )}
                     >
-                      <Image
-                        src={`https://flagcdn.com/w20/${locale}.png`}
-                        alt="flag"
-                        className="menu-flag height-auto width-auto"
-                        width={24}
-                        height={12}
-                      />
-
                       {info.language}
                     </div>
                   </DropdownMenuItem>
