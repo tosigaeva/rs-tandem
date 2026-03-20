@@ -3,7 +3,7 @@
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { cn } from '@/lib/utils';
 
-import { activityLevelClassMap } from './activity.constants';
+import { activityLevelColorMap } from './activity.constants';
 import { ActivityCell } from './activity.types';
 import { formatDateLabel } from './activity-date.utilities';
 
@@ -29,9 +29,9 @@ export function ActivityDayCell({ day }: ActivityDayCellProperties) {
           type="button"
           aria-label={getDayLabel(day)}
           className={cn(
-            'focus-visible:ring-ring size-3 rounded-full transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:outline-none',
-            activityLevelClassMap[day.level]
+            'focus-visible:ring-ring h-3 w-3 rounded-full transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:outline-none'
           )}
+          style={{ backgroundColor: activityLevelColorMap[day.level] }}
         />
       </HoverCardTrigger>
       <HoverCardContent className="w-fit px-3 py-2 text-xs">{getDayLabel(day)}</HoverCardContent>

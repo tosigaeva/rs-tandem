@@ -1,32 +1,37 @@
 import Link from 'next/link';
 
+import { getDailyActivity } from '@/api/activity.api';
 import { getUser } from '@/api/user.api';
 import { DailyActivityCard } from '@/components/dashboard/activity';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Routes } from '@/lib/routes';
-
-const messages = {
-  greeting: 'Hello',
-  startPracticeButton: 'Start Practice',
-};
+import { getServerLanguageCode } from '@/services/locale/locale.server';
+import { AppMessages } from '@/services/locale/messages';
 
 export default async function Page() {
-  const user = await getUser();
+  const [user, activity, languageCode] = await Promise.all([getUser(), getDailyActivity(), getServerLanguageCode()]);
+  const days = activity.data ?? [];
+
+  if (activity.error == undefined) {
+    console.info('[dashboard] getDailyActivity days:', days.length);
+  } else {
+    console.error('[dashboard] getDailyActivity failed:', activity.error);
+  }
 
   return (
     <main className="text-foreground px-6 py-8">
-      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)]">
+      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
         <article className="space-y-6">
           <h1 className="text-2xl font-bold sm:text-4xl">
-            {messages.greeting}, {user.name}!
+            {AppMessages['dashboard.greeting'][languageCode]}, {user.name}!
           </h1>
 
           <PrimaryButton asChild>
-            <Link href={Routes.Library}>{messages.startPracticeButton}</Link>
+            <Link href={Routes.Library}>{AppMessages['dashboard.startPracticeButton'][languageCode]}</Link>
           </PrimaryButton>
         </article>
 
-        <DailyActivityCard days={[]} />
+        <DailyActivityCard days={days} />
       </section>
     </main>
   );

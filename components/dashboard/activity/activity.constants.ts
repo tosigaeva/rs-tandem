@@ -1,10 +1,10 @@
 import { ActivityLevel } from './activity.types';
 
-export const activityLevelClassMap: Record<ActivityLevel, string> = {
-  none: 'bg-[var(--heatmap-idle)]',
-  low: 'bg-[var(--heatmap-low)]',
-  medium: 'bg-[var(--heatmap-low)]',
-  high: 'bg-[var(--heatmap-high)]',
+export const activityLevelColorMap: Record<ActivityLevel, string> = {
+  none: 'var(--heatmap-idle)',
+  low: 'var(--heatmap-low)',
+  medium: 'var(--heatmap-low)',
+  high: 'var(--heatmap-high)',
 };
 
 type ActivityLegendItem = {

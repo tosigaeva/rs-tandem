@@ -88,14 +88,14 @@ export function ActivityHeatmap({ days, monthCount = 3 }: ActivityHeatmapPropert
 
           return (
             <article key={getDateKey(monthDate)} className="space-y-3">
-              <p className="text-muted-foreground/90 text-left text-lg leading-none font-normal tracking-tight">
+              <p className="text-muted-foreground/90 text-left text-base leading-none font-normal tracking-tight">
                 {monthLabel}
               </p>
 
               <div className="grid grid-cols-7 gap-1.5">
                 {monthCells.map((cell, index) => {
                   if (!cell.isCurrentMonth || cell.day === undefined) {
-                    return <span key={`empty-${getDateKey(monthDate)}-${index}`} className="size-3" aria-hidden />;
+                    return <span key={`empty-${getDateKey(monthDate)}-${index}`} className="h-3 w-3" aria-hidden />;
                   }
 
                   return <ActivityDayCell key={cell.day.date} day={cell.day} />;

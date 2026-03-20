@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { trackQuestionAttempt } from '@/api/activity.client';
 import { validateAnswer } from '@/api/validate.api';
 import { Question as QuestionType } from '@/types/question';
 
@@ -27,7 +28,16 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
 
   const onCheck = async (answer: string) => {
-    return await validateAnswer(currentQuestion.id, answer);
+    const result = await validateAnswer(currentQuestion.id, answer);
+
+    await trackQuestionAttempt({
+      questionId: currentQuestion.id,
+      isSuccess: result,
+    }).catch((error: unknown) => {
+      console.error('Track activity failed', error);
+    });
+
+    return result;
   };
 
   return children({

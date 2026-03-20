@@ -29,6 +29,27 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Узнать больше',
     [LanguageCode.by]: 'Даведацца больш',
   },
+  /// dashboard
+  'dashboard.greeting': {
+    [LanguageCode.en]: 'Hello',
+    [LanguageCode.ru]: 'Привет',
+    [LanguageCode.by]: 'Прывітанне',
+  },
+  'dashboard.startPracticeButton': {
+    [LanguageCode.en]: 'Start Practice',
+    [LanguageCode.ru]: 'Начать практику',
+    [LanguageCode.by]: 'Пачаць практыку',
+  },
+  'dashboard.activity.title': {
+    [LanguageCode.en]: 'Daily user activity',
+    [LanguageCode.ru]: 'Ежедневная активность пользователя',
+    [LanguageCode.by]: 'Штодзённая актыўнасць карыстальніка',
+  },
+  'dashboard.activity.empty': {
+    [LanguageCode.en]: 'No activity yet. Solve a few questions first.',
+    [LanguageCode.ru]: 'Пока нет активности. Сначала решите несколько вопросов.',
+    [LanguageCode.by]: 'Пакуль няма актыўнасці. Спачатку вырашыце некалькі пытанняў.',
+  },
 } satisfies Record<string, LocaleString>;
 
 export type MessageKey = keyof typeof AppMessages;
