@@ -2,7 +2,7 @@ import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { Topic } from '@/types/schemas/topic-schema';
 
-import { getRecentTopics, getTopics } from '../api/topic.api';
+import { getRecentTopics, getTopics } from '../data/topic.api';
 
 const RECENT_TOPICS = 'recent_topics';
 const TOPIC_PAGES = 'topic_pages';

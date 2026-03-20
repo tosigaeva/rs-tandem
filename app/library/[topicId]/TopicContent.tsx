@@ -1,8 +1,8 @@
-import { getQuestions } from '@/api/trainer.api';
-import { getWidgetsByTopic } from '@/api/widget.api';
 import DefaultRunner from '@/components/library/widget/runners/default/DefaultRunner';
 import { SliderRunner } from '@/components/library/widget/runners/slider/SliderRunner';
 import WidgetList from '@/components/WidgetList';
+import { getQuestions } from '@/data/trainer.api';
+import { getWidgetsByTopic } from '@/data/widget.api';
 import { toWidgetFilter, WidgetType } from '@/types/widget';
 
 type TopicContentProperties = {

@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-import { getTopicsOverview } from '@/api/trainer.api';
 import { TopicList } from '@/components/library/TopicsList';
+import { getTopicsOverview } from '@/data/trainer.api';
 import { useTranslation } from '@/hooks/use-translation';
 import { usePageState } from '@/store/page-state';
 import { LibraryTopicsResponse } from '@/types/topic';

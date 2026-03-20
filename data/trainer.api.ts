@@ -1,5 +1,5 @@
-import { mockQuestions } from '@/api/mocks/questions.mock';
-import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
+import { mockQuestions } from '@/data/mocks/questions.mock';
+import { mockLibraryTopics, mockTopics } from '@/data/mocks/topics.mock';
 import { TopicService } from '@/services/topic.service';
 import { Question } from '@/types/question';
 import { Topic } from '@/types/schemas/topic-schema';
