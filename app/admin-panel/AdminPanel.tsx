@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import TopicAdminList from './TopicAdminList';
+
 enum AdminPanelTab {
   topics = 'topics',
   widgets = 'widgets',
@@ -33,27 +35,31 @@ export default function AdminPanel() {
 
   return (
     <Tabs value={currentTab} onValueChange={handleTabChange} className="w-full">
-      <TabsList variant="line" className="mx-auto mb-6 h-7 w-full justify-start border-b border-neutral-300 p-1">
-        <TabsTrigger value="topics">Topics</TabsTrigger>
-        <TabsTrigger value="questions">Questions</TabsTrigger>
-        <TabsTrigger value="widgets">Widgets</TabsTrigger>
-      </TabsList>
+      <div className="mx-auto w-full max-w-640 px-4 sm:px-6 lg:px-8">
+        <TabsList variant="line" className="mx-auto mb-6 h-7 w-full justify-start border-b border-neutral-300 p-1">
+          {Object.values(AdminPanelTab).map((tab) => (
+            <TabsTrigger value={tab} key={tab} className="capitalize">
+              {tab}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
 
-      <TabsContent value="topics">
-        {/* Your Topic CRUD component */}
-        {/* <TopicAdminList /> */}
-        Topics list
-      </TabsContent>
+      <div className="mx-auto w-full max-w-480 px-4 sm:px-6 lg:px-8">
+        <TabsContent value="topics">
+          <TopicAdminList />
+        </TabsContent>
 
-      <TabsContent value="questions">
-        {/* <QuestionAdminList /> */}
-        Questions list
-      </TabsContent>
+        <TabsContent value="questions">
+          {/* <QuestionAdminList /> */}
+          Questions list
+        </TabsContent>
 
-      <TabsContent value="widgets">
-        Widgets list
-        {/* <WidgetAdminList /> */}
-      </TabsContent>
+        <TabsContent value="widgets">
+          Widgets list
+          {/* <WidgetAdminList /> */}
+        </TabsContent>
+      </div>
     </Tabs>
   );
 }

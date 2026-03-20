@@ -2,7 +2,7 @@ import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { Topic } from '@/types/schemas/database-schemas';
 
-import { getRecentTopics, getTopics } from '../api/topic.api';
+import { getRecentTopics, getTopicsPage } from '../api/topic.api';
 
 const RECENT_TOPICS = 'recent_topics';
 const TOPIC_PAGES = 'topic_pages';
@@ -23,7 +23,7 @@ export const TopicService = {
 
     return QueryStorage.fetchQuery({
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],
-      queryFn: () => getTopics(queryParameters, skipIds),
+      queryFn: () => getTopicsPage(queryParameters, skipIds),
     });
   },
 };

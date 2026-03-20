@@ -1,12 +1,12 @@
 import z from 'zod';
 
-import { supabaseServer } from '@/lib/supabase/server';
+import { supabaseBrowser } from '@/lib/supabase/client';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { Topic, TopicSchema } from '@/types/schemas/database-schemas';
 
 export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; error?: string }> {
   try {
-    const supabase = await supabaseServer();
+    const supabase = await supabaseBrowser();
 
     const { data, error } = await supabase
       .from('topic_widget_summary')
@@ -34,12 +34,12 @@ export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; er
   }
 }
 
-export async function getTopics(
+export async function getTopicsPage(
   { page, size, orderBy, ascending }: PageInfo<'Topic'>,
   skipIds: number[]
 ): Promise<{ data: PaginatedResult<Topic, 'Topic'> | undefined; error?: string }> {
   try {
-    const supabase = await supabaseServer();
+    const supabase = await supabaseBrowser();
 
     const { count, error: countError } = await supabase.from('topics').select('id', { count: 'exact', head: true });
 
@@ -102,5 +102,25 @@ export async function getTopics(
       data: undefined,
       error: error instanceof Error ? error.message : 'An unexpected error occurred',
     };
+  }
+}
+
+export async function getTopics(): Promise<{ data: Topic[] | undefined; error?: string }> {
+  try {
+    const supabase = await supabaseBrowser();
+
+    const { data, error } = await supabase.from('topics').select('*');
+
+    if (error != undefined) {
+      throw error;
+    }
+
+    if (data != undefined) {
+      console.log(data);
+    }
+
+    throw new Error('Something went wrong');
+  } catch (error: unknown) {
+    return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
   }
 }
