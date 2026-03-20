@@ -1,6 +1,6 @@
 import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { Topic } from '@/types/schemas/database-schemas';
+import { Topic } from '@/types/schemas/topic-schema';
 
 import { getRecentTopics, getTopics } from '../api/topic.api';
 
@@ -15,7 +15,7 @@ export const TopicService = {
     });
   },
 
-  loadTopics: (
+  loadTopicsPage: (
     skipIds: number[] = [],
     pageInfo?: PageInfo<'Topic'>
   ): Promise<{ data: PaginatedResult<Topic, 'Topic'> | undefined; error?: string }> => {
@@ -28,7 +28,7 @@ export const TopicService = {
   },
 };
 
-const getQueryParameters = (pageInfo: PageInfo<'Topic'>) => {
+export const getQueryParameters = (pageInfo: PageInfo<'Topic'>) => {
   return Object.entries(pageInfo)
     .toSorted(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => `${key}=${value}`)
