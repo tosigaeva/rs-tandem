@@ -43,7 +43,7 @@ type LocaleState = {
   locale: Locale;
   languageCode: LanguageCode;
   language: Language;
-  setLocale: (newLocale: Locale) => void;
+  setLocale: (newLocale: string) => void;
 };
 
 export const getLocaleFromCookies = () => {
@@ -63,18 +63,3 @@ export const useLocale = create<LocaleState>((set) => ({
     set({ locale: valid, ...languageInfo });
   },
 }));
-
-// export const useLocale = create<LocaleState>((set) => {
-//   const locale = validateLocale(Cookies.get(localeCookieName));
-//   const languageInfo = LocaleDictionary[locale];
-
-//   const setLocale = (newLocale: string) => {
-//     const valid = validateLocale(newLocale);
-
-//     Cookies.set(localeCookieName, valid, { expires: 365 });
-//     const languageInfo = LocaleDictionary[valid];
-//     set({ locale: valid, ...languageInfo });
-//   };
-
-//   return { locale, ...languageInfo, setLocale };
-// });
