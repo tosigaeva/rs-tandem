@@ -7,12 +7,12 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.AsyncSorter,
     payload: {
-      code: "console.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');",
+      code: "<code>console.log('Start');\n\nsetTimeout(() => {\n  console.log('Timeout');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('Promise');\n});\n\nconsole.log('End');</code>",
       blocks: [
-        { id: 'b1', code: "console.log('1')", label: '1' },
-        { id: 'b2', code: 'setTimeout callback', label: '2' },
-        { id: 'b3', code: 'Promise.then callback', label: '3' },
-        { id: 'b4', code: "console.log('4')", label: '4' },
+        { id: 'b1', code: 'Start', label: '1' },
+        { id: 'b2', code: 'Timeout', label: '2' },
+        { id: 'b3', code: 'Promise', label: '3' },
+        { id: 'b4', code: 'End', label: '4' },
       ],
     },
   },
