@@ -10,6 +10,7 @@ export type WidgetSkinsMap = {
   [WidgetType.CodeCompletion]: 'default';
   [WidgetType.FlipCard]: 'default';
   [WidgetType.BigONotation]: 'default';
+  [WidgetType.AsyncSorter]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
@@ -47,6 +48,11 @@ export const widgetRegistry: {
   [WidgetType.BigONotation]: {
     default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
       () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent')
+    ),
+  },
+  [WidgetType.AsyncSorter]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.AsyncSorter>>(
+      () => import('@/components/library/widget/ui/async-sorter/DefaultComponent')
     ),
   },
 };

@@ -4,6 +4,7 @@ export enum WidgetType {
   CodeCompletion = 'code-completion',
   FlipCard = 'flip-card',
   BigONotation = 'big-o',
+  AsyncSorter = 'async-sorter',
 }
 
 export type Widget = {
