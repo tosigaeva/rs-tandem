@@ -1,3 +1,4 @@
+import { CircleCheckBig, CircleX } from 'lucide-react';
 import { useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
@@ -58,13 +59,24 @@ export default function QuestionCard({
             {options.map((option, index) => {
               const isSelected = option === selected;
 
-              const border =
+              const borderClass =
                 isChecked && isSelected ? (verdict ? 'border-correct-answer!' : 'border-wrong-answer!') : '';
 
+              const Indicator =
+                isChecked && isSelected ? (
+                  verdict ? (
+                    <CircleCheckBig className="text-correct-answer h-4 w-4" />
+                  ) : (
+                    <CircleX className="text-wrong-answer h-4 w-4" />
+                  )
+                ) : (
+                  <RadioGroupItem value={option} />
+                );
+
               return (
-                <FieldLabel key={option} className={`cursor-pointer ${border}`}>
+                <FieldLabel key={option} className={`cursor-pointer ${borderClass}`}>
                   <Field orientation="horizontal">
-                    <RadioGroupItem value={option} />
+                    {Indicator}
                     <FieldTitle>{option}</FieldTitle>
                     <FieldDescription>{index + 1}</FieldDescription>
                   </Field>
