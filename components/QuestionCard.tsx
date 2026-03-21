@@ -1,5 +1,5 @@
 import { CircleCheckBig, CircleX } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -31,12 +31,13 @@ export default function QuestionCard({
 }: QuestionCardProperties) {
   const [selected, setSelected] = useState<string | undefined>();
   const [verdict, setVerdict] = useState<boolean | undefined>();
+  const isChecked = verdict !== undefined;
 
-  const handleCheck = async () => {
+  const handleCheck = useCallback(async () => {
     if (selected === undefined) return;
     const result = await onCheck(selected);
     setVerdict(result);
-  };
+  }, [selected, onCheck]);
 
   const handleNext = () => {
     setSelected(undefined);
@@ -44,7 +45,24 @@ export default function QuestionCard({
     onNext();
   };
 
-  const isChecked = verdict !== undefined;
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isChecked) return;
+
+      const optionIndex = Number.parseInt(event.key, 10);
+      if (!Number.isNaN(optionIndex) && optionIndex >= 1 && optionIndex <= options.length) {
+        setSelected(options[optionIndex - 1]);
+      }
+
+      if (event.key === 'Enter' && selected !== undefined && selected !== '') {
+        handleCheck();
+      }
+    };
+
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
+  }, [isChecked, selected, options]);
+
   return (
     <section className="mx-auto max-w-2xl space-y-8">
       <Card>
@@ -78,7 +96,7 @@ export default function QuestionCard({
                   <Field orientation="horizontal">
                     {Indicator}
                     <FieldTitle>{option}</FieldTitle>
-                    <FieldDescription>{index + 1}</FieldDescription>
+                    <FieldDescription>{`#${index + 1}`}</FieldDescription>
                   </Field>
                 </FieldLabel>
               );
