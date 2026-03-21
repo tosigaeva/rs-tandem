@@ -26,7 +26,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             <CardHeader className="px-4">
               <CardTitle>What is the order of console.log outputs?</CardTitle>
             </CardHeader>
-            <CodeBlock code={questionPayload.code} />
+            <CodeBlock code={questionPayload.code} showCopyButton={false} />
             <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
             <CardContent className="bg-muted/50 flex min-h-[120px] flex-col gap-2 rounded-md border border-dashed p-3">
               {questionPayload.blocks.map((block) => (

@@ -11,9 +11,15 @@ type Properties = {
   code: string;
   language?: string;
   showLineNumbers?: boolean;
+  showCopyButton?: boolean;
 };
 
-export default function CodeBlock({ code, language = 'javascript', showLineNumbers = true }: Properties) {
+export default function CodeBlock({
+  code,
+  language = 'javascript',
+  showLineNumbers = true,
+  showCopyButton = true,
+}: Properties) {
   const [copied, setCopied] = useState(false);
 
   const copyCode = async (copiedCode: string) => {
@@ -32,22 +38,24 @@ export default function CodeBlock({ code, language = 'javascript', showLineNumbe
 
         return (
           <div style={{ position: 'relative' }}>
-            <button
-              onClick={() => copyCode(textToReplace)}
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                fontSize: 12,
-                padding: '4px 8px',
-                borderRadius: 6,
-                border: 'none',
-                cursor: 'pointer',
-                zIndex: 10,
-              }}
-            >
-              {copied ? 'Copied' : 'Copy'}
-            </button>
+            {showCopyButton && (
+              <button
+                onClick={() => copyCode(textToReplace)}
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  fontSize: 12,
+                  padding: '4px 8px',
+                  borderRadius: 6,
+                  border: 'none',
+                  cursor: 'pointer',
+                  zIndex: 10,
+                }}
+              >
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+            )}
             <SyntaxHighlighter
               language={language}
               style={oneLight}
