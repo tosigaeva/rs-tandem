@@ -28,16 +28,6 @@ function getCountsByDate(days: ActivityDay[]): Map<string, number> {
   }, new Map<string, number>());
 }
 
-function getLastActivityDate(days: ActivityDay[]): Date {
-  const parsedDates = days
-    .map((day) => parseDateKey(day.date))
-    .filter((date): date is Date => date !== undefined)
-    .toSorted((a, b) => a.getTime() - b.getTime());
-
-  const lastDate = parsedDates.at(-1);
-  return lastDate ?? new Date();
-}
-
 type CalendarCell = {
   isCurrentMonth: boolean;
   day?: ActivityCell;
@@ -76,8 +66,8 @@ function buildMonthCells(monthDate: Date, countsByDate: Map<string, number>): Ca
 
 export function ActivityHeatmap({ days, monthCount = 3 }: ActivityHeatmapProperties) {
   const countsByDate = getCountsByDate(days);
-  const endDate = getLastActivityDate(days);
-  const months = Array.from({ length: monthCount }, (_, index) => subMonths(endDate, monthCount - index - 1));
+  const currentMonth = startOfMonth(new Date());
+  const months = Array.from({ length: monthCount }, (_, index) => subMonths(currentMonth, monthCount - index - 1));
 
   return (
     <section className="max-[500px]:overflow-x-auto">
