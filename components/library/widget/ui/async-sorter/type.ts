@@ -1,6 +1,6 @@
 import { WidgetType } from '@/types/widget';
 
-type AsyncSorterBlock = {
+export type AsyncSorterBlock = {
   id: string;
   code: string;
   label: string;

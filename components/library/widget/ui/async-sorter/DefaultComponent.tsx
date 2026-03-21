@@ -1,9 +1,10 @@
 import { Box, Layers, Zap } from 'lucide-react';
+import { useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { OutputColumn } from '@/components/library/widget/ui/async-sorter/OutputColumn';
 import { QueueColumn } from '@/components/library/widget/ui/async-sorter/QueueColumn';
-import { AsyncSorterPayload } from '@/components/library/widget/ui/async-sorter/type';
+import { AsyncSorterBlock, AsyncSorterPayload } from '@/components/library/widget/ui/async-sorter/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -22,6 +23,8 @@ export default function DefaultComponent({
   onCheck: __,
   onNext: ___,
 }: WidgetComponentProperties) {
+  const [outputBlocks, setOutputBlocks] = useState<AsyncSorterBlock[]>(questionPayload.blocks);
+
   return (
     <section className="max-w-9xl mx-auto">
       <div className="grid grid-cols-3 gap-2">
@@ -45,7 +48,7 @@ export default function DefaultComponent({
         </div>
 
         <div className="flex flex-col gap-8">
-          <OutputColumn blocks={questionPayload.blocks} />
+          <OutputColumn blocks={outputBlocks} setBlocks={setOutputBlocks} />
           <PrimaryButton className="w-full py-6">Check Answer</PrimaryButton>
         </div>
       </div>
