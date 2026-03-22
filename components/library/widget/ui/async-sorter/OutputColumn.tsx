@@ -11,20 +11,16 @@ type OutputColumnProperties = {
 };
 
 export function OutputColumn({ blocks, setBlocks }: OutputColumnProperties) {
-  const [draggedBlock, setDraggedBlock] = useState<string | undefined>();
+  const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
 
-  function handleDragStart(id: string) {
-    setDraggedBlock(id);
-  }
-
-  function handleDragOver(event: React.DragEvent, overId: string) {
+  function handleDragOver(event: React.DragEvent, overBlock: AsyncSorterBlock) {
     event.preventDefault();
 
-    if (draggedBlock === undefined || draggedBlock === overId) return;
+    if (draggedBlock === undefined || draggedBlock === overBlock) return;
 
     const newBlocks = [...blocks];
-    const fromIndex = newBlocks.findIndex((b) => b.id === draggedBlock);
-    const toIndex = newBlocks.findIndex((b) => b.id === overId);
+    const fromIndex = newBlocks.indexOf(draggedBlock);
+    const toIndex = newBlocks.indexOf(overBlock);
 
     const [moved] = newBlocks.splice(fromIndex, 1);
     newBlocks.splice(toIndex, 0, moved);
@@ -47,8 +43,8 @@ export function OutputColumn({ blocks, setBlocks }: OutputColumnProperties) {
           <div
             key={block.id}
             draggable
-            onDragStart={() => handleDragStart(block.id)}
-            onDragOver={(event) => handleDragOver(event, block.id)}
+            onDragStart={() => setDraggedBlock(block)}
+            onDragOver={(event) => handleDragOver(event, block)}
           >
             <BlockItem code={block.code} label={block.label} />
           </div>
