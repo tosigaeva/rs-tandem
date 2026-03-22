@@ -10,8 +10,8 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/ca
 
 import { BlocksPool } from './BlocksPool';
 
-export type QueueType = 'callstack' | 'microtasks' | 'macrotasks';
-export type QueuesState = Record<QueueType, AsyncSorterBlock[]>;
+export type ZoneType = 'pool' | 'callstack' | 'microtasks' | 'macrotasks';
+export type QueuesState = Record<ZoneType, AsyncSorterBlock[]>;
 
 type WidgetComponentProperties = {
   questionId: string;
@@ -27,25 +27,27 @@ export default function DefaultComponent({
   onNext: ___,
 }: WidgetComponentProperties) {
   const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
+  const [sourceZone, setSourceZone] = useState<ZoneType | undefined>();
 
   const [outputBlocks, setOutputBlocks] = useState<AsyncSorterBlock[]>(questionPayload.blocks);
-  const [pool, setPool] = useState<AsyncSorterBlock[]>(questionPayload.blocks);
-  const [queues, setQueues] = useState<QueuesState>({
+  const [zones, setZones] = useState<QueuesState>({
+    pool: questionPayload.blocks,
     callstack: [],
     microtasks: [],
     macrotasks: [],
   });
 
-  function handleDrop(queue: QueueType) {
-    if (draggedBlock === undefined) return;
+  function handleDrop(targetZone: ZoneType) {
+    if (draggedBlock === undefined || sourceZone === undefined) return;
 
-    setQueues((previous) => ({
+    setZones((previous) => ({
       ...previous,
-      [queue]: [...previous[queue], draggedBlock],
+      [sourceZone]: previous[sourceZone].filter((b) => b.id !== draggedBlock.id),
+      [targetZone]: [...previous[targetZone], draggedBlock],
     }));
 
-    setPool((previous) => previous.filter((b) => b.id !== draggedBlock.id));
     setDraggedBlock(undefined);
+    setSourceZone(undefined);
   }
 
   return (
@@ -58,7 +60,14 @@ export default function DefaultComponent({
             </CardHeader>
             <CodeBlock code={questionPayload.code} showCopyButton={false} />
             <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
-            <BlocksPool blocks={pool} onDragStart={setDraggedBlock} />
+            <BlocksPool
+              blocks={zones.pool}
+              onDragStart={(block) => {
+                setDraggedBlock(block);
+                setSourceZone('pool');
+              }}
+              onDropBlock={() => handleDrop('pool')}
+            />
           </Card>
         </div>
 
@@ -68,22 +77,34 @@ export default function DefaultComponent({
               id={'callstack'}
               title="Call Stack"
               Icon={Layers}
-              blocks={queues.callstack}
-              onDropBlock={handleDrop}
+              blocks={zones.callstack}
+              onDragStart={(block) => {
+                setDraggedBlock(block);
+                setSourceZone('callstack');
+              }}
+              onDropBlock={() => handleDrop('callstack')}
             />
             <QueueColumn
               id={'microtasks'}
               title="Microtasks"
               Icon={Zap}
-              blocks={queues.microtasks}
-              onDropBlock={handleDrop}
+              blocks={zones.microtasks}
+              onDragStart={(block) => {
+                setDraggedBlock(block);
+                setSourceZone('microtasks');
+              }}
+              onDropBlock={() => handleDrop('microtasks')}
             />
             <QueueColumn
               id={'macrotasks'}
               title="Macrotasks"
               Icon={Box}
-              blocks={queues.macrotasks}
-              onDropBlock={handleDrop}
+              blocks={zones.macrotasks}
+              onDragStart={(block) => {
+                setDraggedBlock(block);
+                setSourceZone('macrotasks');
+              }}
+              onDropBlock={() => handleDrop('microtasks')}
             />
           </div>
         </div>
