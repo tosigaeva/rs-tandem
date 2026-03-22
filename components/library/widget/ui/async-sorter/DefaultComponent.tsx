@@ -10,6 +10,9 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/ca
 
 import { BlocksPool } from './BlocksPool';
 
+export type QueueType = 'callstack' | 'microtasks' | 'macrotasks';
+export type QueuesState = Record<QueueType, AsyncSorterBlock[]>;
+
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: AsyncSorterPayload;
@@ -23,7 +26,27 @@ export default function DefaultComponent({
   onCheck: __,
   onNext: ___,
 }: WidgetComponentProperties) {
+  const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
+
   const [outputBlocks, setOutputBlocks] = useState<AsyncSorterBlock[]>(questionPayload.blocks);
+  const [pool, setPool] = useState<AsyncSorterBlock[]>(questionPayload.blocks);
+  const [queues, setQueues] = useState<QueuesState>({
+    callstack: [],
+    microtasks: [],
+    macrotasks: [],
+  });
+
+  function handleDrop(queue: QueueType) {
+    if (draggedBlock === undefined) return;
+
+    setQueues((previous) => ({
+      ...previous,
+      [queue]: [...previous[queue], draggedBlock],
+    }));
+
+    setPool((previous) => previous.filter((b) => b.id !== draggedBlock.id));
+    setDraggedBlock(undefined);
+  }
 
   return (
     <section className="max-w-9xl mx-auto">
@@ -35,15 +58,33 @@ export default function DefaultComponent({
             </CardHeader>
             <CodeBlock code={questionPayload.code} showCopyButton={false} />
             <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
-            <BlocksPool blocks={questionPayload.blocks} />
+            <BlocksPool blocks={pool} onDragStart={setDraggedBlock} />
           </Card>
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
-            <QueueColumn id={'callstack'} title="Call Stack" Icon={Layers} />
-            <QueueColumn id={'microtasks'} title="Microtasks" Icon={Zap} />
-            <QueueColumn id={'macrotasks'} title="Macrotasks" Icon={Box} />
+            <QueueColumn
+              id={'callstack'}
+              title="Call Stack"
+              Icon={Layers}
+              blocks={queues.callstack}
+              onDropBlock={handleDrop}
+            />
+            <QueueColumn
+              id={'microtasks'}
+              title="Microtasks"
+              Icon={Zap}
+              blocks={queues.microtasks}
+              onDropBlock={handleDrop}
+            />
+            <QueueColumn
+              id={'macrotasks'}
+              title="Macrotasks"
+              Icon={Box}
+              blocks={queues.macrotasks}
+              onDropBlock={handleDrop}
+            />
           </div>
         </div>
 
