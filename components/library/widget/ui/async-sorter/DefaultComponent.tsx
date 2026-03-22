@@ -18,6 +18,15 @@ type WidgetComponentProperties = {
   onNext: () => void;
 };
 
+function canDrop(from?: ZoneType, to?: ZoneType) {
+  if (!from || !to) return false;
+
+  if (to === 'output' && from !== 'output') return false;
+  if (to !== 'output' && from === 'output') return false;
+
+  return true;
+}
+
 export default function DefaultComponent({
   questionId: _,
   questionPayload,
@@ -38,9 +47,7 @@ export default function DefaultComponent({
   function handleDrop(targetZone: ZoneType, index: number) {
     if (draggedBlock === undefined || sourceZone === undefined) return;
 
-    if (targetZone === 'output' && sourceZone !== 'output') return;
-
-    if (targetZone !== 'output' && sourceZone === 'output') return;
+    if (!canDrop(sourceZone, targetZone)) return;
 
     setZones((previous) => {
       const next = { ...previous };
@@ -68,6 +75,11 @@ export default function DefaultComponent({
     setSourceZone(zone);
   }
 
+  function handleDragEnd() {
+    setDraggedBlock(undefined);
+    setSourceZone(undefined);
+  }
+
   return (
     <section className="max-w-9xl mx-auto">
       <div className="grid grid-cols-3 gap-2">
@@ -82,6 +94,7 @@ export default function DefaultComponent({
               blocks={zones.pool}
               onDragStart={(block) => handleDragStart(block, 'pool')}
               onDrop={(index) => handleDrop('pool', index)}
+              onDragEnd={handleDragEnd}
             />
           </Card>
         </div>
@@ -94,6 +107,9 @@ export default function DefaultComponent({
               blocks={zones.callstack}
               onDragStart={(block) => handleDragStart(block, 'callstack')}
               onDrop={(index) => handleDrop('callstack', index)}
+              onDragEnd={handleDragEnd}
+              allowDrop={canDrop(sourceZone, 'callstack')}
+              isHighlighted={canDrop(sourceZone, 'callstack')}
             />
             <ZoneColumn
               title="Microtasks"
@@ -101,6 +117,9 @@ export default function DefaultComponent({
               blocks={zones.microtasks}
               onDragStart={(block) => handleDragStart(block, 'microtasks')}
               onDrop={(index) => handleDrop('microtasks', index)}
+              onDragEnd={handleDragEnd}
+              allowDrop={canDrop(sourceZone, 'microtasks')}
+              isHighlighted={canDrop(sourceZone, 'microtasks')}
             />
             <ZoneColumn
               title="Macrotasks"
@@ -108,6 +127,9 @@ export default function DefaultComponent({
               blocks={zones.macrotasks}
               onDragStart={(block) => handleDragStart(block, 'macrotasks')}
               onDrop={(index) => handleDrop('macrotasks', index)}
+              onDragEnd={handleDragEnd}
+              allowDrop={canDrop(sourceZone, 'macrotasks')}
+              isHighlighted={canDrop(sourceZone, 'macrotasks')}
             />
           </div>
         </div>
@@ -120,7 +142,9 @@ export default function DefaultComponent({
             blocks={zones.output}
             onDragStart={(block) => handleDragStart(block, 'output')}
             onDrop={(index) => handleDrop('output', index)}
-            allowDrop={sourceZone === 'output'}
+            onDragEnd={handleDragEnd}
+            allowDrop={canDrop(sourceZone, 'output')}
+            isHighlighted={canDrop(sourceZone, 'output')}
           />
           <PrimaryButton className="w-full py-6">Check Answer</PrimaryButton>
         </div>

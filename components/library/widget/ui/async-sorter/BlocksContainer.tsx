@@ -1,37 +1,83 @@
+import { useState } from 'react';
+
 import { CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 import { BlockItem } from './BlockItem';
 import { AsyncSorterBlock } from './type';
 
 type BlocksContainerProperties = {
   blocks: AsyncSorterBlock[];
-  onDragStart: (b: AsyncSorterBlock) => void;
+  onDragStart: (block: AsyncSorterBlock) => void;
   onDrop: (index: number) => void;
+  onDragEnd: () => void;
   allowDrop?: boolean;
+  isHighlighted?: boolean;
 };
 
-export function BlocksContainer({ blocks, onDragStart, onDrop, allowDrop = true }: BlocksContainerProperties) {
+export function BlocksContainer({
+  blocks,
+  onDragStart,
+  onDrop,
+  onDragEnd,
+  allowDrop = true,
+  isHighlighted = false,
+}: BlocksContainerProperties) {
+  const [hoverIndex, setHoverIndex] = useState<number | undefined>();
+
   return (
-    <CardContent className="bg-muted/50 flex min-h-[120px] flex-col gap-2 rounded-md border border-dashed p-3">
+    <CardContent
+      className={cn(
+        'bg-muted/50 flex min-h-[120px] flex-col gap-2 rounded-md border border-dashed p-3 transition-all duration-150',
+        isHighlighted && 'ring-primary/50 bg-primary/5 ring-2'
+      )}
+    >
       {blocks.map((block, index) => (
         <div
           key={block.id}
           draggable
           onDragStart={() => onDragStart(block)}
-          onDragOver={(event) => allowDrop && event.preventDefault()}
-          onDrop={() => allowDrop && onDrop(index)}
+          onDragOver={(event) => {
+            if (!allowDrop) return;
+            event.preventDefault();
+            setHoverIndex(index);
+          }}
+          onDragLeave={() => setHoverIndex(undefined)}
+          onDrop={() => {
+            if (!allowDrop) return;
+            onDrop(index);
+            setHoverIndex(undefined);
+          }}
+          onDragEnd={() => {
+            setHoverIndex(undefined);
+            onDragEnd();
+          }}
         >
+          {hoverIndex === index && <div className="bg-primary h-0.5 w-full rounded-full transition-all duration-150" />}
           <BlockItem code={block.code} label={block.label} />
         </div>
       ))}
 
       <div
         className="h-6"
-        onDragOver={(event) => allowDrop && event.preventDefault()}
-        onDrop={() => allowDrop && onDrop(blocks.length)}
-      />
+        onDragOver={(event) => {
+          if (!allowDrop) return;
+          event.preventDefault();
+          setHoverIndex(blocks.length);
+        }}
+        onDragLeave={() => setHoverIndex(undefined)}
+        onDrop={() => {
+          if (!allowDrop) return;
+          onDrop(blocks.length);
+          setHoverIndex(undefined);
+        }}
+      >
+        {hoverIndex === blocks.length && (
+          <div className="bg-primary h-0.5 w-full rounded-full transition-all duration-150" />
+        )}
+      </div>
 
-      {blocks.length === 0 && <div className="text-muted-foreground text-center text-sm">Drop items here</div>}
+      {blocks.length === 0 && <div className="text-muted-foreground text-center text-sm italic">Drop items here</div>}
     </CardContent>
   );
 }

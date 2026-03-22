@@ -11,7 +11,9 @@ type ZoneColumnProperties = {
   blocks: AsyncSorterBlock[];
   onDragStart: (block: AsyncSorterBlock) => void;
   onDrop: (index: number) => void;
+  onDragEnd: () => void;
   allowDrop?: boolean;
+  isHighlighted?: boolean;
 };
 
 export default function ZoneColumn({
@@ -21,7 +23,9 @@ export default function ZoneColumn({
   blocks,
   onDragStart,
   onDrop,
+  onDragEnd,
   allowDrop = true,
+  isHighlighted,
 }: ZoneColumnProperties) {
   return (
     <Card className="flex-1 gap-1">
@@ -34,7 +38,14 @@ export default function ZoneColumn({
           <CardDescription className="pt-4 pb-2">{description}</CardDescription>
         )}
       </CardHeader>
-      <BlocksContainer blocks={blocks} onDragStart={onDragStart} onDrop={onDrop} allowDrop={allowDrop} />
+      <BlocksContainer
+        blocks={blocks}
+        onDragStart={onDragStart}
+        onDrop={onDrop}
+        onDragEnd={onDragEnd}
+        allowDrop={allowDrop}
+        isHighlighted={isHighlighted}
+      />
     </Card>
   );
 }
