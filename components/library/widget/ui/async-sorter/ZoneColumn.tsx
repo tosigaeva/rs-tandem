@@ -1,0 +1,40 @@
+import { LucideIcon } from 'lucide-react';
+
+import { BlocksContainer } from '@/components/library/widget/ui/async-sorter/BlocksContainer';
+import { AsyncSorterBlock } from '@/components/library/widget/ui/async-sorter/type';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+type ZoneColumnProperties = {
+  title: string;
+  Icon?: LucideIcon;
+  description?: string;
+  blocks: AsyncSorterBlock[];
+  onDragStart: (block: AsyncSorterBlock) => void;
+  onDrop: (index: number) => void;
+  allowDrop?: boolean;
+};
+
+export default function ZoneColumn({
+  title,
+  Icon,
+  description,
+  blocks,
+  onDragStart,
+  onDrop,
+  allowDrop = true,
+}: ZoneColumnProperties) {
+  return (
+    <Card className="flex-1 gap-1">
+      <CardHeader className="px-4">
+        <CardTitle className="flex items-center gap-2 text-sm uppercase">
+          {Icon && <Icon className="h-4 w-4" />}
+          {title}
+        </CardTitle>
+        {description !== undefined && description.length > 0 && (
+          <CardDescription className="pt-4 pb-2">{description}</CardDescription>
+        )}
+      </CardHeader>
+      <BlocksContainer blocks={blocks} onDragStart={onDragStart} onDrop={onDrop} allowDrop={allowDrop} />
+    </Card>
+  );
+}

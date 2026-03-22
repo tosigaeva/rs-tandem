@@ -1,17 +1,15 @@
-import { Box, Layers, Zap } from 'lucide-react';
+import { Box, Layers, Terminal, Zap } from 'lucide-react';
 import { useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
-import { OutputColumn } from '@/components/library/widget/ui/async-sorter/OutputColumn';
-import { QueueColumn } from '@/components/library/widget/ui/async-sorter/QueueColumn';
+import { BlocksContainer } from '@/components/library/widget/ui/async-sorter/BlocksContainer';
 import { AsyncSorterBlock, AsyncSorterPayload } from '@/components/library/widget/ui/async-sorter/type';
+import ZoneColumn from '@/components/library/widget/ui/async-sorter/ZoneColumn';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { BlocksPool } from './BlocksPool';
-
-export type ZoneType = 'pool' | 'callstack' | 'microtasks' | 'macrotasks';
-export type QueuesState = Record<ZoneType, AsyncSorterBlock[]>;
+export type ZoneType = 'pool' | 'callstack' | 'microtasks' | 'macrotasks' | 'output';
+export type ZonesState = Record<ZoneType, AsyncSorterBlock[]>;
 
 type WidgetComponentProperties = {
   questionId: string;
@@ -29,25 +27,45 @@ export default function DefaultComponent({
   const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
   const [sourceZone, setSourceZone] = useState<ZoneType | undefined>();
 
-  const [outputBlocks, setOutputBlocks] = useState<AsyncSorterBlock[]>(questionPayload.blocks);
-  const [zones, setZones] = useState<QueuesState>({
+  const [zones, setZones] = useState<ZonesState>({
     pool: questionPayload.blocks,
     callstack: [],
     microtasks: [],
     macrotasks: [],
+    output: questionPayload.blocks,
   });
 
-  function handleDrop(targetZone: ZoneType) {
+  function handleDrop(targetZone: ZoneType, index: number) {
     if (draggedBlock === undefined || sourceZone === undefined) return;
 
-    setZones((previous) => ({
-      ...previous,
-      [sourceZone]: previous[sourceZone].filter((b) => b.id !== draggedBlock.id),
-      [targetZone]: [...previous[targetZone], draggedBlock],
-    }));
+    if (targetZone === 'output' && sourceZone !== 'output') return;
+
+    if (targetZone !== 'output' && sourceZone === 'output') return;
+
+    setZones((previous) => {
+      const next = { ...previous };
+
+      const sourceList = [...next[sourceZone]];
+      const targetList = sourceZone === targetZone ? sourceList : [...next[targetZone]];
+
+      const newSource = sourceList.filter((b) => b.id !== draggedBlock.id);
+      const list = sourceZone === targetZone ? newSource : targetList;
+
+      list.splice(index, 0, draggedBlock);
+
+      next[sourceZone] = sourceZone === targetZone ? list : newSource;
+      next[targetZone] = list;
+
+      return next;
+    });
 
     setDraggedBlock(undefined);
     setSourceZone(undefined);
+  }
+
+  function handleDragStart(block: AsyncSorterBlock, zone: ZoneType) {
+    setDraggedBlock(block);
+    setSourceZone(zone);
   }
 
   return (
@@ -60,57 +78,50 @@ export default function DefaultComponent({
             </CardHeader>
             <CodeBlock code={questionPayload.code} showCopyButton={false} />
             <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
-            <BlocksPool
+            <BlocksContainer
               blocks={zones.pool}
-              onDragStart={(block) => {
-                setDraggedBlock(block);
-                setSourceZone('pool');
-              }}
-              onDropBlock={() => handleDrop('pool')}
+              onDragStart={(block) => handleDragStart(block, 'pool')}
+              onDrop={(index) => handleDrop('pool', index)}
             />
           </Card>
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
-            <QueueColumn
-              id={'callstack'}
+            <ZoneColumn
               title="Call Stack"
               Icon={Layers}
               blocks={zones.callstack}
-              onDragStart={(block) => {
-                setDraggedBlock(block);
-                setSourceZone('callstack');
-              }}
-              onDropBlock={() => handleDrop('callstack')}
+              onDragStart={(block) => handleDragStart(block, 'callstack')}
+              onDrop={(index) => handleDrop('callstack', index)}
             />
-            <QueueColumn
-              id={'microtasks'}
+            <ZoneColumn
               title="Microtasks"
               Icon={Zap}
               blocks={zones.microtasks}
-              onDragStart={(block) => {
-                setDraggedBlock(block);
-                setSourceZone('microtasks');
-              }}
-              onDropBlock={() => handleDrop('microtasks')}
+              onDragStart={(block) => handleDragStart(block, 'microtasks')}
+              onDrop={(index) => handleDrop('microtasks', index)}
             />
-            <QueueColumn
-              id={'macrotasks'}
+            <ZoneColumn
               title="Macrotasks"
               Icon={Box}
               blocks={zones.macrotasks}
-              onDragStart={(block) => {
-                setDraggedBlock(block);
-                setSourceZone('macrotasks');
-              }}
-              onDropBlock={() => handleDrop('microtasks')}
+              onDragStart={(block) => handleDragStart(block, 'macrotasks')}
+              onDrop={(index) => handleDrop('macrotasks', index)}
             />
           </div>
         </div>
 
         <div className="flex flex-col gap-8">
-          <OutputColumn blocks={outputBlocks} setBlocks={setOutputBlocks} />
+          <ZoneColumn
+            title="Output"
+            Icon={Terminal}
+            description="Drag logs to match the expected execution order."
+            blocks={zones.output}
+            onDragStart={(block) => handleDragStart(block, 'output')}
+            onDrop={(index) => handleDrop('output', index)}
+            allowDrop={sourceZone === 'output'}
+          />
           <PrimaryButton className="w-full py-6">Check Answer</PrimaryButton>
         </div>
       </div>
