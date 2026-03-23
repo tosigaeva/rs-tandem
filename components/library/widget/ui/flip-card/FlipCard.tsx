@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FlipCardPayload } from '@/components/library/widget/ui/flip-card/type';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 import styles from './FlipCard.module.css';
@@ -78,14 +78,14 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
         Next
       </Button>
       <div className="m-2">
-        <HoverCard>
-          <HoverCardTrigger asChild>
-            <p className="text-muted-foreground cursor-help text-sm">Hint</p>
-          </HoverCardTrigger>
-          <HoverCardContent side="bottom" className="px-2 py-1">
+        <Popover>
+          <PopoverTrigger asChild>
+            <p className="text-muted-foreground cursor-pointer text-sm">Hint</p>
+          </PopoverTrigger>
+          <PopoverContent side="bottom" className="px-2 py-1">
             {TOOLTIP_HINT}
-          </HoverCardContent>
-        </HoverCard>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
