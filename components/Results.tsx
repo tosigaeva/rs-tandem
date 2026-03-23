@@ -1,9 +1,12 @@
 import { ArrowLeft, Dumbbell, Flame, RefreshCw, RotateCcw, ThumbsUp, Trophy } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Routes } from '@/lib/routes';
+import { AppMessages } from '@/services/locale/messages';
 
 import { Progress } from './ui/progress';
 
@@ -94,9 +97,11 @@ export default function Results({ questionsCount, correctAnswers }: ResultsPrope
         </CardContent>
       </Card>
       <div className="flex gap-4">
-        <PrimaryButton variant="outline" className="mt-4 flex-1 py-6" onClick={() => console.log('restart')}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Library
+        <PrimaryButton asChild variant="outline" className="mt-4 flex-1 py-6">
+          <Link href={Routes.Library}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Library
+          </Link>
         </PrimaryButton>
         <PrimaryButton variant="secondary" className="mt-4 flex-1 py-6" onClick={() => console.log('restart')}>
           <RefreshCw className="mr-2 h-4 w-4" /> Restart
