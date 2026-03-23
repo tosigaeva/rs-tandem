@@ -78,7 +78,11 @@ export default function QuestionCard({
               const isSelected = option === selected;
 
               const borderClass =
-                isChecked && isSelected ? (verdict ? 'border-correct-answer!' : 'border-wrong-answer!') : '';
+                isChecked && isSelected
+                  ? verdict
+                    ? 'border-correct-answer! bg-correct-answer-muted/25'
+                    : 'border-wrong-answer! bg-wrong-answer-muted/15'
+                  : '';
 
               const Indicator =
                 isChecked && isSelected ? (
