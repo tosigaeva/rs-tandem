@@ -6,7 +6,6 @@ import Confetti from 'react-confetti';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Routes } from '@/lib/routes';
-import { AppMessages } from '@/services/locale/messages';
 
 import { Progress } from './ui/progress';
 
@@ -53,10 +52,10 @@ const getResultMeta = (percentage: number) => {
 type ResultsProperties = {
   questionsCount: number;
   correctAnswers: number;
+  onStartOver: () => void;
 };
 
-export default function Results({ questionsCount, correctAnswers }: ResultsProperties) {
-  const [showConfetti, setShowConfetti] = useState(false);
+export default function Results({ questionsCount, correctAnswers, onStartOver }: ResultsProperties) {
   const [displayedPercentage, setDisplayedPercentage] = useState(0);
 
   const percentage = Math.round((correctAnswers / questionsCount) * 100);
@@ -103,8 +102,8 @@ export default function Results({ questionsCount, correctAnswers }: ResultsPrope
             Back to Library
           </Link>
         </PrimaryButton>
-        <PrimaryButton variant="secondary" className="mt-4 flex-1 py-6" onClick={() => console.log('restart')}>
-          <RefreshCw className="mr-2 h-4 w-4" /> Restart
+        <PrimaryButton variant="secondary" className="mt-4 flex-1 py-6" onClick={() => onStartOver()}>
+          <RefreshCw className="mr-2 h-4 w-4" /> Start Over
         </PrimaryButton>
       </div>
     </section>

@@ -27,6 +27,11 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
 
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
 
+  const startOver = () => {
+    setCurrentIndex(0);
+    setCorrectAnswers(0);
+  };
+
   const onCheck = async (answer: string) => {
     const result = await validateAnswer(currentQuestion.id, answer);
 
@@ -45,7 +50,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   };
 
   if (currentQuestion === undefined) {
-    return <Results questionsCount={questions.length} correctAnswers={correctAnswers} />;
+    return <Results questionsCount={questions.length} correctAnswers={correctAnswers} onStartOver={startOver} />;
   }
 
   return children({
