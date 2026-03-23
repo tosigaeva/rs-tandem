@@ -108,6 +108,7 @@ export default function QuestionCard({
           </RadioGroup>
 
           <PrimaryButton
+            variant="secondary"
             onClick={isChecked ? handleNext : handleCheck}
             disabled={selected === undefined}
             className="mt-4 w-full py-6"
