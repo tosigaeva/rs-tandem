@@ -32,4 +32,4 @@
 
 **Результат:**
 
-<img src="./images/2026-03-22_async-sorter.png" alt="Async-sorter-widget" width="700" height="450">
+<img src="./images/2026-03-22-async-sorter.png" alt="Async-sorter-widget" width="700" height="450">
