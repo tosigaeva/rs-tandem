@@ -1,4 +1,5 @@
 import { ArrowLeft, Brain, Dumbbell, Flame, Icon, RefreshCw, RotateCcw, ThumbsUp, Trophy } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -51,8 +52,20 @@ type ResultsProperties = {
 };
 
 export default function Results({ questionsCount, correctAnswers }: ResultsProperties) {
+  const [displayedPercentage, setDisplayedPercentage] = useState(0);
+
   const percentage = Math.round((correctAnswers / questionsCount) * 100);
   const { icon: Icon, title, description } = getResultMeta(percentage);
+
+  useEffect(() => {
+    let start = 0;
+    const interval = setInterval(() => {
+      start += 1;
+      if (start <= percentage) setDisplayedPercentage(start);
+      else clearInterval(interval);
+    }, 15);
+    return () => clearInterval(interval);
+  }, [percentage]);
 
   return (
     <section className="mx-auto max-w-xl p-4">
@@ -66,8 +79,8 @@ export default function Results({ questionsCount, correctAnswers }: ResultsPrope
           <div className="text-lg">
             Correct Answers: <strong>{correctAnswers}</strong> / {questionsCount}
           </div>
-          <Progress value={percentage} className="h-2 rounded-full" />
-          <div className="text-muted-foreground text-sm">{percentage}% correct</div>
+          <Progress value={displayedPercentage} className="h-2 rounded-full" />
+          <div className="text-muted-foreground text-sm">{displayedPercentage}% correct</div>
         </CardContent>
       </Card>
       <div className="flex gap-4">
