@@ -51,7 +51,7 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
           </CardContent>
         </Card>
         <Card className={styles['flip-card-back']}>
-          <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
+          <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
             <div className="text-center text-lg">{questionPayload.definition}</div>
           </CardContent>
         </Card>
