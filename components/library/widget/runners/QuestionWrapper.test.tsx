@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import QuestionWrapper from '@/components/library/widget/runners/default/QuestionWrapper';
+import QuestionWrapper from '@/components/library/widget/runners/QuestionWrapper';
 import { QuestionPayload } from '@/types/question';
 
 describe('QuestionWrapper', () => {
@@ -19,10 +19,11 @@ describe('QuestionWrapper', () => {
 
     render(
       <QuestionWrapper
-        WidgetComponent={WidgetComponent}
         questionId="q1"
+        WidgetComponent={WidgetComponent}
         questionPayload={{ question: 'Test', options: ['a'] }}
-        onCheck={async () => {}}
+        onCheck={async () => true}
+        onNext={() => {}}
       />
     );
 

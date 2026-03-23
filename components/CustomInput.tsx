@@ -1,12 +1,12 @@
 'use client';
 import { Eye, EyeOff } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const DEBOUNCE_TIMER = 300;
+export const CUSTOM_INPUT_DEBOUNCE_TIMER = 300;
 
 export type InputProperties = {
   name: string;
@@ -31,36 +31,46 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
   const errorMessage = typeof errors[name]?.message === 'string' ? errors[name]?.message : '';
 
   const value = watch(name);
-  const [debouncedValue, setDebouncedValue] = useState(value);
 
   const isEmpty = () => value == undefined || value == '';
 
   const hasInteracted = Boolean(touchedFields[name]) || Boolean(dirtyFields[name]);
   const hasError = Boolean(errors[name]) && hasInteracted;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedValue(value);
-    }, DEBOUNCE_TIMER);
+  const [initialBlur, setInitialBlur] = useState(false);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [value]);
+  const { onChange: rhfOnChange, onBlur: rhfOnBlur, ...restRegister } = register(name);
 
-  useEffect(() => {
-    if (debouncedValue !== undefined && hasInteracted) {
-      trigger(name);
+  const debounceReference = useRef<NodeJS.Timeout | undefined>(undefined);
 
-      if (dependencies && dependencies.length > 0) {
-        dependencies.forEach((dependency) => {
-          if (Boolean(dirtyFields[dependency])) {
-            trigger(dependency);
-          }
-        });
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    rhfOnChange(event);
+
+    if (debounceReference.current) clearTimeout(debounceReference.current);
+
+    debounceReference.current = setTimeout(() => {
+      if (!initialBlur) {
+        setInitialBlur(true);
       }
-    }
-  }, [debouncedValue, name, trigger, hasInteracted, dependencies, dirtyFields]);
+
+      trigger(name);
+      dependencies?.forEach((dependency) => {
+        if (dirtyFields[dependency] != undefined) trigger(dependency);
+      });
+    }, CUSTOM_INPUT_DEBOUNCE_TIMER);
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    rhfOnBlur(event);
+
+    setInitialBlur(true);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (debounceReference.current) clearTimeout(debounceReference.current);
+    };
+  }, []);
 
   return (
     <div className={cn('flex w-full flex-col gap-1.5', classes)}>
@@ -69,7 +79,7 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
       </label>
       <div className={cn('relative flex w-full align-middle')}>
         <input
-          {...register(name)}
+          {...restRegister}
           id={name}
           type={visibility ? 'text' : type}
           placeholder={placeholder}
@@ -77,6 +87,8 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
             'w-full rounded-md border bg-amber-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
             hasError ? 'border-red-500 bg-red-50' : 'border-slate-300 focus:border-blue-500'
           )}
+          onChange={handleOnChange}
+          onBlur={handleBlur}
         />
         {isPassword && (
           <Button
@@ -91,7 +103,7 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
         )}
       </div>
       <div className="min-h-5">
-        {hasError && (
+        {hasError && initialBlur && (
           <p className="text-xs font-medium text-red-500">{isEmpty() ? 'Field is required' : errorMessage}</p>
         )}
       </div>

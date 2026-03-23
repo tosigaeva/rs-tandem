@@ -1,4 +1,4 @@
-import { mockWidgets } from '@/api/mocks/widget.mock';
+import { mockWidgets } from '@/data/mocks/widget.mock';
 import { Widget } from '@/types/widget';
 
 export async function getWidgetsByTopic(topicId: string): Promise<Widget[]> {

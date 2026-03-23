@@ -1,16 +1,17 @@
 import Link from 'next/link';
 
 import { Routes } from '@/lib/routes';
-import { Topic } from '@/types/schemas/database-schemas';
+import { Topic } from '@/types/schemas/topic-schema';
 
 import { TopicCard } from './TopicCard';
 
 type TopicListProperties = {
   title: string;
   topics: Topic[];
+  displayProgress?: boolean;
 };
 
-export function TopicList({ title, topics }: TopicListProperties) {
+export function TopicList({ title, topics, displayProgress = true }: TopicListProperties) {
   return (
     <section className="space-y-6 pb-6">
       <h2 className="text-xl font-semibold">{title}</h2>
@@ -19,7 +20,7 @@ export function TopicList({ title, topics }: TopicListProperties) {
         {topics.map((topic) => (
           <li key={topic.id} className="overflow-hidden rounded-xl">
             <Link href={`${Routes.Library}/${topic.id}`}>
-              <TopicCard topic={topic} />
+              <TopicCard topic={topic} displayProgress={displayProgress} />
             </Link>
           </li>
         ))}

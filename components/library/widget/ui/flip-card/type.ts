@@ -1,7 +1,8 @@
 import { WidgetType } from '@/types/widget';
 
 export type FlipCardPayload = {
-  question: string;
+  term: string;
+  definition: string;
 };
 
 export type FlipCardWidget = {
