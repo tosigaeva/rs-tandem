@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FlipCardPayload } from '@/components/library/widget/ui/flip-card/type';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { cn } from '@/lib/utils';
 
 import styles from './FlipCard.module.css';
@@ -12,6 +13,9 @@ type WidgetComponentProperties = {
   onCheck: (answer: string) => Promise<boolean | undefined>;
   onNext: () => void;
 };
+
+const TOOLTIP_HINT =
+  'Decide whether you know the answer to reveal it. You can change your resolution after card reveal.';
 
 export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [isFlipped, setFlipped] = useState(false);
@@ -44,16 +48,11 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
         <Card className={styles['flip-card-front']}>
           <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
             <div className="text-center text-lg">{questionPayload.term}</div>
-            <div className="text-muted-foreground text-sm">Click on the card to flip</div>
           </CardContent>
         </Card>
-
         <Card className={styles['flip-card-back']}>
           <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
             <div className="text-center text-lg">{questionPayload.definition}</div>
-            <div className="text-muted-foreground text-center text-sm">
-              Press &quot;I know&quot; if you remember the term, or press &quot;I do not know&quot; if you do not.
-            </div>
           </CardContent>
         </Card>
       </div>
@@ -78,6 +77,16 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
       <Button className="m-2 w-4/5" disabled={selected === undefined} onClick={handleNext}>
         Next
       </Button>
+      <div className="m-2">
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <p className="text-muted-foreground cursor-help text-sm">Hint</p>
+          </HoverCardTrigger>
+          <HoverCardContent side="bottom" className="px-2 py-1">
+            {TOOLTIP_HINT}
+          </HoverCardContent>
+        </HoverCard>
+      </div>
     </div>
   );
 }
