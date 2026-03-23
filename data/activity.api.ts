@@ -1,3 +1,4 @@
+import { format, startOfMonth, subMonths } from 'date-fns';
 import z from 'zod';
 
 import type { ActivityDay } from '@/components/dashboard/activity/activity.types';
@@ -24,10 +25,16 @@ export async function getDailyActivity(limit = 120): Promise<{ data: ActivityDay
       return { data: [] };
     }
 
+    const today = new Date();
+    const startDay = format(startOfMonth(subMonths(today, 2)), 'yyyy-MM-dd');
+    const endDay = format(today, 'yyyy-MM-dd');
+
     const { data, error } = await supabase
       .from('profile_questions_daily_activity')
       .select('day, count')
       .eq('user_id', user.id)
+      .gte('day', startDay)
+      .lte('day', endDay)
       .order('day', { ascending: true })
       .limit(limit);
 

@@ -12,12 +12,6 @@ export default async function Page() {
   const [user, activity, languageCode] = await Promise.all([getUser(), getDailyActivity(), getServerLanguageCode()]);
   const days = activity.data ?? [];
 
-  if (activity.error == undefined) {
-    console.info('[dashboard] getDailyActivity days:', days.length);
-  } else {
-    console.error('[dashboard] getDailyActivity failed:', activity.error);
-  }
-
   return (
     <main className="text-foreground px-6 py-8">
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
