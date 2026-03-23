@@ -15,6 +15,10 @@ Its flexible architecture allows for easy addition of new exercises and scalable
 ## Deploy link
 [View deployed app](https://rs-tandem.vercel.app/)
 
+## Demo Video
+Снято короткое видео (~1 мин), где показано: страница 404, индикатор загрузки и обработка ошибок.  
+[Смотреть видео](https://www.loom.com/share/2d201fc87a7549d98da65b46e2c0fc0b)
+
 ## Team
 
 - **Alena Deviatova**  
