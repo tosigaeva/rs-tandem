@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
+import { Hint } from '@/components/Hint';
 import { FlipCardPayload } from '@/components/library/widget/ui/flip-card/type';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 import styles from './FlipCard.module.css';
@@ -77,16 +77,7 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
       <Button className="m-2 w-4/5" disabled={selected === undefined} onClick={handleNext}>
         Next
       </Button>
-      <div className="m-2">
-        <Popover>
-          <PopoverTrigger asChild>
-            <p className="text-muted-foreground cursor-pointer text-sm">Hint</p>
-          </PopoverTrigger>
-          <PopoverContent side="bottom" className="px-2 py-1">
-            {TOOLTIP_HINT}
-          </PopoverContent>
-        </Popover>
-      </div>
+      <Hint>{TOOLTIP_HINT}</Hint>
     </div>
   );
 }
