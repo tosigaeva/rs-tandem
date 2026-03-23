@@ -6,6 +6,7 @@ import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card } from '@/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import {
   COMPLEXITIES,
@@ -105,14 +106,14 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       <Card className="w-full max-w-md cursor-default p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
-        <HoverCard>
-          <HoverCardTrigger asChild>
-            <p className="text-muted-foreground cursor-help text-sm">Hint</p>
-          </HoverCardTrigger>
-          <HoverCardContent side="bottom" className="w-fit px-2 py-1">
+        <Popover>
+          <PopoverTrigger asChild>
+            <button className="text-muted-foreground cursor-pointer text-sm">Hint</button>
+          </PopoverTrigger>
+          <PopoverContent side="bottom" className="w-fit px-2 py-1">
             {TOOLTIP_HINT}
-          </HoverCardContent>
-        </HoverCard>
+          </PopoverContent>
+        </Popover>
       </Card>
       <Card className="w-full max-w-md cursor-default p-4">
         <p>Selected: {selectedName}</p>
