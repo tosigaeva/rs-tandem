@@ -1,5 +1,6 @@
-import { ArrowLeft, Brain, Dumbbell, Flame, Icon, RefreshCw, RotateCcw, ThumbsUp, Trophy } from 'lucide-react';
+import { ArrowLeft, Dumbbell, Flame, RefreshCw, RotateCcw, ThumbsUp, Trophy } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,6 +53,7 @@ type ResultsProperties = {
 };
 
 export default function Results({ questionsCount, correctAnswers }: ResultsProperties) {
+  const [showConfetti, setShowConfetti] = useState(false);
   const [displayedPercentage, setDisplayedPercentage] = useState(0);
 
   const percentage = Math.round((correctAnswers / questionsCount) * 100);
@@ -69,6 +71,14 @@ export default function Results({ questionsCount, correctAnswers }: ResultsPrope
 
   return (
     <section className="mx-auto max-w-xl p-4">
+      <Confetti
+        run={percentage === 100}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        recycle={false}
+        numberOfPieces={300}
+        gravity={0.3}
+      />
       <Card className="text-center">
         <CardHeader>
           <Icon className="text-primary mx-auto mb-4 h-12 w-12" />
@@ -84,11 +94,11 @@ export default function Results({ questionsCount, correctAnswers }: ResultsPrope
         </CardContent>
       </Card>
       <div className="flex gap-4">
-        <PrimaryButton variant="outline" className="mt-4 flex-1 py-3 py-6" onClick={() => console.log('restart')}>
+        <PrimaryButton variant="outline" className="mt-4 flex-1 py-6" onClick={() => console.log('restart')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Library
         </PrimaryButton>
-        <PrimaryButton variant="secondary" className="mt-4 flex-1 py-3 py-6" onClick={() => console.log('restart')}>
+        <PrimaryButton variant="secondary" className="mt-4 flex-1 py-6" onClick={() => console.log('restart')}>
           <RefreshCw className="mr-2 h-4 w-4" /> Restart
         </PrimaryButton>
       </div>
