@@ -1,9 +1,49 @@
-import { ArrowLeft, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Brain, Dumbbell, Flame, Icon, RefreshCw, RotateCcw, ThumbsUp, Trophy } from 'lucide-react';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { Progress } from './ui/progress';
+
+const getResultMeta = (percentage: number) => {
+  if (percentage === 100) {
+    return {
+      icon: Trophy,
+      title: 'Perfect Score!',
+      description: 'Outstanding work. You got everything right!',
+    };
+  }
+
+  if (percentage >= 80) {
+    return {
+      icon: Flame,
+      title: 'Great job!',
+      description: 'You did really well. Keep it up!',
+    };
+  }
+
+  if (percentage >= 50) {
+    return {
+      icon: ThumbsUp,
+      title: 'Good effort!',
+      description: 'Nice progress. A bit more practice and you will master it.',
+    };
+  }
+
+  if (percentage > 0) {
+    return {
+      icon: Dumbbell,
+      title: 'Keep going!',
+      description: 'Not bad. Try again and you will improve.',
+    };
+  }
+
+  return {
+    icon: RotateCcw,
+    title: 'Give it another try',
+    description: 'No correct answers yet, but that is how learning starts.',
+  };
+};
 
 type ResultsProperties = {
   questionsCount: number;
@@ -12,13 +52,15 @@ type ResultsProperties = {
 
 export default function Results({ questionsCount, correctAnswers }: ResultsProperties) {
   const percentage = Math.round((correctAnswers / questionsCount) * 100);
+  const { icon: Icon, title, description } = getResultMeta(percentage);
 
   return (
     <section className="mx-auto max-w-xl p-4">
       <Card className="text-center">
         <CardHeader>
-          <CardTitle className="text-2xl">🎉 You did it!</CardTitle>
-          <CardDescription className="mt-2">You have completed the workout.</CardDescription>
+          <Icon className="text-primary mx-auto mb-4 h-12 w-12" />
+          <CardTitle className="text-2xl">{title}</CardTitle>
+          <CardDescription className="mt-2">{description}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="text-lg">
