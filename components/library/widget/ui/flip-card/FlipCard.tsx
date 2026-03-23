@@ -18,23 +18,31 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
   const [selected, setSelected] = useState<string | undefined>();
 
   const handleFlip = () => {
-    setFlipped((previous) => !previous);
+    setFlipped(true);
   };
 
-  const handleSelect = async (value: string, event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSelect = (value: string, event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
-    setSelected(value);
+    if (!isFlipped) {
+      handleFlip();
+    }
 
-    await onCheck(value);
-    onNext();
+    setSelected(value);
+  };
+
+  const handleNext = async () => {
+    if (selected !== undefined) {
+      onNext();
+      await onCheck(selected);
+    }
   };
 
   return (
-    <div className={styles['flip-card']} onClick={handleFlip}>
+    <div className={styles['flip-card']}>
       <div className={cn(styles['flip-card-inner'], isFlipped && styles.flipped)}>
         <Card className={styles['flip-card-front']}>
-          <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
+          <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
             <div className="text-center text-lg">{questionPayload.term}</div>
             <div className="text-muted-foreground text-sm">Click on the card to flip</div>
           </CardContent>
@@ -67,6 +75,9 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
           I don&apos;t know this
         </Button>
       </div>
+      <Button className="m-2 w-4/5" disabled={selected === undefined} onClick={handleNext}>
+        Next
+      </Button>
     </div>
   );
 }
