@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
 import { Routes } from '@/lib/routes';
-import { Topic } from '@/types/schemas/topic-schema';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 
 import { TopicCard } from './TopicCard';
 
 type TopicListProperties = {
   title: string;
-  topics: Topic[];
+  topics: TopicOverview[];
   displayProgress?: boolean;
 };
 

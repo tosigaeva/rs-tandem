@@ -1,10 +1,10 @@
 import { PaginatedResult } from './pagination';
-import { Topic } from './schemas/topic-schema';
+import { TopicOverview } from './schemas/topic-schema';
 
 export type LibraryTopicsResponse = {
-  recentTopics: Topic[] | undefined;
+  recentTopics: TopicOverview[] | undefined;
   recentTopicsError?: string;
-  topicsPage: PaginatedResult<Topic, 'Topic'> | undefined;
+  topicsPage: PaginatedResult<TopicOverview, 'Topic'> | undefined;
   topicsPageError?: string;
 };
-export type TopicsResponse = Topic[];
+export type TopicsResponse = TopicOverview[];

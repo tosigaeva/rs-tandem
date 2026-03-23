@@ -2,9 +2,14 @@ import z from 'zod';
 
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { Topic, TopicSchema } from '@/types/schemas/topic-schema';
+import {
+  TopicAdminListItem,
+  TopicAdminListItemSchema,
+  TopicOverview,
+  TopicOverviewSchema,
+} from '@/types/schemas/topic-schema';
 
-export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; error?: string }> {
+export async function getRecentTopics(): Promise<{ data: TopicOverview[] | undefined; error?: string }> {
   try {
     const supabase = await supabaseBrowser();
 
@@ -20,7 +25,7 @@ export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; er
     }
 
     if (data != undefined) {
-      const result = z.array(TopicSchema).safeParse(data);
+      const result = z.array(TopicOverviewSchema).safeParse(data);
 
       if (result.success) return { data: result.data };
     }
@@ -37,7 +42,7 @@ export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; er
 export async function getTopicsPage(
   { page, size, orderBy, ascending }: PageInfo<'Topic'>,
   skipIds: number[]
-): Promise<{ data: PaginatedResult<Topic, 'Topic'> | undefined; error?: string }> {
+): Promise<{ data: PaginatedResult<TopicOverview, 'Topic'> | undefined; error?: string }> {
   try {
     const supabase = await supabaseBrowser();
 
@@ -79,10 +84,10 @@ export async function getTopicsPage(
     const totalPages = Math.ceil(correctedCount / size);
 
     if (data != undefined) {
-      const array = z.array(TopicSchema).safeParse(data);
+      const array = z.array(TopicOverviewSchema).safeParse(data);
 
       if (array.success) {
-        const result: PaginatedResult<Topic, 'Topic'> = {
+        const result: PaginatedResult<TopicOverview, 'Topic'> = {
           items: array.data,
           page,
           size,
@@ -105,18 +110,26 @@ export async function getTopicsPage(
   }
 }
 
-export async function getTopics(): Promise<{ data: Topic[] | undefined; error?: string }> {
+export async function getTopics(): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> {
   try {
     const supabase = await supabaseBrowser();
 
-    const { data, error } = await supabase.from('topics').select('*');
+    const { data, error } = await supabase.from('topic_admin_list').select('*');
 
     if (error != undefined) {
       throw error;
     }
 
     if (data != undefined) {
-      console.log(data);
+      console.log('topics', data);
+
+      const array = z.array(TopicAdminListItemSchema).safeParse(data);
+
+      if (array.success) {
+        return { data: array.data };
+      } else {
+        throw new Error('Failed to correctly parse data from server');
+      }
     }
 
     throw new Error('Something went wrong');

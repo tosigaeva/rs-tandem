@@ -2,7 +2,7 @@ import { mockQuestions } from '@/api/mocks/questions.mock';
 import { mockLibraryTopics, mockTopics } from '@/api/mocks/topics.mock';
 import { TopicService } from '@/services/topic.service';
 import { Question } from '@/types/question';
-import { Topic } from '@/types/schemas/topic-schema';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 import { LibraryTopicsResponse } from '@/types/topic';
 import { WidgetFilter, WidgetType } from '@/types/widget';
 
@@ -23,7 +23,7 @@ export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
   };
 }
 
-export async function getTopic(topicId: number): Promise<Topic | undefined> {
+export async function getTopic(topicId: number): Promise<TopicOverview | undefined> {
   return mockTopics.find((topic) => topic.id === topicId);
 }
 

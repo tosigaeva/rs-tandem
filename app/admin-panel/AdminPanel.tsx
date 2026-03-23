@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import TopicAdminList from './TopicAdminList';
+import TopicAdminList from './Topics/TopicAdminList';
 
 enum AdminPanelTab {
   topics = 'topics',
