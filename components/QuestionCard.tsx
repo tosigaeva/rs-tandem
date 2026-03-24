@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { CircleCheckBig, CircleX } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -30,22 +31,47 @@ export default function QuestionCard({
 }: QuestionCardProperties) {
   const [selected, setSelected] = useState<string | undefined>();
   const [verdict, setVerdict] = useState<boolean | undefined>();
+  const isChecked = verdict !== undefined;
 
-  const handleCheck = async () => {
+  const sectionReference = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    sectionReference.current?.focus();
+  }, [questionId]);
+
+  const handleCheck = useCallback(async () => {
     if (selected === undefined) return;
     const result = await onCheck(selected);
     setVerdict(result);
-  };
+  }, [selected, onCheck]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setSelected(undefined);
     setVerdict(undefined);
     onNext();
-  };
+  }, [onNext]);
 
-  const isChecked = verdict !== undefined;
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      const optionIndex = Number.parseInt(event.key, 10);
+
+      if (!isChecked && !Number.isNaN(optionIndex) && optionIndex >= 1 && optionIndex <= options.length) {
+        setSelected(options[optionIndex - 1]);
+      }
+
+      if (event.key === 'Enter') {
+        if (!isChecked && selected !== undefined && selected !== '') {
+          handleCheck();
+        } else if (isChecked) {
+          handleNext();
+        }
+      }
+    },
+    [isChecked, selected, options, handleCheck, handleNext]
+  );
+
   return (
-    <section className="mx-auto max-w-2xl space-y-8">
+    <section ref={sectionReference} tabIndex={0} onKeyDown={handleKeyDown} className="mx-auto max-w-2xl space-y-8">
       <Card>
         <CardHeader>
           <CodeBlock code={question} />
@@ -58,15 +84,30 @@ export default function QuestionCard({
             {options.map((option, index) => {
               const isSelected = option === selected;
 
-              const border =
-                isChecked && isSelected ? (verdict ? 'border-correct-answer!' : 'border-wrong-answer!') : '';
+              const borderClass =
+                isChecked && isSelected
+                  ? verdict
+                    ? 'border-correct-answer! bg-correct-answer-muted/25'
+                    : 'border-wrong-answer! bg-wrong-answer-muted/15'
+                  : '';
+
+              const Indicator =
+                isChecked && isSelected ? (
+                  verdict ? (
+                    <CircleCheckBig className="text-correct-answer h-4 w-4" />
+                  ) : (
+                    <CircleX className="text-wrong-answer h-4 w-4" />
+                  )
+                ) : (
+                  <RadioGroupItem value={option} />
+                );
 
               return (
-                <FieldLabel key={option} className={`cursor-pointer ${border}`}>
+                <FieldLabel key={option} className={`cursor-pointer ${borderClass}`}>
                   <Field orientation="horizontal">
-                    <RadioGroupItem value={option} />
+                    {Indicator}
                     <FieldTitle>{option}</FieldTitle>
-                    <FieldDescription>{index + 1}</FieldDescription>
+                    <FieldDescription>{`#${index + 1}`}</FieldDescription>
                   </Field>
                 </FieldLabel>
               );
@@ -74,6 +115,7 @@ export default function QuestionCard({
           </RadioGroup>
 
           <PrimaryButton
+            variant="secondary"
             onClick={isChecked ? handleNext : handleCheck}
             disabled={selected === undefined}
             className="mt-4 w-full py-6"
