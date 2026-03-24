@@ -50,7 +50,9 @@ export default function Page() {
           </p>
           <div className="mt-8 flex justify-center gap-4 p-5">
             <PrimaryButton size="lg" asChild>
-              <Link href={isAuthorized ? Routes.Dashboard : Routes.SignIn}>Get started!</Link>
+              <Link href={isAuthorized ? Routes.Dashboard : Routes.SignIn}>
+                {isAuthorized ? 'Go to Dashboard' : 'Get started!'}
+              </Link>
             </PrimaryButton>
           </div>
           <div className="flex items-center justify-center">
