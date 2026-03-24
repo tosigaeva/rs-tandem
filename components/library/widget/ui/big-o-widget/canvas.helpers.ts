@@ -11,6 +11,24 @@ export const COMPLEXITIES: Complexity[] = [
   { name: 'O(n^2)', func: (n: number) => n * n },
 ];
 
+export function getCurveColors() {
+  if (globalThis.window === undefined) {
+    return {
+      correctCurve: '#8bb864',
+      wrongCurve: '#b13f3f',
+      selectedCurve: '#dabf65',
+    };
+  }
+
+  const styles = getComputedStyle(document.documentElement);
+
+  return {
+    correctCurve: styles.getPropertyValue('--correct-answer').trim(),
+    wrongCurve: styles.getPropertyValue('--wrong-answer').trim(),
+    selectedCurve: styles.getPropertyValue('--primary').trim(),
+  };
+}
+
 export function getClosestComplexity(
   mouseX: number,
   mouseY: number,
@@ -49,6 +67,7 @@ export function drawComplexityCurves(
   isCorrect?: boolean,
   isSubmitted?: boolean
 ) {
+  const curveColors = getCurveColors();
   const minX = 1;
   const maxX = 5;
   const maxY = Math.max(...COMPLEXITIES.map((c) => c.func(maxX) - c.func(minX)));
@@ -71,9 +90,9 @@ export function drawComplexityCurves(
     if (selectedLineIndex === index) {
       lineWidth = 2;
       if (isSubmitted === true) {
-        strokeColor = isCorrect === true ? '#22c55e' : '#ef4444';
+        strokeColor = isCorrect === true ? curveColors.correctCurve : curveColors.wrongCurve;
       } else {
-        strokeColor = '#3b82f6';
+        strokeColor = curveColors.selectedCurve;
       }
     }
 
