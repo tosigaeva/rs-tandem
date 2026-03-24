@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import QuestionAdminList from './Questions/QuestionAdminList';
 import TopicAdminList from './Topics/TopicAdminList';
-import WidgetAdminList from './Widget/WidgetAdminList';
+import WidgetAdminList from './Widgets/WidgetAdminList';
 
 enum AdminPanelTab {
   topics = 'topics',
@@ -51,13 +52,12 @@ export default function AdminPanel() {
           <TopicAdminList />
         </TabsContent>
 
-        <TabsContent value="questions">
-          {/* <QuestionAdminList /> */}
-          Questions list
-        </TabsContent>
-
         <TabsContent value="widgets">
           <WidgetAdminList />
+        </TabsContent>
+
+        <TabsContent value="questions">
+          <QuestionAdminList />
         </TabsContent>
       </div>
     </Tabs>

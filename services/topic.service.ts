@@ -2,7 +2,7 @@ import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { TopicAdminListItem, TopicOverview } from '@/types/schemas/topic-schema';
 
-import { getRecentTopics, getTopics, getTopicsPage } from '../api/topic.api';
+import { getAllTopics, getRecentTopics, getTopicsPage } from '../api/topic.api';
 
 const RECENT_TOPICS = 'recent_topics';
 const TOPIC_PAGES = 'topic_pages';
@@ -28,7 +28,7 @@ export const TopicService = {
   },
 
   loadTopicsAdminList: (): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> => {
-    return getTopics();
+    return getAllTopics();
   },
 };
 

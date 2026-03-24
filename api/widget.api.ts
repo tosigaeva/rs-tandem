@@ -10,7 +10,7 @@ export async function getWidgetsByTopic(topicId: string): Promise<Widget[]> {
   return mockWidgets;
 }
 
-export async function getWidgets(): Promise<{ data: WidgetAdminListItem[] | undefined; error?: string }> {
+export async function getAllWidgets(): Promise<{ data: WidgetAdminListItem[] | undefined; error?: string }> {
   try {
     const supabase = await supabaseBrowser();
 

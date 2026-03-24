@@ -110,7 +110,7 @@ export async function getTopicsPage(
   }
 }
 
-export async function getTopics(): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> {
+export async function getAllTopics(): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> {
   try {
     const supabase = await supabaseBrowser();
 

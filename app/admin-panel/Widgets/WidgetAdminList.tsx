@@ -12,7 +12,7 @@ export default function TopicAdminList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchTopics() {
+    async function fetchWidgets() {
       try {
         const { data, error } = await WidgetService.loadWidgetAdminList();
 
@@ -27,7 +27,7 @@ export default function TopicAdminList() {
         setIsLoading(false);
       }
     }
-    fetchTopics();
+    fetchWidgets();
   }, []);
 
   return (

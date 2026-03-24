@@ -76,7 +76,7 @@ export const columns: ColumnDef<WidgetAdminListItem>[] = [
         <div className="flex justify-end gap-2 py-2">
           <Button variant="success" disabled={rowSelected}>
             <PlusCircle className="h-4 w-4" />
-            Add Topic
+            Add Widget
           </Button>
           <Button variant="destructive" size="icon" disabled={!rowSelected}>
             <Trash2 className="h-4 w-4" />
