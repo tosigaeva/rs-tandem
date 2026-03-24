@@ -1,4 +1,4 @@
-import { mockUser } from '@/api/user.mock';
+import { mockUser } from '@/data/user.mock';
 import { User } from '@/types/user';
 
 export async function getUser(): Promise<User> {

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
+import { Hint } from '@/components/Hint';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card } from '@/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
@@ -18,7 +19,15 @@ import {
 } from './canvas.helpers';
 import { BigOCanvasProperties } from './type';
 
-export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect, onSubmit }: BigOCanvasProperties) {
+export function BigOCanvas({
+  question,
+  codeExample,
+  selectedComplexity,
+  onSelect,
+  onSubmit,
+  isCorrect,
+  isSubmitted,
+}: BigOCanvasProperties) {
   const width = 400;
   const height = 300;
   const canvasReference = useRef<HTMLCanvasElement>(null);
@@ -27,6 +36,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isSubmitted === true) return;
     const canvas = canvasReference.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -42,6 +52,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
   };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isSubmitted === true) return;
     const canvas = canvasReference.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -66,8 +77,8 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
     context.clearRect(0, 0, width, height);
 
     drawAxes(context, width, height, PADDING);
-    drawComplexityCurves(context, width, height, selectedLine);
-  }, [width, height, selectedLine]);
+    drawComplexityCurves(context, width, height, selectedLine, isCorrect, isSubmitted);
+  }, [width, height, selectedLine, isCorrect, isSubmitted]);
 
   const selectedName =
     selectedComplexity ?? (selectedLine === undefined ? '' : (COMPLEXITIES[selectedLine]?.name ?? ''));
@@ -105,21 +116,14 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       <Card className="w-full max-w-md cursor-default p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
-        <HoverCard>
-          <HoverCardTrigger asChild>
-            <p className="text-muted-foreground cursor-help text-sm">Hint</p>
-          </HoverCardTrigger>
-          <HoverCardContent side="bottom" className="w-fit px-2 py-1">
-            {TOOLTIP_HINT}
-          </HoverCardContent>
-        </HoverCard>
       </Card>
       <Card className="w-full max-w-md cursor-default p-4">
         <p>Selected: {selectedName}</p>
       </Card>
       <PrimaryButton disabled={selectedName === ''} onClick={onSubmit}>
-        Check Answer
+        {isSubmitted === true ? 'Next' : 'Check Answer'}
       </PrimaryButton>
+      <Hint>{TOOLTIP_HINT}</Hint>
     </div>
   );
 }
