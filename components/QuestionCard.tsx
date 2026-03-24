@@ -1,5 +1,5 @@
 import { CircleCheckBig, CircleX } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -33,6 +33,12 @@ export default function QuestionCard({
   const [verdict, setVerdict] = useState<boolean | undefined>();
   const isChecked = verdict !== undefined;
 
+  const sectionReference = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    sectionReference.current?.focus();
+  }, [questionId]);
+
   const handleCheck = useCallback(async () => {
     if (selected === undefined) return;
     const result = await onCheck(selected);
@@ -45,8 +51,8 @@ export default function QuestionCard({
     onNext();
   }, [onNext]);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
       const optionIndex = Number.parseInt(event.key, 10);
 
       if (!isChecked && !Number.isNaN(optionIndex) && optionIndex >= 1 && optionIndex <= options.length) {
@@ -57,17 +63,15 @@ export default function QuestionCard({
         if (!isChecked && selected !== undefined && selected !== '') {
           handleCheck();
         } else if (isChecked) {
-          onNext();
+          handleNext();
         }
       }
-    };
-
-    globalThis.addEventListener('keydown', handleKeyDown);
-    return () => globalThis.removeEventListener('keydown', handleKeyDown);
-  }, [isChecked, selected, options, handleCheck, handleNext]);
+    },
+    [isChecked, selected, options, handleCheck, handleNext]
+  );
 
   return (
-    <section className="mx-auto max-w-2xl space-y-8">
+    <section ref={sectionReference} tabIndex={0} onKeyDown={handleKeyDown} className="mx-auto max-w-2xl space-y-8">
       <Card>
         <CardHeader>
           <CodeBlock code={question} />

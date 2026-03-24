@@ -2,6 +2,7 @@ import { ArrowLeft, Dumbbell, Flame, LucideIcon, RefreshCw, RotateCcw, ThumbsUp,
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -70,6 +71,7 @@ export default function Results({ questionsCount, correctAnswers, onStartOver }:
 
   const percentage = Math.round((correctAnswers / questionsCount) * 100);
   const { icon: Icon, titleKey, descriptionKey } = getResultMeta(percentage);
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
     let start = 0;
@@ -85,8 +87,8 @@ export default function Results({ questionsCount, correctAnswers, onStartOver }:
     <section className="mx-auto max-w-xl p-4">
       <Confetti
         run={percentage === 100}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={width}
+        height={height}
         recycle={false}
         numberOfPieces={300}
         gravity={0.3}
