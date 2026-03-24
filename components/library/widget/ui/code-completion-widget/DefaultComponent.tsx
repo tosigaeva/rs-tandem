@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/
 import { Input } from '@/components/ui/input';
 
 type WidgetComponentProperties = {
+  questionId: string;
   questionPayload: CodeCompletionPayload;
   onCheck: (answer: string) => Promise<boolean | undefined>;
   onNext: () => void;
@@ -17,11 +18,17 @@ export const messages = {
   nextQuestion: 'Next Question',
 };
 
-export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const { code, blanks, hints } = questionPayload;
 
   const [input, setInput] = useState('');
   const [verdict, setVerdict] = useState<boolean | undefined>();
+
+  const inputReference = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputReference.current?.focus();
+  }, [questionId]);
 
   const handleCheck = async () => {
     const result = await onCheck(input);
@@ -47,7 +54,12 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>Fill in the missing code</CardDescription>
-          <Input disabled={isChecked} onChange={(event) => handleChange(event.target.value)} />
+          <Input
+            ref={inputReference}
+            disabled={isChecked}
+            onChange={(event) => handleChange(event.target.value)}
+            className="focus-visible:ring-[1px]"
+          />
           <PrimaryButton
             onClick={isChecked ? handleNext : handleCheck}
             variant="secondary"
