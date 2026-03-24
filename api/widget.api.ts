@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { mockWidgets } from '@/api/mocks/widget.mock';
+import { mockWidgets } from '@/data/mocks/widget.mock';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { WidgetAdminListItem, WidgetAdminListItemSchema } from '@/types/schemas/widget-schema';
 import { Widget } from '@/types/widget';
