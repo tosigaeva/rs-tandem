@@ -39,29 +39,32 @@ export default function QuestionCard({
     setVerdict(result);
   }, [selected, onCheck]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setSelected(undefined);
     setVerdict(undefined);
     onNext();
-  };
+  }, [onNext]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (isChecked) return;
-
       const optionIndex = Number.parseInt(event.key, 10);
-      if (!Number.isNaN(optionIndex) && optionIndex >= 1 && optionIndex <= options.length) {
+
+      if (!isChecked && !Number.isNaN(optionIndex) && optionIndex >= 1 && optionIndex <= options.length) {
         setSelected(options[optionIndex - 1]);
       }
 
-      if (event.key === 'Enter' && selected !== undefined && selected !== '') {
-        handleCheck();
+      if (event.key === 'Enter') {
+        if (!isChecked && selected !== undefined && selected !== '') {
+          handleCheck();
+        } else if (isChecked) {
+          onNext();
+        }
       }
     };
 
     globalThis.addEventListener('keydown', handleKeyDown);
     return () => globalThis.removeEventListener('keydown', handleKeyDown);
-  }, [isChecked, selected, options]);
+  }, [isChecked, selected, options, handleCheck, handleNext]);
 
   return (
     <section className="mx-auto max-w-2xl space-y-8">
