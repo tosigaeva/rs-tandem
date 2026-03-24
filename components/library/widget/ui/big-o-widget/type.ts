@@ -21,4 +21,6 @@ export type BigOCanvasProperties = {
   selectedComplexity?: string;
   onSelect: (complexity: string) => void;
   onSubmit: () => void;
+  isCorrect?: boolean;
+  isSubmitted?: boolean;
 };

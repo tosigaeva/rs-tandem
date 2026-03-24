@@ -45,7 +45,9 @@ export function drawComplexityCurves(
   context: CanvasRenderingContext2D,
   width: number,
   height: number,
-  selectedLineIndex?: number
+  selectedLineIndex?: number,
+  isCorrect?: boolean,
+  isSubmitted?: boolean
 ) {
   const minX = 1;
   const maxX = 5;
@@ -63,8 +65,20 @@ export function drawComplexityCurves(
       else context.lineTo(canvasX, canvasY);
     }
 
-    context.strokeStyle = selectedLineIndex === index ? '#FF0000' : '#000';
-    context.lineWidth = selectedLineIndex === index ? 2 : 1;
+    let strokeColor = '#000';
+    let lineWidth = 1;
+
+    if (selectedLineIndex === index) {
+      lineWidth = 2;
+      if (isSubmitted === true) {
+        strokeColor = isCorrect === true ? '#22c55e' : '#ef4444';
+      } else {
+        strokeColor = '#3b82f6';
+      }
+    }
+
+    context.strokeStyle = strokeColor;
+    context.lineWidth = lineWidth;
     context.stroke();
   });
 }
