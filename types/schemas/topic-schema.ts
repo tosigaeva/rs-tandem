@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { LanguageCode } from '@/services/locale/locale.service';
 
 import { LocaleString, LocaleStringSchema } from './locale-schemas';
-import { WidgetSchema } from './widget-schema';
+import { WidgetOverviewSchema } from './widget-schema';
 
 export enum Level {
   beginner = 'beginner',
@@ -69,7 +69,7 @@ export type TopicAdminListItem = z.infer<typeof TopicAdminListItemSchema>;
 
 export const TopicOverviewSchema = TopicBaseSchema.extend({
   last_accessed_at: z.coerce.date().nullable(),
-  widgets: z.array(z.lazy(() => WidgetSchema)).default([]),
+  widgets: z.array(z.lazy(() => WidgetOverviewSchema)).default([]),
 }).transform((data) => {
   const base = mapBaseFields(data);
 

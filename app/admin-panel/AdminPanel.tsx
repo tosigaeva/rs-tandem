@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import TopicAdminList from './Topics/TopicAdminList';
+import WidgetAdminList from './Widget/WidgetAdminList';
 
 enum AdminPanelTab {
   topics = 'topics',
@@ -56,8 +57,7 @@ export default function AdminPanel() {
         </TabsContent>
 
         <TabsContent value="widgets">
-          Widgets list
-          {/* <WidgetAdminList /> */}
+          <WidgetAdminList />
         </TabsContent>
       </div>
     </Tabs>

@@ -4,12 +4,11 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Edit, Eraser, MessageSquarePlus, PlusCircle, Trash2 } from 'lucide-react';
 
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
-import { Badge } from '@/components/ui';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Level, TopicAdminListItem } from '@/types/schemas/topic-schema';
+import { WidgetAdminListItem } from '@/types/schemas/widget-schema';
 
-export const columns: ColumnDef<TopicAdminListItem>[] = [
+export const columns: ColumnDef<WidgetAdminListItem>[] = [
   {
     accessorKey: 'id',
     header: ({ table }) => (
@@ -18,13 +17,20 @@ export const columns: ColumnDef<TopicAdminListItem>[] = [
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(value === true)}
         />
-        <span>ID</span>
       </div>
     ),
     cell: ({ row }) => (
       <div className="flex items-center gap-2 text-nowrap">
         <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(value === true)} />
-        <span className="text-muted-foreground font-mono text-xs">{row.original.id}</span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'type',
+    header: 'Type',
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2 text-nowrap">
+        <span>{row.original.type}</span>
       </div>
     ),
   },
@@ -35,29 +41,17 @@ export const columns: ColumnDef<TopicAdminListItem>[] = [
   },
   {
     accessorKey: 'description',
-    header: 'Description (EN)',
-    cell: ({ row }) => <LocaleStringTooltip data={row.original.description} />,
+    header: 'description',
+    cell: ({ row }) => <LocaleStringTooltip data={row.original.name} />,
   },
   {
-    accessorKey: 'level',
-    header: 'Level',
-    cell: ({ row }) => {
-      const level = row.original.level;
-      const variants: Record<Level, 'default' | 'secondary' | 'outline'> = {
-        [Level.beginner]: 'secondary',
-        [Level.intermediate]: 'default',
-        [Level.advanced]: 'outline',
-      };
-      return <Badge variant={variants[level]}>{level}</Badge>;
-    },
-  },
-  {
-    accessorKey: 'subject',
-    header: 'Subject',
-    cell: ({ row }) => {
-      const subject = row.original.subject;
-      return <Badge variant="secondary">{subject}</Badge>;
-    },
+    accessorKey: 'icon',
+    header: 'Icon',
+    cell: ({}) => (
+      <div className="flex items-center gap-2 text-nowrap">
+        <span>Icon</span>
+      </div>
+    ),
   },
   {
     accessorKey: 'sumQuestions',
