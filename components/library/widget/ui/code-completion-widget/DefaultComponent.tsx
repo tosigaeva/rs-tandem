@@ -1,3 +1,5 @@
+import * as TooltipPrimitives from '@radix-ui/react-tooltip';
+import { Info } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
@@ -50,6 +52,25 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
     <section className="mx-auto max-w-2xl space-y-8">
       <Card>
         <CardHeader>
+          {hints.length > 0 && (
+            <div className="text-primary text-end">
+              <TooltipPrimitives.Root>
+                <TooltipPrimitives.Trigger asChild>
+                  <Info className="inline-flex h-5 w-5" />
+                </TooltipPrimitives.Trigger>
+                <TooltipPrimitives.Portal>
+                  <TooltipPrimitives.Content
+                    side="left"
+                    className="bg-secondary text-secondary-foreground rounded-md px-3
+                    py-1.5 text-xs text-balance shadow-lg"
+                  >
+                    {hints}
+                    <TooltipPrimitives.Arrow className="fill-secondary!" />
+                  </TooltipPrimitives.Content>
+                </TooltipPrimitives.Portal>
+              </TooltipPrimitives.Root>
+            </div>
+          )}
           <CodeBlock code={code} />
         </CardHeader>
         <CardContent className="space-y-4">
