@@ -25,7 +25,7 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.CodeCompletion,
     payload: {
-      code: 'const result = arr.___(x => x > 0);',
+      code: '<code>const result = arr.___(x => x > 0);</code>',
       blanks: ['___'],
       hints: ['This method returns a new array with elements that pass the test'],
     },
