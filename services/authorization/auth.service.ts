@@ -2,31 +2,22 @@ import Cookies from 'js-cookie';
 import { toast } from 'sonner';
 
 import { getUser, signIn, signOut, signUp } from '@/services/authorization/auth.client';
-import { CustomSchemas } from '@/types/schemas/schemas';
-import { UserDetails, UserSignIn, UserSignUp } from '@/types/user';
+import { UserSignIn, UserSignUp } from '@/types/user';
 
 import { useAuth } from './auth.store';
-
-const USER_STORAGE_KEY = 'user';
 
 export const authService = {
   initialize: async () => {
     if (useAuth.getState().isAuthorized) return;
 
-    const user = retrieveCachedUserInfo();
-
     try {
-      useAuth.getState().setAuthorizing(true);
-
-      if (user != undefined || getSupabaseAuthCookieName() != undefined) {
+      if (getSupabaseAuthCookieName() != undefined) {
         const { data: userInfo } = await getUser();
 
         if (userInfo == undefined) {
           useAuth.getState().setUser(undefined, false);
-          cleanCachedUserInfo();
         } else {
           useAuth.getState().setUser(userInfo, true);
-          cacheUserInfo(userInfo);
 
           toast.success('Authorization successful');
           return true;
@@ -35,8 +26,9 @@ export const authService = {
         toast.info('Redirecting...');
         return false;
       }
-    } finally {
-      useAuth.getState().setAuthorizing(false);
+    } catch {
+      toast.error('Failed to authorize automatically, signing out...');
+      await signOut();
     }
   },
 
@@ -52,7 +44,6 @@ export const authService = {
 
       if (user != undefined) {
         useAuth.getState().setUser(user, true);
-        cacheUserInfo(user);
 
         toast.success('Signed in successfully');
 
@@ -77,7 +68,6 @@ export const authService = {
 
       if (user != undefined) {
         useAuth.getState().setUser(user, true);
-        cacheUserInfo(user);
 
         toast.success('Signed up successfully');
 
@@ -96,7 +86,6 @@ export const authService = {
     const response = await signOut().finally(() => useAuth.getState().setAuthorizing(false));
 
     useAuth.getState().setUser(undefined, false);
-    cleanCachedUserInfo();
 
     toast.info('Signed out successfully');
 
@@ -105,37 +94,6 @@ export const authService = {
     }
   },
 };
-
-function cacheUserInfo(user: UserDetails) {
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
-}
-
-function retrieveCachedUserInfo(): UserDetails | undefined {
-  try {
-    const data = localStorage.getItem(USER_STORAGE_KEY);
-
-    if (data == undefined) return;
-
-    const user = JSON.parse(data);
-
-    const schema = CustomSchemas.UserSchema;
-
-    const result = schema.safeParse(user).success;
-
-    if (result) {
-      useAuth.getState().setUser(user);
-
-      return user;
-    }
-  } catch {
-    cleanCachedUserInfo();
-    useAuth.getState().setUser(undefined, false);
-  }
-}
-
-function cleanCachedUserInfo() {
-  localStorage.removeItem(USER_STORAGE_KEY);
-}
 
 function getSupabaseAuthCookieName(): string | undefined {
   const allCookies = Cookies.get();
