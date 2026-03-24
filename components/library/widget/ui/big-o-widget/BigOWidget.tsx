@@ -106,7 +106,6 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       <Card className="w-full max-w-md cursor-default p-4">
         <h2>{question}</h2>
         <CodeBlock code={codeExample} />
-        <Hint>{TOOLTIP_HINT}</Hint>
       </Card>
       <Card className="w-full max-w-md cursor-default p-4">
         <p>Selected: {selectedName}</p>
@@ -114,6 +113,7 @@ export function BigOCanvas({ question, codeExample, selectedComplexity, onSelect
       <PrimaryButton disabled={selectedName === ''} onClick={onSubmit}>
         Check Answer
       </PrimaryButton>
+      <Hint>{TOOLTIP_HINT}</Hint>
     </div>
   );
 }
