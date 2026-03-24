@@ -16,6 +16,12 @@ jest.mock('@/components/library/widget/widget.engine', () => ({
   getWidgetComponent: (type: WidgetType) => getWidgetComponentMock(type),
 }));
 
+jest.mock('@/components/Results', () => {
+  return function MockResults() {
+    return <div data-testid="mock-results">Results Mock</div>;
+  };
+});
+
 describe('DefaultRunner', () => {
   it('renders questions sequentially and shows results at the end', async () => {
     const user = userEvent.setup();
@@ -34,6 +40,6 @@ describe('DefaultRunner', () => {
     expect(getWidgetComponentMock).toHaveBeenCalledWith(WidgetType.TrueFalse);
 
     await user.click(screen.getByRole('button', { name: 'q2' }));
-    expect(await screen.findByText('Results')).toBeInTheDocument();
+    expect(await screen.findByTestId('mock-results')).toBeInTheDocument();
   });
 });
