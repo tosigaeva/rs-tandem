@@ -1,15 +1,11 @@
 import z from 'zod';
 
-const upperCaseCheck = /[A-Z]/;
 const usernameCheck = /^[a-zA-Z0-9_-]+$/;
 const passwordMinLength = 1;
 
 export const signInSchema = z.object({
   email: z.email({ message: 'Invalid email address' }),
-  password: z
-    .string()
-    .min(passwordMinLength, `Password must be at least ${passwordMinLength} characters`)
-    .refine((value) => upperCaseCheck.test(value), 'Password must contain an uppercase letter'),
+  password: z.string().min(passwordMinLength, `Password must be at least ${passwordMinLength} characters`),
 });
 
 const signUpFields = signInSchema.extend({
