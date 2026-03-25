@@ -7,10 +7,9 @@ import { Topic } from '@/types/schemas/topic-schema';
 type Properties = {
   recentTopics: Topic[];
   pageTopics: Topic[];
-  displayProgress?: boolean;
 };
 
-export default function LibraryContent({ recentTopics, pageTopics, displayProgress }: Properties) {
+export default function LibraryContent({ recentTopics, pageTopics }: Properties) {
   const { t } = useTranslation();
 
   const hasRecentTopics = recentTopics != undefined && recentTopics.length > 0;
@@ -23,10 +22,10 @@ export default function LibraryContent({ recentTopics, pageTopics, displayProgre
         <p className="text-muted-foreground">{t('library.description')}</p>
       </section>
 
-      {recentTopics.length > 0 && <TopicList title={t('library.section.continue')} topics={recentTopics} />}
-      {pageTopics.length > 0 && (
-        <TopicList title={t(topicsTitleCode)} topics={pageTopics} displayProgress={displayProgress} />
+      {recentTopics.length > 0 && (
+        <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
       )}
+      {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}
     </main>
   );
 }
