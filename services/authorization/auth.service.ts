@@ -18,8 +18,6 @@ export const authService = {
           useAuth.getState().setUser(undefined, false);
         } else {
           useAuth.getState().setUser(userInfo, true);
-
-          toast.success('Authorization successful');
           return true;
         }
 
