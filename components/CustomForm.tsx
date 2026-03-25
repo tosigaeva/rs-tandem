@@ -42,7 +42,9 @@ export const CustomForm = ({
     onValidationChange?.(isValid);
   }, [isValid, onValidationChange]);
 
-  console.log('isValid', isValid);
+  useEffect(() => {
+    console.log('isValid', isValid);
+  }, [isValid]);
 
   return (
     <FormProvider {...methods}>

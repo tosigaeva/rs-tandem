@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CustomForm } from '@/components/CustomForm';
 import { CustomSelect } from '@/components/CustomSelect';
@@ -30,11 +30,17 @@ export const TopicDialog = ({ open, onOpenChange, onSubmit, defaultValues }: Top
     defaultValues = fallback;
   }
 
-  console.log('opening modal', TopicSchema.safeParse(defaultValues).success);
-
   const [formValid, setFormValid] = useState(false);
 
   const formKey = defaultValues?.id || 'new';
+
+  useEffect(() => {
+    console.log('opening modal', {
+      open,
+      formKey,
+      schemaValid: TopicSchema.safeParse(defaultValues).success,
+    });
+  }, [open, formKey, defaultValues]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
