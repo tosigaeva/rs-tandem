@@ -2,7 +2,6 @@ import * as TooltipPrimitives from '@radix-ui/react-tooltip';
 import { Info } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import CodeBlock from '@/components/CodeBlock';
 import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
@@ -23,31 +22,36 @@ export const messages = {
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const { code, blanks, hints } = questionPayload;
 
-  const [input, setInput] = useState('');
+  const [inputs, setInputs] = useState<string[]>(Array.from({ length: blanks.length }).fill(''));
   const [verdict, setVerdict] = useState<boolean | undefined>();
 
-  const inputReference = useRef<HTMLInputElement>(null);
+  const inputReferences = useRef<HTMLInputElement[] | null[]>([]);
 
   useEffect(() => {
-    inputReference.current?.focus();
+    inputReferences.current[0]?.focus();
   }, [questionId]);
 
   const handleCheck = async () => {
-    const result = await onCheck(input);
+    const result = await onCheck(inputs.join(','));
     setVerdict(result);
   };
 
   const handleNext = () => {
-    setInput('');
+    setInputs(Array.from({ length: blanks.length }).fill(''));
     setVerdict(undefined);
     onNext();
   };
 
-  const handleChange = (value: string) => {
-    setInput(value);
+  const handleChange = (value: string, index: number) => {
+    const newInputs = [...inputs];
+    newInputs[index] = value;
+    setInputs(newInputs);
   };
 
   const isChecked = verdict !== undefined;
+
+  const codeParts = code.split('___');
+
   return (
     <section className="mx-auto max-w-2xl space-y-8">
       <Card>
@@ -71,20 +75,32 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
               </TooltipPrimitives.Root>
             </div>
           )}
-          <CodeBlock code={code} />
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>Fill in the missing code</CardDescription>
-          <Input
-            ref={inputReference}
-            disabled={isChecked}
-            onChange={(event) => handleChange(event.target.value)}
-            className="focus-visible:ring-[1px]"
-          />
+          <pre className="overflow-x-auto font-mono">
+            {codeParts.map((part, index) => (
+              <span key={index} className="inline">
+                {part}
+                {index < blanks.length && (
+                  <Input
+                    type="text"
+                    value={inputs[index]}
+                    ref={(input) => {
+                      inputReferences.current[index] = input;
+                    }}
+                    onChange={(event) => handleChange(event.target.value, index)}
+                    disabled={isChecked}
+                    className="bg-secondary/20 text-foreground w-[4rem] rounded-none border-0 border-b border-b-transparent focus-visible:ring-0"
+                  />
+                )}
+              </span>
+            ))}
+          </pre>
           <PrimaryButton
             onClick={isChecked ? handleNext : handleCheck}
             variant="secondary"
-            disabled={!input}
+            /*disabled={!input}*/
             className="mt-4 w-full py-6"
           >
             {isChecked ? messages.nextQuestion : messages.checkAnswer}
