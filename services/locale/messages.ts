@@ -50,6 +50,81 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Пока нет активности. Сначала решите несколько вопросов.',
     [LanguageCode.by]: 'Пакуль няма актыўнасці. Спачатку вырашыце некалькі пытанняў.',
   },
+  /// results
+  'results.perfect.title': {
+    [LanguageCode.en]: 'Perfect Score!',
+    [LanguageCode.ru]: 'Идеальный результат!',
+    [LanguageCode.by]: 'Ідэальны вынік!',
+  },
+  'results.perfect.description': {
+    [LanguageCode.en]: 'Outstanding work. You got everything right!',
+    [LanguageCode.ru]: 'Отличная работа. Все ответы верны!',
+    [LanguageCode.by]: 'Выдатная праца. Усё правільна!',
+  },
+
+  'results.great.title': {
+    [LanguageCode.en]: 'Great job!',
+    [LanguageCode.ru]: 'Отличная работа!',
+    [LanguageCode.by]: 'Выдатна!',
+  },
+  'results.great.description': {
+    [LanguageCode.en]: 'You did really well. Keep it up!',
+    [LanguageCode.ru]: 'Вы справились очень хорошо. Продолжайте в том же духе!',
+    [LanguageCode.by]: 'Вы справіліся вельмі добра. Працягвайце!',
+  },
+
+  'results.good.title': {
+    [LanguageCode.en]: 'Good effort!',
+    [LanguageCode.ru]: 'Хорошая попытка!',
+    [LanguageCode.by]: 'Добрая спроба!',
+  },
+  'results.good.description': {
+    [LanguageCode.en]: 'Nice progress. A bit more practice and you will master it.',
+    [LanguageCode.ru]: 'Хороший прогресс. Немного практики — и вы освоите это.',
+    [LanguageCode.by]: 'Добры прагрэс. Яшчэ крыху практыкі — і ўсё атрымаецца.',
+  },
+
+  'results.keepGoing.title': {
+    [LanguageCode.en]: 'Keep going!',
+    [LanguageCode.ru]: 'Продолжайте!',
+    [LanguageCode.by]: 'Працягвайце!',
+  },
+  'results.keepGoing.description': {
+    [LanguageCode.en]: 'Not bad. Try again and you will improve.',
+    [LanguageCode.ru]: 'Неплохо. Попробуйте снова — станет лучше.',
+    [LanguageCode.by]: 'Нядрэнна. Паспрабуйце яшчэ раз — будзе лепш.',
+  },
+
+  'results.retry.title': {
+    [LanguageCode.en]: 'Give it another try',
+    [LanguageCode.ru]: 'Попробуйте ещё раз',
+    [LanguageCode.by]: 'Паспрабуйце яшчэ раз',
+  },
+  'results.retry.description': {
+    [LanguageCode.en]: 'No correct answers yet, but that is how learning starts.',
+    [LanguageCode.ru]: 'Пока нет правильных ответов, но с этого начинается обучение.',
+    [LanguageCode.by]: 'Пакуль няма правільных адказаў, але так пачынаецца навучанне.',
+  },
+  'results.correctAnswers': {
+    [LanguageCode.en]: 'Correct Answers',
+    [LanguageCode.ru]: 'Правильные ответы',
+    [LanguageCode.by]: 'Правільныя адказы',
+  },
+  'results.percentage': {
+    [LanguageCode.en]: 'correct',
+    [LanguageCode.ru]: 'правильно',
+    [LanguageCode.by]: 'правільна',
+  },
+  'results.backToLibrary': {
+    [LanguageCode.en]: 'Back to Library',
+    [LanguageCode.ru]: 'Назад в библиотеку',
+    [LanguageCode.by]: 'Назад у бібліятэку',
+  },
+  'results.startOver': {
+    [LanguageCode.en]: 'Start Over',
+    [LanguageCode.ru]: 'Начать заново',
+    [LanguageCode.by]: 'Пачаць зноў',
+  },
 } satisfies Record<string, LocaleString>;
 
 export type MessageKey = keyof typeof AppMessages;

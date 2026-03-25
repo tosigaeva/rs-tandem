@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import Results from '@/components/Results';
 import { trackQuestionAttempt } from '@/data/activity.client';
 import { validateAnswer } from '@/data/validate.api';
 import { Question as QuestionType } from '@/types/question';
@@ -20,25 +21,37 @@ type QuestionRunnerEngineProperties = {
 
 export default function QuestionRunnerEngine({ questions, children }: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
 
   const currentQuestion = questions[currentIndex];
 
-  if (currentQuestion === undefined) return <div>Results</div>;
-
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
+
+  const startOver = () => {
+    setCurrentIndex(0);
+    setCorrectAnswers(0);
+  };
 
   const onCheck = async (answer: string) => {
     const result = await validateAnswer(currentQuestion.id, answer);
 
-    await trackQuestionAttempt({
-      questionId: currentQuestion.id,
-      isSuccess: result,
-    }).catch((error: unknown) => {
-      console.error('Track activity failed', error);
-    });
+    if (result === true) setCorrectAnswers((previous) => previous + 1);
+
+    try {
+      await trackQuestionAttempt({
+        questionId: currentQuestion.id,
+        isSuccess: result,
+      });
+    } catch {
+      // ignored due to not blocking answer validation flow.
+    }
 
     return result;
   };
+
+  if (currentQuestion === undefined) {
+    return <Results questionsCount={questions.length} correctAnswers={correctAnswers} onStartOver={startOver} />;
+  }
 
   return children({
     questions,

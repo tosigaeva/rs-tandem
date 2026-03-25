@@ -13,14 +13,21 @@ type WidgetComponentProperties = {
 
 export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [selectedComplexity, setSelectedComplexity] = useState<string>('');
+  const [isCorrect, setIsCorrect] = useState<boolean | undefined>();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const handleSelect = (complexity: string) => {
     setSelectedComplexity(complexity);
   };
 
   const handleSubmit = async () => {
-    await onCheck(selectedComplexity);
-    onNext();
+    if (isSubmitted) {
+      onNext();
+    } else {
+      const result = await onCheck(selectedComplexity);
+      setIsCorrect(result);
+      setIsSubmitted(true);
+    }
   };
 
   return (
@@ -30,6 +37,8 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
       selectedComplexity={selectedComplexity}
       onSelect={handleSelect}
       onSubmit={handleSubmit}
+      isCorrect={isCorrect}
+      isSubmitted={isSubmitted}
     />
   );
 }
