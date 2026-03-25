@@ -62,7 +62,7 @@ export function Header() {
     <header
       className={cn(
         'border-border bg-card relative z-25 border-b',
-        !initialAuthorization || isAuthorizing ? 'cursor-wait select-none' : ''
+        !Boolean(initialAuthorization) || isAuthorizing ? 'cursor-wait select-none' : ''
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-6">
@@ -72,7 +72,7 @@ export function Header() {
               <PrimaryButton
                 variant="outline"
                 size="icon"
-                disabled={!initialAuthorization || isAuthorizing}
+                disabled={!Boolean(initialAuthorization) || isAuthorizing}
                 className={headerActionButtonClass}
               >
                 <Menu className="h-5 w-5" />
@@ -111,30 +111,20 @@ export function Header() {
         </h1>
 
         <div className="flex flex-1 items-start justify-end gap-2.5">
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <PrimaryButton
-                variant="outline"
-                disabled={!initialAuthorization || isAuthorizing}
-                onClick={() => !isAuthorized && router.push(routes.SignIn)}
-                className={cn(headerActionButtonClass, user && 'max-w-48')}
-              >
-                {user ? (
-                  <>
-                    <User />
-                    <span className="max-w-32 truncate" title={user.username}>
-                      {user.username}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <LogIn /> Sign In
-                  </>
-                )}
-              </PrimaryButton>
-            </DropdownMenuTrigger>
-
-            {isAuthorized && (
+          {isAuthorized ? (
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <PrimaryButton
+                  variant="outline"
+                  disabled={!Boolean(initialAuthorization) || isAuthorizing}
+                  className={cn(headerActionButtonClass, 'max-w-48')}
+                >
+                  <User />
+                  <span className="max-w-32 truncate" title={user?.username}>
+                    {user?.username}
+                  </span>
+                </PrimaryButton>
+              </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-48 space-y-0.5 p-0.5">
                 <DropdownMenuItem
                   asChild
@@ -147,15 +137,24 @@ export function Header() {
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            )}
-          </DropdownMenu>
+            </DropdownMenu>
+          ) : (
+            <PrimaryButton
+              variant="outline"
+              disabled={!Boolean(initialAuthorization) || isAuthorizing}
+              onClick={() => router.push(routes.SignIn)}
+              className={headerActionButtonClass}
+            >
+              <LogIn /> Sign In
+            </PrimaryButton>
+          )}
 
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <PrimaryButton
                 variant="outline"
                 size="icon"
-                disabled={!initialAuthorization || isAuthorizing}
+                disabled={!Boolean(initialAuthorization) || isAuthorizing}
                 className={cn(headerActionButtonClass, 'uppercase')}
               >
                 {languageCode}
