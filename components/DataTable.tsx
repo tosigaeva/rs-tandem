@@ -7,14 +7,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 type DataTableProperties<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  meta?: {
+    onSubmit: (data: TData) => void;
+  };
 };
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProperties<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, meta }: DataTableProperties<TData, TValue>) {
   'use no memo';
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    meta,
   });
 
   return (

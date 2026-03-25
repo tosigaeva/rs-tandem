@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { CustomForm } from '@/components/CustomForm';
 import { CustomInput } from '@/components/CustomInput';
 import { Button } from '@/components/ui/button';
-import { SchemaData } from '@/types/schemas/schemas';
+import { SchemaData } from '@/types/schemas/schema-registry';
 
 export default function SignInForm({ handleSubmit }: { handleSubmit: (data: SchemaData) => void }) {
   const [formValid, setFormValid] = useState(false);

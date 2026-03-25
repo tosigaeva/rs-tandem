@@ -54,6 +54,9 @@ const mapBaseFields = (data: TopicBase) => ({
   createdAt: data.created_at,
 });
 
+export const TopicSchema = TopicBaseSchema.omit({ created_at: true });
+export type Topic = z.infer<typeof TopicSchema>;
+
 export const TopicAdminListItemSchema = TopicBaseSchema.extend({
   sum_questions: z.number().int().nonnegative().default(0),
 }).transform((data) => {

@@ -4,7 +4,8 @@ import { ReactNode, useEffect } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { CustomSchemaKey, getSchema, SchemaData, SchemaRegistry } from '@/types/schemas/schemas';
+import { cn } from '@/lib/utils';
+import { CustomSchemaKey, getSchema, SchemaData, SchemaRegistry } from '@/types/schemas/schema-registry';
 
 export type FormProperties = {
   id: string;
@@ -13,6 +14,7 @@ export type FormProperties = {
   onSubmit: (data: z.infer<SchemaRegistry[CustomSchemaKey]>) => void;
   onValidationChange?: (isValid: boolean) => void;
   defaultValues?: DefaultValues<z.infer<SchemaRegistry[CustomSchemaKey]>>;
+  className?: string;
 };
 
 export const CustomForm = ({
@@ -22,6 +24,7 @@ export const CustomForm = ({
   onSubmit,
   defaultValues,
   onValidationChange,
+  className,
 }: FormProperties) => {
   const schema = getSchema(schemaKey);
 
@@ -39,10 +42,12 @@ export const CustomForm = ({
     onValidationChange?.(isValid);
   }, [isValid, onValidationChange]);
 
+  console.log('isValid', isValid);
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} id={id} className="w-full">
-        <div className="mb-2 grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">{children}</div>
+        <div className={cn('mb-2 grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2', className)}>{children}</div>
       </form>
     </FormProvider>
   );

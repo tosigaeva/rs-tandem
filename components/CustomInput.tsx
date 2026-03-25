@@ -15,9 +15,20 @@ export type InputProperties = {
   placeholder?: string;
   classes?: string;
   dependencies?: string[];
+  defaultValue?: string | number;
+  disabled?: boolean;
 };
 
-export const CustomInput = ({ name, label, type, placeholder, classes, dependencies }: InputProperties) => {
+export const CustomInput = ({
+  name,
+  label,
+  type,
+  placeholder,
+  classes,
+  dependencies,
+  defaultValue,
+  disabled,
+}: InputProperties) => {
   const {
     register,
     formState: { errors, touchedFields, dirtyFields },
@@ -89,6 +100,8 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
           )}
           onChange={handleOnChange}
           onBlur={handleBlur}
+          value={defaultValue}
+          disabled={disabled}
         />
         {isPassword && (
           <Button

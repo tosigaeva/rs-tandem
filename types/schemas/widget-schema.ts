@@ -18,6 +18,8 @@ const mapBaseFields = (data: WidgetBase) => ({
   icon: '',
 });
 
+export const WidgetSchema = WidgetBaseSchema;
+
 export const WidgetOverviewSchema = WidgetBaseSchema.extend({
   last_accessed_at: z.coerce.date().nullable(),
   total_questions: z.number(),

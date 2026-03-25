@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'sonner';
 
 import { getUser, signIn, signOut, signUp } from '@/services/authorization/auth.client';
-import { CustomSchemas } from '@/types/schemas/schemas';
+import { CustomSchemas } from '@/types/schemas/schema-registry';
 import { UserDetails, UserSignIn, UserSignUp } from '@/types/user';
 
 import { useAuth } from './auth.store';

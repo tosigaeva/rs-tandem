@@ -9,13 +9,23 @@ export type SelectProperties<T> = {
   label: string;
   options: SelectOption<T>[];
   classes?: string;
-  onChange: {
+  onChange?: {
     validator: (value: string) => T | undefined;
     act: (value: T) => void;
   };
+  defaultValue?: T;
+  disabled?: boolean;
 };
 
-export const CustomSelect = <T extends string>({ name, label, options, classes, onChange }: SelectProperties<T>) => {
+export const CustomSelect = <T extends string>({
+  name,
+  label,
+  options,
+  classes,
+  onChange,
+  defaultValue,
+  disabled,
+}: SelectProperties<T>) => {
   const {
     register,
     formState: { errors },
@@ -47,6 +57,8 @@ export const CustomSelect = <T extends string>({ name, label, options, classes, 
           hasError ? 'border-red-500' : 'border-slate-300 focus:border-blue-500'
         )}
         onChange={handleChange}
+        value={defaultValue}
+        disabled={disabled}
       >
         <option value="">Select {label}</option>
         {options.map((opt) => (

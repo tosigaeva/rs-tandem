@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Routes } from '@/lib/routes';
 import { getNavigation } from '@/lib/utils';
 import { authService } from '@/services/authorization/auth.service';
-import { SchemaData } from '@/types/schemas/schemas';
+import { SignIn, SignUp } from '@/types/schemas/authorization-schemas';
 
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
@@ -26,7 +26,7 @@ export default function AuthContent() {
     router.replace(validRoute != undefined && redirectParameter != undefined ? redirectParameter : Routes.Dashboard);
   };
 
-  const handleSignIn = async (data: SchemaData) => {
+  const handleSignIn = async (data: SignIn) => {
     if ('email' in data && 'password' in data) {
       const result = await authService.signIn(data);
 
@@ -36,7 +36,7 @@ export default function AuthContent() {
     }
   };
 
-  const handleSignUp = async (data: SchemaData) => {
+  const handleSignUp = async (data: SignUp) => {
     if ('email' in data && 'password' in data && 'username' in data) {
       const result = await authService.signUp(data);
 
