@@ -11,6 +11,10 @@ export async function validateAnswer(questionId: string, answer: unknown): Promi
     return answer === 'filter';
   }
 
+  if (questionId === 'cc-002') {
+    return answer === 'filtermap';
+  }
+
   if (questionId === 'big-o-001') {
     return answer === 'O(n)';
   }

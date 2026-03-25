@@ -22,9 +22,8 @@ export const messages = {
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const { code, blanks, hints } = questionPayload;
 
-  const [inputs, setInputs] = useState<string[]>(Array.from({ length: blanks.length }).fill(''));
+  const [inputs, setInputs] = useState<string[]>(Array.from({ length: blanks.length }, () => ''));
   const [verdict, setVerdict] = useState<boolean | undefined>();
-
   const inputReferences = useRef<HTMLInputElement[] | null[]>([]);
 
   useEffect(() => {
@@ -32,12 +31,12 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   }, [questionId]);
 
   const handleCheck = async () => {
-    const result = await onCheck(inputs.join(','));
+    const result = await onCheck(inputs.join(''));
     setVerdict(result);
   };
 
   const handleNext = () => {
-    setInputs(Array.from({ length: blanks.length }).fill(''));
+    setInputs(Array.from({ length: blanks.length }, () => ''));
     setVerdict(undefined);
     onNext();
   };
@@ -50,7 +49,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
 
   const isChecked = verdict !== undefined;
 
-  const codeParts = code.split('___');
+  const codeParts = code.split('___'); // TODO: how can be replace
 
   return (
     <section className="mx-auto max-w-2xl space-y-8">
@@ -91,7 +90,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     }}
                     onChange={(event) => handleChange(event.target.value, index)}
                     disabled={isChecked}
-                    className="bg-secondary/20 text-foreground w-[4rem] rounded-none border-0 border-b border-b-transparent focus-visible:ring-0"
+                    className="bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent focus-visible:ring-0"
                   />
                 )}
               </span>
