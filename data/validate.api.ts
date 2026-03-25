@@ -30,5 +30,5 @@ export async function validateAnswer(questionId: string, answer: unknown): Promi
     return answer === 'true';
   }
 
-  return undefined;
+  return Math.random() < 0.5;
 }
