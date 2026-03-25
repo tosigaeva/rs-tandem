@@ -1,11 +1,32 @@
 import { Suspense } from 'react';
 
-import LibraryContent from './library-content';
+import LibraryContent from '@/app/library/library-content';
+import { getTopicsOverview } from '@/data/trainer.api';
 
 export default async function Page() {
+  let recentTopics;
+  let pageTopics;
+  let recentTopicsError;
+  let pageTopicsError;
+
+  try {
+    ({
+      recentTopics,
+      topicsPage: pageTopics,
+      recentTopicsError,
+      topicsPageError: pageTopicsError,
+    } = await getTopicsOverview());
+
+    if (recentTopicsError != undefined || pageTopicsError != undefined) {
+      // error handler
+    }
+  } catch {
+    return <>Something went wrong while fetching topics.</>;
+  }
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <LibraryContent />
+      <LibraryContent recentTopics={recentTopics ?? []} pageTopics={pageTopics?.items ?? []}></LibraryContent>
     </Suspense>
   );
 }
