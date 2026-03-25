@@ -52,7 +52,7 @@ export default function LibraryContent() {
         <p className="text-muted-foreground">{t('library.description')}</p>
       </section>
 
-      {recentTopics && <TopicList title={t('library.section.continue')} topics={recentTopics} />}
+      {hasRecentTopics && <TopicList title={t('library.section.continue')} topics={recentTopics} />}
       {topicsPage && <TopicList title={t(topicsTitleCode)} topics={topicsPage.items} displayProgress={false} />}
     </main>
   );
