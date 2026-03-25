@@ -1,6 +1,8 @@
 import * as TooltipPrimitives from '@radix-ui/react-tooltip';
 import { Info } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -77,10 +79,17 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>Fill in the missing code</CardDescription>
-          <pre className="overflow-x-auto font-mono">
+          <pre className="overflow-x-auto">
             {codeParts.map((part, index) => (
               <span key={index} className="inline">
-                {part}
+                <SyntaxHighlighter
+                  language="javascript"
+                  style={oneLight}
+                  customStyle={{ padding: '0', fontSize: '14px', display: 'inline', background: 'transparent' }}
+                  showLineNumbers={false}
+                >
+                  {part}
+                </SyntaxHighlighter>
                 {index < blanks.length && (
                   <Input
                     type="text"
@@ -90,7 +99,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     }}
                     onChange={(event) => handleChange(event.target.value, index)}
                     disabled={isChecked}
-                    className="bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent focus-visible:ring-0"
+                    className="bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent px-1 text-center text-sm focus-visible:ring-0"
                   />
                 )}
               </span>
