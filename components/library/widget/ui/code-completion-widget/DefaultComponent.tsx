@@ -80,7 +80,9 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     className="bg-secondary text-secondary-foreground rounded-md px-3
                     py-1.5 text-xs text-balance shadow-lg"
                   >
-                    {hints}
+                    {hints.map((hint, index) => (
+                      <div key={index}>{`${index + 1} - ${hint}`}</div>
+                    ))}
                     <TooltipPrimitives.Arrow className="fill-secondary!" />
                   </TooltipPrimitives.Content>
                 </TooltipPrimitives.Portal>
@@ -108,16 +110,19 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     {part}
                   </SyntaxHighlighter>
                   {index < blanks.length && (
-                    <Input
-                      type="text"
-                      value={inputs[index]}
-                      ref={(input) => {
-                        inputReferences.current[index] = input;
-                      }}
-                      onChange={(event) => handleChange(event.target.value, index)}
-                      disabled={isChecked}
-                      className={`bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent px-1 text-center text-sm focus-visible:ring-0 ${inputClass}`}
-                    />
+                    <span className="inline-flex items-center">
+                      <Input
+                        type="text"
+                        value={inputs[index]}
+                        ref={(input) => {
+                          inputReferences.current[index] = input;
+                        }}
+                        onChange={(event) => handleChange(event.target.value, index)}
+                        disabled={isChecked}
+                        className={`bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent px-1 text-center text-sm focus-visible:ring-0 ${inputClass}`}
+                      />
+                      <sup className="text-secondary mb-3 ml-1 text-xs">{index + 1}</sup>
+                    </span>
                   )}
                 </span>
               );
