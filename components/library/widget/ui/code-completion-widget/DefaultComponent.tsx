@@ -21,11 +21,20 @@ export const messages = {
   nextQuestion: 'Next Question',
 };
 
+function validateAnswer(questionId: string, userAnswers: string[]) {
+  const answers: Record<string, string[]> = {
+    'cc-001': ['filter'],
+    'cc-002': ['filter', 'map'],
+  };
+  const correctAnswers = answers[questionId];
+  return userAnswers.map((answer, index) => answer === correctAnswers[index]);
+}
+
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const { code, blanks, hints } = questionPayload;
 
   const [inputs, setInputs] = useState<string[]>(Array.from({ length: blanks.length }, () => ''));
-  const [verdict, setVerdict] = useState<boolean | undefined>();
+  const [verdict, setVerdict] = useState<boolean[] | undefined>();
   const inputReferences = useRef<HTMLInputElement[] | null[]>([]);
 
   useEffect(() => {
@@ -33,7 +42,9 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   }, [questionId]);
 
   const handleCheck = async () => {
-    const result = await onCheck(inputs.join(''));
+    await onCheck(inputs.join(''));
+
+    const result = validateAnswer(questionId, inputs);
     setVerdict(result);
   };
 
@@ -45,7 +56,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
 
   const handleChange = (value: string, index: number) => {
     const newInputs = [...inputs];
-    newInputs[index] = value;
+    newInputs[index] = value.trim();
     setInputs(newInputs);
   };
 
@@ -80,30 +91,37 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
         <CardContent className="space-y-4">
           <CardDescription>Fill in the missing code</CardDescription>
           <pre className="overflow-x-auto">
-            {codeParts.map((part, index) => (
-              <span key={index} className="inline">
-                <SyntaxHighlighter
-                  language="javascript"
-                  style={oneLight}
-                  customStyle={{ padding: '0', fontSize: '14px', display: 'inline', background: 'transparent' }}
-                  showLineNumbers={false}
-                >
-                  {part}
-                </SyntaxHighlighter>
-                {index < blanks.length && (
-                  <Input
-                    type="text"
-                    value={inputs[index]}
-                    ref={(input) => {
-                      inputReferences.current[index] = input;
-                    }}
-                    onChange={(event) => handleChange(event.target.value, index)}
-                    disabled={isChecked}
-                    className="bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent px-1 text-center text-sm focus-visible:ring-0"
-                  />
-                )}
-              </span>
-            ))}
+            {codeParts.map((part, index) => {
+              const inputClass = isChecked
+                ? verdict?.[index]
+                  ? 'bg-correct-answer-muted/50'
+                  : 'bg-wrong-answer-muted/25'
+                : '';
+              return (
+                <span key={index} className="inline">
+                  <SyntaxHighlighter
+                    language="javascript"
+                    style={oneLight}
+                    customStyle={{ padding: '0', fontSize: '14px', display: 'inline', background: 'transparent' }}
+                    showLineNumbers={false}
+                  >
+                    {part}
+                  </SyntaxHighlighter>
+                  {index < blanks.length && (
+                    <Input
+                      type="text"
+                      value={inputs[index]}
+                      ref={(input) => {
+                        inputReferences.current[index] = input;
+                      }}
+                      onChange={(event) => handleChange(event.target.value, index)}
+                      disabled={isChecked}
+                      className={`bg-secondary/20 text-foreground w-16 rounded-none border-0 border-b border-b-transparent px-1 text-center text-sm focus-visible:ring-0 ${inputClass}`}
+                    />
+                  )}
+                </span>
+              );
+            })}
           </pre>
           <PrimaryButton
             onClick={isChecked ? handleNext : handleCheck}
