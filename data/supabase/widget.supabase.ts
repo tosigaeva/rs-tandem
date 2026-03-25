@@ -1,8 +1,10 @@
 import { supabaseServer } from '@/lib/supabase/server';
+import { getServerLanguageCode } from '@/services/locale/locale.server';
 import { Widget } from '@/types/widget';
 
 export async function getWidgets(topicId: string): Promise<Widget[]> {
   const supabase = await supabaseServer();
+  const languageCode = await getServerLanguageCode();
 
   const query = supabase
     .from('topic_widgets')
@@ -29,8 +31,8 @@ export async function getWidgets(topicId: string): Promise<Widget[]> {
 
   return data.map(({ widget_type, widgets }) => ({
     type: widget_type,
-    title: widgets[0]?.name,
-    description: widgets[0]?.description,
-    icon: widgets[0]?.icon(),
+    title: widgets.name[languageCode],
+    description: widgets.description[languageCode],
+    icon: widgets.icon,
   }));
 }
