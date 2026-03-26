@@ -2,6 +2,12 @@ import { WidgetType } from '@/types/widget';
 
 export const mockWidgets = [
   {
+    type: WidgetType.CodeOrdering,
+    title: 'Code Ordering',
+    description: 'Arrange the code lines in the correct execution order.',
+    icon: ['C'],
+  },
+  {
     type: WidgetType.Quiz,
     title: 'Single Choice Quiz',
     description: 'Select the correct answer from the given options.',
