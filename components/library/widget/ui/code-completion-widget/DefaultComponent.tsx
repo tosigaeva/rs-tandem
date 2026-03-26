@@ -8,17 +8,13 @@ import { CodeCompletionPayload } from '@/components/library/widget/ui/code-compl
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from '@/hooks/use-translation';
 
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: CodeCompletionPayload;
   onCheck: (answer: string) => Promise<boolean | undefined>;
   onNext: () => void;
-};
-
-export const messages = {
-  checkAnswer: 'Check Answer',
-  nextQuestion: 'Next Question',
 };
 
 function validateAnswer(questionId: string, userAnswers: string[]) {
@@ -31,6 +27,8 @@ function validateAnswer(questionId: string, userAnswers: string[]) {
 }
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
+  const { t } = useTranslation();
+
   const { code, blanks, hints } = questionPayload;
 
   const [inputs, setInputs] = useState<string[]>(Array.from({ length: blanks.length }, () => ''));
@@ -91,7 +89,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
           )}
         </CardHeader>
         <CardContent className="space-y-4">
-          <CardDescription>Fill in the missing code</CardDescription>
+          <CardDescription>{t('widget.codeComplition.description')}</CardDescription>
           <pre className="overflow-x-auto">
             {codeParts.map((part, index) => {
               const inputClass = isChecked
@@ -134,7 +132,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             /*disabled={!input}*/
             className="mt-4 w-full py-6"
           >
-            {isChecked ? messages.nextQuestion : messages.checkAnswer}
+            {isChecked ? t('widget.button.nextQuestion') : t('widget.button.checkAnswer')}
           </PrimaryButton>
         </CardContent>
       </Card>
