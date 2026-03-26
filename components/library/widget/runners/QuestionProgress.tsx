@@ -2,6 +2,7 @@ import { Flame } from 'lucide-react';
 
 import { AnswersHistory } from '@/components/library/widget/runners/QuestionRunnerEngine';
 import { Progress } from '@/components/ui';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 
 type QuestionProgressProperties = {
@@ -15,6 +16,8 @@ export default function QuestionProgress({
   totalQuestions,
   answersHistory,
 }: QuestionProgressProperties) {
+  const { t } = useTranslation();
+
   const answeredCount = currentQuestion;
   const progress = (currentQuestion / totalQuestions) * 100;
 
@@ -41,7 +44,7 @@ export default function QuestionProgress({
       <div className="grid grid-cols-2 items-center gap-4 sm:grid-cols-3">
         <div className="flex flex-col items-start gap-3">
           <span className="text-muted-foreground text-sm font-medium">
-            Вопрос {currentQuestion} из {totalQuestions}
+            {t('runner.progress.question')} {currentQuestion} {t('runner.progress.of')} {totalQuestions}
           </span>
           <Progress value={progress} className="w-48" />
         </div>
@@ -58,7 +61,9 @@ export default function QuestionProgress({
         </div>
 
         <div className="flex flex-col items-end gap-3">
-          <span className="text-muted-foreground text-sm font-medium">Точность: {accuracy}%</span>
+          <span className="text-muted-foreground text-sm font-medium">
+            {t('runner.progress.accuracy')}: {accuracy}%
+          </span>
           <div className="flex gap-1">
             {Array.from({ length: totalQuestions }).map((_, index) => {
               const status = answersHistory[index];
