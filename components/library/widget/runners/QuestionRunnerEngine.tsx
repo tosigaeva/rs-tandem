@@ -7,9 +7,12 @@ import { trackQuestionAttempt } from '@/data/activity.client';
 import { validateAnswer } from '@/data/validate.api';
 import { Question as QuestionType } from '@/types/question';
 
+export type AnswersHistory = (boolean | undefined)[];
+
 type RunnerRenderProperties = {
   questions: QuestionType[];
   currentIndex: number;
+  answersHistory: AnswersHistory;
   onCheck: (answer: string) => Promise<boolean | undefined>;
   nextQuestion: () => void;
 };
@@ -22,6 +25,7 @@ type QuestionRunnerEngineProperties = {
 export default function QuestionRunnerEngine({ questions, children }: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(Array.from({ length: questions.length }).fill());
 
   const currentQuestion = questions[currentIndex];
 
@@ -30,6 +34,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   const startOver = () => {
     setCurrentIndex(0);
     setCorrectAnswers(0);
+    setAnswersHistory(Array.from({ length: questions.length }).fill());
   };
 
   const onCheck = async (answer: string) => {
@@ -37,13 +42,19 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
 
     if (result === true) setCorrectAnswers((previous) => previous + 1);
 
+    setAnswersHistory((previous) => {
+      const copyHistory = [...previous];
+      copyHistory[currentIndex] = result;
+      return copyHistory;
+    });
+
     try {
       await trackQuestionAttempt({
         questionId: currentQuestion.id,
         isSuccess: result,
       });
     } catch {
-      // ignored due to not blocking answer validation flow.
+      // ignored due to not blocking an answer validation flow.
     }
 
     return result;
@@ -56,6 +67,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   return children({
     questions,
     currentIndex,
+    answersHistory,
     onCheck,
     nextQuestion,
   });
