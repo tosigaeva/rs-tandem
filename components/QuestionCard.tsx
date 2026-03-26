@@ -71,7 +71,12 @@ export default function QuestionCard({
   );
 
   return (
-    <section ref={sectionReference} tabIndex={0} onKeyDown={handleKeyDown} className="mx-auto max-w-2xl space-y-8">
+    <section
+      ref={sectionReference}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      className="mx-auto max-w-2xl space-y-8 focus-visible:outline-0"
+    >
       <Card>
         <CardHeader>
           <CodeBlock code={question} />
