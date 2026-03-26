@@ -11,9 +11,10 @@ import { Level, Topic, TopicAdminListItem } from '@/types/schemas/topic-schema';
 
 type MetaProperties = {
   handleOpenDialog: (data?: Topic) => void;
+  confirmDelete: (ids: number[]) => void;
 };
 
-export function createColumns({ handleOpenDialog }: MetaProperties) {
+export function createColumns({ handleOpenDialog, confirmDelete }: MetaProperties) {
   const columns: ColumnDef<TopicAdminListItem>[] = [
     {
       accessorKey: 'id',
@@ -81,7 +82,8 @@ export function createColumns({ handleOpenDialog }: MetaProperties) {
     {
       id: 'actions',
       header: ({ table }) => {
-        const rowSelected = table.getSelectedRowModel().rows.length > 0;
+        const selectedRows = table.getSelectedRowModel().rows;
+        const rowSelected = selectedRows.length > 0;
 
         return (
           <div className="flex justify-end gap-2 py-2">
@@ -89,7 +91,12 @@ export function createColumns({ handleOpenDialog }: MetaProperties) {
               <PlusCircle className="h-4 w-4" />
               Add Topic
             </Button>
-            <Button variant="destructive" size="icon" disabled={!rowSelected}>
+            <Button
+              variant="destructive"
+              size="icon"
+              disabled={!rowSelected}
+              onClick={() => confirmDelete(selectedRows.map((row) => row.original.id))}
+            >
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
@@ -127,6 +134,7 @@ export function createColumns({ handleOpenDialog }: MetaProperties) {
               size="icon"
               className="text-destructive hover:text-destructive"
               disabled={isDisabled}
+              onClick={() => confirmDelete([row.original.id])}
             >
               <Trash2 className="h-4 w-4" />
             </Button>

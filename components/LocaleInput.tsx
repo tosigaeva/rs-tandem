@@ -1,3 +1,6 @@
+import { useFormContext } from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
 import { LanguageCode } from '@/services/locale/locale.service';
 import { LocaleString } from '@/types/schemas/locale-schemas';
 
@@ -9,9 +12,17 @@ type LocaleInputProperties = {
   defaultValue?: LocaleString;
 };
 
-export const LocaleInput = ({ name, label, defaultValue }: LocaleInputProperties) => {
+export const LocaleInput = ({ name, label }: LocaleInputProperties) => {
+  const { formState, getFieldState } = useFormContext();
+  const { error } = getFieldState(name, formState);
+
   return (
-    <div className="col-span-full space-y-2 border-l-2 border-b-cyan-600 pl-4">
+    <div
+      className={cn(
+        'col-span-full space-y-2 border-l-2 pl-4 duration-200',
+        error ? 'border-red-500' : 'border-cyan-600'
+      )}
+    >
       <span className="text-muted-foreground text-sm font-medium">{label}</span>
       <div className="flex flex-col">
         {Object.values(LanguageCode).map((lang) => (
@@ -21,7 +32,6 @@ export const LocaleInput = ({ name, label, defaultValue }: LocaleInputProperties
             label={lang.toUpperCase()}
             placeholder={`Enter ${label.toLowerCase()} in ${lang}...`}
             type={'text'}
-            defaultValue={defaultValue?.[lang]}
           />
         ))}
       </div>

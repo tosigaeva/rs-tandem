@@ -34,7 +34,7 @@ export const LevelLocales: Record<Level, LocaleString> = {
   },
 };
 
-const TopicBaseSchema = z.object({
+export const TopicBaseSchema = z.object({
   id: z.number().int(),
   name: LocaleStringSchema,
   level: z.enum(Level),
@@ -42,10 +42,9 @@ const TopicBaseSchema = z.object({
   subject: z.enum(Subject),
   created_at: z.coerce.date(),
 });
+export type TopicBase = z.infer<typeof TopicBaseSchema>;
 
-type TopicBase = z.infer<typeof TopicBaseSchema>;
-
-const mapBaseFields = (data: TopicBase) => ({
+export const mapTopicBaseFields = (data: TopicBase) => ({
   id: data.id,
   name: data.name,
   level: data.level,
@@ -60,21 +59,20 @@ export type Topic = z.infer<typeof TopicSchema>;
 export const TopicAdminListItemSchema = TopicBaseSchema.extend({
   sum_questions: z.number().int().nonnegative().default(0),
 }).transform((data) => {
-  const base = mapBaseFields(data);
+  const base = mapTopicBaseFields(data);
 
   return {
     ...base,
     sumQuestions: data.sum_questions,
   };
 });
-
 export type TopicAdminListItem = z.infer<typeof TopicAdminListItemSchema>;
 
 export const TopicOverviewSchema = TopicBaseSchema.extend({
   last_accessed_at: z.coerce.date().nullable(),
   widgets: z.array(z.lazy(() => WidgetOverviewSchema)).default([]),
 }).transform((data) => {
-  const base = mapBaseFields(data);
+  const base = mapTopicBaseFields(data);
 
   return {
     ...base,

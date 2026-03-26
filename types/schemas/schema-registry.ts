@@ -1,6 +1,7 @@
 import z from 'zod';
 
 import { SignInSchema, SignUpSchema, userSchema } from './authorization-schemas';
+import { GeneralQuestionSchema } from './question-schemas';
 import { TopicSchema } from './topic-schema';
 import { WidgetSchema } from './widget-schema';
 
@@ -10,6 +11,7 @@ export type SchemaRegistry = {
   UserSchema: typeof userSchema;
   TopicSchema: typeof TopicSchema;
   WidgetSchema: typeof WidgetSchema;
+  GeneralQuestionSchema: typeof GeneralQuestionSchema;
 };
 
 export const CustomSchemas = {
@@ -18,6 +20,7 @@ export const CustomSchemas = {
   UserSchema: userSchema,
   TopicSchema: TopicSchema,
   WidgetSchema: WidgetSchema,
+  GeneralQuestionSchema: GeneralQuestionSchema,
 } satisfies SchemaRegistry;
 
 export type CustomSchemaKey = keyof typeof CustomSchemas;

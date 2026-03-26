@@ -42,10 +42,6 @@ export const CustomForm = ({
     onValidationChange?.(isValid);
   }, [isValid, onValidationChange]);
 
-  useEffect(() => {
-    console.log('isValid', isValid);
-  }, [isValid]);
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} id={id} className="w-full">

@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { CustomForm } from '@/components/CustomForm';
+import { CustomInput } from '@/components/CustomInput';
 import { CustomSelect } from '@/components/CustomSelect';
 import { LocaleInput } from '@/components/LocaleInput';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { SchemaData } from '@/types/schemas/schema-registry';
-import { Level, Subject, Topic, TopicSchema } from '@/types/schemas/topic-schema';
+import { Level, Subject, Topic } from '@/types/schemas/topic-schema';
 
 type TopicDefault = Omit<Topic, 'name' | 'description'> & Partial<Pick<Topic, 'name' | 'description'>>;
 
@@ -34,14 +35,6 @@ export const TopicDialog = ({ open, onOpenChange, onSubmit, defaultValues }: Top
 
   const formKey = defaultValues?.id || 'new';
 
-  useEffect(() => {
-    console.log('opening modal', {
-      open,
-      formKey,
-      schemaValid: TopicSchema.safeParse(defaultValues).success,
-    });
-  }, [open, formKey, defaultValues]);
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent key={formKey} className="flex max-h-[90%] flex-col sm:max-w-150">
@@ -61,25 +54,24 @@ export const TopicDialog = ({ open, onOpenChange, onSubmit, defaultValues }: Top
             onSubmit={(data) => onSubmit(data)}
             onValidationChange={setFormValid}
             className="gap-y-10"
+            defaultValues={defaultValues}
           >
-            <LocaleInput name="name" label="Topic Name" defaultValue={defaultValues.name} />
-            <LocaleInput name="description" label="Topic Description" defaultValue={defaultValues.description} />
+            <CustomInput name="id" label="Topic ID" type={'number'} disabled={true} />
+            <LocaleInput name="name" label="Topic Name" />
+            <LocaleInput name="description" label="Topic Description" />
             <CustomSelect<Level>
               name="level"
               label="Difficulty Level"
               options={Object.values(Level).map((level) => ({ label: level, value: level }))}
-              defaultValue={defaultValues.level}
             />
             <CustomSelect<Subject>
               name="subject"
               label="Subject"
               options={Object.values(Subject).map((subject) => ({ label: subject, value: subject }))}
-              defaultValue={defaultValues.subject}
             />
-            <div className="col-span-full mt-4 flex justify-end"></div>
           </CustomForm>
         </div>
-        <Button variant="success" form="topic-form" type="submit">
+        <Button variant="success" form="topic-form" type="submit" disabled={!formValid}>
           Submit
         </Button>
       </DialogContent>

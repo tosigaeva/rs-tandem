@@ -3,32 +3,36 @@ import { z } from 'zod';
 import { WidgetType } from '../widget';
 import { LocaleStringSchema } from './locale-schemas';
 
-const WidgetBaseSchema = z.object({
+export const WidgetBaseSchema = z.object({
   type: z.enum(WidgetType),
   name: LocaleStringSchema,
-  // description: z.string().nullable(),
-  // icon: z.string().nullable(),
+  description: LocaleStringSchema,
+  icon: z.string().length(1, 'Icon must be a single character'),
+  created_at: z.coerce.date(),
 });
-type WidgetBase = z.infer<typeof WidgetBaseSchema>;
+export type WidgetBase = z.infer<typeof WidgetBaseSchema>;
 
-const mapBaseFields = (data: WidgetBase) => ({
+export const mapWidgetBaseFields = (data: WidgetBase) => ({
   type: data.type,
   name: data.name,
-  description: '',
-  icon: '',
+  description: data.description,
+  icon: data.icon,
+  createdAt: data.created_at,
 });
 
-export const WidgetSchema = WidgetBaseSchema;
+export const WidgetSchema = WidgetBaseSchema.omit({ created_at: true });
+export type Widget = z.infer<typeof WidgetSchema>;
 
 export const WidgetOverviewSchema = WidgetBaseSchema.extend({
   last_accessed_at: z.coerce.date().nullable(),
   total_questions: z.number(),
   correct_answers: z.number(),
 }).transform((data) => {
-  const base = mapBaseFields(data);
+  const base = mapWidgetBaseFields(data);
 
   return {
     ...base,
+    createdAt: data.created_at,
     lastTrainedAt: data.last_accessed_at,
     totalQuestions: data.total_questions,
     correctAnswers: data.correct_answers,
@@ -38,14 +42,12 @@ export const WidgetOverviewSchema = WidgetBaseSchema.extend({
 export type WidgetOverview = z.infer<typeof WidgetOverviewSchema>;
 
 export const WidgetAdminListItemSchema = WidgetBaseSchema.extend({
-  created_at: z.coerce.date(),
   sum_questions: z.number(),
 }).transform((data) => {
-  const base = mapBaseFields(data);
+  const base = mapWidgetBaseFields(data);
 
   return {
     ...base,
-    createdAt: data.created_at,
     sumQuestions: data.sum_questions,
   };
 });

@@ -17,13 +17,12 @@ export type SelectProperties<T> = {
   disabled?: boolean;
 };
 
-export const CustomSelect = <T extends string>({
+export const CustomSelect = <T extends string | number>({
   name,
   label,
   options,
   classes,
   onChange,
-  defaultValue,
   disabled,
 }: SelectProperties<T>) => {
   const {
@@ -32,7 +31,11 @@ export const CustomSelect = <T extends string>({
   } = useFormContext();
   const hasError = Boolean(errors[name]);
 
-  const { onChange: rhfOnChange, ...rest } = register(name);
+  const isNumberType = typeof options[0]?.value === 'number';
+
+  const { onChange: rhfOnChange, ...rest } = register(name, {
+    valueAsNumber: isNumberType,
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     rhfOnChange(event);
@@ -57,7 +60,6 @@ export const CustomSelect = <T extends string>({
           hasError ? 'border-red-500' : 'border-slate-300 focus:border-blue-500'
         )}
         onChange={handleChange}
-        value={defaultValue}
         disabled={disabled}
       >
         <option value="">Select {label}</option>
