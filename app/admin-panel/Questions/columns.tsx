@@ -267,6 +267,10 @@ const displayPayloadAnswer = (answer: unknown, widgetString: string) => {
   const widgetType = Object.values(WidgetType).find((widget) => widget === widgetString);
   if (widgetType === undefined) return 'Could not match widgetType';
 
+  if (widgetType === WidgetType.FlipCard) {
+    return <p className="text-gray-500 italic">N/A</p>;
+  }
+
   const parsed = UniversalPayloadAnswerSchema.safeParse({
     type: widgetType,
     data: answer,
@@ -282,9 +286,6 @@ const displayPayloadAnswer = (answer: unknown, widgetString: string) => {
       }
       case WidgetType.CodeCompletion: {
         return displayCodeCompletionPayloadAnswer(parsed.data.data);
-      }
-      case WidgetType.FlipCard: {
-        return <p className="text-gray-500 italic">No answer payload for Flip Cards</p>;
       }
       case WidgetType.BigONotation: {
         return displayBigOPayloadAnswer(parsed.data.data);

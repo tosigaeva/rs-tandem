@@ -78,7 +78,7 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
       <CustomInput name={'payloadQuestion.codeExample'} label={'Code example'} type={'text'} />
       <h3 className="text-sm font-medium">Big O Answer Configuration</h3>
       <CustomSelect<BigOComplexity>
-        name="correctComplexity"
+        name="payloadAnswer.correctComplexity"
         label={'Correct Complexity'}
         options={Object.values(BigOComplexity).map((c) => ({
           value: c,
