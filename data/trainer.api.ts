@@ -34,7 +34,7 @@ export async function getTopicName(topicId: string): Promise<Record<LanguageCode
     return mockTopics.find((topic) => topic.id === id)?.name;
   }
 
-  return await supaGetTopicName(topicId);
+  return supaGetTopicName(topicId);
 }
 
 export async function getQuestions(topicId: string, filter: WidgetFilter): Promise<Question[]> {
