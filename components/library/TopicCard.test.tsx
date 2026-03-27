@@ -68,7 +68,7 @@ describe('TopicCard', () => {
     expect(screen.getByText('Promises')).toBeInTheDocument();
     expect(screen.getByText('promise, then, catch')).toBeInTheDocument();
     expect(screen.getByText('JavaScript')).toBeInTheDocument();
-    expect(screen.getByText('42.00%')).toBeInTheDocument();
+    expect(screen.getByText('42%')).toBeInTheDocument();
     expect(container.querySelector("[data-slot='progress']")).toBeTruthy();
   });
 });
