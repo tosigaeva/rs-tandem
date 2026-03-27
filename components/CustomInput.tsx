@@ -15,7 +15,7 @@ export type InputProperties = {
   placeholder?: string;
   classes?: string;
   dependencies?: string[];
-  disabled?: boolean;
+  readonly?: boolean;
   allowedPattern?: RegExp;
 };
 
@@ -26,7 +26,7 @@ export const CustomInput = ({
   placeholder,
   classes,
   dependencies,
-  disabled,
+  readonly,
   allowedPattern,
 }: InputProperties) => {
   const { register, formState, getFieldState, watch, trigger } = useFormContext();
@@ -91,7 +91,7 @@ export const CustomInput = ({
   }, []);
 
   return (
-    <div className={cn('flex w-full flex-col gap-1.5', classes)}>
+    <div className={cn('flex w-full flex-col gap-1.5', (readonly ?? false) && 'pointer-events-none', classes)}>
       <label className="text-sm font-medium text-slate-700" htmlFor={name}>
         {label}
       </label>
@@ -102,12 +102,13 @@ export const CustomInput = ({
           type={visibility ? 'text' : type}
           placeholder={placeholder}
           className={cn(
-            'w-full rounded-md border bg-amber-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
+            'w-full rounded-md border bg-slate-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
             hasError ? 'border-red-500 bg-red-50' : 'border-slate-300 focus:border-blue-500'
           )}
           onChange={handleOnChange}
           onBlur={handleBlur}
-          disabled={disabled}
+          readOnly={readonly}
+          tabIndex={(readonly ?? false) ? -1 : 0}
         />
         {isPassword && (
           <Button

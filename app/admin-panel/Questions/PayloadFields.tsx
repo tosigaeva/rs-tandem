@@ -8,7 +8,7 @@ import { BigOComplexity } from '@/types/schemas/question-payload-schema';
 import { WidgetType } from '@/types/widget';
 
 export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
-  const { setValue } = useFormContext();
+  const { setValue, trigger } = useFormContext();
   const quizIndices = [1, 2, 3, 4];
 
   const renderQuizPayload = () => {
@@ -44,7 +44,8 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
         onChange={{
           validator: (value) => value,
           act: (value) => {
-            setValue('payloadAnswer.correct', value === 'true');
+            setValue('payloadAnswer.correct', value === 'true' ? true : value === 'false' ? false : value);
+            trigger();
           },
         }}
       />
@@ -58,7 +59,7 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
       <CustomArrayInput name={'payloadQuestion.blanks'} label={'Blanks'} type={'text'} />
       <CustomArrayInput name={'payloadQuestion.hints'} label={'Hints'} type={'text'} />
       <h3 className="text-sm font-medium">Code Completion Configuration</h3>
-      <CustomArrayInput name={'payloadAnswer.correctOrder'} label={'Correct order'} type={'text'} />
+      <CustomArrayInput name={'payloadAnswer.correctOrder'} label={'Correct order'} type={'number'} />
     </div>
   );
 

@@ -56,7 +56,7 @@ export const TopicDialog = ({ open, onOpenChange, onSubmit, defaultValues }: Top
             className="gap-y-10"
             defaultValues={defaultValues}
           >
-            <CustomInput name="id" label="Topic ID" type={'number'} disabled={true} />
+            <CustomInput name="id" label="Topic ID" type={'number'} readonly={true} />
             <LocaleInput name="name" label="Topic Name" />
             <LocaleInput name="description" label="Topic Description" />
             <CustomSelect<Level>

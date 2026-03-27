@@ -143,7 +143,7 @@ export default function QuestionAdminList() {
         {!isLoading && questions && (
           <DataTable columns={createColumns({ handleOpenDialog, confirmDelete })} data={questions}></DataTable>
         )}
-        {topics && (
+        {topics && isDialogOpen && (
           <QuestionDialog
             topics={topics}
             open={isDialogOpen}

@@ -42,8 +42,8 @@ export const CustomArrayInput = ({ name, label, classes, type }: CustomArrayInpu
                   {...register(`${name}.${index}`, { valueAsNumber: type === 'number' })}
                   placeholder={`Enter ${label}...`}
                   className={cn(
-                    'bg-white',
-                    error == undefined ? 'border-input' : 'border-destructive focus-visible:ring-destructive'
+                    'w-full rounded-md border bg-slate-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
+                    Boolean(error) ? 'border-red-500 bg-red-50' : 'border-slate-300 focus:border-blue-500'
                   )}
                 />
                 <Button

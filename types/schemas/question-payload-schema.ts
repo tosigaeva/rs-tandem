@@ -22,14 +22,14 @@ export type QuizPayloadQuestion = z.infer<typeof QuizPayloadQuestionSchema>;
 
 export const TrueFalsePayloadQuestionSchema = z.object({
   statement: LocaleStringSchema,
-  explanation: LocaleStringSchema.nullable(),
+  explanation: LocaleStringSchema.nullish(),
 });
 export type TrueFalsePayloadQuestion = z.infer<typeof TrueFalsePayloadQuestionSchema>;
 
 export const CodeCompletionPayloadQuestionSchema = z.object({
   code: z.string(),
-  blanks: z.array(z.string()),
-  hints: z.array(z.string()),
+  blanks: z.array(z.string()).min(1),
+  hints: z.array(z.string()).nullish(),
 });
 export type CodeCompletionPayloadQuestion = z.infer<typeof CodeCompletionPayloadQuestionSchema>;
 

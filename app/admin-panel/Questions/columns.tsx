@@ -6,6 +6,7 @@ import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { LocaleStringSchema } from '@/types/schemas/locale-schemas';
 import {
   BigOPayloadAnswer,
   BigOPayloadQuestion,
@@ -197,6 +198,8 @@ const displayQuizPayloadQuestion = (question: QuizPayloadQuestion) => {
 };
 
 const displayTrueFalsePayloadQuestion = (question: TrueFalsePayloadQuestion) => {
+  const explanation = LocaleStringSchema.safeParse(question.explanation);
+
   return (
     <>
       <div className="flex justify-start gap-1">
@@ -205,7 +208,7 @@ const displayTrueFalsePayloadQuestion = (question: TrueFalsePayloadQuestion) => 
       </div>
       <div className="flex justify-start gap-1">
         <span className="font-semibold">Explanation: </span>
-        {question.explanation && <LocaleStringTooltip data={question.explanation} />}
+        {explanation.success && <LocaleStringTooltip data={explanation.data} />}
       </div>
     </>
   );
@@ -224,7 +227,7 @@ const displayCodeCompletionPayloadQuestion = (question: CodeCompletionPayloadQue
       </div>
       <div className="flex justify-start gap-1">
         <span>hints: </span>
-        <p>{question.hints.join(', ')}</p>
+        <p>{question.hints?.join(', ')}</p>
       </div>
     </>
   );

@@ -41,7 +41,7 @@ export const WidgetDialog = ({ open, onOpenChange, onSubmit, defaultValues }: Wi
             className="gap-y-10"
             defaultValues={defaultValues}
           >
-            <CustomInput name="type" label="Widget Type" type="text" disabled={true} />
+            <CustomInput name="type" label="Widget Type" type="text" readonly={true} />
             <LocaleInput name="name" label="Widget Name" />
             <LocaleInput name="description" label="Widget Description" />
             <CustomInput name="icon" label="Icon" type="text" />

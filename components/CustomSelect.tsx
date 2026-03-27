@@ -14,7 +14,7 @@ export type SelectProperties<T> = {
     act: (value: T) => void;
   };
   defaultValue?: T;
-  disabled?: boolean;
+  readonly?: boolean;
 };
 
 export const CustomSelect = <T extends string | number>({
@@ -23,7 +23,7 @@ export const CustomSelect = <T extends string | number>({
   options,
   classes,
   onChange,
-  disabled,
+  readonly,
 }: SelectProperties<T>) => {
   const {
     register,
@@ -51,16 +51,18 @@ export const CustomSelect = <T extends string | number>({
   };
 
   return (
-    <div className={cn('flex w-full flex-col gap-1.5', classes)}>
+    <div
+      className={cn('flex w-full flex-col gap-1.5', (readonly ?? false) && 'pointer-events-none', classes)}
+      tabIndex={(readonly ?? false) ? -1 : 0}
+    >
       <label className="text-sm font-medium text-slate-700">{label}</label>
       <select
         {...rest}
         className={cn(
-          'w-full rounded-md border bg-amber-50 px-3 py-2 text-sm transition-all outline-none',
+          'w-full rounded-md border bg-slate-50 px-3 py-2 text-sm transition-all outline-none',
           hasError ? 'border-red-500' : 'border-slate-300 focus:border-blue-500'
         )}
         onChange={handleChange}
-        disabled={disabled}
       >
         <option value="">Select {label}</option>
         {options.map((opt) => (
