@@ -50,5 +50,5 @@ export async function getQuestions(topicId: string, filter: WidgetFilter): Promi
     return questions;
   }
 
-  return await supaGetQuestions(topicId, filter);
+  return supaGetQuestions(topicId, filter);
 }
