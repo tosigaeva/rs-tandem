@@ -22,7 +22,7 @@ export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
           <Badge variant="secondary" className="text-xs capitalize">
             {LevelLocales[topic.level][languageCode]}
           </Badge>
-          {displayProgress && <span className="text-muted-foreground text-xs">{`${topic.progress.toFixed(2)}%`}</span>}
+          {displayProgress && <span className="text-muted-foreground text-xs">{`${topic.progress}%`}</span>}
         </div>
         <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
           {translate(topic.name)}

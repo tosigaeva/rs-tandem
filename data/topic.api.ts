@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { supabaseBrowser } from '@/lib/supabase/client';
+import { supabaseServer } from '@/lib/supabase/server';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import {
   mapTopicBaseFields,
@@ -14,7 +14,7 @@ import {
 
 export async function getRecentTopics(): Promise<{ data: TopicOverview[] | undefined; error?: string }> {
   try {
-    const supabase = await supabaseBrowser();
+    const supabase = await supabaseServer();
 
     const { data, error } = await supabase
       .from('topic_widget_summary')
@@ -47,7 +47,7 @@ export async function getTopicsPage(
   skipIds: number[]
 ): Promise<{ data: PaginatedResult<TopicOverview, 'Topic'> | undefined; error?: string }> {
   try {
-    const supabase = await supabaseBrowser();
+    const supabase = await supabaseServer();
 
     const { count, error: countError } = await supabase.from('topics').select('id', { count: 'exact', head: true });
 

@@ -11,7 +11,7 @@ type TopicListProperties = {
   displayProgress?: boolean;
 };
 
-export function TopicList({ title, topics, displayProgress = true }: TopicListProperties) {
+export function TopicList({ title, topics, displayProgress = false }: TopicListProperties) {
   return (
     <section className="space-y-6 pb-6">
       <h2 className="text-xl font-semibold">{title}</h2>
