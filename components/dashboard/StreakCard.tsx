@@ -10,7 +10,7 @@ type StreakCardProperties = {
 
 export default function StreakCard({ streak, bestStreak }: StreakCardProperties) {
   return (
-    <Card className="bg-accent/40 flex justify-center rounded-3xl border-none shadow-none">
+    <Card className="bg-accent/40 flex h-full justify-center rounded-3xl border-none shadow-none">
       <CardContent className="flex flex-col items-center gap-3 p-0">
         <Flame className="h-20 w-20 animate-pulse text-white" />
         <p className="text-xl font-semibold text-white">{streak} day streak</p>

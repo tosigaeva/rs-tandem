@@ -12,8 +12,8 @@ type ProgressCardProperties = {
 
 export function ProgressCard({ todayAnswers, totalAnswers, accuracy, streak }: ProgressCardProperties) {
   return (
-    <Card className="bg-card/90 rounded-3xl border-none shadow-none">
-      <CardHeader className="pb-2">
+    <Card className="bg-card/90 flex h-full justify-start rounded-3xl border-none py-4 shadow-none">
+      <CardHeader className="px-5 pt-4 pb-0">
         <CardTitle className="text-lg">Your progress</CardTitle>
       </CardHeader>
 

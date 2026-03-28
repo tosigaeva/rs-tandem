@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import { DailyActivityCard } from '@/components/dashboard/activity';
 import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
+import StreakCard from '@/components/dashboard/StreakCard';
 import { PrimaryButton } from '@/components/PrimaryButton';
-import StreakCard from '@/components/StreakCard';
 import { getDailyActivity } from '@/data/activity.api';
 import { getUser } from '@/data/user.api';
 import { Routes } from '@/lib/routes';
@@ -22,17 +22,24 @@ export default async function Page() {
             {AppMessages['dashboard.greeting'][languageCode]}, {user.name}!
           </h1>
 
-          <section className="grid gap-6 lg:grid-cols-3">
-            <ProgressCard todayAnswers={5} totalAnswers={10} accuracy={50} streak={3} />
-            <StreakCard streak={3} bestStreak={7} />
+          <section className="grid items-stretch gap-8 lg:grid-cols-7">
+            <div className="lg:col-span-2">
+              <ProgressCard todayAnswers={5} totalAnswers={10} accuracy={50} streak={3} />
+            </div>
+
+            <div className="lg:col-span-2">
+              <StreakCard streak={3} bestStreak={7} />
+            </div>
+
+            <div className="lg:col-span-3">
+              <DailyActivityCard days={days} />
+            </div>
           </section>
 
           <PrimaryButton asChild>
             <Link href={Routes.Library}>{AppMessages['dashboard.startPracticeButton'][languageCode]}</Link>
           </PrimaryButton>
         </article>
-
-        <DailyActivityCard days={days} />
       </section>
     </main>
   );
