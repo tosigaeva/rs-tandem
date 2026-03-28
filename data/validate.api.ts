@@ -30,5 +30,9 @@ export async function validateAnswer(questionId: string, answer: unknown): Promi
     return answer === 'true';
   }
 
+  if (questionId === 'co-001') {
+    return answer === '10234';
+  }
+
   return undefined;
 }

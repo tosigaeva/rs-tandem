@@ -13,12 +13,26 @@ type Block = {
 };
 
 type WidgetComponentProperties = {
+  questionId: string;
   questionPayload: CodeOrderingPayload;
   onCheck: (answer: string) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
-export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
+export const messages = {
+  checkAnswer: 'Check Answer',
+  nextQuestion: 'Next Question',
+};
+
+function validateAnswer(questionId: string, userAnswers: number[]) {
+  const answers: Record<string, number[]> = {
+    'co-001': [1, 0, 2, 3, 4],
+  };
+  const correctOrder = answers[questionId];
+  return userAnswers.map((answer, index) => answer === correctOrder[index]);
+}
+
+export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const initialBlocks: Block[] = useMemo(
     () =>
       questionPayload.lines.map((line, index) => ({
@@ -32,6 +46,7 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
   const [blocks, setBlocks] = useState<Block[]>(initialBlocks);
   const [dragIndex, setDragIndex] = useState<number | undefined>();
   const [hoverIndex, setHoverIndex] = useState<number | undefined>();
+  const [verdict, setVerdict] = useState<boolean[] | undefined>();
 
   function handleReorder(from: number, to: number) {
     if (from === to) return;
@@ -43,6 +58,23 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
       return copy;
     });
   }
+
+  const handleCheck = async () => {
+    const userOrder = blocks.map((block) => block.order);
+
+    await onCheck(userOrder.join(''));
+
+    const result = validateAnswer(questionId, userOrder);
+    setVerdict(result);
+  };
+
+  const handleNext = () => {
+    setBlocks(initialBlocks);
+    setVerdict(undefined);
+    onNext();
+  };
+
+  const isChecked = verdict !== undefined;
 
   return (
     <section className="mx-auto max-w-2xl space-y-8">
@@ -67,7 +99,7 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
                 onDragEnd={() => setDragIndex(undefined)}
                 className="cursor-grab active:cursor-grabbing"
               >
-                <BlockItem code={block.code} order={block.order} />
+                <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
               </div>
             </div>
           ))}
@@ -80,11 +112,10 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
           />
           <PrimaryButton
             variant="secondary"
-            /*onClick={isChecked ? handleNext : handleCheck}
-            disabled={selected === undefined}*/
+            onClick={isChecked ? handleNext : handleCheck}
             className="mt-4 w-full py-6"
           >
-            {/*{isChecked ? messages.nextQuestion : messages.checkAnswer}*/}
+            {isChecked ? messages.nextQuestion : messages.checkAnswer}
           </PrimaryButton>
         </CardContent>
       </Card>
