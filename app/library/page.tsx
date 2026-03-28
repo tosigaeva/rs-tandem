@@ -18,8 +18,8 @@ export default async function Page() {
     if (recentTopicsError != undefined || pageTopicsError != undefined) {
       // error handler
     }
-  } catch {
-    return <>Something went wrong while fetching topics.</>;
+  } catch (error) {
+    return <>Something went wrong while fetching topics. {`${error}`}</>;
   }
 
   return <LibraryContent recentTopics={recentTopics ?? []} pageTopics={pageTopics?.items ?? []}></LibraryContent>;
