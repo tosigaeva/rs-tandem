@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import Results from '@/components/Results';
-import { trackQuestionAttempt } from '@/data/activity.client';
+import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
 import { Question as QuestionType } from '@/types/question';
 
