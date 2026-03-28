@@ -1,7 +1,5 @@
 import { ValidationStrategy } from './types';
 
 export const flipCardValidationStrategy: ValidationStrategy = {
-  validate: async () => {
-    return;
-  },
+  validate: async (): Promise<undefined> => {},
 };

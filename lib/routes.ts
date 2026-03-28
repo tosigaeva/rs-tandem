@@ -9,7 +9,7 @@ export enum Routes {
 export const RoutePermissions: Record<Routes, 'all' | 'authorized' | 'unauthorized'> = {
   [Routes.Home]: 'all',
   [Routes.SignIn]: 'unauthorized',
-  [Routes.Dashboard]: 'all',
-  [Routes.Library]: 'all',
+  [Routes.Dashboard]: 'authorized',
+  [Routes.Library]: 'authorized',
   [Routes.Admin]: 'authorized',
 };
