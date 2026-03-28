@@ -10,7 +10,7 @@ import { Question as QuestionType } from '@/types/question';
 type RunnerRenderProperties = {
   questions: QuestionType[];
   currentIndex: number;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   nextQuestion: () => void;
 };
 
@@ -32,7 +32,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
     setCorrectAnswers(0);
   };
 
-  const onCheck = async (answer: string) => {
+  const onCheck = async (answer: unknown) => {
     const result = await validateAnswer(currentQuestion.id, answer);
 
     if (result === true) setCorrectAnswers((previous) => previous + 1);

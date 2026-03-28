@@ -12,7 +12,7 @@ type QuestionCardProperties = {
   question: string;
   options: string[];
   instruction: string;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 

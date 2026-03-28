@@ -7,7 +7,7 @@ import { BigOPayload } from '@/components/library/widget/ui/big-o-widget/type';
 
 type WidgetComponentProperties = {
   questionPayload: BigOPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
