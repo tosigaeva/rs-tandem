@@ -46,6 +46,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   const [blocks, setBlocks] = useState<Block[]>(initialBlocks);
   const [dragIndex, setDragIndex] = useState<number | undefined>();
   const [hoverIndex, setHoverIndex] = useState<number | undefined>();
+  const [isOverArea, setIsOverArea] = useState(false);
   const [verdict, setVerdict] = useState<boolean[] | undefined>();
 
   function handleReorder(from: number, to: number) {
@@ -54,7 +55,10 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
     setBlocks((previous) => {
       const copy = [...previous];
       const [moved] = copy.splice(from, 1);
-      copy.splice(to, 0, moved);
+
+      const correctedTo = from < to ? to - 1 : to;
+
+      copy.splice(correctedTo, 0, moved);
       return copy;
     });
   }
@@ -84,32 +88,44 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>Расставь строки кода в правильном порядке</CardDescription>
-          {blocks.map((block, index) => (
-            <div key={block.id} className="mb-0.5">
-              <InsertionSlot
-                index={index}
-                hoverIndex={hoverIndex}
-                setHoverIndex={setHoverIndex}
-                dragIndex={dragIndex}
-                onInsert={handleReorder}
-              />
-              <div
-                draggable
-                onDragStart={() => setDragIndex(index)}
-                onDragEnd={() => setDragIndex(undefined)}
-                className="cursor-grab active:cursor-grabbing"
-              >
-                <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
+          <div
+            className={`rounded-md px-2 transition-all duration-200
+            ${isOverArea ? 'bg-primary/5 ring-primary/40 bg-secondary/25 ring-2' : 'bg-secondary/10'}
+            `}
+          >
+            {blocks.map((block, index) => (
+              <div key={block.id} className="mb-0.5">
+                <InsertionSlot
+                  index={index}
+                  hoverIndex={hoverIndex}
+                  setHoverIndex={setHoverIndex}
+                  dragIndex={dragIndex}
+                  onInsert={handleReorder}
+                />
+                <div
+                  draggable
+                  onDragStart={() => {
+                    setDragIndex(index);
+                    setIsOverArea(true);
+                  }}
+                  onDragEnd={() => {
+                    setDragIndex(undefined);
+                    setIsOverArea(false);
+                  }}
+                  className="cursor-grab active:cursor-grabbing"
+                >
+                  <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
+                </div>
               </div>
-            </div>
-          ))}
-          <InsertionSlot
-            index={blocks.length}
-            hoverIndex={hoverIndex}
-            setHoverIndex={setHoverIndex}
-            dragIndex={dragIndex}
-            onInsert={handleReorder}
-          />
+            ))}
+            <InsertionSlot
+              index={blocks.length}
+              hoverIndex={hoverIndex}
+              setHoverIndex={setHoverIndex}
+              dragIndex={dragIndex}
+              onInsert={handleReorder}
+            />
+          </div>
           <PrimaryButton
             variant="secondary"
             onClick={isChecked ? handleNext : handleCheck}
