@@ -14,16 +14,23 @@ export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
     return mockLibraryTopics;
   }
 
-  const { data: recentTopics, error: recentTopicsError } = await TopicService.loadRecentTopics();
-  const skipIds = recentTopics?.map((topic) => topic.id) || [];
-  const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds);
+  try {
+    const { data: recentTopics, error: recentTopicsError } = await TopicService.loadRecentTopics();
+    console.log('recent_topics', recentTopics);
 
-  return {
-    recentTopics,
-    recentTopicsError,
-    topicsPage,
-    topicsPageError,
-  };
+    const skipIds = recentTopics?.map((topic) => topic.id) || [];
+    const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds);
+
+    return {
+      recentTopics,
+      recentTopicsError,
+      topicsPage,
+      topicsPageError,
+    };
+  } catch (error) {
+    console.log(error);
+    return { recentTopics: undefined, topicsPage: undefined, recentTopicsError: 'something went wrong' };
+  }
 }
 
 export async function getTopicName(topicId: string): Promise<Record<LanguageCode, string> | undefined> {

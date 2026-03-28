@@ -7,6 +7,7 @@ import { Hint } from '@/components/Hint';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card } from '@/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { useTranslation } from '@/hooks/use-translation';
 
 import {
   COMPLEXITIES,
@@ -34,6 +35,8 @@ export function BigOCanvas({
   const [selectedLine, setSelectedLine] = useState<number | undefined>();
   const [hoveredLine, setHoveredLine] = useState<number | undefined>();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const { t, translate } = useTranslation();
 
   const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
     if (isSubmitted === true) return;
@@ -114,16 +117,18 @@ export function BigOCanvas({
         </HoverCard>
       </div>
       <Card className="w-full max-w-md cursor-default p-4">
-        <h2>{question}</h2>
+        <h2>{translate(question)}</h2>
         <CodeBlock code={codeExample} />
       </Card>
       <Card className="w-full max-w-md cursor-default p-4">
-        <p>Selected: {selectedName}</p>
+        <p>
+          {t('widget.big-o.selected')}: {selectedName}
+        </p>
       </Card>
       <PrimaryButton disabled={selectedName === ''} onClick={onSubmit}>
-        {isSubmitted === true ? 'Next' : 'Check Answer'}
+        {t(isSubmitted === true ? 'button.next' : 'button.check-answer')}
       </PrimaryButton>
-      <Hint>{TOOLTIP_HINT}</Hint>
+      <Hint>{t(TOOLTIP_HINT)}</Hint>
     </div>
   );
 }

@@ -11,6 +11,7 @@ const TOPIC_PAGES = 'topic_pages';
 
 export const TopicService = {
   loadRecentTopics: (): Promise<{ data: TopicOverview[] | undefined; error?: string }> => {
+    console.log('we here');
     return QueryStorage.fetchQuery({
       queryKey: [RECENT_TOPICS],
       queryFn: () => getRecentTopics(),

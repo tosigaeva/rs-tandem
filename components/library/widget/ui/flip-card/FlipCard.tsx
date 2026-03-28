@@ -1,25 +1,25 @@
 import { useState } from 'react';
 
 import { Hint } from '@/components/Hint';
-import { FlipCardPayload } from '@/components/library/widget/ui/flip-card/type';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
+import { FlipCardPayloadQuestion } from '@/types/schemas/question-payload-schema';
 
 import styles from './FlipCard.module.css';
 
 type WidgetComponentProperties = {
-  questionPayload: FlipCardPayload;
+  questionPayload: FlipCardPayloadQuestion;
   onCheck: (answer: string) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
-const TOOLTIP_HINT =
-  'Decide whether you know the answer to reveal it. You can change your resolution after card reveal.';
-
 export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [isFlipped, setFlipped] = useState(false);
   const [selected, setSelected] = useState<string | undefined>();
+
+  const { t, translate } = useTranslation();
 
   const handleFlip = () => {
     setFlipped(true);
@@ -47,12 +47,12 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
       <div className={cn(styles['flip-card-inner'], isFlipped && styles.flipped)}>
         <Card className={styles['flip-card-front']}>
           <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
-            <div className="text-center text-lg">{questionPayload.term}</div>
+            <div className="text-center text-lg">{translate(questionPayload.term)}</div>
           </CardContent>
         </Card>
         <Card className={styles['flip-card-back']}>
           <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
-            <div className="text-center text-lg">{questionPayload.definition}</div>
+            <div className="text-center text-lg">{translate(questionPayload.definition)}</div>
           </CardContent>
         </Card>
       </div>
@@ -63,7 +63,7 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
           } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
           onClick={(event) => handleSelect('true', event)}
         >
-          I know this
+          {t('widget.flip-card.know')}
         </Button>
         <Button
           className={`${
@@ -71,13 +71,13 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
           } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
           onClick={(event) => handleSelect('false', event)}
         >
-          I don&apos;t know this
+          {t('widget.flip-card.not-know')}
         </Button>
       </div>
       <Button className="m-2 w-4/5" disabled={selected === undefined} onClick={handleNext}>
-        Next
+        {t('button.next')}
       </Button>
-      <Hint>{TOOLTIP_HINT}</Hint>
+      <Hint>{t('widget.flip-card.tooltip_hint')}</Hint>
     </div>
   );
 }
