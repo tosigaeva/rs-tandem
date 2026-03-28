@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { DailyActivityCard } from '@/components/dashboard/activity';
 import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
 import { PrimaryButton } from '@/components/PrimaryButton';
+import StreakCard from '@/components/StreakCard';
 import { getDailyActivity } from '@/data/activity.api';
 import { getUser } from '@/data/user.api';
 import { Routes } from '@/lib/routes';
@@ -23,6 +24,7 @@ export default async function Page() {
 
           <section className="grid gap-6 lg:grid-cols-3">
             <ProgressCard todayAnswers={5} totalAnswers={10} accuracy={50} streak={3} />
+            <StreakCard streak={3} bestStreak={7} />
           </section>
 
           <PrimaryButton asChild>
