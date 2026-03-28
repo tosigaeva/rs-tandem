@@ -13,7 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { getTopicIdNamePairs } from '@/data/topic.api';
+import { getTopicIdNamePairs } from '@/data/topic.client';
 import { QuestionService } from '@/services/question.service';
 import { BlankQuestion, GeneralQuestionSchema, QuestionAdminListItem } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';

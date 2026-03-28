@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { deleteTopics, upsertTopic } from '@/data/topic.api';
+import { deleteTopics, upsertTopic } from '@/data/topic.client';
 import { TopicService } from '@/services/topic.service';
 import { SchemaData } from '@/types/schemas/schema-registry';
 import { Topic, TopicAdminListItem, TopicBaseSchema } from '@/types/schemas/topic-schema';

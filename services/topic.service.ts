@@ -1,4 +1,7 @@
-import { getAllTopics, getRecentTopics, getTopicsPage } from '@/data/topic.api';
+'use client';
+
+import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
+import { getAllTopics } from '@/data/topic.client';
 import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { TopicAdminListItem, TopicOverview } from '@/types/schemas/topic-schema';

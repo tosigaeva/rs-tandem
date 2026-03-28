@@ -6,7 +6,6 @@ import { toPositiveInteger } from '@/lib/parse-id';
 import { LanguageCode } from '@/services/locale/locale.service';
 import { TopicService } from '@/services/topic.service';
 import { Question } from '@/types/question';
-import { TopicOverview } from '@/types/schemas/topic-schema';
 import { LibraryTopicsResponse } from '@/types/topic';
 import { WidgetFilter, WidgetType } from '@/types/widget';
 
