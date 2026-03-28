@@ -19,11 +19,9 @@ export async function getRecentTopics(): Promise<{ data: TopicOverview[] | undef
 
     if (error) {
       throw error;
-      console.log(error);
     }
 
     if (data != undefined) {
-      console.log(data);
       const result = z.array(TopicOverviewSchema).safeParse(data);
 
       if (result.success) return { data: result.data };
