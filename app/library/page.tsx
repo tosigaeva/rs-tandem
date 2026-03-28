@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import LibraryContent from '@/app/library/library-content';
 import { getTopicsOverview } from '@/data/trainer.api';
 
@@ -24,9 +22,5 @@ export default async function Page() {
     return <>Something went wrong while fetching topics.</>;
   }
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LibraryContent recentTopics={recentTopics ?? []} pageTopics={pageTopics?.items ?? []}></LibraryContent>
-    </Suspense>
-  );
+  return <LibraryContent recentTopics={recentTopics ?? []} pageTopics={pageTopics?.items ?? []}></LibraryContent>;
 }
