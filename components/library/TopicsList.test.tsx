@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { TopicList } from '@/components/library/TopicsList';
 import { Locale, useLocale } from '@/services/locale/locale.service';
-import { Level, Subject, Topic } from '@/types/schemas/topic-schema';
+import { Level, Subject, TopicOverview } from '@/types/schemas/topic-schema';
 
 describe('TopicList', () => {
   it('renders list of topics with links', () => {
@@ -10,7 +10,7 @@ describe('TopicList', () => {
       locale: Locale.gb,
     });
 
-    const topics: Topic[] = [
+    const topics: TopicOverview[] = [
       {
         id: 1,
         name: { en: 'Variables', ru: 'Переменные', by: 'Пераменныя' },

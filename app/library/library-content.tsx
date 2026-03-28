@@ -2,11 +2,11 @@
 
 import { TopicList } from '@/components/library/TopicsList';
 import { useTranslation } from '@/hooks/use-translation';
-import { Topic } from '@/types/schemas/topic-schema';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 
 type Properties = {
-  recentTopics: Topic[];
-  pageTopics: Topic[];
+  recentTopics: TopicOverview[];
+  pageTopics: TopicOverview[];
 };
 
 export default function LibraryContent({ recentTopics, pageTopics }: Properties) {

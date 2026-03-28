@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { TopicCard } from '@/components/library/TopicCard';
 import { Locale, useLocale } from '@/services/locale/locale.service';
-import { Level, Subject, Topic } from '@/types/schemas/topic-schema';
+import { Level, Subject, TopicOverview } from '@/types/schemas/topic-schema';
 
 describe('TopicCard', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('TopicCard', () => {
   });
 
   it('renders basic topic fields', () => {
-    const topic: Topic = {
+    const topic: TopicOverview = {
       id: 1,
       name: {
         en: 'Variables',
@@ -42,7 +42,7 @@ describe('TopicCard', () => {
   });
 
   it('renders progress for user topic', () => {
-    const topic: Topic = {
+    const topic: TopicOverview = {
       id: 2,
       name: {
         en: 'Promises',

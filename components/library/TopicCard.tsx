@@ -4,10 +4,10 @@ import { Badge, Progress } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import { useLocale } from '@/services/locale/locale.service';
-import { LevelLocales, Topic } from '@/types/schemas/topic-schema';
+import { LevelLocales, TopicOverview } from '@/types/schemas/topic-schema';
 
 type TopicCardProperties = {
-  topic: Topic;
+  topic: TopicOverview;
   displayProgress: boolean;
 };
 

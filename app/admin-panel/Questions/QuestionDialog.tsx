@@ -1,0 +1,161 @@
+'use client';
+
+import { DevTool } from '@hookform/devtools';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useMemo, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+
+import { CustomInput } from '@/components/CustomInput';
+import { CustomSelect } from '@/components/CustomSelect';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
+import {
+  BigOQuestion,
+  BigOQuestionSchema,
+  BlankQuestion,
+  CodeCompletionQuestion,
+  CodeCompletionQuestionSchema,
+  FlipCardQuestion,
+  FlipCardQuestionSchema,
+  QuizQuestion,
+  QuizQuestionSchema,
+  TrueFalseQuestion,
+  TrueFalseQuestionSchema,
+} from '@/types/schemas/question-schemas';
+import { WidgetType } from '@/types/widget';
+
+import { PayloadFields } from './PayloadFields';
+
+export type FullQuestion = QuizQuestion | TrueFalseQuestion | CodeCompletionQuestion | FlipCardQuestion | BigOQuestion;
+
+type QuestionDialogProperties = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (data: FullQuestion) => void;
+  defaultValues?: BlankQuestion;
+  topics: { id: number; name: string }[];
+};
+
+export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, topics }: QuestionDialogProperties) => {
+  const [selectedTopicId, setSelectedTopicId] = useState<number>(defaultValues?.topicId ?? 0);
+  const [selectedWidget, setSelectedWidget] = useState<WidgetType>(defaultValues?.widgetType ?? WidgetType.Quiz);
+
+  const activeSchema = useMemo(() => {
+    console.log('--- SCHEMA SWAP ---');
+    console.log('Current Widget Type:', selectedWidget);
+
+    const schemaMap = {
+      [WidgetType.Quiz]: QuizQuestionSchema,
+      [WidgetType.TrueFalse]: TrueFalseQuestionSchema,
+      [WidgetType.CodeCompletion]: CodeCompletionQuestionSchema,
+      [WidgetType.FlipCard]: FlipCardQuestionSchema,
+      [WidgetType.BigONotation]: BigOQuestionSchema,
+    };
+
+    const selected = schemaMap[selectedWidget];
+
+    console.log('Selected Schema Object:', selected);
+
+    return selected;
+  }, [selectedWidget]);
+
+  const methods = useForm<FullQuestion>({
+    resolver: zodResolver(activeSchema),
+    defaultValues,
+    shouldUnregister: true,
+  });
+
+  const id = 'question-form';
+  const formKey = defaultValues?.id ?? 'new';
+  const newMode = defaultValues?.id === 0;
+
+  const onInternalSubmit = (data: FullQuestion) => {
+    onSubmit(data);
+  };
+
+  const {
+    clearErrors,
+    trigger,
+    reset,
+    getValues,
+    formState: { isValid, errors },
+    control,
+  } = methods;
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      console.error('validation error', errors);
+    }
+  });
+
+  useEffect(() => {
+    const finalValues = {
+      ...defaultValues,
+      id: defaultValues?.id ?? 0,
+      topicId: selectedTopicId ?? topics[0],
+      widgetType: selectedWidget ?? WidgetType.Quiz,
+    };
+
+    reset(finalValues);
+
+    // clearErrors();
+    console.log('resetting', finalValues);
+  }, [selectedWidget, reset, getValues, selectedTopicId, activeSchema, defaultValues, topics, clearErrors, trigger]);
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="flex max-h-[90%] flex-col sm:max-w-150">
+        <DialogHeader className="border-b-2 pb-4">
+          <DialogTitle>
+            <DialogDescription className="hidden">
+              {newMode ? 'Add New Topic' : `Edit Question with ID: ${defaultValues?.id}`}
+            </DialogDescription>
+            {newMode ? 'Add New Topic' : `Edit Question with ID: ${defaultValues?.id}`}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="overflow-auto px-4" key={formKey}>
+          <FormProvider {...methods}>
+            <form id={id} className="w-full" onSubmit={methods.handleSubmit(onInternalSubmit)}>
+              <div className={cn('mb-2 grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2')}>
+                <CustomInput name="id" label="Question ID" type={'number'} readonly={true} />
+                <CustomSelect<number>
+                  name="topicId"
+                  label="Topic"
+                  options={topics.map((pair) => ({ label: pair.name, value: pair.id }))}
+                  readonly={!newMode}
+                  onChange={{
+                    validator: Number,
+                    act: (value) => {
+                      setSelectedTopicId(value);
+                    },
+                  }}
+                />
+                <CustomSelect<WidgetType>
+                  name="widgetType"
+                  label="Widget Type"
+                  options={Object.values(WidgetType).map((type) => ({ label: type, value: type }))}
+                  readonly={!newMode}
+                  onChange={{
+                    validator: (value) => Object.values(WidgetType).find((type) => type == value),
+                    act: (value) => {
+                      setSelectedWidget(value);
+                    },
+                  }}
+                />
+                <div className="col-span-2">
+                  <PayloadFields widgetType={selectedWidget} key={selectedWidget} />
+                </div>
+              </div>
+            </form>
+          </FormProvider>
+        </div>
+        <Button variant="success" form={id} type="submit" disabled={!isValid}>
+          Submit
+        </Button>
+        {process.env.NODE_ENV === 'development' && <DevTool control={control} placement="top-right" />}
+      </DialogContent>
+    </Dialog>
+  );
+};
