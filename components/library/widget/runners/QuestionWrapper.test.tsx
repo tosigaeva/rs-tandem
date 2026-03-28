@@ -13,7 +13,10 @@ describe('QuestionWrapper', () => {
       questionPayload: QuestionPayload;
     }) => (
       <div data-testid="widget">
-        {questionId}:{'question' in questionPayload ? questionPayload.question : 'payload'}
+        {questionId}:
+        {'question' in questionPayload && typeof questionPayload.question === 'string'
+          ? questionPayload.question
+          : 'payload'}
       </div>
     );
 

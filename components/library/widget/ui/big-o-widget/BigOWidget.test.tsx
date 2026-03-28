@@ -1,5 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
+import { Locale, useLocale } from '@/services/locale/locale.service';
+
 import { BigOCanvas } from './BigOWidget';
 
 jest.mock('@/components/CodeBlock', () => ({
@@ -22,27 +24,32 @@ jest.mock('./canvas.helpers', () => ({
   setupCanvas: jest.fn(() => ({
     clearRect: jest.fn(),
   })),
-  TOOLTIP_HINT: 'Click on a curve to select complexity of the algorithm',
+  TOOLTIP_HINT: 'widget.big-o.tooltip_hint',
 }));
 
 const mockGetClosestComplexity = jest.requireMock('./canvas.helpers').getClosestComplexity;
 
 describe('BigOWidget', () => {
   const defaultProps = {
-    question: 'What is the time complexity of this algorithm?',
+    question: {
+      en: 'What is the time complexity of this algorithm?',
+      ru: 'Какова временная сложность этого алгоритма?',
+      by: 'Якая часавая складанасць гэтага алгарытму?',
+    },
     codeExample: 'for (let i = 0; i < n; i++) { console.log(i); }',
     onSelect: jest.fn(),
     onSubmit: jest.fn(),
   };
 
   beforeEach(() => {
+    useLocale.setState({ locale: Locale.gb });
     jest.clearAllMocks();
   });
 
   describe('Rendering', () => {
     it('should render the question', () => {
       render(<BigOCanvas {...defaultProps} />);
-      expect(screen.getByText(defaultProps.question)).toBeInTheDocument();
+      expect(screen.getByText(defaultProps.question.en)).toBeInTheDocument();
     });
 
     it('should render the code example', () => {
@@ -60,7 +67,7 @@ describe('BigOWidget', () => {
 
     it('should render the hint trigger', () => {
       render(<BigOCanvas {...defaultProps} />);
-      expect(screen.getByText('Hint')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /hint/i })).toBeInTheDocument();
     });
 
     it('should display "Selected: " with empty string by default', () => {

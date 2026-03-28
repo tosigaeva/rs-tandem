@@ -18,7 +18,8 @@ export default async function Page() {
     } = await getTopicsOverview());
 
     if (recentTopicsError != undefined || pageTopicsError != undefined) {
-      // error handler
+      console.log(recentTopicsError);
+      console.log(pageTopicsError);
     }
   } catch {
     return <>Something went wrong while fetching topics.</>;
