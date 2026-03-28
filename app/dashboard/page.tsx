@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { DailyActivityCard } from '@/components/dashboard/activity';
+import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { getDailyActivity } from '@/data/activity.api';
 import { getUser } from '@/data/user.api';
@@ -19,6 +20,10 @@ export default async function Page() {
           <h1 className="text-2xl font-bold sm:text-4xl">
             {AppMessages['dashboard.greeting'][languageCode]}, {user.name}!
           </h1>
+
+          <section className="grid gap-6 lg:grid-cols-3">
+            <ProgressCard todayAnswers={5} totalAnswers={10} accuracy={50} streak={3} />
+          </section>
 
           <PrimaryButton asChild>
             <Link href={Routes.Library}>{AppMessages['dashboard.startPracticeButton'][languageCode]}</Link>
