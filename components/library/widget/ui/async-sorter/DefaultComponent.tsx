@@ -3,10 +3,15 @@ import { useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { BlocksContainer } from '@/components/library/widget/ui/async-sorter/BlocksContainer';
-import { AsyncSorterBlock, AsyncSorterPayload } from '@/components/library/widget/ui/async-sorter/type';
+import {
+  AsyncSorterAnswer,
+  AsyncSorterBlock,
+  AsyncSorterPayload,
+} from '@/components/library/widget/ui/async-sorter/type';
 import ZoneColumn from '@/components/library/widget/ui/async-sorter/ZoneColumn';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { validateAnswer } from '@/data/validate.api';
 
 export type ZoneType = 'pool' | 'callstack' | 'microtasks' | 'macrotasks' | 'output';
 export type ZonesState = Record<ZoneType, AsyncSorterBlock[]>;
@@ -27,12 +32,7 @@ function canDrop(from?: ZoneType, to?: ZoneType) {
   return true;
 }
 
-export default function DefaultComponent({
-  questionId: _,
-  questionPayload,
-  onCheck: __,
-  onNext: ___,
-}: WidgetComponentProperties) {
+export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
   const [sourceZone, setSourceZone] = useState<ZoneType | undefined>();
 
@@ -43,6 +43,8 @@ export default function DefaultComponent({
     macrotasks: [],
     output: questionPayload.blocks,
   });
+
+  const [validationResult, setValidationResult] = useState<Record<keyof AsyncSorterAnswer, boolean[]> | undefined>();
 
   function handleDrop(targetZone: ZoneType, index: number) {
     if (draggedBlock === undefined || sourceZone === undefined) return;
@@ -80,6 +82,19 @@ export default function DefaultComponent({
     setSourceZone(undefined);
   }
 
+  async function handleCheckAnswer() {
+    const userAnswer: AsyncSorterAnswer = {
+      callStack: zones.callstack.map((b) => b.id),
+      microtasks: zones.microtasks.map((b) => b.id),
+      macrotasks: zones.macrotasks.map((b) => b.id),
+      output: zones.output.map((b) => b.id),
+    };
+
+    const result = await validateAnswer('as-001', userAnswer);
+
+    setValidationResult(result as Record<keyof AsyncSorterAnswer, boolean[]>);
+  }
+
   return (
     <section className="max-w-9xl mx-auto">
       <div className="grid grid-cols-3 gap-2">
@@ -105,6 +120,7 @@ export default function DefaultComponent({
               title="Call Stack"
               Icon={Layers}
               blocks={zones.callstack}
+              validation={validationResult?.callStack}
               onDragStart={(block) => handleDragStart(block, 'callstack')}
               onDrop={(index) => handleDrop('callstack', index)}
               onDragEnd={handleDragEnd}
@@ -115,6 +131,7 @@ export default function DefaultComponent({
               title="Microtasks"
               Icon={Zap}
               blocks={zones.microtasks}
+              validation={validationResult?.microtasks}
               onDragStart={(block) => handleDragStart(block, 'microtasks')}
               onDrop={(index) => handleDrop('microtasks', index)}
               onDragEnd={handleDragEnd}
@@ -125,6 +142,7 @@ export default function DefaultComponent({
               title="Macrotasks"
               Icon={Box}
               blocks={zones.macrotasks}
+              validation={validationResult?.macrotasks}
               onDragStart={(block) => handleDragStart(block, 'macrotasks')}
               onDrop={(index) => handleDrop('macrotasks', index)}
               onDragEnd={handleDragEnd}
@@ -140,13 +158,21 @@ export default function DefaultComponent({
             Icon={Terminal}
             description="Drag logs to match the expected execution order."
             blocks={zones.output}
+            validation={validationResult?.output}
             onDragStart={(block) => handleDragStart(block, 'output')}
             onDrop={(index) => handleDrop('output', index)}
             onDragEnd={handleDragEnd}
             allowDrop={canDrop(sourceZone, 'output')}
             isHighlighted={canDrop(sourceZone, 'output')}
           />
-          <PrimaryButton className="w-full py-6">Check Answer</PrimaryButton>
+          <PrimaryButton
+            variant="secondary"
+            className="w-full py-6"
+            disabled={zones.pool.length > 0}
+            onClick={handleCheckAnswer}
+          >
+            Check Answer
+          </PrimaryButton>
         </div>
       </div>
     </section>

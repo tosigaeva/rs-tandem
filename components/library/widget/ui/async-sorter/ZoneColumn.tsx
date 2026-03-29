@@ -9,6 +9,7 @@ type ZoneColumnProperties = {
   Icon?: LucideIcon;
   description?: string;
   blocks: AsyncSorterBlock[];
+  validation?: boolean[];
   onDragStart: (block: AsyncSorterBlock) => void;
   onDrop: (index: number) => void;
   onDragEnd: () => void;
@@ -21,6 +22,7 @@ export default function ZoneColumn({
   Icon,
   description,
   blocks,
+  validation,
   onDragStart,
   onDrop,
   onDragEnd,
@@ -40,6 +42,7 @@ export default function ZoneColumn({
       </CardHeader>
       <BlocksContainer
         blocks={blocks}
+        validation={validation}
         onDragStart={onDragStart}
         onDrop={onDrop}
         onDragEnd={onDragEnd}

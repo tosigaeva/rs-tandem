@@ -1,4 +1,16 @@
-export async function validateAnswer(questionId: string, answer: unknown): Promise<boolean | undefined> {
+import { AsyncSorterAnswer } from '@/components/library/widget/ui/async-sorter/type';
+
+export const mockCorrectAnswer: AsyncSorterAnswer = {
+  callStack: ['b1', 'b4'],
+  microtasks: ['b3'],
+  macrotasks: ['b2'],
+  output: ['b1', 'b4', 'b3', 'b2'],
+};
+
+export async function validateAnswer(
+  questionId: string,
+  answer?: string | AsyncSorterAnswer,
+): Promise<boolean | Record<keyof AsyncSorterAnswer, boolean[]> | undefined> {
   if (questionId === 'quiz-001') {
     return answer === 'object';
   }
@@ -28,6 +40,29 @@ export async function validateAnswer(questionId: string, answer: unknown): Promi
     questionId === 'Learning-10'
   ) {
     return answer === 'true';
+  }
+
+  if (questionId === 'as-001') {
+    const userAnswer = answer as AsyncSorterAnswer;
+    const result: Record<keyof AsyncSorterAnswer, boolean[]> = {
+      callStack: [],
+      microtasks: [],
+      macrotasks: [],
+      output: [],
+    };
+
+    (Object.keys(mockCorrectAnswer) as (keyof AsyncSorterAnswer)[]).forEach((zone) => {
+      const userZone = userAnswer[zone] || [];
+      const correctZone = mockCorrectAnswer[zone];
+
+      result[zone] = userZone.map((blockId, index) => {
+        const existsInCorrectZone = correctZone.includes(blockId);
+        const correctPosition = correctZone[index] === blockId;
+
+        return existsInCorrectZone && correctPosition;
+      });
+    });
+    return result;
   }
 
   return undefined;

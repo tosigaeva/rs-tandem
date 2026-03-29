@@ -15,3 +15,10 @@ export type AsyncSorterWidget = {
   type: WidgetType.AsyncSorter;
   payload: AsyncSorterPayload;
 };
+
+export type AsyncSorterAnswer = {
+  callStack: string[];
+  microtasks: string[];
+  macrotasks: string[];
+  output: string[];
+};
