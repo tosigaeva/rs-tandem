@@ -14,7 +14,7 @@ const signUpFields = SignInSchema.extend({
     .string()
     .min(3, 'validation.username_too_short')
     .max(12, 'validation.username_too_long')
-    .refine((v) => usernameCheck.test(v), 'zod.auth.username_invalid'),
+    .refine((v) => usernameCheck.test(v), 'validation.username_invalid'),
   confirmPassword: z.string(),
 });
 
