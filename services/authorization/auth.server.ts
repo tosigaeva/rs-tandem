@@ -1,3 +1,5 @@
+'use server';
+
 import { AuthError, PostgrestError } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
@@ -14,7 +16,7 @@ export async function signIn({
   password: string;
 }): Promise<{ data: UserDetails | undefined; error?: string }> {
   if (!email || !password) {
-    throw new Error('Email and password are required');
+    return { data: undefined, error: 'error.auth.required' };
   }
 
   const supabase = await supabaseServer();
@@ -28,12 +30,10 @@ export async function signIn({
       password,
     });
 
-    if (authError) {
-      throw authError;
-    }
+    if (authError) throw authError;
 
     if (!user || user.email == undefined) {
-      throw new Error('User not found');
+      throw 'error.auth.invalid';
     }
 
     const { data: profile, error: profileError } = await supabase
@@ -42,9 +42,7 @@ export async function signIn({
       .eq('id', user.id)
       .single<{ username: string }>();
 
-    if (profileError) {
-      throw profileError;
-    }
+    if (profileError) throw profileError;
 
     return { data: { email: user.email, id: user.id, username: profile.username } };
   } catch (error: unknown) {
@@ -62,7 +60,7 @@ export async function signUp({
   username: string;
 }): Promise<{ data: UserDetails | undefined; error?: string }> {
   if (!email || !password || !username) {
-    throw new Error('Email, password and username are required');
+    return { data: undefined, error: 'error.auth.required' };
   }
 
   const supabase = await supabaseServer();
@@ -71,18 +69,15 @@ export async function signUp({
       email,
       password,
       options: {
-        data: {
-          username,
-        },
+        data: { username },
       },
     });
 
     if (error) {
       if (error?.message.includes('profiles_username_key') || error.code === '23505') {
-        throw new Error('Username already exists');
+        throw 'error.auth.conflict';
       }
-
-      throw new Error(error.message);
+      throw error.message;
     }
 
     const user = data.user;
@@ -91,7 +86,7 @@ export async function signUp({
       return { data: { email: user.email, id: user.id, username } };
     }
 
-    throw new Error('Something went wrong');
+    throw 'error.global.unknown';
   } catch (error: unknown) {
     return { data: undefined, error: handleError(error) };
   }
@@ -102,12 +97,11 @@ export async function signOut() {
 
   try {
     const { error } = await supabase.auth.signOut();
+    if (error != undefined) throw error;
 
-    if (error != undefined) {
-      throw new Error(error.message);
-    }
+    return { error: undefined };
   } catch (error: unknown) {
-    return { data: undefined, error: handleError(error) };
+    return { error: handleError(error) };
   }
 }
 
@@ -120,12 +114,10 @@ export async function getUser(): Promise<{ data: UserDetails | undefined; error?
       error: authError,
     } = await supabase.auth.getUser();
 
-    if (authError) {
-      throw authError;
-    }
+    if (authError) throw authError;
 
     if (!user || user.email == undefined) {
-      throw new Error('User not found');
+      return { data: undefined };
     }
 
     const { data: profile, error: profileError } = await supabase
@@ -134,9 +126,7 @@ export async function getUser(): Promise<{ data: UserDetails | undefined; error?
       .eq('id', user.id)
       .single<{ username: string }>();
 
-    if (profileError) {
-      throw profileError;
-    }
+    if (profileError) throw profileError;
 
     return { data: { email: user.email, id: user.id, username: profile.username } };
   } catch (error: unknown) {
@@ -145,12 +135,18 @@ export async function getUser(): Promise<{ data: UserDetails | undefined; error?
 }
 
 const handleError = (error: unknown): string => {
+  if (typeof error === 'string' && error in AppMessages) {
+    return error;
+  }
+
+  if (error instanceof Error && error.message in AppMessages) {
+    return error.message;
+  }
+
   if (error instanceof AuthError || error instanceof PostgrestError) {
     const code = error.code;
 
-    if (code === '23505') {
-      return 'error.auth.conflict';
-    }
+    if (code === '23505') return 'error.auth.conflict';
 
     if ('status' in error && typeof error.status === 'number') {
       switch (error.status) {
@@ -178,13 +174,10 @@ const handleError = (error: unknown): string => {
         }
       }
     }
-  } else if (typeof error === 'string' && error in AppMessages) {
-    return error;
   }
 
   return 'error.global.unknown';
 };
-
 export async function hasAuthCookie() {
   const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();

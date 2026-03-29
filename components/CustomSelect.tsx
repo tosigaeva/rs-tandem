@@ -1,10 +1,11 @@
 import { useFormContext } from 'react-hook-form';
 
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 
 export type SelectOption<T> = { value: T; label: string };
 
-export type SelectProperties<T> = {
+type SelectProperties<T> = {
   name: string;
   label: string;
   options: SelectOption<T>[];
@@ -29,6 +30,8 @@ export const CustomSelect = <T extends string | number>({
     register,
     formState: { errors },
   } = useFormContext();
+  const { t } = useTranslation();
+
   const hasError = Boolean(errors[name]);
 
   const isNumberType = typeof options[0]?.value === 'number';
@@ -71,7 +74,7 @@ export const CustomSelect = <T extends string | number>({
           </option>
         ))}
       </select>
-      {hasError && <p className="text-xs text-red-500">Selection required</p>}
+      {hasError && <p className="text-xs text-red-500">{t('validation.selection_required')}</p>}
     </div>
   );
 };

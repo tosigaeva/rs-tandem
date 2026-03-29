@@ -12,11 +12,22 @@ export function useTranslation() {
     return message[languageCode];
   };
 
+  const tor = (key: string, fallback: MessageKey): string => {
+    const validKey = isValidMessageKey(key) ? key : fallback;
+    const message = AppMessages[validKey];
+
+    return message[languageCode];
+  };
+
   const translate = (localRecord: LocaleString | undefined): string => {
     if (!localRecord) return '';
 
     return localRecord[languageCode] ?? localRecord[LanguageCode.en] ?? '';
   };
 
-  return { t, translate };
+  return { t, tor, translate };
+}
+
+function isValidMessageKey(key: string): key is MessageKey {
+  return key in AppMessages;
 }

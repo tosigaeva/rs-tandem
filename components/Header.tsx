@@ -3,6 +3,7 @@
 import { LogIn, LogOut, Menu, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import {
@@ -11,20 +12,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useTranslation } from '@/hooks/use-translation';
 import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
+import { useAuth } from '@/providers/auth-state.provider';
 import { useLocale } from '@/providers/locale.provider';
-import { authService } from '@/services/authorization/auth.service';
-import { useAuth } from '@/services/authorization/auth.store';
+import { signOut } from '@/services/authorization/auth.server';
 import { LocaleDictionary, validateLocale } from '@/services/locale/locale.service';
 
 const headerActionButtonClass =
   'border-primary/40 bg-gradient-to-b from-primary/10 to-accent/10 text-foreground shadow-xs shadow-primary/10 backdrop-blur-sm hover:border-primary/70 hover:from-primary/80 hover:to-accent/70 hover:text-primary-foreground';
 
-export function HeaderContent() {
-  const { user, initialAuthorization, isAuthorized, isAuthorizing } = useAuth();
-
+export function Header() {
+  const { user, isAuthorized, isAuthorizing, setUser, setAuthorizing } = useAuth();
   const { locale: currentLocale, languageCode, setLocale } = useLocale();
+
+  const { t, tor } = useTranslation();
 
   const router = useRouter();
 
@@ -49,35 +52,33 @@ export function HeaderContent() {
         const redirectPath = `${Routes.SignIn}?redirect=${encodeURIComponent(pathname)}`;
 
         router.push(redirectPath);
-
-        console.log('should redirect');
       }
     }
   };
 
   const handleSignOut = async () => {
-    await authService.signOut();
+    setAuthorizing(true);
+    const result = await signOut().finally(() => setAuthorizing(false));
 
+    if (result?.error != undefined) {
+      toast.error(tor(result.error, 'error.global.unknown'));
+
+      return;
+    }
+
+    setUser(undefined);
     handleUnauthorizedAccess();
   };
 
   return (
     <header
-      className={cn(
-        'border-border bg-card relative z-25 border-b',
-        !Boolean(initialAuthorization) || isAuthorizing ? 'cursor-wait select-none' : ''
-      )}
+      className={cn('border-border bg-card relative z-25 border-b', isAuthorizing ? 'cursor-wait select-none' : '')}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-6">
         <div className="flex flex-1">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <PrimaryButton
-                variant="outline"
-                size="icon"
-                disabled={!Boolean(initialAuthorization) || isAuthorizing}
-                className={headerActionButtonClass}
-              >
+              <PrimaryButton variant="outline" size="icon" disabled={isAuthorizing} className={headerActionButtonClass}>
                 <Menu className="h-5 w-5" />
               </PrimaryButton>
             </DropdownMenuTrigger>
@@ -119,7 +120,7 @@ export function HeaderContent() {
               <DropdownMenuTrigger asChild>
                 <PrimaryButton
                   variant="outline"
-                  disabled={!Boolean(initialAuthorization) || isAuthorizing}
+                  disabled={isAuthorizing}
                   className={cn(headerActionButtonClass, 'max-w-48')}
                 >
                   <User />
@@ -136,7 +137,7 @@ export function HeaderContent() {
                 >
                   <div>
                     <LogOut className="text-inherit" />
-                    Sign Out
+                    {t('button.sign-out')}
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -144,7 +145,7 @@ export function HeaderContent() {
           ) : (
             <PrimaryButton
               variant="outline"
-              disabled={!Boolean(initialAuthorization) || isAuthorizing}
+              disabled={isAuthorizing}
               onClick={() => router.push(routes.SignIn)}
               className={headerActionButtonClass}
             >
@@ -157,7 +158,7 @@ export function HeaderContent() {
               <PrimaryButton
                 variant="outline"
                 size="icon"
-                disabled={!Boolean(initialAuthorization) || isAuthorizing}
+                disabled={isAuthorizing}
                 className={cn(headerActionButtonClass, 'uppercase')}
               >
                 {languageCode}

@@ -3,6 +3,45 @@ import { LocaleString } from '@/types/schemas/locale-schemas';
 import { LanguageCode } from './locale.service';
 
 export const AppMessages = {
+  /// Blank
+  blank: {
+    [LanguageCode.en]: '',
+    [LanguageCode.ru]: '',
+    [LanguageCode.by]: '',
+  },
+
+  /// Authentication
+  'auth.signup.title': {
+    [LanguageCode.en]: 'Create new account',
+    [LanguageCode.ru]: 'Создать новый аккаунт',
+    [LanguageCode.by]: 'Стварыць новы рахунак',
+  },
+  'auth.signin.title': {
+    [LanguageCode.en]: 'Sign in with existing account',
+    [LanguageCode.ru]: 'Войти в существующий аккаунт',
+    [LanguageCode.by]: 'Увайсці ў існуючы рахунак',
+  },
+  'auth.form.email': {
+    [LanguageCode.en]: 'Email Address',
+    [LanguageCode.ru]: 'Электронная почта',
+    [LanguageCode.by]: 'Электронная пошта',
+  },
+  'auth.form.password': {
+    [LanguageCode.en]: 'Password',
+    [LanguageCode.ru]: 'Пароль',
+    [LanguageCode.by]: 'Пароль',
+  },
+  'auth.form.confirm-password': {
+    [LanguageCode.en]: 'Confirm Password',
+    [LanguageCode.ru]: 'Подтвердите пароль',
+    [LanguageCode.by]: 'Пацвердзіце пароль',
+  },
+  'auth.form.username': {
+    [LanguageCode.en]: 'Username',
+    [LanguageCode.ru]: 'Имя пользователя',
+    [LanguageCode.by]: 'Імя карыстальніка',
+  },
+
   /// library
   'library.title': {
     [LanguageCode.en]: 'Library',
@@ -176,6 +215,21 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Проверить ответ',
     [LanguageCode.by]: 'Праверыць адказ',
   },
+  'button.sign-in': {
+    [LanguageCode.en]: 'Sign In',
+    [LanguageCode.ru]: 'Войти',
+    [LanguageCode.by]: 'Увайсці',
+  },
+  'button.sign-up': {
+    [LanguageCode.en]: 'Sign Up',
+    [LanguageCode.ru]: 'Регистрация',
+    [LanguageCode.by]: 'Рэгістрацыя',
+  },
+  'button.sign-out': {
+    [LanguageCode.en]: 'Sign Out',
+    [LanguageCode.ru]: 'Выйти',
+    [LanguageCode.by]: 'Выйсці',
+  },
 
   /// Authentication & Session Errors
   'error.auth.invalid': {
@@ -198,6 +252,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Слишком много попыток. Пожалуйста, попробуйте позже.',
     [LanguageCode.by]: 'Занадта шмат спроб. Калі ласка, паспрабуйце пазней.',
   },
+  'error.auth.required': {
+    [LanguageCode.en]: 'Please fill in all required fields.',
+    [LanguageCode.ru]: 'Пожалуйста, заполните все обязательные поля.',
+    [LanguageCode.by]: 'Калі ласка, запоўніце ўсе абавязковыя палі.',
+  },
 
   /// Server & Network Errors
   'error.server.maintenance': {
@@ -216,6 +275,48 @@ export const AppMessages = {
     [LanguageCode.en]: 'An unexpected error occurred.',
     [LanguageCode.ru]: 'Произошла непредвиденная ошибка.',
     [LanguageCode.by]: 'Адбылася неспадзяваная памылка.',
+  },
+
+  /// Zod Schema Messages
+  'validation.email_invalid': {
+    [LanguageCode.en]: 'Please enter a valid email address.',
+    [LanguageCode.ru]: 'Введите корректный адрес почты.',
+    [LanguageCode.by]: 'Увядзіце карэктны адрас пошты.',
+  },
+  'validation.password_too_short': {
+    [LanguageCode.en]: 'Password is too short.',
+    [LanguageCode.ru]: 'Пароль слишком короткий.',
+    [LanguageCode.by]: 'Пароль занадта кароткі.',
+  },
+  'validation.username_too_short': {
+    [LanguageCode.en]: 'Username must be at least 3 characters.',
+    [LanguageCode.ru]: 'Имя пользователя должно быть не менее 3 символов.',
+    [LanguageCode.by]: 'Імя карыстальніка павінна быць не менш за 3 сімвалы.',
+  },
+  'validation.username_too_long': {
+    [LanguageCode.en]: 'Username must be at most 12 characters.',
+    [LanguageCode.ru]: 'Имя пользователя должно быть не более 12 символов.',
+    [LanguageCode.by]: 'Імя карыстальніка павінна быць не больш за 12 сімвалаў.',
+  },
+  'validation.username_invalid': {
+    [LanguageCode.en]: 'Username contains invalid characters.',
+    [LanguageCode.ru]: 'Имя пользователя содержит недопустимые символы.',
+    [LanguageCode.by]: 'Імя карыстальніка ўтрымлівае недапушчальныя сімвалы.',
+  },
+  'validation.password_mismatch': {
+    [LanguageCode.en]: 'Passwords do not match.',
+    [LanguageCode.ru]: 'Пароли не совпадают.',
+    [LanguageCode.by]: 'Паролі не супадаюць.',
+  },
+  'validation.required': {
+    [LanguageCode.en]: 'This field is required.',
+    [LanguageCode.ru]: 'Это поле обязательно для заполнения.',
+    [LanguageCode.by]: 'Гэта поле абавязкова для запаўнення.',
+  },
+  'validation.selection_required': {
+    [LanguageCode.en]: 'Please select an option.',
+    [LanguageCode.ru]: 'Пожалуйста, выберите вариант.',
+    [LanguageCode.by]: 'Калі ласка, абярыце варыянт.',
   },
 } satisfies Record<string, LocaleString>;
 

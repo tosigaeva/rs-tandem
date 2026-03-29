@@ -1,8 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { useLocale } from '@/providers/locale.provider';
-import { Locale } from '@/services/locale/locale.service';
-
 import { BigOCanvas } from './BigOWidget';
 
 jest.mock('@/components/CodeBlock', () => ({
@@ -43,7 +40,6 @@ describe('BigOWidget', () => {
   };
 
   beforeEach(() => {
-    useLocale().setLocale(Locale.gb);
     jest.clearAllMocks();
   });
 

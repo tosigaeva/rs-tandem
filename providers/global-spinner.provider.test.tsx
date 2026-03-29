@@ -2,11 +2,10 @@ import '@testing-library/jest-dom';
 
 import { render, screen } from '@testing-library/react';
 
-import { useAuth } from '@/services/authorization/auth.store';
-
+import { useAuth } from './auth-state.provider';
 import { GlobalSpinnerProvider } from './global-spinner.provider';
 
-jest.mock('@/services/authorization/auth.store', () => ({
+jest.mock('@/providers/auth-state.provider', () => ({
   useAuth: jest.fn(),
 }));
 
@@ -23,7 +22,13 @@ describe('GlobalSpinnerProvider', () => {
 
   describe('Conditional Rendering', () => {
     it('should render children if loading state is true', () => {
-      mockUseAuth.mockReturnValue(true);
+      mockUseAuth.mockReturnValue({
+        user: undefined,
+        isAuthorized: false,
+        isAuthorizing: true,
+        setUser: jest.fn(),
+        setAuthorizing: jest.fn(),
+      });
 
       render(<GlobalSpinnerProvider {...defaultProps} />);
 
@@ -31,7 +36,13 @@ describe('GlobalSpinnerProvider', () => {
     });
 
     it('should render children if loading state is false', () => {
-      mockUseAuth.mockReturnValue(false);
+      mockUseAuth.mockReturnValue({
+        user: undefined,
+        isAuthorized: false,
+        isAuthorizing: false,
+        setUser: jest.fn(),
+        setAuthorizing: jest.fn(),
+      });
 
       render(<GlobalSpinnerProvider {...defaultProps} />);
 
@@ -39,7 +50,13 @@ describe('GlobalSpinnerProvider', () => {
     });
 
     it('should show SpinnerCustom when isAuthorizing is true', () => {
-      mockUseAuth.mockReturnValue(true);
+      mockUseAuth.mockReturnValue({
+        user: undefined,
+        isAuthorized: false,
+        isAuthorizing: true,
+        setUser: jest.fn(),
+        setAuthorizing: jest.fn(),
+      });
 
       render(<GlobalSpinnerProvider {...defaultProps} />);
 
@@ -47,7 +64,13 @@ describe('GlobalSpinnerProvider', () => {
     });
 
     it('should hide SpinnerCustom when isAuthorizing is false', () => {
-      mockUseAuth.mockReturnValue(false);
+      mockUseAuth.mockReturnValue({
+        user: undefined,
+        isAuthorized: false,
+        isAuthorizing: false,
+        setUser: jest.fn(),
+        setAuthorizing: jest.fn(),
+      });
 
       render(<GlobalSpinnerProvider {...defaultProps} />);
 
