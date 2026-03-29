@@ -15,7 +15,7 @@ export type WidgetSkinsMap = {
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
   questionId: string;
   questionPayload: WidgetPayloadMap[T];
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 export type WidgetComponent<T extends WidgetType = WidgetType> = ComponentType<WidgetComponentProperties<T>>;

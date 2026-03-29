@@ -41,16 +41,18 @@ export default function Page() {
 
   return (
     <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
-      <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-6 py-10 text-center">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center gap-10 px-6 py-10 text-center">
         <div className="h-full justify-center">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
-          <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
+          <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-2xl">
             Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms,
             problem solving, and core JS concepts in a fun way.
           </p>
           <div className="mt-8 flex justify-center gap-4 p-5">
             <PrimaryButton size="lg" asChild>
-              <Link href={isAuthorized ? Routes.Dashboard : Routes.SignIn}>Get started!</Link>
+              <Link href={isAuthorized ? Routes.Dashboard : Routes.SignIn}>
+                {isAuthorized ? 'Go to Dashboard' : 'Get started!'}
+              </Link>
             </PrimaryButton>
           </div>
           <div className="flex items-center justify-center">

@@ -1,47 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-
 import { TopicList } from '@/components/library/TopicsList';
-import { getTopicsOverview } from '@/data/trainer.api';
 import { useTranslation } from '@/hooks/use-translation';
-import { usePageState } from '@/store/page-state';
-import { LibraryTopicsResponse } from '@/types/topic';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 
-export default function LibraryContent() {
-  const { setPageLoading } = usePageState();
+type Properties = {
+  recentTopics: TopicOverview[];
+  pageTopics: TopicOverview[];
+};
+
+export default function LibraryContent({ recentTopics, pageTopics }: Properties) {
   const { t } = useTranslation();
 
-  const [data, setData] = useState<LibraryTopicsResponse>({ recentTopics: undefined, topicsPage: undefined });
-
-  useEffect(() => {
-    async function loadData() {
-      setPageLoading(true);
-
-      try {
-        const result = await getTopicsOverview();
-
-        const { recentTopicsError, topicsPageError } = result;
-
-        if (recentTopicsError != undefined) {
-          toast.error(recentTopicsError);
-        }
-
-        if (topicsPageError != undefined) {
-          toast.error(topicsPageError);
-        }
-
-        setData(result);
-      } finally {
-        setPageLoading(false);
-      }
-    }
-
-    loadData();
-  }, [setData, setPageLoading]);
-
-  const { recentTopics, topicsPage } = data;
   const hasRecentTopics = recentTopics != undefined && recentTopics.length > 0;
   const topicsTitleCode = hasRecentTopics ? 'library.section.explore' : 'library.section.start';
 
@@ -52,8 +22,10 @@ export default function LibraryContent() {
         <p className="text-muted-foreground">{t('library.description')}</p>
       </section>
 
-      {recentTopics && <TopicList title={t('library.section.continue')} topics={recentTopics} />}
-      {topicsPage && <TopicList title={t(topicsTitleCode)} topics={topicsPage.items} displayProgress={false} />}
+      {recentTopics.length > 0 && (
+        <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
+      )}
+      {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}
     </main>
   );
 }

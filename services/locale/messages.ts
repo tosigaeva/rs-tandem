@@ -29,6 +29,7 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Узнать больше',
     [LanguageCode.by]: 'Даведацца больш',
   },
+
   /// dashboard
   'dashboard.greeting': {
     [LanguageCode.en]: 'Hello',
@@ -124,6 +125,55 @@ export const AppMessages = {
     [LanguageCode.en]: 'Start Over',
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
+  },
+
+  /// Widgets
+  /// FlipCard Widget
+  'widget.flip-card.tooltip_hint': {
+    [LanguageCode.en]:
+      'Decide whether you know the answer to reveal it. You can change your resolution after card reveal.',
+    [LanguageCode.ru]:
+      'Решите, знаете ли вы ответ, чтобы открыть его. Вы сможете изменить решение после открытия карточки.',
+    [LanguageCode.by]:
+      'Вырашыце, ці ведаеце вы адказ, каб адкрыць яго. Вы зможаце змяніць рашэнне пасля адкрыцця карткі.',
+  },
+  'widget.flip-card.know': {
+    [LanguageCode.en]: 'I know this',
+    [LanguageCode.ru]: 'Я это знаю',
+    [LanguageCode.by]: 'Я гэта ведаю',
+  },
+  'widget.flip-card.not-know': {
+    [LanguageCode.en]: "I don't know this",
+    [LanguageCode.ru]: 'Я этого не знаю',
+    [LanguageCode.by]: 'Я гэтага не ведаю',
+  },
+  /// BigO Widget
+  'widget.big-o.selected': {
+    en: 'Selected',
+    ru: 'Выбрано',
+    by: 'Выбрана',
+  },
+  'widget.big-o.tooltip_hint': {
+    en: 'Click on a curve to select complexity of the algorithm',
+    ru: 'Нажмите на кривую, чтобы выбрать сложность алгоритма',
+    by: 'Націсніце на крывую, каб выбраць складанасць алгарытму',
+  },
+
+  /// Buttons
+  'button.hint': {
+    [LanguageCode.en]: 'Hint',
+    [LanguageCode.ru]: 'Подсказка',
+    [LanguageCode.by]: 'Падказка',
+  },
+  'button.next': {
+    [LanguageCode.en]: 'Next',
+    [LanguageCode.ru]: 'Далее',
+    [LanguageCode.by]: 'Далей',
+  },
+  'button.check-answer': {
+    [LanguageCode.en]: 'Check Answer',
+    [LanguageCode.ru]: 'Проверить ответ',
+    [LanguageCode.by]: 'Праверыць адказ',
   },
 } satisfies Record<string, LocaleString>;
 
