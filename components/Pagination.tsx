@@ -1,6 +1,7 @@
 'use client';
 
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, LoaderIcon } from 'lucide-react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,19 +11,75 @@ import {
   PaginationItem,
 } from '@/components/ui/pagination';
 
+export type PaginationMode = 'buttons' | 'scroll';
+
 type PaginationProperties = {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
+  onPageChange: (page: number, mode: PaginationMode) => void;
   isLoading?: boolean;
+  mode?: PaginationMode;
+  loadingLabel?: string;
 };
 
-export default function Pagination({ currentPage, totalPages, onPageChange, isLoading = false }: PaginationProperties) {
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  isLoading = false,
+  mode = 'buttons',
+  loadingLabel,
+}: PaginationProperties) {
+  const loadMoreReference = useRef<HTMLDivElement | null>(null);
+  const isScrollMode = mode === 'scroll';
+  const pages = getVisiblePages(currentPage, totalPages);
+  const handleIntersection = useEffectEvent(() => {
+    onPageChange(currentPage + 1, 'scroll');
+  });
+
+  useEffect(() => {
+    if (!isScrollMode) return;
+    if (currentPage >= totalPages) return;
+
+    const node = loadMoreReference.current;
+
+    if (node == undefined) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || isLoading) return;
+
+        handleIntersection();
+      },
+      { rootMargin: '160px 0px' }
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [currentPage, isLoading, isScrollMode, totalPages]);
+
   if (totalPages <= 1) {
     return <></>;
   }
 
-  const pages = getVisiblePages(currentPage, totalPages);
+  if (isScrollMode) {
+    if (currentPage >= totalPages) {
+      return <></>;
+    }
+
+    return (
+      <div ref={loadMoreReference} className="flex min-h-16 items-center justify-center">
+        {isLoading ? (
+          <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />
+        ) : (
+          <span className="text-muted-foreground text-sm">{loadingLabel}</span>
+        )}
+      </div>
+    );
+  }
 
   return (
     <ShadPagination>
@@ -34,7 +91,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, isLo
             className="min-w-9 gap-1 px-2.5 sm:min-w-24 sm:pl-2.5"
             aria-label="Go to previous page"
             disabled={isLoading || currentPage === 1}
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => onPageChange(currentPage - 1, 'buttons')}
           >
             <ChevronLeftIcon />
             <span className="hidden sm:block">Previous</span>
@@ -53,7 +110,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, isLo
                 size="icon"
                 aria-current={page === currentPage ? 'page' : undefined}
                 disabled={isLoading && page !== currentPage}
-                onClick={() => onPageChange(page)}
+                onClick={() => onPageChange(page, 'buttons')}
               >
                 {page}
               </Button>
@@ -68,7 +125,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, isLo
             className="min-w-9 gap-1 px-2.5 sm:min-w-24 sm:pr-2.5"
             aria-label="Go to next page"
             disabled={isLoading || currentPage === totalPages}
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => onPageChange(currentPage + 1, 'buttons')}
           >
             <span className="hidden sm:block">Next</span>
             <ChevronRightIcon />

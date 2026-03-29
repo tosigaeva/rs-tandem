@@ -27,5 +27,7 @@ export default async function Page() {
     return <>Something went wrong while fetching topics.</>;
   }
 
-  return <LibraryContent recentTopics={recentTopics ?? []} topicsPage={pageTopics}></LibraryContent>;
+  return (
+    <LibraryContent recentTopics={recentTopics ?? []} topicsPage={pageTopics} paginationMode="scroll"></LibraryContent>
+  );
 }
