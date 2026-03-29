@@ -1,5 +1,3 @@
-'use client';
-
 import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
 import { getAllTopics } from '@/data/topic.client';
 import { QueryStorage } from '@/lib/query-storage';

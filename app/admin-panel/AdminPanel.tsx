@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import QuestionAdminList from './Questions/QuestionAdminList';
 import TopicAdminList from './Topics/TopicAdminList';
-import WidgetAdminList from './Widgets/WidgetAdminList';
+import { TopicAdminList as WidgetAdminList } from './Widgets/WidgetAdminList';
 
 enum AdminPanelTab {
   topics = 'topics',

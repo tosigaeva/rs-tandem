@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { DataTable } from '@/components/DataTable';
-import { updateWidget } from '@/data/widget.api';
+import { updateWidget } from '@/data/admin/widget.api';
 import { WidgetService } from '@/services/widget.service';
 import { SchemaData } from '@/types/schemas/schema-registry';
 import { Widget, WidgetAdminListItem, WidgetBaseSchema } from '@/types/schemas/widget-schema';
@@ -10,7 +10,7 @@ import { Widget, WidgetAdminListItem, WidgetBaseSchema } from '@/types/schemas/w
 import { createColumns } from './columns';
 import { WidgetDialog } from './WidgetDialog';
 
-export default function TopicAdminList() {
+export function TopicAdminList() {
   const [widgets, setWidgets] = useState<WidgetAdminListItem[] | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedWidget, setSelectedWidget] = useState<Widget | undefined>();
@@ -71,6 +71,7 @@ export default function TopicAdminList() {
         setIsLoading(false);
       }
     }
+
     fetchWidgets();
   }, []);
 

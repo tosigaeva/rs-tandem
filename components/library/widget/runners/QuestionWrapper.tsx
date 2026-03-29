@@ -5,7 +5,7 @@ type QuestionProperties = {
   questionId: string;
   WidgetComponent: WidgetComponent;
   questionPayload: QuestionPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
