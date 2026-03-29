@@ -1,8 +1,10 @@
 import './globals.css';
 
+import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 
-import { HeaderContent } from '@/components/header/HeaderContent';
+import { Header } from '@/components/header/Header';
+import { SpinnerCustom } from '@/components/ui/SpinnerCustom';
 import { Providers } from '@/providers/providers';
 import { getServerLocale } from '@/services/locale/locale.server';
 import { LocaleDictionary } from '@/services/locale/locale.service';
@@ -21,8 +23,10 @@ export default async function RootLayout({
     <html lang={languageCode}>
       <body>
         <Providers locale={locale}>
-          <HeaderContent />
-          {children}
+          <Suspense fallback={<SpinnerCustom />}>
+            <Header />
+            {children}
+          </Suspense>
           <Toaster
             position="bottom-center"
             richColors
