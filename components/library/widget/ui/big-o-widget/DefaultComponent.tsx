@@ -7,7 +7,7 @@ import { BigOPayloadQuestion } from '@/types/schemas/question-payload-schema';
 
 type WidgetComponentProperties = {
   questionPayload: BigOPayloadQuestion;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 

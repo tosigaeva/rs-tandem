@@ -11,7 +11,7 @@ import styles from './FlipCard.module.css';
 
 type WidgetComponentProperties = {
   questionPayload: FlipCardPayloadQuestion;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
