@@ -19,8 +19,6 @@ import {
 } from '@/types/schemas/question-payload-schema';
 import { WidgetType } from '@/types/widget';
 
-import { BigOPayloadQuestion, FlipCardPayloadQuestion } from './schemas/question-payload-schema';
-
 export type QuestionPayload =
   | QuizPayload
   | TrueFalsePayload
