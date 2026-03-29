@@ -1,66 +1,126 @@
-import { useState } from 'react';
+import { CircleCheckBig, CircleX } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { validateQuestion } from '@/api/trainer.api';
 import CodeBlock from '@/components/CodeBlock';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Field, FieldDescription, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { hashString } from '@/lib/utils';
 
 type QuestionCardProperties = {
   questionId: string;
   question: string;
   options: string[];
   instruction: string;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
 export const messages = {
   checkAnswer: 'Check Answer',
-  selectAnOption: 'Select an answer',
+  nextQuestion: 'Next Question',
 };
 
-export default function QuestionCard({ questionId, question, options, instruction, onCheck }: QuestionCardProperties) {
-  const payloadHash = hashString(JSON.stringify(question));
-  const [formId, setFormId] = useState(payloadHash);
+export default function QuestionCard({
+  questionId,
+  question,
+  options,
+  instruction,
+  onCheck,
+  onNext,
+}: QuestionCardProperties) {
   const [selected, setSelected] = useState<string | undefined>();
+  const [verdict, setVerdict] = useState<boolean | undefined>();
+  const isChecked = verdict !== undefined;
 
-  if (formId !== payloadHash) {
-    setFormId(payloadHash);
+  const sectionReference = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    sectionReference.current?.focus();
+  }, [questionId]);
+
+  const handleCheck = useCallback(async () => {
+    if (selected === undefined) return;
+    const result = await onCheck(selected);
+    setVerdict(result);
+  }, [selected, onCheck]);
+
+  const handleNext = useCallback(() => {
     setSelected(undefined);
-  }
+    setVerdict(undefined);
+    onNext();
+  }, [onNext]);
 
-  const handleClick = async () => {
-    if (selected !== undefined) {
-      await onCheck(await validateQuestion(questionId, selected));
-    }
-  };
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      const optionIndex = Number.parseInt(event.key, 10);
 
-  const isSelected = selected !== undefined;
-  const buttonText = isSelected ? messages.checkAnswer : messages.selectAnOption;
+      if (!isChecked && !Number.isNaN(optionIndex) && optionIndex >= 1 && optionIndex <= options.length) {
+        setSelected(options[optionIndex - 1]);
+      }
+
+      if (event.key === 'Enter') {
+        if (!isChecked && selected !== undefined && selected !== '') {
+          handleCheck();
+        } else if (isChecked) {
+          handleNext();
+        }
+      }
+    },
+    [isChecked, selected, options, handleCheck, handleNext]
+  );
+
   return (
-    <section className="mx-auto max-w-2xl space-y-8">
+    <section ref={sectionReference} tabIndex={0} onKeyDown={handleKeyDown} className="mx-auto max-w-2xl space-y-8">
       <Card>
         <CardHeader>
           <CodeBlock code={question} />
         </CardHeader>
+
         <CardContent className="space-y-4">
           <CardDescription>{instruction}</CardDescription>
-          <RadioGroup key={formId} onValueChange={(option) => setSelected(option)}>
-            {options.map((option, index) => (
-              <FieldLabel key={hashString(question + option)} className="cursor-pointer">
-                <Field orientation="horizontal">
+
+          <RadioGroup key={questionId} value={selected} onValueChange={setSelected} disabled={isChecked}>
+            {options.map((option, index) => {
+              const isSelected = option === selected;
+
+              const borderClass =
+                isChecked && isSelected
+                  ? verdict
+                    ? 'border-correct-answer! bg-correct-answer-muted/25'
+                    : 'border-wrong-answer! bg-wrong-answer-muted/15'
+                  : '';
+
+              const Indicator =
+                isChecked && isSelected ? (
+                  verdict ? (
+                    <CircleCheckBig className="text-correct-answer h-4 w-4" />
+                  ) : (
+                    <CircleX className="text-wrong-answer h-4 w-4" />
+                  )
+                ) : (
                   <RadioGroupItem value={option} />
-                  <FieldTitle>{option}</FieldTitle>
-                  <FieldDescription>{index + 1}</FieldDescription>
-                </Field>
-              </FieldLabel>
-            ))}
+                );
+
+              return (
+                <FieldLabel key={option} className={`cursor-pointer ${borderClass}`}>
+                  <Field orientation="horizontal">
+                    {Indicator}
+                    <FieldTitle>{option}</FieldTitle>
+                    <FieldDescription>{`#${index + 1}`}</FieldDescription>
+                  </Field>
+                </FieldLabel>
+              );
+            })}
           </RadioGroup>
 
-          <PrimaryButton onClick={() => handleClick()} disabled={!isSelected} className="mt-4 w-full py-6">
-            {buttonText}
+          <PrimaryButton
+            variant="secondary"
+            onClick={isChecked ? handleNext : handleCheck}
+            disabled={selected === undefined}
+            className="mt-4 w-full py-6"
+          >
+            {isChecked ? messages.nextQuestion : messages.checkAnswer}
           </PrimaryButton>
         </CardContent>
       </Card>

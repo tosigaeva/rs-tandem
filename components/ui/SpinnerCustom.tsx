@@ -1,3 +1,5 @@
+'use client';
+
 import { LoaderIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -17,7 +19,10 @@ export function SpinnerCustom() {
   }, []);
 
   return (
-    <div className="fixed z-20 flex h-full w-full items-center justify-center gap-4 bg-amber-100/30 backdrop-blur-sm">
+    <div
+      data-testid="global-overlay-spinner"
+      className="fixed z-20 flex h-full w-full items-center justify-center gap-4 bg-amber-100/30 backdrop-blur-sm"
+    >
       <Spinner />
     </div>
   );

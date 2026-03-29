@@ -1,79 +1,83 @@
 import { useState } from 'react';
 
-import { getAnswer } from '@/api/trainer.api';
-import { FlipCardPayload } from '@/components/library/widget/ui/flip-card/type';
+import { Hint } from '@/components/Hint';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
+import { FlipCardPayloadQuestion } from '@/types/schemas/question-payload-schema';
 
 import styles from './FlipCard.module.css';
 
-type AnswerState = boolean | undefined | null;
-
 type WidgetComponentProperties = {
-  questionId: string;
-  questionPayload: FlipCardPayload;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  questionPayload: FlipCardPayloadQuestion;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
-export default function FlipCard({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
-  const [answer, setAnswer] = useState('');
+export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [isFlipped, setFlipped] = useState(false);
-  const [selected, setSelected] = useState<AnswerState>();
+  const [selected, setSelected] = useState<string | undefined>();
 
-  const handleSelect = async (value: AnswerState) => {
-    setSelected(value);
-    setAnswer(await getAnswer(questionId));
+  const { t, translate } = useTranslation();
+
+  const handleFlip = () => {
     setFlipped(true);
-    await onCheck(true);
+  };
+
+  const handleSelect = (value: string, event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
+    if (!isFlipped) {
+      handleFlip();
+    }
+
+    setSelected(value);
+  };
+
+  const handleNext = async () => {
+    if (selected !== undefined) {
+      onNext();
+      await onCheck(selected);
+    }
   };
 
   return (
     <div className={styles['flip-card']}>
       <div className={cn(styles['flip-card-inner'], isFlipped && styles.flipped)}>
         <Card className={styles['flip-card-front']}>
-          <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
-            <div className="text-center text-lg">{questionPayload.question}</div>
-            <Button
-              className={`${
-                (selected ?? false) ? 'bg-correct-answer' : 'bg-correct-answer-muted'
-              } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(true)}
-            >
-              I know this
-            </Button>
-            <Button
-              className={`${
-                selected === false ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
-              } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(false)}
-            >
-              I don&apos;t know this
-            </Button>
+          <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
+            <div className="text-center text-lg">{translate(questionPayload.term)}</div>
           </CardContent>
         </Card>
         <Card className={styles['flip-card-back']}>
-          <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
-            <div className="text-center text-lg">{answer}</div>
-            <Button
-              className={`${
-                (selected ?? false) ? 'bg-correct-answer' : 'bg-correct-answer-muted'
-              } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(true)}
-            >
-              I know this
-            </Button>
-            <Button
-              className={`${
-                selected === false ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
-              } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
-              onClick={() => handleSelect(false)}
-            >
-              I don&apos;t know this
-            </Button>
+          <CardContent className="flex h-full cursor-default flex-col items-center justify-center gap-4 p-6">
+            <div className="text-center text-lg">{translate(questionPayload.definition)}</div>
           </CardContent>
         </Card>
       </div>
+      <div className="m-2 flex justify-center gap-1">
+        <Button
+          className={`${
+            selected === 'true' ? 'bg-correct-answer' : 'bg-correct-answer-muted'
+          } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
+          onClick={(event) => handleSelect('true', event)}
+        >
+          {t('widget.flip-card.know')}
+        </Button>
+        <Button
+          className={`${
+            selected === 'false' ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
+          } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
+          onClick={(event) => handleSelect('false', event)}
+        >
+          {t('widget.flip-card.not-know')}
+        </Button>
+      </div>
+      <Button className="m-2 w-4/5" disabled={selected === undefined} onClick={handleNext}>
+        {t('button.next')}
+      </Button>
+      <Hint>{t('widget.flip-card.tooltip_hint')}</Hint>
     </div>
   );
 }

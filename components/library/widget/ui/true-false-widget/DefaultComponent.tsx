@@ -4,10 +4,11 @@ import QuestionCard from '@/components/QuestionCard';
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: TrueFalsePayload;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
-export default function DefaultComponent({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   return (
     <QuestionCard
       questionId={questionId}
@@ -15,6 +16,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck 
       options={['true', 'false']}
       instruction={'True or False'}
       onCheck={onCheck}
+      onNext={onNext}
     />
   );
 }

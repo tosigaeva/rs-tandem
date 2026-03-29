@@ -2,26 +2,32 @@
 
 import { useState } from 'react';
 
-import { validateQuestion } from '@/api/trainer.api';
 import { BigOCanvas } from '@/components/library/widget/ui/big-o-widget/BigOWidget';
-import { BigOPayload } from '@/components/library/widget/ui/big-o-widget/type';
+import { BigOPayloadQuestion } from '@/types/schemas/question-payload-schema';
 
 type WidgetComponentProperties = {
-  questionId: string;
-  questionPayload: BigOPayload;
-  onCheck: (p: boolean | undefined) => Promise<void>;
+  questionPayload: BigOPayloadQuestion;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onNext: () => void;
 };
 
-export default function DefaultComponent({ questionId, questionPayload, onCheck }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [selectedComplexity, setSelectedComplexity] = useState<string>('');
+  const [isCorrect, setIsCorrect] = useState<boolean | undefined>();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const handleSelect = (complexity: string) => {
     setSelectedComplexity(complexity);
   };
 
   const handleSubmit = async () => {
-    const result = await validateQuestion(questionId, selectedComplexity);
-    await onCheck(result);
+    if (isSubmitted) {
+      onNext();
+    } else {
+      const result = await onCheck(selectedComplexity);
+      setIsCorrect(result);
+      setIsSubmitted(true);
+    }
   };
 
   return (
@@ -31,6 +37,8 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck 
       selectedComplexity={selectedComplexity}
       onSelect={handleSelect}
       onSubmit={handleSubmit}
+      isCorrect={isCorrect}
+      isSubmitted={isSubmitted}
     />
   );
 }

@@ -2,21 +2,58 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Routes } from '@/lib/routes';
+import { useAuth } from '@/services/authorization/auth.store';
 
 export default function Page() {
+  const { isAuthorized } = useAuth();
+
+  const FEATURES = [
+    {
+      value: 'quiz',
+      label: 'Quiz',
+      title: 'Select correct answer',
+      image: '/example-quiz.jpg',
+      width: 1046,
+      height: 480,
+    },
+    {
+      value: 'flip-card',
+      label: 'Flip Card',
+      title: 'Reveal definition',
+      image: '/example-flip.jpg',
+      width: 644,
+      height: 490,
+    },
+    {
+      value: 'big-o',
+      label: 'Big O',
+      title: 'Select correct Big O notation',
+      image: '/example-big-o-cut.jpg',
+      width: 697,
+      height: 798,
+    },
+  ];
+
   return (
-    <div className="bg-background text-foreground flex min-h-screen flex-col">
-      <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-full items-center justify-center px-6 text-center">
-        <div className="m-10">
-          <h1 className="text-5xl font-bold sm:text-6xl">RS Tandem</h1>
-          <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-3xl">
+    <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center gap-10 px-6 py-10 text-center">
+        <div className="h-full justify-center">
+          <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
+          <p className="text-muted-foreground mt-6 max-w-2xl text-lg md:text-2xl">
             Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms,
             problem solving, and core JS concepts in a fun way.
           </p>
           <div className="mt-8 flex justify-center gap-4 p-5">
-            <PrimaryButton size="lg">Get started!</PrimaryButton>
+            <PrimaryButton size="lg" asChild>
+              <Link href={isAuthorized ? Routes.Dashboard : Routes.SignIn}>
+                {isAuthorized ? 'Go to Dashboard' : 'Get started!'}
+              </Link>
+            </PrimaryButton>
           </div>
           <div className="flex items-center justify-center">
             <motion.div
@@ -28,7 +65,7 @@ export default function Page() {
                 src="/landing-logo-mobile.png"
                 width={1052}
                 height={1052}
-                className="block rounded-3xl md:hidden"
+                className="block max-h-72 w-auto rounded-3xl md:hidden"
                 alt="JS logo"
               />
             </motion.div>
@@ -43,11 +80,36 @@ export default function Page() {
             src="/landing-logo-desktop.jpg"
             width={870}
             height={500}
-            className="hidden rounded-3xl md:block"
+            className="hidden max-h-96 w-auto rounded-3xl md:block"
             alt="JS logo"
           />
         </motion.div>
-      </main>
+      </div>
+      <div className="mx-auto mb-10 w-full max-w-6xl px-6 text-center">
+        <Tabs defaultValue={FEATURES[0].value}>
+          <TabsList variant="line" className="mx-auto mb-6 h-7 w-full justify-start border-b border-neutral-300 p-1">
+            {FEATURES.map((feature) => (
+              <TabsTrigger key={feature.value} value={feature.value}>
+                {feature.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {FEATURES.map((feature) => (
+            <TabsContent key={feature.value} value={feature.value}>
+              <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
+              <div className="mx-auto h-72 w-full max-w-4xl">
+                <Image
+                  src={feature.image}
+                  width={feature.width}
+                  height={feature.height}
+                  className="mx-auto h-full w-auto rounded-3xl object-contain object-top md:object-center"
+                  alt={feature.label}
+                />
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
     </div>
   );
 }

@@ -1,19 +1,10 @@
-import { Paginated } from '@/types/pagination';
-
-export type Topic = {
-  id: string;
-  name: string;
-  level: string;
-  description: string;
-  subject: string;
-};
-
-export type UserTopic = Topic & {
-  progress: number;
-  lastTrainedAt: string;
-};
+import { PaginatedResult } from './pagination';
+import { TopicOverview } from './schemas/topic-schema';
 
 export type LibraryTopicsResponse = {
-  userTopics: UserTopic[];
-  topics: Paginated<Topic>;
+  recentTopics: TopicOverview[] | undefined;
+  recentTopicsError?: string;
+  topicsPage: PaginatedResult<TopicOverview, 'Topic'> | undefined;
+  topicsPageError?: string;
 };
+export type TopicsResponse = TopicOverview[];

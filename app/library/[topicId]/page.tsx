@@ -1,27 +1,38 @@
 import { notFound } from 'next/navigation';
 
-import { getQuestions, getTopic } from '@/api/trainer.api';
-import QuestionsRunner from '@/components/library/widget/runners/default/QuestionRunner';
+import TopicContent from '@/app/library/[topicId]/TopicContent';
+import { getTopicName } from '@/data/trainer.api';
+import { getServerLanguageCode } from '@/services/locale/locale.server';
+import { LanguageCode } from '@/services/locale/locale.service';
 
 type PageProperties = {
   params: Promise<{ topicId: string }>;
+  searchParams: Promise<{ widgetType?: string }>;
 };
 
-export default async function Page({ params }: PageProperties) {
+export default async function Page({ params, searchParams }: PageProperties) {
+  const languageCode = await getServerLanguageCode();
+
   const { topicId } = await params;
+  let topicName: Record<LanguageCode, string> | undefined;
+  try {
+    topicName = await getTopicName(topicId);
+  } catch {
+    // it can be specific fallback page "Oops, something went wrong"
+    notFound();
+  }
 
-  const topic = await getTopic(topicId);
-  const questions = await getQuestions(topicId);
+  if (!topicName) notFound();
 
-  if (!topic) notFound();
+  const { widgetType } = await searchParams;
 
   return (
     <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
       <section className="space-y-2 pb-6">
-        <h1 className="text-4xl font-semibold tracking-tight">{topic.name}</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{topicName[languageCode]}</h1>
       </section>
 
-      <QuestionsRunner questions={questions}></QuestionsRunner>
+      <TopicContent topicId={topicId} widgetType={widgetType} />
     </main>
   );
 }

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Routes } from '@/lib/routes';
 import { getNavigation } from '@/lib/utils';
 import { authService } from '@/services/authorization/auth.service';
-import { SchemaData } from '@/types/schemas/schemas';
+import { SchemaData } from '@/types/schemas/schema-registry';
 
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
