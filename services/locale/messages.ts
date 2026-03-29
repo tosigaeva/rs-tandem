@@ -176,6 +176,47 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Проверить ответ',
     [LanguageCode.by]: 'Праверыць адказ',
   },
+
+  /// Authentication & Session Errors
+  'error.auth.invalid': {
+    [LanguageCode.en]: 'Invalid email or password.',
+    [LanguageCode.ru]: 'Неверный адрес почты или пароль.',
+    [LanguageCode.by]: 'Несапраўдны адрас пошты ці пароль.',
+  },
+  'error.auth.expired': {
+    [LanguageCode.en]: 'Your session has expired. Please sign in again.',
+    [LanguageCode.ru]: 'Сессия истекла. Пожалуйста, войдите снова.',
+    [LanguageCode.by]: 'Сесія скончылася. Калі ласка, увайдзіце зноў.',
+  },
+  'error.auth.conflict': {
+    [LanguageCode.en]: 'This account or username already exists.',
+    [LanguageCode.ru]: 'Этот аккаунт или имя пользователя уже существует.',
+    [LanguageCode.by]: 'Гэты рахунак ці імя карыстальніка ўжо існуе.',
+  },
+  'error.auth.rate_limit': {
+    [LanguageCode.en]: 'Too many attempts. Please try again later.',
+    [LanguageCode.ru]: 'Слишком много попыток. Пожалуйста, попробуйте позже.',
+    [LanguageCode.by]: 'Занадта шмат спроб. Калі ласка, паспрабуйце пазней.',
+  },
+
+  /// Server & Network Errors
+  'error.server.maintenance': {
+    [LanguageCode.en]: 'Server is under maintenance. Please try again shortly.',
+    [LanguageCode.ru]: 'Сервер на техническом обслуживании. Попробуйте позже.',
+    [LanguageCode.by]: 'Сервер на тэхнічным абслугоўванні. Паспрабуйце пазней.',
+  },
+  'error.server.timeout': {
+    [LanguageCode.en]: 'The request timed out. Please check your connection.',
+    [LanguageCode.ru]: 'Время ожидания истекло. Проверьте соединение.',
+    [LanguageCode.by]: 'Час чакання скончыўся. Праверце злучэнне.',
+  },
+
+  /// Global Fallback
+  'error.global.unknown': {
+    [LanguageCode.en]: 'An unexpected error occurred.',
+    [LanguageCode.ru]: 'Произошла непредвиденная ошибка.',
+    [LanguageCode.by]: 'Адбылася неспадзяваная памылка.',
+  },
 } satisfies Record<string, LocaleString>;
 
 export type MessageKey = keyof typeof AppMessages;
