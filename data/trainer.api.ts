@@ -20,7 +20,7 @@ export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse
     const skipIds = recentTopics?.map((topic) => topic.id) || [];
     const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds, {
       page,
-      size: 9,
+      size: 1,
       orderBy: 'created_at',
       ascending: true,
     });

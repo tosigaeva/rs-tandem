@@ -19,7 +19,7 @@ export const TopicService = {
     skipIds: number[] = [],
     pageInfo?: PageInfo<'Topic'>
   ): Promise<{ data: PaginatedResult<TopicOverview, 'Topic'> | undefined; error?: string }> => {
-    const queryParameters = pageInfo ?? { page: 1, size: 9, orderBy: 'created_at', ascending: true };
+    const queryParameters = pageInfo ?? { page: 1, size: 3, orderBy: 'created_at', ascending: true };
 
     return QueryStorage.fetchQuery({
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],

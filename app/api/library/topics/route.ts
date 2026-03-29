@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await TopicService.loadTopicsPage(skipIds, {
     page: Number.isNaN(page) || page < 1 ? 1 : page,
-    size: 9,
+    size: 1,
     orderBy: 'created_at',
     ascending: true,
   });
