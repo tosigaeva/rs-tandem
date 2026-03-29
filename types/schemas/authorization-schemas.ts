@@ -2,14 +2,19 @@ import z from 'zod';
 
 const usernameCheck = /^[a-zA-Z0-9_-]+$/;
 const passwordMinLength = 6;
+const upperCaseCheck = /[A-Z]/;
 
 export const SignInSchema = z.object({
   email: z.email({ message: 'validation.email_invalid' }),
-  password: z.string().min(passwordMinLength, 'validation.password_too_short'),
+  password: z.string().min(1, 'validation.required'),
 });
 export type SignIn = z.infer<typeof SignInSchema>;
 
-const signUpFields = SignInSchema.extend({
+const signUpFields = SignInSchema.omit({ password: true }).extend({
+  password: z
+    .string()
+    .min(passwordMinLength, 'validation.password_too_short')
+    .refine((v) => upperCaseCheck.test(v), 'validation.uppercase'),
   username: z
     .string()
     .min(3, 'validation.username_too_short')

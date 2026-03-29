@@ -328,6 +328,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Пожалуйста, выберите вариант.',
     [LanguageCode.by]: 'Калі ласка, абярыце варыянт.',
   },
+  'validation.uppercase': {
+    [LanguageCode.en]: 'Must contain at least one uppercase letter.',
+    [LanguageCode.ru]: 'Должен содержать хотя бы одну заглавную букву.',
+    [LanguageCode.by]: 'Павінен утрымліваць хаця б адну вялікую літару.',
+  },
 } satisfies Record<string, LocaleString>;
 
 export type MessageKey = keyof typeof AppMessages;
