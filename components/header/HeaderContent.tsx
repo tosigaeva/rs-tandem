@@ -13,14 +13,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
+import { useLocale } from '@/providers/locale.provider';
 import { authService } from '@/services/authorization/auth.service';
 import { useAuth } from '@/services/authorization/auth.store';
-import { LocaleDictionary, useLocale } from '@/services/locale/locale.service';
+import { LocaleDictionary, validateLocale } from '@/services/locale/locale.service';
 
 const headerActionButtonClass =
   'border-primary/40 bg-gradient-to-b from-primary/10 to-accent/10 text-foreground shadow-xs shadow-primary/10 backdrop-blur-sm hover:border-primary/70 hover:from-primary/80 hover:to-accent/70 hover:text-primary-foreground';
 
-export function Header() {
+export function HeaderContent() {
   const { user, initialAuthorization, isAuthorized, isAuthorizing } = useAuth();
 
   const { locale: currentLocale, languageCode, setLocale } = useLocale();
@@ -28,7 +29,9 @@ export function Header() {
   const router = useRouter();
 
   const handleLocaleChange = (newLocale: string) => {
-    setLocale(newLocale);
+    const valid = validateLocale(newLocale);
+
+    setLocale(valid);
   };
 
   const routes = Routes;

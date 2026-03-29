@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { create } from 'zustand';
 
 export enum Locale {
   gb = 'gb',
@@ -39,27 +38,10 @@ export const validateLocale = (inspectLocale: string | undefined) => {
   return Object.values(Locale).find((locale) => locale === inspectLocale) ?? Locale.gb;
 };
 
-type LocaleState = {
-  locale: Locale;
-  languageCode: LanguageCode;
-  language: Language;
-  setLocale: (newLocale: string) => void;
-};
-
 export const getLocaleFromCookies = () => {
   return validateLocale(Cookies.get(localeCookieName));
 };
 
-export const useLocale = create<LocaleState>((set) => ({
-  locale: Locale.gb,
-  languageCode: LanguageCode.en,
-  language: Language.english,
-
-  setLocale: (newLocale: string) => {
-    const valid = validateLocale(newLocale);
-
-    Cookies.set(localeCookieName, valid, { expires: 365 });
-    const languageInfo = LocaleDictionary[valid];
-    set({ locale: valid, ...languageInfo });
-  },
-}));
+export const setLocaleCookie = (locale: Locale) => {
+  Cookies.set(localeCookieName, locale, { expires: 365 });
+};

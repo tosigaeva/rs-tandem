@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { Locale, useLocale } from '@/services/locale/locale.service';
+import { useLocale } from '@/providers/locale.provider';
+import { Locale } from '@/services/locale/locale.service';
 
 import { BigOCanvas } from './BigOWidget';
 
@@ -42,7 +43,7 @@ describe('BigOWidget', () => {
   };
 
   beforeEach(() => {
-    useLocale.setState({ locale: Locale.gb });
+    useLocale().setLocale(Locale.gb);
     jest.clearAllMocks();
   });
 

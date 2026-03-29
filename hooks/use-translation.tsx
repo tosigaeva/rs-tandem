@@ -1,4 +1,5 @@
-import { LanguageCode, useLocale } from '@/services/locale/locale.service';
+import { useLocale } from '@/providers/locale.provider';
+import { LanguageCode } from '@/services/locale/locale.service';
 import { AppMessages, MessageKey } from '@/services/locale/messages';
 import { LocaleString } from '@/types/schemas/locale-schemas';
 
