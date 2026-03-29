@@ -9,7 +9,7 @@ import { Question } from '@/types/question';
 import { LibraryTopicsResponse } from '@/types/topic';
 import { WidgetFilter, WidgetType } from '@/types/widget';
 
-export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
+export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse> {
   if (process.env.MOCK_MODE === 'true') {
     return mockLibraryTopics;
   }
@@ -18,7 +18,12 @@ export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
     const { data: recentTopics, error: recentTopicsError } = await TopicService.loadRecentTopics();
 
     const skipIds = recentTopics?.map((topic) => topic.id) || [];
-    const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds);
+    const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds, {
+      page,
+      size: 9,
+      orderBy: 'created_at',
+      ascending: true,
+    });
 
     return {
       recentTopics,
