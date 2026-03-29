@@ -14,7 +14,7 @@ export default function SignUpForm({ handleSubmit }: { handleSubmit: (data: Sche
 
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Create Account</h1>
+      <h1 className="mb-6 text-2xl font-bold">{t('button.sign-up')}</h1>
 
       <CustomForm id="sign-up-form" schemaKey="SignUpSchema" onSubmit={handleSubmit} onValidationChange={setFormValid}>
         <CustomInput name="username" label={t('auth.form.username')} type="text" classes="md:col-span-2" />

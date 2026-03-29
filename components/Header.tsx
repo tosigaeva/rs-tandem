@@ -3,7 +3,6 @@
 import { LogIn, LogOut, Menu, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import {
@@ -17,7 +16,7 @@ import { RoutePermissions, Routes } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
 import { useAuth } from '@/providers/auth-state.provider';
 import { useLocale } from '@/providers/locale.provider';
-import { signOut } from '@/services/authorization/auth.server';
+import { removeAuthCookie, signOut } from '@/services/authorization/auth.server';
 import { LocaleDictionary, validateLocale } from '@/services/locale/locale.service';
 
 const headerActionButtonClass =
@@ -27,7 +26,7 @@ export function Header() {
   const { user, isAuthorized, isAuthorizing, setUser, setAuthorizing } = useAuth();
   const { locale: currentLocale, languageCode, setLocale } = useLocale();
 
-  const { t, tor } = useTranslation();
+  const { t } = useTranslation();
 
   const router = useRouter();
 
@@ -58,16 +57,12 @@ export function Header() {
 
   const handleSignOut = async () => {
     setAuthorizing(true);
-    const result = await signOut().finally(() => setAuthorizing(false));
-
-    if (result?.error != undefined) {
-      toast.error(tor(result.error, 'error.global.unknown'));
-
-      return;
-    }
-
-    setUser(undefined);
-    handleUnauthorizedAccess();
+    await signOut().finally(() => {
+      setAuthorizing(false);
+      setUser(undefined);
+      removeAuthCookie();
+      handleUnauthorizedAccess();
+    });
   };
 
   return (
@@ -149,7 +144,7 @@ export function Header() {
               onClick={() => router.push(routes.SignIn)}
               className={headerActionButtonClass}
             >
-              <LogIn /> Sign In
+              <LogIn /> {t('button.sign-in')}
             </PrimaryButton>
           )}
 

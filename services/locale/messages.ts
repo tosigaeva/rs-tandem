@@ -41,6 +41,16 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Имя пользователя',
     [LanguageCode.by]: 'Імя карыстальніка',
   },
+  'auth.signup.success': {
+    [LanguageCode.en]: 'Account created successfully! Welcome.',
+    [LanguageCode.ru]: 'Аккаунт успешно создан! Добро пожаловать.',
+    [LanguageCode.by]: 'Рахунак паспяхова створаны! Сардэчна запрашаем.',
+  },
+  'auth.signin.success': {
+    [LanguageCode.en]: 'Successfully signed in.',
+    [LanguageCode.ru]: 'Вы успешно вошли в систему.',
+    [LanguageCode.by]: 'Вы паспяхова ўвайшлі ў сістэму.',
+  },
 
   /// library
   'library.title': {

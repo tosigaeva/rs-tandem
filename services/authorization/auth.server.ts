@@ -178,9 +178,23 @@ const handleError = (error: unknown): string => {
 
   return 'error.global.unknown';
 };
-export async function hasAuthCookie() {
+
+export async function getAuthCookie() {
   const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();
 
-  return allCookies.some((cookie) => cookie.name.startsWith('sb-') && cookie.name.endsWith('-auth-token'));
+  return allCookies.find((cookie) => cookie.name.startsWith('sb-') && cookie.name.endsWith('-auth-token'));
+}
+
+export async function hasAuthCookie() {
+  return !!(await getAuthCookie());
+}
+
+export async function removeAuthCookie() {
+  const cookieStore = await cookies();
+  const cookie = await getAuthCookie();
+
+  if (cookie) {
+    cookieStore.delete(cookie);
+  }
 }

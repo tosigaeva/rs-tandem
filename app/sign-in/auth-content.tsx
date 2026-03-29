@@ -45,6 +45,7 @@ export default function AuthContent() {
       }
       if (data) {
         setUser(data);
+        toast.success(t('auth.signin.success'));
         redirect();
       }
     }
@@ -62,6 +63,7 @@ export default function AuthContent() {
       }
       if (data) {
         setUser(data);
+        toast.success(t('auth.signup.success'));
         redirect();
       }
     }

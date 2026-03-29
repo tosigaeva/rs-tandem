@@ -14,7 +14,7 @@ export default function SignInForm({ handleSubmit }: { handleSubmit: (data: Sche
 
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Sign In</h1>
+      <h1 className="mb-6 text-2xl font-bold">{t('button.sign-in')}</h1>
       <CustomForm id="sign-in-form" schemaKey="SignInSchema" onSubmit={handleSubmit} onValidationChange={setFormValid}>
         <CustomInput name="email" label={t('auth.form.email')} type="email" classes="md:col-span-2" />
         <CustomInput name="password" label={t('auth.form.password')} type="password" classes="md:col-span-2" />
