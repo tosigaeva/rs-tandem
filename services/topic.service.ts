@@ -1,3 +1,4 @@
+import { LIBRARY_TOPICS_PAGE_SIZE } from '@/app/library/library-topics';
 import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
 import { getAllTopics } from '@/data/topic.client';
 import { QueryStorage } from '@/lib/query-storage';
@@ -19,7 +20,12 @@ export const TopicService = {
     skipIds: number[] = [],
     pageInfo?: PageInfo<'Topic'>
   ): Promise<{ data: PaginatedResult<TopicOverview, 'Topic'> | undefined; error?: string }> => {
-    const queryParameters = pageInfo ?? { page: 1, size: 9, orderBy: 'created_at', ascending: true };
+    const queryParameters = pageInfo ?? {
+      page: 1,
+      size: LIBRARY_TOPICS_PAGE_SIZE,
+      orderBy: 'created_at',
+      ascending: true,
+    };
 
     return QueryStorage.fetchQuery({
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],
