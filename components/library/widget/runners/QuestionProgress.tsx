@@ -1,4 +1,5 @@
 import { Flame } from 'lucide-react';
+import { useMemo } from 'react';
 
 import { AnswersHistory } from '@/components/library/widget/runners/QuestionRunnerEngine';
 import { Progress } from '@/components/ui';
@@ -11,6 +12,25 @@ type QuestionProgressProperties = {
   answersHistory: AnswersHistory;
 };
 
+export function calculateCurrentStreak(answersHistory: AnswersHistory) {
+  let currentStreak = 0;
+  let maxStreak = 0;
+
+  for (const answer of answersHistory) {
+    if (answer === true) {
+      currentStreak += 1;
+      maxStreak = Math.max(maxStreak, currentStreak);
+      continue;
+    }
+
+    if (answer === false) {
+      currentStreak = 0;
+    }
+  }
+
+  return maxStreak;
+}
+
 export default function QuestionProgress({
   currentQuestion,
   totalQuestions,
@@ -21,16 +41,21 @@ export default function QuestionProgress({
   const answeredCount = currentQuestion;
   const progress = (currentQuestion / totalQuestions) * 100;
 
-  const lastAnsweredIndex = answersHistory.findLastIndex((answer) => answer !== null);
-  const currentStreak =
-    lastAnsweredIndex === -1
-      ? 0
-      : answersHistory
-          .slice(0, lastAnsweredIndex + 1)
-          .reduceRight((count, answer) => (answer === true ? count + 1 : 0), 0);
+  const { currentStreak, accuracy, questionStatuses } = useMemo(() => {
+    const visibleAnswers = answersHistory.slice(0, currentQuestion);
+    const currentStreak = calculateCurrentStreak(visibleAnswers);
 
-  const correctAnswers = answersHistory.slice(0, currentQuestion).filter((answer) => answer === true).length;
-  const accuracy = answeredCount > 0 ? Math.round((correctAnswers / answeredCount) * 100) : 0;
+    const correctAnswers = visibleAnswers.filter((answer) => answer === true).length;
+    const accuracy = answeredCount > 0 ? Math.round((correctAnswers / answeredCount) * 100) : 0;
+
+    const questionStatuses = Array.from({ length: totalQuestions }, (_, index) => {
+      if (index < currentQuestion) return answersHistory[index];
+      if (index === currentQuestion) return 'current';
+      return 'pending';
+    });
+
+    return { currentStreak, accuracy, questionStatuses };
+  }, [answersHistory, currentQuestion, answeredCount, totalQuestions]);
 
   //TODO: if questions will be more than 5 it should be change
   const getStreakClass = () => {
@@ -66,7 +91,7 @@ export default function QuestionProgress({
           </span>
           <div className="flex gap-1">
             {Array.from({ length: totalQuestions }).map((_, index) => {
-              const status = answersHistory[index];
+              const status = questionStatuses[index];
               return (
                 <div
                   key={index}
@@ -74,8 +99,8 @@ export default function QuestionProgress({
                     'h-2 w-2 rounded-full transition-colors',
                     status === true && 'bg-correct-answer',
                     status === false && 'bg-wrong-answer',
-                    status === undefined && index === currentQuestion && 'bg-primary',
-                    status === undefined && index !== currentQuestion && 'bg-secondary'
+                    status === 'current' && 'bg-primary',
+                    status === 'pending' && 'bg-secondary'
                   )}
                 />
               );

@@ -25,7 +25,9 @@ type QuestionRunnerEngineProperties = {
 export default function QuestionRunnerEngine({ questions, children }: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(Array.from({ length: questions.length }).fill());
+  const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(
+    Array.from<undefined>({ length: questions.length })
+  );
 
   const currentQuestion = questions[currentIndex];
 
@@ -34,7 +36,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   const startOver = () => {
     setCurrentIndex(0);
     setCorrectAnswers(0);
-    setAnswersHistory(Array.from({ length: questions.length }).fill());
+    setAnswersHistory(Array.from<undefined>({ length: questions.length }));
   };
 
   const onCheck = async (answer: unknown) => {
