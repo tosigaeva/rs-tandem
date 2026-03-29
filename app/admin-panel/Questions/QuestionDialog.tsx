@@ -42,9 +42,6 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
   const [selectedWidget, setSelectedWidget] = useState<WidgetType>(defaultValues?.widgetType ?? WidgetType.Quiz);
 
   const activeSchema = useMemo(() => {
-    console.log('--- SCHEMA SWAP ---');
-    console.log('Current Widget Type:', selectedWidget);
-
     const schemaMap = {
       [WidgetType.Quiz]: QuizQuestionSchema,
       [WidgetType.TrueFalse]: TrueFalseQuestionSchema,
@@ -54,8 +51,6 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
     };
 
     const selected = schemaMap[selectedWidget];
-
-    console.log('Selected Schema Object:', selected);
 
     return selected;
   }, [selectedWidget]);
@@ -98,9 +93,6 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
     };
 
     reset(finalValues);
-
-    // clearErrors();
-    console.log('resetting', finalValues);
   }, [selectedWidget, reset, getValues, selectedTopicId, activeSchema, defaultValues, topics, clearErrors, trigger]);
 
   return (

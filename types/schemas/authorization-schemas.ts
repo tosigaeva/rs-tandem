@@ -1,11 +1,11 @@
 import z from 'zod';
 
 const usernameCheck = /^[a-zA-Z0-9_-]+$/;
-const passwordMinLength = 1;
+const passwordMinLength = 6;
 
 export const SignInSchema = z.object({
   email: z.email({ message: 'validation.email_invalid' }),
-  password: z.string().min(passwordMinLength, 'zod.auth.password_too_short'),
+  password: z.string().min(passwordMinLength, 'validation.password_too_short'),
 });
 export type SignIn = z.infer<typeof SignInSchema>;
 

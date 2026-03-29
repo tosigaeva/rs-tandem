@@ -58,8 +58,6 @@ export default function QuestionAdminList() {
   };
 
   const handleSubmit = async (formData: FullQuestion) => {
-    console.log(formData);
-
     const parsed = GeneralQuestionSchema.safeParse(formData);
 
     if (parsed.success) {

@@ -17,8 +17,6 @@ export async function getAllQuestions(): Promise<{
     }
 
     if (data != undefined) {
-      console.log('questions', data);
-
       const array = z.array(QuestionAdminListItemSchema).safeParse(data);
 
       if (array.success) {

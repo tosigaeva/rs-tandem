@@ -31,8 +31,6 @@ export function TopicAdminList() {
   };
 
   const handleSubmit = async (formData: SchemaData) => {
-    console.log('handle submit');
-
     const parsed = WidgetBaseSchema.omit({ created_at: true }).safeParse(formData);
 
     if (parsed.success) {

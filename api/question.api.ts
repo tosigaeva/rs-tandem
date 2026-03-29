@@ -19,8 +19,6 @@ export async function getAllQuestions(): Promise<{
     }
 
     if (data != undefined) {
-      console.log('questions', data);
-
       const array = z.array(QuestionAdminListItemSchema).safeParse(data);
 
       if (array.success) {
@@ -83,7 +81,6 @@ export async function upsertQuestion(
     }
 
     if (data != undefined) {
-      console.log(data);
       const parsed = QuestionSchema.safeParse(data);
 
       if (parsed.success) {
