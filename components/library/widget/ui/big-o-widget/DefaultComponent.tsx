@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 import { BigOCanvas } from '@/components/library/widget/ui/big-o-widget/BigOWidget';
-import { BigOPayload } from '@/components/library/widget/ui/big-o-widget/type';
+import { BigOPayloadQuestion } from '@/types/schemas/question-payload-schema';
 
 type WidgetComponentProperties = {
-  questionPayload: BigOPayload;
+  questionPayload: BigOPayloadQuestion;
   onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
