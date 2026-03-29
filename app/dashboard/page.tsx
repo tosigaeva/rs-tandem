@@ -6,8 +6,7 @@ import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
 import StreakCard from '@/components/dashboard/StreakCard';
 import { TipCard } from '@/components/dashboard/TipCard';
 import { PrimaryButton } from '@/components/PrimaryButton';
-import { getDailyActivity } from '@/data/activity.api';
-import { getInProgressTopics } from '@/data/dashboard.api';
+import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
 import { getUser } from '@/data/user.api';
 import { Routes } from '@/lib/routes';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
@@ -36,13 +35,20 @@ const tips: Tip[] = [
 const tipOfTheDay = tips[Math.floor(Math.random() * tips.length)];
 
 export default async function Page() {
-  const [user, activity, inProgressTopicsResult, languageCode] = await Promise.all([
+  const [user, dashboardStatsResult, inProgressTopicsResult, languageCode] = await Promise.all([
     getUser(),
-    getDailyActivity(),
+    getDashboardStats(),
     getInProgressTopics(),
     getServerLanguageCode(),
   ]);
-  const days = activity.data ?? [];
+  const dashboardStats = dashboardStatsResult.data ?? {
+    days: [],
+    todayAnswers: 0,
+    totalAnswers: 0,
+    accuracy: 0,
+    streak: 0,
+    bestStreak: 0,
+  };
   const inProgressTopics = (inProgressTopicsResult.data ?? []).map((topic) => ({
     ...topic,
     title: topic.title[languageCode],
@@ -58,15 +64,20 @@ export default async function Page() {
 
           <section className="grid items-stretch gap-8 lg:grid-cols-7">
             <div className="lg:col-span-2">
-              <ProgressCard todayAnswers={5} totalAnswers={10} accuracy={50} streak={3} />
+              <ProgressCard
+                todayAnswers={dashboardStats.todayAnswers}
+                totalAnswers={dashboardStats.totalAnswers}
+                accuracy={dashboardStats.accuracy}
+                streak={dashboardStats.streak}
+              />
             </div>
 
             <div className="lg:col-span-2">
-              <StreakCard streak={3} bestStreak={7} />
+              <StreakCard streak={dashboardStats.streak} bestStreak={dashboardStats.bestStreak} />
             </div>
 
             <div className="lg:col-span-3">
-              <DailyActivityCard days={days} />
+              <DailyActivityCard days={dashboardStats.days} />
             </div>
           </section>
           <section className="mt-6 grid gap-6 lg:grid-cols-2">
