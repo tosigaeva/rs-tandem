@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 
 import TopicContent from '@/app/library/[topicId]/TopicContent';
-import { getTopic } from '@/data/trainer.api';
-import { toPositiveInteger } from '@/lib/parse-id';
+import { getTopicName } from '@/data/trainer.api';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
+import { LanguageCode } from '@/services/locale/locale.service';
 
 type PageProperties = {
   params: Promise<{ topicId: string }>;
@@ -14,19 +14,22 @@ export default async function Page({ params, searchParams }: PageProperties) {
   const languageCode = await getServerLanguageCode();
 
   const { topicId } = await params;
-  const id = toPositiveInteger(topicId);
-  if (id == undefined) notFound();
+  let topicName: Record<LanguageCode, string> | undefined;
+  try {
+    topicName = await getTopicName(topicId);
+  } catch {
+    // it can be specific fallback page "Oops, something went wrong"
+    notFound();
+  }
 
-  const topic = await getTopic(id);
-
-  if (!topic) notFound();
+  if (!topicName) notFound();
 
   const { widgetType } = await searchParams;
 
   return (
     <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
       <section className="space-y-2 pb-6">
-        <h1 className="text-4xl font-semibold tracking-tight">{topic.name[languageCode]}</h1>
+        <h1 className="text-4xl font-semibold tracking-tight">{topicName[languageCode]}</h1>
       </section>
 
       <TopicContent topicId={topicId} widgetType={widgetType} />

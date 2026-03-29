@@ -1,12 +1,14 @@
-import z from 'zod';
+'use server';
 
-import { supabaseBrowser } from '@/lib/supabase/client';
+import { z } from 'zod';
+
+import { supabaseServer } from '@/lib/supabase/server';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { Topic, TopicSchema } from '@/types/schemas/topic-schema';
+import { TopicOverview, TopicOverviewSchema } from '@/types/schemas/topic-schema';
 
-export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; error?: string }> {
+export async function getRecentTopics(): Promise<{ data: TopicOverview[] | undefined; error?: string }> {
   try {
-    const supabase = await supabaseBrowser();
+    const supabase = await supabaseServer();
 
     const { data, error } = await supabase
       .from('topic_widget_summary')
@@ -20,7 +22,7 @@ export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; er
     }
 
     if (data != undefined) {
-      const result = z.array(TopicSchema).safeParse(data);
+      const result = z.array(TopicOverviewSchema).safeParse(data);
 
       if (result.success) return { data: result.data };
     }
@@ -34,12 +36,12 @@ export async function getRecentTopics(): Promise<{ data: Topic[] | undefined; er
   }
 }
 
-export async function getTopics(
+export async function getTopicsPage(
   { page, size, orderBy, ascending }: PageInfo<'Topic'>,
   skipIds: number[]
-): Promise<{ data: PaginatedResult<Topic, 'Topic'> | undefined; error?: string }> {
+): Promise<{ data: PaginatedResult<TopicOverview, 'Topic'> | undefined; error?: string }> {
   try {
-    const supabase = await supabaseBrowser();
+    const supabase = await supabaseServer();
 
     const { count, error: countError } = await supabase.from('topics').select('id', { count: 'exact', head: true });
 
@@ -79,10 +81,10 @@ export async function getTopics(
     const totalPages = Math.ceil(correctedCount / size);
 
     if (data != undefined) {
-      const array = z.array(TopicSchema).safeParse(data);
+      const array = z.array(TopicOverviewSchema).safeParse(data);
 
       if (array.success) {
-        const result: PaginatedResult<Topic, 'Topic'> = {
+        const result: PaginatedResult<TopicOverview, 'Topic'> = {
           items: array.data,
           page,
           size,

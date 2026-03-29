@@ -4,10 +4,10 @@ import { Badge, Progress } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import { useLocale } from '@/services/locale/locale.service';
-import { LevelLocales, Topic } from '@/types/schemas/topic-schema';
+import { LevelLocales, TopicOverview } from '@/types/schemas/topic-schema';
 
 type TopicCardProperties = {
-  topic: Topic;
+  topic: TopicOverview;
   displayProgress: boolean;
 };
 
@@ -22,7 +22,7 @@ export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
           <Badge variant="secondary" className="text-xs capitalize">
             {LevelLocales[topic.level][languageCode]}
           </Badge>
-          {displayProgress && <span className="text-muted-foreground text-xs">{`${topic.progress.toFixed(2)}%`}</span>}
+          {displayProgress && <span className="text-muted-foreground text-xs">{`${topic.progress}%`}</span>}
         </div>
         <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
           {translate(topic.name)}
