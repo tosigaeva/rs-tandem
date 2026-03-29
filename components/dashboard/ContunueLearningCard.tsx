@@ -2,12 +2,16 @@ import { formatDistanceToNow } from 'date-fns';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-import { Topic } from '@/app/dashboard/page';
 import { Progress } from '@/components/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { InProgressTopic } from '@/data/dashboard.api';
+
+type ContinueLearningTopic = Omit<InProgressTopic, 'title'> & {
+  title: string;
+};
 
 type ContinueLearningCardProperties = {
-  topics: Topic[];
+  topics: ContinueLearningTopic[];
 };
 
 export default function ContinueLearningCard({ topics }: ContinueLearningCardProperties) {

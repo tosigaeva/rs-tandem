@@ -7,38 +7,11 @@ import StreakCard from '@/components/dashboard/StreakCard';
 import { TipCard } from '@/components/dashboard/TipCard';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { getDailyActivity } from '@/data/activity.api';
+import { getInProgressTopics } from '@/data/dashboard.api';
 import { getUser } from '@/data/user.api';
 import { Routes } from '@/lib/routes';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
 import { AppMessages } from '@/services/locale/messages';
-
-export type Topic = {
-  id: string;
-  title: string;
-  completed: number;
-  total: number;
-  lastPracticedAt: Date;
-  href: string;
-};
-
-const inProgressTopics: Topic[] = [
-  {
-    id: 'prepositions',
-    title: 'Prepositions',
-    completed: 6,
-    total: 20,
-    lastPracticedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-    href: `${Routes.Library}/prepositions`,
-  },
-  {
-    id: 'conditionals',
-    title: 'Conditionals',
-    completed: 2,
-    total: 15,
-    lastPracticedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-    href: `${Routes.Library}/conditionals`,
-  },
-];
 
 export type Tip = {
   title: string;
@@ -63,8 +36,17 @@ const tips: Tip[] = [
 const tipOfTheDay = tips[Math.floor(Math.random() * tips.length)];
 
 export default async function Page() {
-  const [user, activity, languageCode] = await Promise.all([getUser(), getDailyActivity(), getServerLanguageCode()]);
+  const [user, activity, inProgressTopicsResult, languageCode] = await Promise.all([
+    getUser(),
+    getDailyActivity(),
+    getInProgressTopics(),
+    getServerLanguageCode(),
+  ]);
   const days = activity.data ?? [];
+  const inProgressTopics = (inProgressTopicsResult.data ?? []).map((topic) => ({
+    ...topic,
+    title: topic.title[languageCode],
+  }));
 
   return (
     <main className="text-foreground px-6 py-8">
