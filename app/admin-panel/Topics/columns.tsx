@@ -12,9 +12,10 @@ import { Level, Topic, TopicAdminListItem } from '@/types/schemas/topic-schema';
 type MetaProperties = {
   handleOpenDialog: (data?: Topic) => void;
   confirmDelete: (ids: number[]) => void;
+  handleAddQuestion: (topicId: number) => void;
 };
 
-export function createColumns({ handleOpenDialog, confirmDelete }: MetaProperties) {
+export function createColumns({ handleOpenDialog, confirmDelete, handleAddQuestion }: MetaProperties) {
   const columns: ColumnDef<TopicAdminListItem>[] = [
     {
       accessorKey: 'id',
@@ -107,7 +108,13 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
 
         return (
           <div className="flex justify-end gap-2">
-            <Button variant="ghost" size="icon" className="text-green-700 hover:text-green-900" disabled={isDisabled}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-green-700 hover:text-green-900"
+              disabled={isDisabled}
+              onClick={() => handleAddQuestion(row.original.id)}
+            >
               <MessageSquarePlus className="h-4 w-4" />
             </Button>
             <Button

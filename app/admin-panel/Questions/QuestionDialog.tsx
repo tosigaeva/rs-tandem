@@ -2,7 +2,7 @@
 
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { CustomInput } from '@/components/CustomInput';
@@ -40,11 +40,9 @@ type QuestionDialogProperties = {
 export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, topics }: QuestionDialogProperties) => {
   const [selectedTopicId, setSelectedTopicId] = useState<number>(defaultValues?.topicId ?? 0);
   const [selectedWidget, setSelectedWidget] = useState<WidgetType>(defaultValues?.widgetType ?? WidgetType.Quiz);
+  const lastResetKey = useRef<string | null>(null);
 
   const activeSchema = useMemo(() => {
-    console.log('--- SCHEMA SWAP ---');
-    console.log('Current Widget Type:', selectedWidget);
-
     const schemaMap = {
       [WidgetType.Quiz]: QuizQuestionSchema,
       [WidgetType.TrueFalse]: TrueFalseQuestionSchema,
@@ -55,15 +53,12 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
 
     const selected = schemaMap[selectedWidget];
 
-    console.log('Selected Schema Object:', selected);
-
     return selected;
   }, [selectedWidget]);
 
   const methods = useForm<FullQuestion>({
     resolver: zodResolver(activeSchema),
     defaultValues,
-    shouldUnregister: true,
   });
 
   const id = 'question-form';
@@ -75,10 +70,7 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
   };
 
   const {
-    clearErrors,
-    trigger,
     reset,
-    getValues,
     formState: { isValid, errors },
     control,
   } = methods;
@@ -90,6 +82,13 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
   });
 
   useEffect(() => {
+    if (!open) return;
+
+    const currentKey = `${defaultValues?.id}-${selectedWidget}-${selectedTopicId}`;
+    if (lastResetKey.current === currentKey) return;
+
+    lastResetKey.current = currentKey;
+
     const finalValues = {
       ...defaultValues,
       id: defaultValues?.id ?? 0,
@@ -98,10 +97,7 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
     };
 
     reset(finalValues);
-
-    // clearErrors();
-    console.log('resetting', finalValues);
-  }, [selectedWidget, reset, getValues, selectedTopicId, activeSchema, defaultValues, topics, clearErrors, trigger]);
+  }, [defaultValues, open, reset, selectedTopicId, selectedWidget, topics]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

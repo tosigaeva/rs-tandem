@@ -58,8 +58,6 @@ export default function QuestionAdminList() {
   };
 
   const handleSubmit = async (formData: FullQuestion) => {
-    console.log(formData);
-
     const parsed = GeneralQuestionSchema.safeParse(formData);
 
     if (parsed.success) {
@@ -122,6 +120,7 @@ export default function QuestionAdminList() {
       }
     }
     fetchQuestions();
+
     async function fetchTopics() {
       const { data, error } = await getTopicIdNamePairs();
 

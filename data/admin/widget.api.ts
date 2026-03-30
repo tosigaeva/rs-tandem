@@ -28,8 +28,6 @@ export async function getAllWidgets(): Promise<{ data: WidgetAdminListItem[] | u
     }
 
     if (data != undefined) {
-      console.log('widgets', data);
-
       const array = z.array(WidgetAdminListItemSchema).safeParse(data);
 
       if (array.success) {
