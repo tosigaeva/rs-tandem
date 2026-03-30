@@ -21,7 +21,7 @@
 <img src="./images/2026-03-28-02.png" alt="Async-sorter-widget" width="600" height="270">
 
 
-### Дата: 2025-02-26
+### Дата: 2025-02-27
 
 **Сделано:** Реализация Code Ordering виджета.
 
