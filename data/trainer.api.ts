@@ -1,3 +1,4 @@
+import { getLibraryTopicsPage } from '@/app/library/library-topics';
 import { mockQuestions } from '@/data/mocks/questions.mock';
 import { mockLibraryTopics, mockTopics } from '@/data/mocks/topics.mock';
 import { getQuestions as supaGetQuestions } from '@/data/supabase/questions.supabase';
@@ -9,15 +10,16 @@ import { Question } from '@/types/question';
 import { LibraryTopicsResponse } from '@/types/topic';
 import { WidgetFilter, WidgetType } from '@/types/widget';
 
-export async function getTopicsOverview(): Promise<LibraryTopicsResponse> {
+export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse> {
   if (process.env.MOCK_MODE === 'true') {
     return mockLibraryTopics;
   }
 
   try {
     const { data: recentTopics, error: recentTopicsError } = await TopicService.loadRecentTopics();
+
     const skipIds = recentTopics?.map((topic) => topic.id) || [];
-    const { data: topicsPage, error: topicsPageError } = await TopicService.loadTopicsPage(skipIds);
+    const { data: topicsPage, error: topicsPageError } = await getLibraryTopicsPage(page, skipIds);
 
     return {
       recentTopics,
