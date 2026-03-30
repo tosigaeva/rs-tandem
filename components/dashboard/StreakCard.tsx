@@ -1,4 +1,3 @@
-'use client';
 import { Flame } from 'lucide-react';
 
 import { Card, CardContent } from '@/components/ui/card';

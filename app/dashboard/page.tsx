@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { DailyActivityCard } from '@/components/dashboard/activity';
-import ContinueLearningCard from '@/components/dashboard/ContunueLearningCard';
+import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';
 import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
 import StreakCard from '@/components/dashboard/StreakCard';
 import { TipCard } from '@/components/dashboard/TipCard';
