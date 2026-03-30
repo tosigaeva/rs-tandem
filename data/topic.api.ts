@@ -96,6 +96,8 @@ export async function getTopicsPage(
 
         return { data: result };
       }
+
+      console.error(data, array);
     }
 
     throw new Error('Something went wrong');

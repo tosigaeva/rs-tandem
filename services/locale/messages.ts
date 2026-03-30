@@ -29,6 +29,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Узнать больше',
     [LanguageCode.by]: 'Даведацца больш',
   },
+  'library.loadingMore': {
+    [LanguageCode.en]: 'Loading more topics',
+    [LanguageCode.ru]: 'Загружаем больше тем',
+    [LanguageCode.by]: 'Загружаем больш тэм',
+  },
 
   /// dashboard
   'dashboard.greeting': {
