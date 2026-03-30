@@ -127,6 +127,22 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
   },
+  /// runner
+  'runner.progress.question': {
+    [LanguageCode.en]: 'Question',
+    [LanguageCode.ru]: 'Вопрос',
+    [LanguageCode.by]: 'Пытанне',
+  },
+  'runner.progress.of': {
+    [LanguageCode.en]: 'of',
+    [LanguageCode.ru]: 'из',
+    [LanguageCode.by]: 'з',
+  },
+  'runner.progress.accuracy': {
+    [LanguageCode.en]: 'Accuracy',
+    [LanguageCode.ru]: 'Точность',
+    [LanguageCode.by]: 'Дакладнасць',
+  },
 
   /// Widgets
   /// FlipCard Widget
