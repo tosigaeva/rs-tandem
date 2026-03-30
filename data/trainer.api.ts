@@ -17,7 +17,6 @@ export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse
 
   try {
     const { data: recentTopics, error: recentTopicsError } = await TopicService.loadRecentTopics();
-
     const skipIds = recentTopics?.map((topic) => topic.id) || [];
     const { data: topicsPage, error: topicsPageError } = await getLibraryTopicsPage(page, skipIds);
 
