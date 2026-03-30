@@ -15,35 +15,53 @@ export type InputProperties = {
   placeholder?: string;
   classes?: string;
   dependencies?: string[];
+  readonly?: boolean;
+  allowedPattern?: RegExp;
 };
 
-export const CustomInput = ({ name, label, type, placeholder, classes, dependencies }: InputProperties) => {
-  const {
-    register,
-    formState: { errors, touchedFields, dirtyFields },
-    watch,
-    trigger,
-  } = useFormContext();
-
+export const CustomInput = ({
+  name,
+  label,
+  type,
+  placeholder,
+  classes,
+  dependencies,
+  readonly,
+  allowedPattern,
+}: InputProperties) => {
+  const { register, formState, getFieldState, watch, trigger } = useFormContext();
   const isPassword = type === 'password';
   const [visibility, visibilityToggle] = useState(false);
 
-  const errorMessage = typeof errors[name]?.message === 'string' ? errors[name]?.message : '';
+  const { error, isTouched, isDirty } = getFieldState(name, formState);
+
+  const errorMessage = error?.message ?? '';
 
   const value = watch(name);
 
   const isEmpty = () => value == undefined || value == '';
 
-  const hasInteracted = Boolean(touchedFields[name]) || Boolean(dirtyFields[name]);
-  const hasError = Boolean(errors[name]) && hasInteracted;
+  const hasInteracted = isTouched || isDirty;
+  const hasError = Boolean(error) && hasInteracted;
 
   const [initialBlur, setInitialBlur] = useState(false);
 
-  const { onChange: rhfOnChange, onBlur: rhfOnBlur, ...restRegister } = register(name);
+  const {
+    onChange: rhfOnChange,
+    onBlur: rhfOnBlur,
+    ...restRegister
+  } = register(name, { valueAsNumber: type === 'number' });
 
   const debounceReference = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = event.target.value;
+
+    if (allowedPattern) {
+      rawValue = rawValue.replace(allowedPattern, '');
+      event.target.value = rawValue;
+    }
+
     rhfOnChange(event);
 
     if (debounceReference.current) clearTimeout(debounceReference.current);
@@ -55,7 +73,7 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
 
       trigger(name);
       dependencies?.forEach((dependency) => {
-        if (dirtyFields[dependency] != undefined) trigger(dependency);
+        if (isDirty) trigger(dependency);
       });
     }, CUSTOM_INPUT_DEBOUNCE_TIMER);
   };
@@ -73,7 +91,7 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
   }, []);
 
   return (
-    <div className={cn('flex w-full flex-col gap-1.5', classes)}>
+    <div className={cn('flex w-full flex-col gap-1.5', (readonly ?? false) && 'pointer-events-none', classes)}>
       <label className="text-sm font-medium text-slate-700" htmlFor={name}>
         {label}
       </label>
@@ -84,11 +102,13 @@ export const CustomInput = ({ name, label, type, placeholder, classes, dependenc
           type={visibility ? 'text' : type}
           placeholder={placeholder}
           className={cn(
-            'w-full rounded-md border bg-amber-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
+            'w-full rounded-md border bg-slate-50 px-3 py-2 pr-10 text-sm transition-all outline-none',
             hasError ? 'border-red-500 bg-red-50' : 'border-slate-300 focus:border-blue-500'
           )}
           onChange={handleOnChange}
           onBlur={handleBlur}
+          readOnly={readonly}
+          tabIndex={(readonly ?? false) ? -1 : 0}
         />
         {isPassword && (
           <Button

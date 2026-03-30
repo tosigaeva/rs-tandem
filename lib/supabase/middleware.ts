@@ -13,6 +13,8 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const userRole = user?.app_metadata?.role;
+
   const path = request.nextUrl.pathname;
 
   const correctPath = getNavigation(path);
@@ -20,12 +22,19 @@ export async function updateSession(request: NextRequest) {
   if (correctPath != undefined) {
     const status = RoutePermissions[correctPath];
 
-    if (status === 'authorized' && !user) {
+    if (status.access === 'authorized' && !user) {
       const url = request.nextUrl.clone();
       url.pathname = Routes.SignIn;
       url.searchParams.set('redirect', path);
       return NextResponse.redirect(url);
-    } else if (status === 'unauthorized' && user) {
+    }
+
+    const unauthorized = status.access === 'unauthorized' && !!user;
+
+    const restrictedRole =
+      status.access === 'authorized' && !!status.allowedRoles && !status.allowedRoles.includes(userRole);
+
+    if (unauthorized || restrictedRole) {
       const url = request.nextUrl.clone();
       url.pathname = Routes.Dashboard;
       return NextResponse.redirect(url);

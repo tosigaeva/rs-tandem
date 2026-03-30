@@ -3,7 +3,7 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 
 type WidgetComponentProperties = {
   questionPayload: CodeCompletionPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
