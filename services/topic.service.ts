@@ -1,14 +1,15 @@
+import { LIBRARY_TOPICS_PAGE_SIZE } from '@/app/library/library-topics';
+import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
+import { getAllTopics } from '@/data/topic.client';
 import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { Topic } from '@/types/schemas/topic-schema';
-
-import { getRecentTopics, getTopics } from '../data/topic.api';
+import { TopicAdminListItem, TopicOverview } from '@/types/schemas/topic-schema';
 
 const RECENT_TOPICS = 'recent_topics';
 const TOPIC_PAGES = 'topic_pages';
 
 export const TopicService = {
-  loadRecentTopics: (): Promise<{ data: Topic[] | undefined; error?: string }> => {
+  loadRecentTopics: (): Promise<{ data: TopicOverview[] | undefined; error?: string }> => {
     return QueryStorage.fetchQuery({
       queryKey: [RECENT_TOPICS],
       queryFn: () => getRecentTopics(),
@@ -18,13 +19,22 @@ export const TopicService = {
   loadTopicsPage: (
     skipIds: number[] = [],
     pageInfo?: PageInfo<'Topic'>
-  ): Promise<{ data: PaginatedResult<Topic, 'Topic'> | undefined; error?: string }> => {
-    const queryParameters = pageInfo ?? { page: 1, size: 9, orderBy: 'created_at', ascending: true };
+  ): Promise<{ data: PaginatedResult<TopicOverview, 'Topic'> | undefined; error?: string }> => {
+    const queryParameters = pageInfo ?? {
+      page: 1,
+      size: LIBRARY_TOPICS_PAGE_SIZE,
+      orderBy: 'created_at',
+      ascending: true,
+    };
 
     return QueryStorage.fetchQuery({
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],
-      queryFn: () => getTopics(queryParameters, skipIds),
+      queryFn: () => getTopicsPage(queryParameters, skipIds),
     });
+  },
+
+  loadTopicsAdminList: (): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> => {
+    return getAllTopics();
   },
 };
 

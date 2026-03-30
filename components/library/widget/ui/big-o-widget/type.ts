@@ -1,13 +1,10 @@
+import { LocaleString } from '@/types/schemas/locale-schemas';
+import { BigOPayloadQuestion } from '@/types/schemas/question-payload-schema';
 import { WidgetType } from '@/types/widget';
-
-export type BigOPayload = {
-  question: string;
-  codeExample: string;
-};
 
 export type BigOWidget = {
   type: WidgetType.BigONotation;
-  payload: BigOPayload;
+  payload: BigOPayloadQuestion;
 };
 
 export type Complexity = {
@@ -16,9 +13,11 @@ export type Complexity = {
 };
 
 export type BigOCanvasProperties = {
-  question: string;
+  question: LocaleString;
   codeExample: string;
   selectedComplexity?: string;
   onSelect: (complexity: string) => void;
   onSubmit: () => void;
+  isCorrect?: boolean;
+  isSubmitted?: boolean;
 };

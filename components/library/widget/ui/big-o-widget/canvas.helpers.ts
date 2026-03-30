@@ -1,7 +1,7 @@
 import { Complexity } from './type';
 
 export const PADDING = 50;
-export const TOOLTIP_HINT = 'Click on a curve to select complexity of the algorithm';
+export const TOOLTIP_HINT = 'widget.big-o.tooltip_hint';
 
 export const COMPLEXITIES: Complexity[] = [
   { name: 'O(1)', func: () => 1 },
@@ -10,6 +10,24 @@ export const COMPLEXITIES: Complexity[] = [
   { name: 'O(n log n)', func: (n: number) => n * Math.log2(n) },
   { name: 'O(n^2)', func: (n: number) => n * n },
 ];
+
+export function getCurveColors() {
+  if (globalThis.window === undefined) {
+    return {
+      correctCurve: '#8bb864',
+      wrongCurve: '#b13f3f',
+      selectedCurve: '#dabf65',
+    };
+  }
+
+  const styles = getComputedStyle(document.documentElement);
+
+  return {
+    correctCurve: styles.getPropertyValue('--correct-answer').trim(),
+    wrongCurve: styles.getPropertyValue('--wrong-answer').trim(),
+    selectedCurve: styles.getPropertyValue('--primary').trim(),
+  };
+}
 
 export function getClosestComplexity(
   mouseX: number,
@@ -45,8 +63,11 @@ export function drawComplexityCurves(
   context: CanvasRenderingContext2D,
   width: number,
   height: number,
-  selectedLineIndex?: number
+  selectedLineIndex?: number,
+  isCorrect?: boolean,
+  isSubmitted?: boolean
 ) {
+  const curveColors = getCurveColors();
   const minX = 1;
   const maxX = 5;
   const maxY = Math.max(...COMPLEXITIES.map((c) => c.func(maxX) - c.func(minX)));
@@ -63,8 +84,20 @@ export function drawComplexityCurves(
       else context.lineTo(canvasX, canvasY);
     }
 
-    context.strokeStyle = selectedLineIndex === index ? '#FF0000' : '#000';
-    context.lineWidth = selectedLineIndex === index ? 2 : 1;
+    let strokeColor = '#000';
+    let lineWidth = 1;
+
+    if (selectedLineIndex === index) {
+      lineWidth = 2;
+      if (isSubmitted === true) {
+        strokeColor = isCorrect === true ? curveColors.correctCurve : curveColors.wrongCurve;
+      } else {
+        strokeColor = curveColors.selectedCurve;
+      }
+    }
+
+    context.strokeStyle = strokeColor;
+    context.lineWidth = lineWidth;
     context.stroke();
   });
 }

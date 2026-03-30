@@ -1,23 +1,31 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { CustomSchemaKey, getSchema, SchemaData, SchemaRegistry } from '@/types/schemas/schemas';
-
-import { CustomInput, InputProperties } from './CustomInput';
+import { cn } from '@/lib/utils';
+import { CustomSchemaKey, getSchema, SchemaData, SchemaRegistry } from '@/types/schemas/schema-registry';
 
 export type FormProperties = {
   id: string;
   schemaKey: CustomSchemaKey;
-  fields: InputProperties[];
+  children: ReactNode;
   onSubmit: (data: z.infer<SchemaRegistry[CustomSchemaKey]>) => void;
   onValidationChange?: (isValid: boolean) => void;
   defaultValues?: DefaultValues<z.infer<SchemaRegistry[CustomSchemaKey]>>;
+  className?: string;
 };
 
-export const CustomForm = ({ id, schemaKey, fields, onSubmit, defaultValues, onValidationChange }: FormProperties) => {
+export const CustomForm = ({
+  id,
+  schemaKey,
+  children,
+  onSubmit,
+  defaultValues,
+  onValidationChange,
+  className,
+}: FormProperties) => {
   const schema = getSchema(schemaKey);
 
   const methods = useForm<SchemaData>({
@@ -37,11 +45,7 @@ export const CustomForm = ({ id, schemaKey, fields, onSubmit, defaultValues, onV
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} id={id} className="w-full">
-        <div className="mb-2 grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2">
-          {fields.map((field) => (
-            <CustomInput key={field.name} {...field} />
-          ))}
-        </div>
+        <div className={cn('mb-2 grid w-full grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2', className)}>{children}</div>
       </form>
     </FormProvider>
   );
