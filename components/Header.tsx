@@ -47,7 +47,7 @@ export function Header() {
     if (currentRoute != undefined) {
       const permission = RoutePermissions[currentRoute];
 
-      if (permission === 'authorized') {
+      if (permission.access === 'authorized') {
         const redirectPath = `${Routes.SignIn}?redirect=${encodeURIComponent(pathname)}`;
 
         router.push(redirectPath);
@@ -79,7 +79,7 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48 space-y-0.5 p-0.5">
               {Object.entries(routePermissions).map(([route, permission]) => {
-                if (!displayRoute(permission, isAuthorized)) return;
+                if (!displayRoute(permission.access, isAuthorized)) return;
 
                 return (
                   <DropdownMenuItem
@@ -110,7 +110,7 @@ export function Header() {
         </h1>
 
         <div className="flex flex-1 items-start justify-end gap-2.5">
-          {isAuthorized ? (
+          {Boolean(isAuthorized) ? (
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <PrimaryButton
