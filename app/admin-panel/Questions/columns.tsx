@@ -101,7 +101,7 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
         const rowSelected = selectedRows.length > 0;
 
         return (
-          <div className="flex justify-end gap-2 py-2">
+          <div className="flex w-full justify-end gap-2 py-2">
             <Button variant="success" disabled={rowSelected} onClick={() => handleOpenDialog()}>
               <PlusCircle className="h-4 w-4" />
               Add Question

@@ -8,7 +8,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({ columns, data, meta }: DataTablePrope
                   className="h-12 cursor-pointer font-bold text-white"
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  <div className="flex items-center justify-around gap-2">
+                  <div className="flex items-center justify-start gap-2">
                     {header.isPlaceholder ? undefined : flexRender(header.column.columnDef.header, header.getContext())}
                     {header.column.getCanSort() && (
                       <div className="mr-2 ml-0.5">
