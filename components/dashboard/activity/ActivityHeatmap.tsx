@@ -2,6 +2,8 @@
 
 import { eachDayOfInterval, endOfMonth, getISODay, startOfMonth, subMonths } from 'date-fns';
 
+import { useLocale } from '@/services/locale/locale.service';
+
 import { ActivityCell, ActivityDay } from './activity.types';
 import { getActivityLevel } from './activity.utilities';
 import { formatMonthLabel, getDateKey, parseDateKey } from './activity-date.utilities';
@@ -65,6 +67,7 @@ function buildMonthCells(monthDate: Date, countsByDate: Map<string, number>): Ca
 }
 
 export function ActivityHeatmap({ days, monthCount = 3 }: ActivityHeatmapProperties) {
+  const { languageCode } = useLocale();
   const countsByDate = getCountsByDate(days);
   const currentMonth = startOfMonth(new Date());
   const months = Array.from({ length: monthCount }, (_, index) => subMonths(currentMonth, monthCount - index - 1));
@@ -74,7 +77,7 @@ export function ActivityHeatmap({ days, monthCount = 3 }: ActivityHeatmapPropert
       <div className="inline-flex w-max items-start gap-2.5">
         {months.map((monthDate) => {
           const monthCells = buildMonthCells(monthDate, countsByDate);
-          const monthLabel = formatMonthLabel(getDateKey(monthDate));
+          const monthLabel = formatMonthLabel(getDateKey(monthDate), languageCode);
 
           return (
             <article key={getDateKey(monthDate)} className="space-y-3">
