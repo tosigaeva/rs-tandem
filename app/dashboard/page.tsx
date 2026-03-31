@@ -1,16 +1,13 @@
-import Link from 'next/link';
-
 import { DailyActivityCard } from '@/components/dashboard/activity';
 import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';
+import Hero from '@/components/dashboard/hero/Hero';
+import { buildHeroProperties } from '@/components/dashboard/hero/hero.utilities';
 import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
 import StreakCard from '@/components/dashboard/StreakCard';
 import { TipCard } from '@/components/dashboard/TipCard';
-import { PrimaryButton } from '@/components/PrimaryButton';
 import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
 import { getUser } from '@/data/user.api';
-import { Routes } from '@/lib/routes';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
-import { AppMessages } from '@/services/locale/messages';
 
 export type Tip = {
   title: string;
@@ -55,14 +52,18 @@ export default async function Page() {
   }));
 
   return (
-    <main className="text-foreground px-6 py-8">
-      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
-        <article className="space-y-6">
-          <h1 className="text-2xl font-bold sm:text-4xl">
-            {AppMessages['dashboard.greeting'][languageCode]}, {user.name}!
-          </h1>
+    <main className="text-foreground px-4 py-8 sm:px-6 lg:px-10">
+      <section className="mx-auto grid max-w-6xl gap-10">
+        <Hero
+          {...buildHeroProperties(user.name, {
+            todayAnswers: dashboardStats.todayAnswers,
+            totalAnswers: dashboardStats.totalAnswers,
+            streak: dashboardStats.streak,
+          })}
+        />
 
-          <section className="grid items-stretch gap-8 lg:grid-cols-7">
+        <article className="space-y-6">
+          <section className="grid items-stretch gap-6 lg:grid-cols-7">
             <div className="lg:col-span-2">
               <ProgressCard
                 todayAnswers={dashboardStats.todayAnswers}
@@ -80,14 +81,10 @@ export default async function Page() {
               <DailyActivityCard days={dashboardStats.days} />
             </div>
           </section>
-          <section className="mt-6 grid gap-6 lg:grid-cols-2">
+          <section className="grid gap-6 lg:grid-cols-2">
             <ContinueLearningCard topics={inProgressTopics} />
             <TipCard tip={tipOfTheDay} />
           </section>
-
-          <PrimaryButton asChild>
-            <Link href={Routes.Library}>{AppMessages['dashboard.startPracticeButton'][languageCode]}</Link>
-          </PrimaryButton>
         </article>
       </section>
     </main>
