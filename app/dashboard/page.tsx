@@ -1,8 +1,8 @@
 import { DailyActivityCard } from '@/components/dashboard/activity';
-import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';
 import Hero from '@/components/dashboard/hero/Hero';
 import { buildHeroProperties } from '@/components/dashboard/hero/hero.utilities';
 import { PracticeCard } from '@/components/dashboard/practice/PracticeCard';
+import RecentTopicsCard from '@/components/dashboard/RecentTopicsCard';
 import StreakCard from '@/components/dashboard/StreakCard';
 import { getRandomTip } from '@/components/dashboard/tip/tip.utilities';
 import { TipCard } from '@/components/dashboard/tip/TipCard';
@@ -65,7 +65,7 @@ export default async function Page() {
             </div>
           </section>
           <section className="grid gap-6 lg:grid-cols-2">
-            <ContinueLearningCard topics={inProgressTopics} />
+            <RecentTopicsCard topics={inProgressTopics} />
             <TipCard tip={randomTip} />
           </section>
         </article>

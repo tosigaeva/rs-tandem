@@ -14,13 +14,13 @@ type ContinueLearningCardProperties = {
   topics: ContinueLearningTopic[];
 };
 
-export default function ContinueLearningCard({ topics }: ContinueLearningCardProperties) {
+export default function RecentTopicsCard({ topics }: ContinueLearningCardProperties) {
   if (topics.length === 0) return;
 
   return (
-    <Card className="bg-card/90 h-full rounded-3xl border-none shadow-none">
+    <Card className="border-border/60 from-background via-muted/40 to-muted/10 h-full rounded-3xl border bg-gradient-to-br shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg">Continue learning</CardTitle>
+        <CardTitle className="text-lg">Recent topics</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-3">
@@ -31,7 +31,7 @@ export default function ContinueLearningCard({ topics }: ContinueLearningCardPro
             <Link
               key={topic.id}
               href={topic.href}
-              className="group bg-muted/60 hover:bg-muted flex items-center gap-4 rounded-xl p-3 transition"
+              className="group bg-muted/50 hover:border-border/60 hover:bg-muted flex items-center gap-4 rounded-2xl border border-transparent p-3 transition"
             >
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between text-sm">
@@ -48,7 +48,7 @@ export default function ContinueLearningCard({ topics }: ContinueLearningCardPro
                 </p>
               </div>
 
-              <ArrowRight className="text-muted-foreground h-4 w-4 transition group-hover:translate-x-1" />
+              <ArrowRight className="text-muted-foreground group-hover:text-foreground h-4 w-4 transition group-hover:translate-x-1" />
             </Link>
           );
         })}
