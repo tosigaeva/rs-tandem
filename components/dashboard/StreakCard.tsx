@@ -8,9 +8,8 @@ type StreakCardProperties = {
 };
 
 export default function StreakCard({ streak, bestStreak }: StreakCardProperties) {
-  console.log('bestStreak:', typeof bestStreak, 'streak:', streak);
   return (
-    <Card className="border-border/60 from-primary/90 via-primary/70 to-primary/60 flex h-full justify-center rounded-3xl border bg-gradient-to-br shadow-sm">
+    <Card className="border-border/60 from-primary/50 via-primary/20 to-primary/10 flex h-full justify-center rounded-3xl border bg-gradient-to-br shadow-sm">
       <CardContent className="flex flex-col items-center gap-3 p-0">
         <Flame className="h-20 w-20 animate-pulse text-white" />
         <p className="text-xl font-semibold text-white">{streak} day streak</p>
