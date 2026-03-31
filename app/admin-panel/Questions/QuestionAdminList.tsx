@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { deleteQuestions, upsertQuestion } from '@/api/question.api';
 import { DataTable } from '@/components/DataTable';
 import {
   AlertDialog,
@@ -13,8 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { getTopicIdNamePairs } from '@/data/topic.client';
-import { QuestionService } from '@/services/question.service';
+import { deleteQuestions, getAllQuestions, upsertQuestion } from '@/data/client/question.client';
+import { getTopicIdNamePairs } from '@/data/client/topic.client';
 import { BlankQuestion, GeneralQuestionSchema, QuestionAdminListItem } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
@@ -106,7 +105,7 @@ export default function QuestionAdminList() {
   useEffect(() => {
     async function fetchQuestions() {
       try {
-        const { data, error } = await QuestionService.loadQuestionAdminList();
+        const { data, error } = await getAllQuestions();
 
         if (error != undefined) {
           toast.error(error);

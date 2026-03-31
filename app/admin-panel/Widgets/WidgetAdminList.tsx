@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { upsertQuestion } from '@/api/question.api';
 import { DataTable } from '@/components/DataTable';
-import { updateWidget } from '@/data/admin/widget.api';
-import { getTopicIdNamePairs } from '@/data/topic.client';
-import { WidgetService } from '@/services/widget.service';
+import { upsertQuestion } from '@/data/client/question.client';
+import { getTopicIdNamePairs } from '@/data/client/topic.client';
+import { getAllWidgets, updateWidget } from '@/data/client/widget.client';
 import { BlankQuestion, GeneralQuestionSchema } from '@/types/schemas/question-schemas';
 import { SchemaData } from '@/types/schemas/schema-registry';
 import { Widget, WidgetAdminListItem, WidgetBaseSchema } from '@/types/schemas/widget-schema';
@@ -102,7 +101,7 @@ export function TopicAdminList() {
   useEffect(() => {
     async function fetchWidgets() {
       try {
-        const { data, error } = await WidgetService.loadWidgetAdminList();
+        const { data, error } = await getAllWidgets();
 
         if (error != undefined) {
           toast.error(error);

@@ -13,7 +13,7 @@ export async function getAllTopics(): Promise<{ data: TopicAdminListItem[] | und
   try {
     const supabase = await supabaseBrowser();
 
-    const { data, error } = await supabase.from('topic_admin_list').select('*');
+    const { data, error } = await supabase.from('topic_admin_list').select('*').order('id', { ascending: true });
 
     if (error != undefined) {
       throw error;
