@@ -17,5 +17,5 @@ export function useTranslation() {
     return localRecord[languageCode] ?? localRecord[LanguageCode.en] ?? '';
   };
 
-  return { t, translate };
+  return { t, translate, languageCode };
 }
