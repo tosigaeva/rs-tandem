@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Edit, Eraser, MessageSquarePlus, PlusCircle, Trash2 } from 'lucide-react';
+import { Edit, MessageSquarePlus, PlusCircle, Trash2 } from 'lucide-react';
 
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
 import { Badge } from '@/components/ui';
@@ -12,9 +12,10 @@ import { Level, Topic, TopicAdminListItem } from '@/types/schemas/topic-schema';
 type MetaProperties = {
   handleOpenDialog: (data?: Topic) => void;
   confirmDelete: (ids: number[]) => void;
+  handleAddQuestion: (topicId: number) => void;
 };
 
-export function createColumns({ handleOpenDialog, confirmDelete }: MetaProperties) {
+export function createColumns({ handleOpenDialog, confirmDelete, handleAddQuestion }: MetaProperties) {
   const columns: ColumnDef<TopicAdminListItem>[] = [
     {
       accessorKey: 'id',
@@ -23,13 +24,19 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
           <Checkbox
             checked={table.getIsAllPageRowsSelected()}
             onCheckedChange={(value) => table.toggleAllPageRowsSelected(value === true)}
+            className="border-amber-700 bg-slate-50"
+            onClick={(event) => event.stopPropagation()}
           />
           <span>ID</span>
         </div>
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2 text-nowrap">
-          <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(value === true)} />
+          <Checkbox
+            checked={row.getIsSelected()}
+            className="border-amber-700 bg-slate-50"
+            onCheckedChange={(value) => row.toggleSelected(value === true)}
+          />
           <span className="text-muted-foreground font-mono text-xs">{row.original.id}</span>
         </div>
       ),
@@ -86,7 +93,7 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
         const rowSelected = selectedRows.length > 0;
 
         return (
-          <div className="flex justify-end gap-2 py-2">
+          <div className="flex w-full justify-end gap-2 py-2">
             <Button variant="success" disabled={rowSelected} onClick={() => handleOpenDialog()}>
               <PlusCircle className="h-4 w-4" />
               Add Topic
@@ -107,7 +114,13 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
 
         return (
           <div className="flex justify-end gap-2">
-            <Button variant="ghost" size="icon" className="text-green-700 hover:text-green-900" disabled={isDisabled}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-green-700 hover:text-green-900"
+              disabled={isDisabled}
+              onClick={() => handleAddQuestion(row.original.id)}
+            >
               <MessageSquarePlus className="h-4 w-4" />
             </Button>
             <Button
@@ -120,14 +133,6 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
               }}
             >
               <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-destructive hover:text-destructive"
-              disabled={isDisabled}
-            >
-              <Eraser className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"

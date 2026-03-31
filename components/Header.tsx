@@ -46,8 +46,6 @@ export function Header() {
         const redirectPath = `${Routes.SignIn}?redirect=${encodeURIComponent(pathname)}`;
 
         router.push(redirectPath);
-
-        console.log('should redirect');
       }
     }
   };
