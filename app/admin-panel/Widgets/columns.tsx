@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Edit, Eraser, MessageSquarePlus } from 'lucide-react';
+import { Edit, MessageSquarePlus } from 'lucide-react';
 
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
 import { Button } from '@/components/ui/button';
@@ -79,14 +79,6 @@ export function createColumns({ handleOpenDialog, handleAddQuestion }: MetaPrope
               }}
             >
               <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-destructive hover:text-destructive"
-              disabled={isDisabled}
-            >
-              <Eraser className="h-4 w-4" />
             </Button>
           </div>
         );
