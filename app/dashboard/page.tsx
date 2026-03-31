@@ -2,7 +2,7 @@ import { DailyActivityCard } from '@/components/dashboard/activity';
 import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';
 import Hero from '@/components/dashboard/hero/Hero';
 import { buildHeroProperties } from '@/components/dashboard/hero/hero.utilities';
-import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
+import { PracticeCard } from '@/components/dashboard/practice/PracticeCard';
 import StreakCard from '@/components/dashboard/StreakCard';
 import { TipCard } from '@/components/dashboard/TipCard';
 import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
@@ -41,8 +41,10 @@ export default async function Page() {
   const dashboardStats = dashboardStatsResult.data ?? {
     days: [],
     todayAnswers: 0,
+    correctAnswers: 0,
     totalAnswers: 0,
     accuracy: 0,
+    totalDays: 0,
     streak: 0,
     bestStreak: 0,
   };
@@ -65,11 +67,11 @@ export default async function Page() {
         <article className="space-y-6">
           <section className="grid items-stretch gap-6 lg:grid-cols-7">
             <div className="lg:col-span-2">
-              <ProgressCard
-                todayAnswers={dashboardStats.todayAnswers}
+              <PracticeCard
+                correctAnswers={dashboardStats.correctAnswers}
                 totalAnswers={dashboardStats.totalAnswers}
                 accuracy={dashboardStats.accuracy}
-                streak={dashboardStats.streak}
+                totalDays={dashboardStats.totalDays}
               />
             </div>
 
