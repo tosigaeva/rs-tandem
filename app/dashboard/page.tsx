@@ -35,8 +35,8 @@ export default async function Page() {
   }));
 
   return (
-    <main className="text-foreground px-4 py-8 sm:px-6 lg:px-10">
-      <section className="mx-auto grid max-w-6xl gap-10">
+    <main className="text-foreground py-8">
+      <section className="mx-auto grid w-full max-w-6xl gap-10 px-6">
         <Hero
           {...buildHeroProperties(user.name, {
             todayAnswers: dashboardStats.todayAnswers,
@@ -46,7 +46,7 @@ export default async function Page() {
         />
 
         <article className="space-y-6">
-          <section className="grid items-stretch gap-6 lg:grid-cols-7">
+          <section className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-7">
             <div className="lg:col-span-2">
               <PracticeCard
                 correctAnswers={dashboardStats.correctAnswers}
@@ -55,16 +55,14 @@ export default async function Page() {
                 totalDays={dashboardStats.totalDays}
               />
             </div>
-
             <div className="lg:col-span-2">
               <StreakCard streak={dashboardStats.streak} bestStreak={dashboardStats.bestStreak} />
             </div>
-
-            <div className="lg:col-span-3">
+            <div className="sm:col-span-2 md:col-span-2 lg:col-span-3">
               <DailyActivityCard days={dashboardStats.days} />
             </div>
           </section>
-          <section className="grid gap-6 lg:grid-cols-2">
+          <section className="grid gap-6 md:grid-cols-2 lg:col-span-3">
             <RecentTopicsCard topics={inProgressTopics} />
             <TipCard tip={randomTip} />
           </section>
