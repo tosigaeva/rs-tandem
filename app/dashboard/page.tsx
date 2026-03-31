@@ -4,32 +4,13 @@ import Hero from '@/components/dashboard/hero/Hero';
 import { buildHeroProperties } from '@/components/dashboard/hero/hero.utilities';
 import { PracticeCard } from '@/components/dashboard/practice/PracticeCard';
 import StreakCard from '@/components/dashboard/StreakCard';
-import { TipCard } from '@/components/dashboard/TipCard';
+import { getRandomTip } from '@/components/dashboard/tip/tip.utilities';
+import { TipCard } from '@/components/dashboard/tip/TipCard';
 import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
 import { getUser } from '@/data/user.api';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
 
-export type Tip = {
-  title: string;
-  text: string;
-};
-
-const tips: Tip[] = [
-  {
-    title: 'JavaScript fact',
-    text: '`typeof null` returns "object" — this is a historical bug in JavaScript.',
-  },
-  {
-    title: 'JavaScript fact',
-    text: '`NaN === NaN` is false. Use Number.isNaN() to check it.',
-  },
-  {
-    title: 'JavaScript fact',
-    text: '`[] + []` results in an empty string "" because of type coercion.',
-  },
-];
-
-const tipOfTheDay = tips[Math.floor(Math.random() * tips.length)];
+const randomTip = getRandomTip();
 
 export default async function Page() {
   const [user, dashboardStatsResult, inProgressTopicsResult, languageCode] = await Promise.all([
@@ -85,7 +66,7 @@ export default async function Page() {
           </section>
           <section className="grid gap-6 lg:grid-cols-2">
             <ContinueLearningCard topics={inProgressTopics} />
-            <TipCard tip={tipOfTheDay} />
+            <TipCard tip={randomTip} />
           </section>
         </article>
       </section>
