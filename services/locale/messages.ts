@@ -56,6 +56,31 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Пока нет активности. Сначала решите несколько вопросов.',
     [LanguageCode.by]: 'Пакуль няма актыўнасці. Спачатку вырашыце некалькі пытанняў.',
   },
+  'dashboard.activity.day.no': {
+    [LanguageCode.en]: 'No activity on {date}',
+    [LanguageCode.ru]: 'Нет активности: {date}',
+    [LanguageCode.by]: 'Няма актыўнасці: {date}',
+  },
+  'dashboard.activity.day.answers.one': {
+    [LanguageCode.en]: '{count} answer on {date}',
+    [LanguageCode.ru]: '{count} ответ: {date}',
+    [LanguageCode.by]: '{count} адказ: {date}',
+  },
+  'dashboard.activity.day.answers.few': {
+    [LanguageCode.en]: '{count} answers on {date}',
+    [LanguageCode.ru]: '{count} ответа: {date}',
+    [LanguageCode.by]: '{count} адказы: {date}',
+  },
+  'dashboard.activity.day.answers.many': {
+    [LanguageCode.en]: '{count} answers on {date}',
+    [LanguageCode.ru]: '{count} ответов: {date}',
+    [LanguageCode.by]: '{count} адказаў: {date}',
+  },
+  'dashboard.activity.day.answers.other': {
+    [LanguageCode.en]: '{count} answers on {date}',
+    [LanguageCode.ru]: '{count} ответа: {date}',
+    [LanguageCode.by]: '{count} адказа: {date}',
+  },
 
   /// results
   'results.perfect.title': {
