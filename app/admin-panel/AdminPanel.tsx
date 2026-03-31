@@ -30,7 +30,7 @@ export default function AdminPanel() {
   const currentTab = getCurrentTab();
 
   const handleTabChange = (value: string) => {
-    const parameters = new URLSearchParams(searchParameters);
+    const parameters = new URLSearchParams();
     parameters.set('tab', value);
     router.push(`${pathname}?${parameters.toString()}`);
   };

@@ -25,7 +25,7 @@ export function useTranslation() {
     return localRecord[languageCode] ?? localRecord[LanguageCode.en] ?? '';
   };
 
-  return { t, tor, translate };
+  return { t, tor, translate, languageCode };
 }
 
 function isValidMessageKey(key: string): key is MessageKey {

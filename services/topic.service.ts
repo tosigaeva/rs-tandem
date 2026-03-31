@@ -1,9 +1,8 @@
 import { LIBRARY_TOPICS_PAGE_SIZE } from '@/app/library/library-topics';
 import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
-import { getAllTopics } from '@/data/topic.client';
 import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { TopicAdminListItem, TopicOverview } from '@/types/schemas/topic-schema';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 
 const RECENT_TOPICS = 'recent_topics';
 const TOPIC_PAGES = 'topic_pages';
@@ -31,10 +30,6 @@ export const TopicService = {
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],
       queryFn: () => getTopicsPage(queryParameters, skipIds),
     });
-  },
-
-  loadTopicsAdminList: (): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> => {
-    return getAllTopics();
   },
 };
 

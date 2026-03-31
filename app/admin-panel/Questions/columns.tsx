@@ -40,13 +40,19 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
           <Checkbox
             checked={table.getIsAllPageRowsSelected()}
             onCheckedChange={(value) => table.toggleAllPageRowsSelected(value === true)}
+            className="border-amber-700 bg-slate-50"
+            onClick={(event) => event.stopPropagation()}
           />
           <span>ID</span>
         </div>
       ),
       cell: ({ row }) => (
         <div className="flex items-center gap-2 text-nowrap">
-          <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(value === true)} />
+          <Checkbox
+            className="border-amber-700 bg-slate-50"
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(value === true)}
+          />
           <span>{row.original.id}</span>
         </div>
       ),
@@ -95,7 +101,7 @@ export function createColumns({ handleOpenDialog, confirmDelete }: MetaPropertie
         const rowSelected = selectedRows.length > 0;
 
         return (
-          <div className="flex justify-end gap-2 py-2">
+          <div className="flex w-full justify-end gap-2 py-2">
             <Button variant="success" disabled={rowSelected} onClick={() => handleOpenDialog()}>
               <PlusCircle className="h-4 w-4" />
               Add Question
