@@ -105,9 +105,9 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
         <DialogHeader className="border-b-2 pb-4">
           <DialogTitle>
             <DialogDescription className="hidden">
-              {newMode ? 'Add New Topic' : `Edit Question with ID: ${defaultValues?.id}`}
+              {newMode ? 'Add New Question' : `Edit Question with ID: ${defaultValues?.id}`}
             </DialogDescription>
-            {newMode ? 'Add New Topic' : `Edit Question with ID: ${defaultValues?.id}`}
+            {newMode ? 'Add New Question' : `Edit Question with ID: ${defaultValues?.id}`}
           </DialogTitle>
         </DialogHeader>
 
