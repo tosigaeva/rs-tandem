@@ -2,7 +2,7 @@
 
 import { eachDayOfInterval, endOfMonth, getISODay, startOfMonth, subMonths } from 'date-fns';
 
-import { useLocale } from '@/services/locale/locale.service';
+import { useLocale } from '@/providers/locale.provider';
 
 import { ActivityCell, ActivityDay } from './activity.types';
 import { getActivityLevel } from './activity.utilities';

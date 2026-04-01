@@ -1,11 +1,6 @@
 import { mockUser } from '@/data/mocks/user.mock';
-import { getUser as supaGetUser } from '@/data/supabase/user.supabase';
-import { User } from '@/types/user';
+import { UserDetails } from '@/types/schemas/authorization-schemas';
 
-export async function getUser(): Promise<User> {
-  if (process.env.MOCK_MODE === 'true') {
-    return mockUser;
-  }
-
-  return supaGetUser();
+export function getUser(): UserDetails {
+  return mockUser;
 }
