@@ -288,10 +288,15 @@ export const AppMessages = {
   },
 
   /// Authentication & Session Errors
-  'error.auth.invalid': {
+  'error.auth.signin.invalid': {
     [LanguageCode.en]: 'Invalid email or password.',
     [LanguageCode.ru]: 'Неверный адрес почты или пароль.',
     [LanguageCode.by]: 'Несапраўдны адрас пошты ці пароль.',
+  },
+  'error.auth.signup.invalid': {
+    [LanguageCode.en]: 'Invalid credentials passed.',
+    [LanguageCode.ru]: 'Предоставлены неверные учетные данные.',
+    [LanguageCode.by]: 'Прадастаўлены несапраўдныя ўліковыя даныя.',
   },
   'error.auth.expired': {
     [LanguageCode.en]: 'Your session has expired. Please sign in again.',
@@ -312,6 +317,16 @@ export const AppMessages = {
     [LanguageCode.en]: 'Please fill in all required fields.',
     [LanguageCode.ru]: 'Пожалуйста, заполните все обязательные поля.',
     [LanguageCode.by]: 'Калі ласка, запоўніце ўсе абавязковыя палі.',
+  },
+  'error.auth.not-found': {
+    [LanguageCode.en]: 'No account found with these credentials.',
+    [LanguageCode.ru]: 'Аккаунт с такими данными не найден.',
+    [LanguageCode.by]: 'Акаўнт з такімі данымі не знойдзены.',
+  },
+  'error.auth.invalid-account-data': {
+    [LanguageCode.en]: 'Invalid account data received.',
+    [LanguageCode.ru]: 'Получены некорректные данные аккаунта.',
+    [LanguageCode.by]: 'Атрыманы некарэктныя даныя акаўнта.',
   },
 
   /// Server & Network Errors

@@ -48,6 +48,8 @@ export default function AuthContent() {
         toast.success(t('auth.signin.success'));
         redirect();
       }
+    } else {
+      toast.error(t('error.auth.signin.invalid'));
     }
   };
 

@@ -5,16 +5,15 @@ import Link from 'next/link';
 import { Progress } from '@/components/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InProgressTopic } from '@/data/dashboard.api';
-
-type ContinueLearningTopic = Omit<InProgressTopic, 'title'> & {
-  title: string;
-};
+import { useTranslation } from '@/hooks/use-translation';
 
 type ContinueLearningCardProperties = {
-  topics: ContinueLearningTopic[];
+  topics: InProgressTopic[];
 };
 
 export default function ContinueLearningCard({ topics }: ContinueLearningCardProperties) {
+  const { translate } = useTranslation();
+
   if (topics.length === 0) return;
 
   return (
@@ -35,7 +34,7 @@ export default function ContinueLearningCard({ topics }: ContinueLearningCardPro
             >
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between text-sm">
-                  <p className="font-medium">{topic.title}</p>
+                  <p className="font-medium">{translate(topic.title)}</p>
                   <p className="text-muted-foreground text-xs">
                     {topic.completed}/{topic.total}
                   </p>

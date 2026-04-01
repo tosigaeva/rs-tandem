@@ -1,5 +1,7 @@
 import z from 'zod';
 
+import { UserRole } from '@/lib/routes';
+
 const usernameCheck = /^[a-zA-Z0-9_-]+$/;
 const passwordMinLength = 6;
 const upperCaseCheck = /[A-Z]/;
@@ -34,4 +36,8 @@ export const SignUpSchema = signUpFields.superRefine(({ confirmPassword, passwor
 });
 export type SignUp = z.infer<typeof SignUpSchema>;
 
-export const userSchema = signUpFields.omit({ password: true, confirmPassword: true });
+export const UserDetailsSchema = signUpFields.omit({ password: true, confirmPassword: true }).extend({
+  id: z.string(),
+  role: z.enum(UserRole),
+});
+export type UserDetails = z.infer<typeof UserDetailsSchema>;

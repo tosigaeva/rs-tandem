@@ -9,7 +9,7 @@ import { Providers } from '@/providers/providers';
 import { getUser, hasAuthCookie } from '@/services/authorization/auth.server';
 import { getServerLocale } from '@/services/locale/locale.server';
 import { LocaleDictionary } from '@/services/locale/locale.service';
-import { UserDetails } from '@/types/user';
+import { UserDetails } from '@/types/schemas/authorization-schemas';
 
 const DEFAULT_TOASTER_DURATION = 3500;
 

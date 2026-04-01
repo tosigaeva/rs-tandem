@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Locale } from '@/services/locale/locale.service';
-import { UserDetails } from '@/types/user';
+import { UserDetails } from '@/types/schemas/authorization-schemas';
 
 import { AuthStateProvider } from './auth-state.provider';
 import { GlobalSpinnerProvider } from './global-spinner.provider';

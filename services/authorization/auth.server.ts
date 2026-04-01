@@ -3,8 +3,10 @@
 import { AuthError, PostgrestError } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 
+import { mockUser } from '@/data/mocks/user.mock';
+import { UserRole } from '@/lib/routes';
 import { supabaseServer } from '@/lib/supabase/server';
-import { UserDetails } from '@/types/user';
+import { UserDetails, UserDetailsSchema } from '@/types/schemas/authorization-schemas';
 
 import { AppMessages } from '../locale/messages';
 
@@ -33,18 +35,22 @@ export async function signIn({
     if (authError) throw authError;
 
     if (!user || user.email == undefined) {
-      throw 'error.auth.invalid';
+      throw 'error.auth.not-found';
     }
 
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('username')
+      .select('username, role')
       .eq('id', user.id)
       .single<{ username: string }>();
 
     if (profileError) throw profileError;
 
-    return { data: { email: user.email, id: user.id, username: profile.username } };
+    const parsed = UserDetailsSchema.safeParse({ ...user, ...profile });
+
+    if (!parsed.success) throw new Error('error.auth.invalid-account-data');
+
+    return { data: parsed.data };
   } catch (error: unknown) {
     return { data: undefined, error: handleError(error) };
   }
@@ -83,7 +89,7 @@ export async function signUp({
     const user = data.user;
 
     if (user && user.email != undefined) {
-      return { data: { email: user.email, id: user.id, username } };
+      return { data: { email: user.email, id: user.id, username, role: UserRole.User } };
     }
 
     throw 'error.global.unknown';
@@ -106,9 +112,13 @@ export async function signOut() {
 }
 
 export async function getUser(): Promise<{ data: UserDetails | undefined; error?: string }> {
-  const supabase = await supabaseServer();
+  if (process.env.MOCK_MODE === 'true') {
+    return { data: mockUser, error: undefined };
+  }
 
   try {
+    const supabase = await supabaseServer();
+
     const {
       data: { user },
       error: authError,
@@ -116,19 +126,19 @@ export async function getUser(): Promise<{ data: UserDetails | undefined; error?
 
     if (authError) throw authError;
 
-    if (!user || user.email == undefined) {
-      return { data: undefined };
-    }
-
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('username')
-      .eq('id', user.id)
+      .select('username, role')
+      .eq('id', user?.id)
       .single<{ username: string }>();
 
     if (profileError) throw profileError;
 
-    return { data: { email: user.email, id: user.id, username: profile.username } };
+    const parsed = UserDetailsSchema.safeParse({ ...user, ...profile });
+
+    if (!parsed.success) throw new Error('error.auth.invalid-account-data');
+
+    return { data: parsed.data };
   } catch (error: unknown) {
     return { data: undefined, error: handleError(error) };
   }

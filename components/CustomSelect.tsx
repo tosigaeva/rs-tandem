@@ -79,7 +79,7 @@ export const CustomSelect = <T extends string | number | boolean>({
                 </option>
               ))}
             </select>
-            {hasError && <p className="text-xs text-red-500">Selection required</p>}
+            {hasError && <p className="text-xs text-red-500">{t('validation.selection_required')}</p>}
           </div>
         );
       }}

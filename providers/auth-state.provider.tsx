@@ -4,7 +4,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { toast } from 'sonner';
 
 import { useTranslation } from '@/hooks/use-translation';
-import { UserDetails } from '@/types/user';
+import { UserDetails } from '@/types/schemas/authorization-schemas';
 
 type AuthContextType = {
   user: UserDetails | undefined;
