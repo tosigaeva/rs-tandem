@@ -8,17 +8,7 @@ export async function getQuestions(topicId: string, widgetType: WidgetFilter): P
   const supabase = await supabaseServer();
   const languageCode = await getServerLanguageCode();
 
-  let query = supabase
-    .from('questions')
-    .select(
-      `
-    id,
-    widget_type,
-    payload_question,
-    topic_id
-  `
-    )
-    .eq('topic_id', topicId);
+  let query = supabase.from('questions_info').select(`*`).eq('topic_id', topicId);
 
   if (widgetType !== 'all') {
     query = query.eq('widget_type', widgetType);
@@ -32,6 +22,8 @@ export async function getQuestions(topicId: string, widgetType: WidgetFilter): P
   if (data === null) {
     return [];
   }
+
+  console.log(data);
 
   return data.map((q) => {
     if (q.widget_type === WidgetType.Quiz) {
