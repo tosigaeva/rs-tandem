@@ -1,4 +1,6 @@
-import { Link } from 'lucide-react';
+'use client';
+
+import Link from 'next/link';
 
 import { DailyActivityCard } from '@/components/dashboard/activity';
 import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';

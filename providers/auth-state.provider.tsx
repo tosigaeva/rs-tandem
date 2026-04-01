@@ -1,10 +1,8 @@
 'use client';
 
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
-import { useTranslation } from '@/hooks/use-translation';
-import { UserDetails } from '@/types/schemas/authorization-schemas';
+import { UserDetails, UserDetailsSchema } from '@/types/schemas/authorization-schemas';
 
 type AuthContextType = {
   user: UserDetails | undefined;
@@ -18,16 +16,27 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 type AuthStateProviderProperties = {
   children: ReactNode;
-  userDetails: UserDetails | undefined;
-  error?: string;
+  userDetails: string | undefined;
 };
 
-export function AuthStateProvider({ children, userDetails, error }: AuthStateProviderProperties) {
-  const [user, setUser] = useState<UserDetails | undefined>(userDetails);
+export function AuthStateProvider({ children, userDetails }: AuthStateProviderProperties) {
+  let userObject;
+  if (userDetails != undefined) {
+    try {
+      const jsonObject = JSON.parse(userDetails);
+
+      if (jsonObject != undefined) {
+        const parsed = UserDetailsSchema.safeParse(jsonObject);
+
+        if (parsed.success) userObject = parsed.data;
+      }
+    } catch {}
+  }
+
+  const [user, setUser] = useState<UserDetails | undefined>(userObject);
+
   const [isAuthorizing, setAuthorizing] = useState<boolean>(false);
   const isAuthorized = !!user;
-
-  const { tor } = useTranslation();
 
   const authContext: AuthContextType = {
     user,
@@ -36,12 +45,6 @@ export function AuthStateProvider({ children, userDetails, error }: AuthStatePro
     isAuthorizing,
     setAuthorizing,
   };
-
-  useEffect(() => {
-    if (error != undefined) {
-      toast.error(tor(error, 'error.global.unknown'));
-    }
-  }, [error, tor]);
 
   return <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>;
 }

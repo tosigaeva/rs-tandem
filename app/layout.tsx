@@ -6,10 +6,9 @@ import { Toaster } from 'sonner';
 import { Header } from '@/components/Header';
 import { SpinnerCustom } from '@/components/ui/SpinnerCustom';
 import { Providers } from '@/providers/providers';
-import { getUser, hasAuthCookie } from '@/services/authorization/auth.server';
+import { getUserFromCookies, hasAuthCookie } from '@/services/authorization/auth.server';
 import { getServerLocale } from '@/services/locale/locale.server';
 import { LocaleDictionary } from '@/services/locale/locale.service';
-import { UserDetails } from '@/types/schemas/authorization-schemas';
 
 const DEFAULT_TOASTER_DURATION = 3500;
 
@@ -21,17 +20,16 @@ export default async function RootLayout({
   const locale = await getServerLocale();
   const languageCode = LocaleDictionary[locale].languageCode;
 
-  let response: { data: UserDetails | undefined; error?: string } = { data: undefined };
-  const cookieResult = await hasAuthCookie();
+  let user;
 
-  if (cookieResult) {
-    response = await getUser();
-  }
+  if (await hasAuthCookie()) user = await getUserFromCookies();
+
+  console.log(user);
 
   return (
     <html lang={languageCode}>
       <body>
-        <Providers locale={locale} userDetails={response.data} error={response.error}>
+        <Providers locale={locale} userDetails={user}>
           <Suspense fallback={<SpinnerCustom />}>
             <Header />
             {children}

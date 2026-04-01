@@ -1,10 +1,12 @@
 'use server';
 
 import { AuthError, PostgrestError } from '@supabase/supabase-js';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { cookies } from 'next/headers';
 
 import { mockUser } from '@/data/mocks/user.mock';
 import { UserRole } from '@/lib/routes';
+import { userDetailsCookieName } from '@/lib/supabase/middleware';
 import { supabaseServer } from '@/lib/supabase/server';
 import { UserDetails, UserDetailsSchema } from '@/types/schemas/authorization-schemas';
 
@@ -105,7 +107,9 @@ export async function signOut() {
     const { error } = await supabase.auth.signOut();
     if (error != undefined) throw error;
 
-    return { error: undefined };
+    await removeAuthCookies();
+
+    return {};
   } catch (error: unknown) {
     return { error: handleError(error) };
   }
@@ -140,6 +144,7 @@ export async function getUser(): Promise<{ data: UserDetails | undefined; error?
 
     return { data: parsed.data };
   } catch (error: unknown) {
+    console.log(error);
     return { data: undefined, error: handleError(error) };
   }
 }
@@ -189,22 +194,30 @@ const handleError = (error: unknown): string => {
   return 'error.global.unknown';
 };
 
-export async function getAuthCookie() {
+export async function getUserFromCookies(): Promise<string | undefined> {
+  const cookieStore = await cookies();
+
+  return cookieStore.get(userDetailsCookieName)?.value;
+}
+
+export async function getAuthCookie(): Promise<RequestCookie[]> {
   const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();
 
-  return allCookies.find((cookie) => cookie.name.startsWith('sb-') && cookie.name.endsWith('-auth-token'));
+  return allCookies.filter((cookie) => cookie.name.startsWith('sb-') && cookie.name.endsWith('-auth-token'));
 }
 
 export async function hasAuthCookie() {
-  return !!(await getAuthCookie());
+  const authCookies = await getAuthCookie();
+
+  return authCookies.length > 0;
 }
 
-export async function removeAuthCookie() {
+export async function removeAuthCookies() {
   const cookieStore = await cookies();
-  const cookie = await getAuthCookie();
+  const authCookies = await getAuthCookie();
 
-  if (cookie) {
-    cookieStore.delete(cookie);
-  }
+  authCookies.forEach((cookie) => cookieStore.delete(cookie));
+
+  cookieStore.delete(userDetailsCookieName);
 }

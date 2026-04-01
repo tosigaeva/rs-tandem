@@ -12,11 +12,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTranslation } from '@/hooks/use-translation';
-import { RoutePermissions, Routes } from '@/lib/routes';
+import { RouteConfig, RoutePermissions, Routes, UserRole } from '@/lib/routes';
 import { cn, getNavigation } from '@/lib/utils';
 import { useAuth } from '@/providers/auth-state.provider';
 import { useLocale } from '@/providers/locale.provider';
-import { removeAuthCookie, signOut } from '@/services/authorization/auth.server';
+import { signOut } from '@/services/authorization/auth.server';
 import { LocaleDictionary, validateLocale } from '@/services/locale/locale.service';
 
 const headerActionButtonClass =
@@ -56,20 +56,25 @@ export function Header() {
   };
 
   const handleSignOut = async () => {
-    setAuthorizing(true);
-    await signOut().finally(() => {
-      setAuthorizing(false);
+    try {
+      setAuthorizing(true);
+
+      await signOut();
+    } catch {
+    } finally {
       setUser(undefined);
-      removeAuthCookie();
+
       handleUnauthorizedAccess();
-    });
+
+      setAuthorizing(false);
+    }
   };
 
   return (
     <header
       className={cn('border-border bg-card relative z-25 border-b', isAuthorizing ? 'cursor-wait select-none' : '')}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center px-6">
+      <div className="mx-auto flex h-16 w-full max-w-480 items-center px-6">
         <div className="flex flex-1">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
@@ -79,7 +84,7 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48 space-y-0.5 p-0.5">
               {Object.entries(routePermissions).map(([route, permission]) => {
-                if (!displayRoute(permission.access, isAuthorized)) return;
+                if (!displayRoute(permission, isAuthorized, user?.role)) return;
 
                 return (
                   <DropdownMenuItem
@@ -183,11 +188,17 @@ export function Header() {
   );
 }
 
-function displayRoute(permission: 'all' | 'authorized' | 'unauthorized', isAuthorized: boolean) {
-  const result =
-    permission === 'all' ||
-    (permission === 'authorized' && isAuthorized) ||
-    (permission === 'unauthorized' && !isAuthorized);
+function displayRoute(routeConfig: RouteConfig, isAuthorized: boolean, userRole?: UserRole) {
+  const { access, allowedRoles } = routeConfig;
 
-  return result;
+  const isBaseAccessAllowed =
+    access === 'all' || (access === 'authorized' && isAuthorized) || (access === 'unauthorized' && !isAuthorized);
+
+  if (!isBaseAccessAllowed) return false;
+
+  if (access === 'authorized' && allowedRoles != undefined) {
+    return userRole == undefined ? false : allowedRoles.includes(userRole);
+  }
+
+  return true;
 }
