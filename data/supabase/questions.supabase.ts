@@ -8,7 +8,12 @@ export async function getQuestions(topicId: string, widgetType: WidgetFilter): P
   const supabase = await supabaseServer();
   const languageCode = await getServerLanguageCode();
 
-  let query = supabase.from('questions_info').select(`*`).eq('topic_id', topicId);
+  let query = supabase
+    .from('questions_info')
+    .select(`*`)
+    .eq('topic_id', topicId)
+    .or('is_success.is.null,is_success.eq.false')
+    .order('updated_at', { ascending: false, nullsFirst: true });
 
   if (widgetType !== 'all') {
     query = query.eq('widget_type', widgetType);
