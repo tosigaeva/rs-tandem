@@ -3,21 +3,22 @@ import Hero from '@/components/dashboard/hero/Hero';
 import { buildHeroProperties } from '@/components/dashboard/hero/hero.utilities';
 import { PracticeCard } from '@/components/dashboard/practice/PracticeCard';
 import RecentTopicsCard from '@/components/dashboard/RecentTopicsCard';
-import StreakCard from '@/components/dashboard/StreakCard';
+import StreakCard from '@/components/dashboard/streak/StreakCard';
 import { getRandomTip } from '@/components/dashboard/tip/tip.utilities';
 import { TipCard } from '@/components/dashboard/tip/TipCard';
 import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
 import { getUser } from '@/data/user.api';
-import { getServerLanguageCode } from '@/services/locale/locale.server';
+import { getServerLanguageCode, getServerT } from '@/services/locale/locale.server';
 
 const randomTip = getRandomTip();
 
 export default async function Page() {
-  const [user, dashboardStatsResult, inProgressTopicsResult, languageCode] = await Promise.all([
+  const [user, dashboardStatsResult, inProgressTopicsResult, languageCode, t] = await Promise.all([
     getUser(),
     getDashboardStats(),
     getInProgressTopics(),
     getServerLanguageCode(),
+    getServerT(),
   ]);
   const dashboardStats = dashboardStatsResult.data ?? {
     days: [],
@@ -38,7 +39,8 @@ export default async function Page() {
     <main className="text-foreground py-8">
       <section className="mx-auto grid w-full max-w-6xl gap-10 px-6">
         <Hero
-          {...buildHeroProperties(user.name, {
+          key={languageCode}
+          {...buildHeroProperties(t, languageCode, user.name, {
             todayAnswers: dashboardStats.todayAnswers,
             totalAnswers: dashboardStats.totalAnswers,
             streak: dashboardStats.streak,

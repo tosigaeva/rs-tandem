@@ -1,3 +1,5 @@
+'use client';
+
 import { formatDistanceToNow } from 'date-fns';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -5,6 +7,8 @@ import Link from 'next/link';
 import { Progress } from '@/components/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InProgressTopic } from '@/data/dashboard.api';
+import { useTranslation } from '@/hooks/use-translation';
+import { getDateFnsLocale } from '@/services/locale/locale-format';
 
 type ContinueLearningTopic = Omit<InProgressTopic, 'title'> & {
   title: string;
@@ -15,12 +19,14 @@ type ContinueLearningCardProperties = {
 };
 
 export default function RecentTopicsCard({ topics }: ContinueLearningCardProperties) {
+  const { t, languageCode } = useTranslation();
+
   if (topics.length === 0) return;
 
   return (
-    <Card className="border-border/60 from-background via-muted/40 to-muted/10 h-full rounded-3xl border bg-gradient-to-br shadow-sm">
+    <Card className="border-border/60 from-background via-muted/40 to-muted/10 h-full rounded-3xl border bg-linear-to-br shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg">Recent topics</CardTitle>
+        <CardTitle className="text-lg">{t('dashboard.recent.title')}</CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-3">
@@ -44,7 +50,10 @@ export default function RecentTopicsCard({ topics }: ContinueLearningCardPropert
                 <Progress value={percent} className="h-2" />
 
                 <p className="text-muted-foreground text-xs">
-                  {formatDistanceToNow(topic.lastPracticedAt, { addSuffix: true })}
+                  {formatDistanceToNow(topic.lastPracticedAt, {
+                    addSuffix: true,
+                    locale: getDateFnsLocale(languageCode),
+                  })}
                 </p>
               </div>
 

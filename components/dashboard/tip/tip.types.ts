@@ -1,4 +1,6 @@
+import { MessageKey } from '@/services/locale/messages';
+
 export type Tip = {
-  title: string;
-  text: string;
+  title: MessageKey;
+  text: MessageKey;
 };

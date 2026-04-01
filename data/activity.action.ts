@@ -20,7 +20,8 @@ export async function trackQuestionAttempt({ questionId, isSuccess }: TrackQuest
   }
 
   let questionValue = toPositiveInteger(questionId);
-
+  console.log('questionId:', questionId);
+  console.log('parsed:', questionValue);
   if (questionValue === undefined) {
     const { data: fallbackQuestion, error: questionError } = await supabase
       .from('questions')
@@ -34,7 +35,11 @@ export async function trackQuestionAttempt({ questionId, isSuccess }: TrackQuest
 
     questionValue = fallbackQuestion.id;
   }
-
+  console.log('Trying to upsert:', {
+    user_id: user.id,
+    question_id: questionValue,
+    is_success: isSuccess ?? false,
+  });
   const { error } = await supabase.from('profile_questions').upsert(
     {
       user_id: user.id,
@@ -45,7 +50,7 @@ export async function trackQuestionAttempt({ questionId, isSuccess }: TrackQuest
       onConflict: 'user_id,question_id',
     }
   );
-
+  console.log('Upsert result:', { error });
   if (error != undefined) {
     throw new Error(error.message);
   }
