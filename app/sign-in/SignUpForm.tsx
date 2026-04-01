@@ -5,24 +5,31 @@ import { useState } from 'react';
 import { CustomForm } from '@/components/CustomForm';
 import { CustomInput } from '@/components/CustomInput';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/hooks/use-translation';
 import { SchemaData } from '@/types/schemas/schema-registry';
 
 export default function SignUpForm({ handleSubmit }: { handleSubmit: (data: SchemaData) => void }) {
   const [formValid, setFormValid] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Create Account</h1>
+      <h1 className="mb-6 text-2xl font-bold">{t('button.sign-up')}</h1>
 
       <CustomForm id="sign-up-form" schemaKey="SignUpSchema" onSubmit={handleSubmit} onValidationChange={setFormValid}>
-        <CustomInput name="username" label="Username" type="text" classes="md:col-span-2" />
-        <CustomInput name="email" label="Email Address" type="email" classes="md:col-span-2" />
-        <CustomInput name="password" label="Password" type="password" dependencies={['confirmPassword']} />
-        <CustomInput name="confirmPassword" label="Confirm Password" type="password" />
+        <CustomInput name="username" label={t('auth.form.username')} type="text" classes="md:col-span-2" />
+        <CustomInput name="email" label={t('auth.form.email')} type="email" classes="md:col-span-2" />
+        <CustomInput
+          name="password"
+          label={t('auth.form.password')}
+          type="password"
+          dependencies={['confirmPassword']}
+        />
+        <CustomInput name="confirmPassword" label={t('auth.form.confirm-password')} type="password" />
       </CustomForm>
 
       <Button variant={'success'} form={'sign-up-form'} type="submit" className="my-3 w-full" disabled={!formValid}>
-        Sign Up
+        {t('button.sign-up')}
       </Button>
     </>
   );

@@ -26,8 +26,7 @@ export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse
       topicsPage,
       topicsPageError,
     };
-  } catch (error) {
-    console.log(error);
+  } catch {
     return { recentTopics: undefined, topicsPage: undefined, recentTopicsError: 'something went wrong' };
   }
 }

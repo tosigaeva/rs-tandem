@@ -3,6 +3,55 @@ import { LocaleString } from '@/types/schemas/locale-schemas';
 import { LanguageCode } from './locale.service';
 
 export const AppMessages = {
+  /// Blank
+  blank: {
+    [LanguageCode.en]: '',
+    [LanguageCode.ru]: '',
+    [LanguageCode.by]: '',
+  },
+
+  /// Authentication
+  'auth.signup.title': {
+    [LanguageCode.en]: 'Create new account',
+    [LanguageCode.ru]: 'Создать новый аккаунт',
+    [LanguageCode.by]: 'Стварыць новы рахунак',
+  },
+  'auth.signin.title': {
+    [LanguageCode.en]: 'Sign in with existing account',
+    [LanguageCode.ru]: 'Войти в существующий аккаунт',
+    [LanguageCode.by]: 'Увайсці ў існуючы рахунак',
+  },
+  'auth.form.email': {
+    [LanguageCode.en]: 'Email Address',
+    [LanguageCode.ru]: 'Электронная почта',
+    [LanguageCode.by]: 'Электронная пошта',
+  },
+  'auth.form.password': {
+    [LanguageCode.en]: 'Password',
+    [LanguageCode.ru]: 'Пароль',
+    [LanguageCode.by]: 'Пароль',
+  },
+  'auth.form.confirm-password': {
+    [LanguageCode.en]: 'Confirm Password',
+    [LanguageCode.ru]: 'Подтвердите пароль',
+    [LanguageCode.by]: 'Пацвердзіце пароль',
+  },
+  'auth.form.username': {
+    [LanguageCode.en]: 'Username',
+    [LanguageCode.ru]: 'Имя пользователя',
+    [LanguageCode.by]: 'Імя карыстальніка',
+  },
+  'auth.signup.success': {
+    [LanguageCode.en]: 'Account created successfully! Welcome.',
+    [LanguageCode.ru]: 'Аккаунт успешно создан! Добро пожаловать.',
+    [LanguageCode.by]: 'Рахунак паспяхова створаны! Сардэчна запрашаем.',
+  },
+  'auth.signin.success': {
+    [LanguageCode.en]: 'Successfully signed in.',
+    [LanguageCode.ru]: 'Вы успешно вошли в систему.',
+    [LanguageCode.by]: 'Вы паспяхова ўвайшлі ў сістэму.',
+  },
+
   /// library
   'library.title': {
     [LanguageCode.en]: 'Library',
@@ -386,6 +435,129 @@ export const AppMessages = {
     [LanguageCode.en]: 'Check Answer',
     [LanguageCode.ru]: 'Проверить ответ',
     [LanguageCode.by]: 'Праверыць адказ',
+  },
+  'button.sign-in': {
+    [LanguageCode.en]: 'Sign In',
+    [LanguageCode.ru]: 'Войти',
+    [LanguageCode.by]: 'Увайсці',
+  },
+  'button.sign-up': {
+    [LanguageCode.en]: 'Sign Up',
+    [LanguageCode.ru]: 'Регистрация',
+    [LanguageCode.by]: 'Рэгістрацыя',
+  },
+  'button.sign-out': {
+    [LanguageCode.en]: 'Sign Out',
+    [LanguageCode.ru]: 'Выйти',
+    [LanguageCode.by]: 'Выйсці',
+  },
+
+  /// Authentication & Session Errors
+  'error.auth.signin.invalid': {
+    [LanguageCode.en]: 'Invalid email or password.',
+    [LanguageCode.ru]: 'Неверный адрес почты или пароль.',
+    [LanguageCode.by]: 'Несапраўдны адрас пошты ці пароль.',
+  },
+  'error.auth.signup.invalid': {
+    [LanguageCode.en]: 'Invalid credentials passed.',
+    [LanguageCode.ru]: 'Предоставлены неверные учетные данные.',
+    [LanguageCode.by]: 'Прадастаўлены несапраўдныя ўліковыя даныя.',
+  },
+  'error.auth.expired': {
+    [LanguageCode.en]: 'Your session has expired. Please sign in again.',
+    [LanguageCode.ru]: 'Сессия истекла. Пожалуйста, войдите снова.',
+    [LanguageCode.by]: 'Сесія скончылася. Калі ласка, увайдзіце зноў.',
+  },
+  'error.auth.conflict': {
+    [LanguageCode.en]: 'This account or username already exists.',
+    [LanguageCode.ru]: 'Этот аккаунт или имя пользователя уже существует.',
+    [LanguageCode.by]: 'Гэты рахунак ці імя карыстальніка ўжо існуе.',
+  },
+  'error.auth.rate_limit': {
+    [LanguageCode.en]: 'Too many attempts. Please try again later.',
+    [LanguageCode.ru]: 'Слишком много попыток. Пожалуйста, попробуйте позже.',
+    [LanguageCode.by]: 'Занадта шмат спроб. Калі ласка, паспрабуйце пазней.',
+  },
+  'error.auth.required': {
+    [LanguageCode.en]: 'Please fill in all required fields.',
+    [LanguageCode.ru]: 'Пожалуйста, заполните все обязательные поля.',
+    [LanguageCode.by]: 'Калі ласка, запоўніце ўсе абавязковыя палі.',
+  },
+  'error.auth.not-found': {
+    [LanguageCode.en]: 'No account found with these credentials.',
+    [LanguageCode.ru]: 'Аккаунт с такими данными не найден.',
+    [LanguageCode.by]: 'Акаўнт з такімі данымі не знойдзены.',
+  },
+  'error.auth.invalid-account-data': {
+    [LanguageCode.en]: 'Invalid account data received.',
+    [LanguageCode.ru]: 'Получены некорректные данные аккаунта.',
+    [LanguageCode.by]: 'Атрыманы некарэктныя даныя акаўнта.',
+  },
+
+  /// Server & Network Errors
+  'error.server.maintenance': {
+    [LanguageCode.en]: 'Server is under maintenance. Please try again shortly.',
+    [LanguageCode.ru]: 'Сервер на техническом обслуживании. Попробуйте позже.',
+    [LanguageCode.by]: 'Сервер на тэхнічным абслугоўванні. Паспрабуйце пазней.',
+  },
+  'error.server.timeout': {
+    [LanguageCode.en]: 'The request timed out. Please check your connection.',
+    [LanguageCode.ru]: 'Время ожидания истекло. Проверьте соединение.',
+    [LanguageCode.by]: 'Час чакання скончыўся. Праверце злучэнне.',
+  },
+
+  /// Global Fallback
+  'error.global.unknown': {
+    [LanguageCode.en]: 'An unexpected error occurred.',
+    [LanguageCode.ru]: 'Произошла непредвиденная ошибка.',
+    [LanguageCode.by]: 'Адбылася неспадзяваная памылка.',
+  },
+
+  /// Zod Schema Messages
+  'validation.email_invalid': {
+    [LanguageCode.en]: 'Please enter a valid email address.',
+    [LanguageCode.ru]: 'Введите корректный адрес почты.',
+    [LanguageCode.by]: 'Увядзіце карэктны адрас пошты.',
+  },
+  'validation.password_too_short': {
+    [LanguageCode.en]: 'Password is too short.',
+    [LanguageCode.ru]: 'Пароль слишком короткий.',
+    [LanguageCode.by]: 'Пароль занадта кароткі.',
+  },
+  'validation.username_too_short': {
+    [LanguageCode.en]: 'Username must be at least 3 characters.',
+    [LanguageCode.ru]: 'Имя пользователя должно быть не менее 3 символов.',
+    [LanguageCode.by]: 'Імя карыстальніка павінна быць не менш за 3 сімвалы.',
+  },
+  'validation.username_too_long': {
+    [LanguageCode.en]: 'Username must be at most 12 characters.',
+    [LanguageCode.ru]: 'Имя пользователя должно быть не более 12 символов.',
+    [LanguageCode.by]: 'Імя карыстальніка павінна быць не больш за 12 сімвалаў.',
+  },
+  'validation.username_invalid': {
+    [LanguageCode.en]: 'Username contains invalid characters.',
+    [LanguageCode.ru]: 'Имя пользователя содержит недопустимые символы.',
+    [LanguageCode.by]: 'Імя карыстальніка ўтрымлівае недапушчальныя сімвалы.',
+  },
+  'validation.password_mismatch': {
+    [LanguageCode.en]: 'Passwords do not match.',
+    [LanguageCode.ru]: 'Пароли не совпадают.',
+    [LanguageCode.by]: 'Паролі не супадаюць.',
+  },
+  'validation.required': {
+    [LanguageCode.en]: 'This field is required.',
+    [LanguageCode.ru]: 'Это поле обязательно для заполнения.',
+    [LanguageCode.by]: 'Гэта поле абавязкова для запаўнення.',
+  },
+  'validation.selection_required': {
+    [LanguageCode.en]: 'Please select an option.',
+    [LanguageCode.ru]: 'Пожалуйста, выберите вариант.',
+    [LanguageCode.by]: 'Калі ласка, абярыце варыянт.',
+  },
+  'validation.uppercase': {
+    [LanguageCode.en]: 'Must contain at least one uppercase letter.',
+    [LanguageCode.ru]: 'Должен содержать хотя бы одну заглавную букву.',
+    [LanguageCode.by]: 'Павінен утрымліваць хаця б адну вялікую літару.',
   },
 } satisfies Record<string, LocaleString>;
 

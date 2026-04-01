@@ -10,12 +10,8 @@ import { InProgressTopic } from '@/data/dashboard.api';
 import { useTranslation } from '@/hooks/use-translation';
 import { getDateFnsLocale } from '@/services/locale/locale-format';
 
-type ContinueLearningTopic = Omit<InProgressTopic, 'title'> & {
-  title: string;
-};
-
 type ContinueLearningCardProperties = {
-  topics: ContinueLearningTopic[];
+  topics: InProgressTopic[];
 };
 
 export default function RecentTopicsCard({ topics }: ContinueLearningCardProperties) {

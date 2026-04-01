@@ -48,9 +48,9 @@ describe('CustomInput', () => {
 describe('CustomInput Validation States', () => {
   let user: ReturnType<typeof userEvent.setup>;
 
-  const invalidEmailMatcher = /invalid email/i;
+  const invalidEmailMatcher = /please enter/i;
   const schema = z.object({
-    email: z.string().min(1, 'Field is required').email('Invalid email address'),
+    email: z.string().min(1, 'validation.required').email('validation.email_invalid'),
   });
 
   const ValidationWrapper = ({ children }: { children: React.ReactNode }) => {

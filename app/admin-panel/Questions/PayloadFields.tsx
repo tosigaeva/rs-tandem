@@ -8,7 +8,7 @@ import { BigOComplexity } from '@/types/schemas/question-payload-schema';
 import { WidgetType } from '@/types/widget';
 
 export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
-  const { setValue, trigger } = useFormContext();
+  const { trigger } = useFormContext();
   const quizIndices = [1, 2, 3, 4];
 
   const renderQuizPayload = () => {
@@ -34,17 +34,16 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
       <LocaleInput name={'payloadQuestion.statement'} label={'Statement'} />
       <LocaleInput name={'payloadQuestion.explanation'} label={'Explanation'} />
       <h3 className="text-sm font-medium">True-False Answer Configuration</h3>
-      <CustomSelect
+      <CustomSelect<boolean>
         name="payloadAnswer.correct"
         label="Is this statement Correct?"
         options={[
-          { label: 'True', value: 'true' },
-          { label: 'False', value: 'false' },
+          { label: 'True', value: true },
+          { label: 'False', value: false },
         ]}
         onChange={{
-          validator: (value) => value,
-          act: (value) => {
-            setValue('payloadAnswer.correct', value === 'true' ? true : value === 'false' ? false : value);
+          validator: (value) => value === 'true',
+          act: () => {
             trigger();
           },
         }}

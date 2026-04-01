@@ -1,17 +1,19 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Edit, Eraser, MessageSquarePlus } from 'lucide-react';
+import { Edit, MessageSquarePlus } from 'lucide-react';
 
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
 import { Button } from '@/components/ui/button';
 import { Widget, WidgetAdminListItem } from '@/types/schemas/widget-schema';
+import { WidgetType } from '@/types/widget';
 
 type MetaProperties = {
   handleOpenDialog: (data: Widget) => void;
+  handleAddQuestion: (widgetType: WidgetType) => void;
 };
 
-export function createColumns({ handleOpenDialog }: MetaProperties) {
+export function createColumns({ handleOpenDialog, handleAddQuestion }: MetaProperties) {
   const columns: ColumnDef<WidgetAdminListItem>[] = [
     {
       accessorKey: 'type',
@@ -58,7 +60,13 @@ export function createColumns({ handleOpenDialog }: MetaProperties) {
 
         return (
           <div className="flex justify-end gap-2">
-            <Button variant="ghost" size="icon" className="text-green-700 hover:text-green-900" disabled={isDisabled}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-green-700 hover:text-green-900"
+              disabled={isDisabled}
+              onClick={() => handleAddQuestion(row.original.type)}
+            >
               <MessageSquarePlus className="h-4 w-4" />
             </Button>
             <Button
@@ -71,14 +79,6 @@ export function createColumns({ handleOpenDialog }: MetaProperties) {
               }}
             >
               <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-destructive hover:text-destructive"
-              disabled={isDisabled}
-            >
-              <Eraser className="h-4 w-4" />
             </Button>
           </div>
         );
