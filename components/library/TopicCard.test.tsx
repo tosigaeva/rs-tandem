@@ -1,16 +1,9 @@
 import { render, screen } from '@testing-library/react';
 
 import { TopicCard } from '@/components/library/TopicCard';
-import { Locale, useLocale } from '@/services/locale/locale.service';
 import { Level, Subject, TopicOverview } from '@/types/schemas/topic-schema';
 
 describe('TopicCard', () => {
-  beforeEach(() => {
-    useLocale.setState({
-      locale: Locale.gb,
-    });
-  });
-
   it('renders basic topic fields', () => {
     const topic: TopicOverview = {
       id: 1,

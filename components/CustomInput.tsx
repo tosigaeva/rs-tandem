@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 
 export const CUSTOM_INPUT_DEBOUNCE_TIMER = 300;
@@ -32,6 +33,8 @@ export const CustomInput = ({
   const { register, formState, getFieldState, watch, trigger } = useFormContext();
   const isPassword = type === 'password';
   const [visibility, visibilityToggle] = useState(false);
+
+  const { t, tor } = useTranslation();
 
   const { error, isTouched, isDirty } = getFieldState(name, formState);
 
@@ -124,7 +127,9 @@ export const CustomInput = ({
       </div>
       <div className="min-h-5">
         {hasError && initialBlur && (
-          <p className="text-xs font-medium text-red-500">{isEmpty() ? 'Field is required' : errorMessage}</p>
+          <p className="text-xs font-medium text-red-500">
+            {isEmpty() ? t('validation.required') : (tor(errorMessage, 'blank') ?? errorMessage)}
+          </p>
         )}
       </div>
     </div>

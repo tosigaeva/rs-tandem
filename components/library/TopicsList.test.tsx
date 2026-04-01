@@ -1,15 +1,10 @@
 import { render, screen } from '@testing-library/react';
 
 import { TopicList } from '@/components/library/TopicsList';
-import { Locale, useLocale } from '@/services/locale/locale.service';
 import { Level, Subject, TopicOverview } from '@/types/schemas/topic-schema';
 
 describe('TopicList', () => {
   it('renders list of topics with links', () => {
-    useLocale.setState({
-      locale: Locale.gb,
-    });
-
     const topics: TopicOverview[] = [
       {
         id: 1,
