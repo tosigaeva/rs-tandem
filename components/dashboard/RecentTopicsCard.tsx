@@ -10,11 +10,15 @@ import { InProgressTopic } from '@/data/dashboard.api';
 import { useTranslation } from '@/hooks/use-translation';
 import { getDateFnsLocale } from '@/services/locale/locale-format';
 
-type ContinueLearningCardProperties = {
-  topics: InProgressTopic[];
+export type RecentTopics = Omit<InProgressTopic, 'title'> & {
+  title: string;
 };
 
-export default function RecentTopicsCard({ topics }: ContinueLearningCardProperties) {
+type RecentTopicsCardProperties = {
+  topics: RecentTopics[];
+};
+
+export default function RecentTopicsCard({ topics }: RecentTopicsCardProperties) {
   const { t, languageCode } = useTranslation();
 
   if (topics.length === 0) return;

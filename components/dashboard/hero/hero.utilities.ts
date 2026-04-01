@@ -1,5 +1,6 @@
 import { HeroProperties, HeroState, HeroStats } from '@/components/dashboard/hero/hero.types';
 import { Routes } from '@/lib/routes';
+import { formatMessage } from '@/services/locale/format-message';
 import { LanguageCode } from '@/services/locale/locale.service';
 import type { MessageKey } from '@/services/locale/messages';
 import { selectPluralCategory } from '@/services/locale/plural';
@@ -32,8 +33,8 @@ export function buildHeroProperties(
     case 'first': {
       return {
         label: t('dashboard.hero.first.label'),
-        title: t('dashboard.hero.first.title', { name: userName }),
-        subtitle: t('dashboard.hero.first.subtitle', { count: stats.todayAnswers }),
+        title: formatMessage(t('dashboard.hero.first.title'), { name: userName }),
+        subtitle: formatMessage(t(getHeroSubtitleKey(stats.todayAnswers, languageCode)), { count: stats.todayAnswers }),
         cta: t('dashboard.hero.first.cta'),
         href: Routes.Library,
       };
@@ -42,8 +43,8 @@ export function buildHeroProperties(
     case 'active': {
       return {
         label: t('dashboard.hero.active.label'),
-        title: t('dashboard.hero.active.title', { name: userName }),
-        subtitle: t(getHeroSubtitleKey(stats.todayAnswers, languageCode), { count: stats.todayAnswers }),
+        title: formatMessage(t('dashboard.hero.active.title'), { name: userName }),
+        subtitle: formatMessage(t(getHeroSubtitleKey(stats.todayAnswers, languageCode)), { count: stats.todayAnswers }),
         cta: t('dashboard.hero.active.cta'),
         href: Routes.Library,
       };
@@ -52,8 +53,8 @@ export function buildHeroProperties(
     case 'returning': {
       return {
         label: t('dashboard.hero.returning.label'),
-        title: t('dashboard.hero.returning.title', { name: userName }),
-        subtitle: t('dashboard.hero.returning.subtitle', { count: stats.todayAnswers }),
+        title: formatMessage(t('dashboard.hero.returning.title'), { name: userName }),
+        subtitle: formatMessage(t('dashboard.hero.returning.subtitle'), { count: stats.todayAnswers }),
         cta: t('dashboard.hero.returning.cta'),
         href: Routes.Library,
       };

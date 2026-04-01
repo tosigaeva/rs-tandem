@@ -1,64 +1,61 @@
 'use client';
 
-import Link from 'next/link';
-
 import { DailyActivityCard } from '@/components/dashboard/activity';
-import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';
-import { ProgressCard } from '@/components/dashboard/progress/ProgressCard';
-import StreakCard from '@/components/dashboard/StreakCard';
-import { TipCard } from '@/components/dashboard/TipCard';
-import { PrimaryButton } from '@/components/PrimaryButton';
-import { DashboardStats, InProgressTopic } from '@/data/dashboard.api';
+import Hero from '@/components/dashboard/hero/Hero';
+import { buildHeroProperties } from '@/components/dashboard/hero/hero.utilities';
+import { PracticeCard } from '@/components/dashboard/practice/PracticeCard';
+import RecentTopicsCard, { RecentTopics } from '@/components/dashboard/RecentTopicsCard';
+import StreakCard from '@/components/dashboard/streak/StreakCard';
+import { Tip } from '@/components/dashboard/tip/tip.types';
+import { TipCard } from '@/components/dashboard/tip/TipCard';
+import { DashboardStats } from '@/data/dashboard.api';
 import { useTranslation } from '@/hooks/use-translation';
-import { Routes } from '@/lib/routes';
 import { useAuth } from '@/providers/auth-state.provider';
-
-import { Tip } from './page';
+import { LanguageCode } from '@/services/locale/locale.service';
 
 type DashboardProperties = {
-  tipOfTheDay: Tip;
+  randomTip: Tip;
   dashboardStats: DashboardStats;
-  inProgressTopics: InProgressTopic[];
+  inProgressTopics: RecentTopics[];
+  languageCode: LanguageCode;
 };
 
-export function DashboardContent({ tipOfTheDay, dashboardStats, inProgressTopics }: DashboardProperties) {
+export function DashboardContent({ randomTip, dashboardStats, inProgressTopics, languageCode }: DashboardProperties) {
   const { t } = useTranslation();
   const { user } = useAuth();
 
   return (
-    <main className="text-foreground px-6 py-8">
-      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
-        <article className="space-y-6">
-          <h1 className="text-2xl font-bold sm:text-4xl">
-            {t('dashboard.greeting')}, {user?.username}!
-          </h1>
+    <main className="text-foreground py-8">
+      <section className="mx-auto grid w-full max-w-6xl gap-10 px-6">
+        <Hero
+          {...buildHeroProperties(t, languageCode, user?.username ?? 'Guest', {
+            todayAnswers: dashboardStats.todayAnswers,
+            totalAnswers: dashboardStats.totalAnswers,
+            streak: dashboardStats.streak,
+          })}
+        />
 
-          <section className="grid items-stretch gap-8 lg:grid-cols-7">
+        <article className="space-y-6">
+          <section className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-7">
             <div className="lg:col-span-2">
-              <ProgressCard
-                todayAnswers={dashboardStats.todayAnswers}
+              <PracticeCard
+                correctAnswers={dashboardStats.correctAnswers}
                 totalAnswers={dashboardStats.totalAnswers}
                 accuracy={dashboardStats.accuracy}
-                streak={dashboardStats.streak}
+                totalDays={dashboardStats.totalDays}
               />
             </div>
-
             <div className="lg:col-span-2">
               <StreakCard streak={dashboardStats.streak} bestStreak={dashboardStats.bestStreak} />
             </div>
-
-            <div className="lg:col-span-3">
+            <div className="sm:col-span-2 md:col-span-2 lg:col-span-3">
               <DailyActivityCard days={dashboardStats.days} />
             </div>
           </section>
-          <section className="mt-6 grid gap-6 lg:grid-cols-2">
-            <ContinueLearningCard topics={inProgressTopics} />
-            <TipCard tip={tipOfTheDay} />
+          <section className="grid gap-6 md:grid-cols-2 lg:col-span-3">
+            <RecentTopicsCard topics={inProgressTopics} />
+            <TipCard tip={randomTip} />
           </section>
-
-          <PrimaryButton asChild>
-            <Link href={Routes.Library}>{t('dashboard.startPracticeButton')}</Link>
-          </PrimaryButton>
         </article>
       </section>
     </main>
