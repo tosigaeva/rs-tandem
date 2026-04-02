@@ -17,21 +17,26 @@ export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
   const progressLabel = formatPercent(roundedProgress);
 
   return (
-    <Card className="group hover:ring-primary/40 hover:ring-offset-background h-full w-full cursor-pointer transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2">
-      <CardHeader>
+    <Card className="group hover:ring-primary/40 hover:ring-offset-background h-full w-full cursor-pointer gap-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2">
+      <CardHeader className="gap-2 pb-0">
         <div className="flex items-center justify-between">
           <Badge variant="secondary" className="text-xs capitalize">
             {LevelLocales[topic.level][languageCode]}
           </Badge>
           {displayProgress && <span className="text-muted-foreground text-xs">{progressLabel}</span>}
         </div>
-        <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
+        <CardTitle
+          className="group-hover:text-primary line-clamp-1 text-lg font-semibold tracking-tight transition-colors"
+          title={translate(topic.name)}
+        >
           {translate(topic.name)}
         </CardTitle>
         <CardDescription className="line-clamp-2 min-h-10 text-sm">{translate(topic.description)}</CardDescription>
       </CardHeader>
-      <CardContent>{displayProgress && <Progress value={roundedProgress} className="h-2" />}</CardContent>
-      <CardFooter>
+      <CardContent className="pt-0">
+        {displayProgress && <Progress value={roundedProgress} className="h-2" />}
+      </CardContent>
+      <CardFooter className="pt-0">
         <Badge variant="outline" className="text-xs font-normal">
           {topic.subject}
         </Badge>
