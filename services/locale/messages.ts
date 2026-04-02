@@ -85,11 +85,6 @@ export const AppMessages = {
   },
 
   /// dashboard
-  'dashboard.greeting': {
-    [LanguageCode.en]: 'Hello',
-    [LanguageCode.ru]: 'Привет',
-    [LanguageCode.by]: 'Прывітанне',
-  },
   'dashboard.startPracticeButton': {
     [LanguageCode.en]: 'Start Practice',
     [LanguageCode.ru]: 'Начать практику',
@@ -129,6 +124,181 @@ export const AppMessages = {
     [LanguageCode.en]: '{count} answers on {date}',
     [LanguageCode.ru]: '{count} ответа: {date}',
     [LanguageCode.by]: '{count} адказа: {date}',
+  },
+  'dashboard.hero.first.label': {
+    [LanguageCode.en]: 'Welcome',
+    [LanguageCode.ru]: 'Добро пожаловать',
+    [LanguageCode.by]: 'Сардэчна запрашаем',
+  },
+  'dashboard.hero.first.title': {
+    [LanguageCode.en]: 'Let’s start your learning journey, {{name}}',
+    [LanguageCode.ru]: 'Давайте начнём ваше обучение, {{name}}',
+    [LanguageCode.by]: 'Пачнём ваш шлях навучання, {{name}}',
+  },
+  'dashboard.hero.first.subtitle': {
+    [LanguageCode.en]: 'Build your first habit in just a few minutes.',
+    [LanguageCode.ru]: 'Сформируйте первую привычку всего за несколько минут.',
+    [LanguageCode.by]: 'Сфармуйце першую звычку за некалькі хвілін.',
+  },
+  'dashboard.hero.first.cta': {
+    [LanguageCode.en]: 'Start learning',
+    [LanguageCode.ru]: 'Начать обучение',
+    [LanguageCode.by]: 'Пачаць навучанне',
+  },
+  'dashboard.hero.active.label': {
+    [LanguageCode.en]: 'You’re on a roll',
+    [LanguageCode.ru]: 'Вы в отличном темпе',
+    [LanguageCode.by]: 'Вы ў добрым рытме',
+  },
+  'dashboard.hero.active.title': {
+    [LanguageCode.en]: 'Keep the streak alive, {name}',
+    [LanguageCode.ru]: 'Поддерживайте серию, {name}',
+    [LanguageCode.by]: 'Падтрымлівайце серыю, {name}',
+  },
+  'dashboard.hero.active.subtitle.zero': {
+    [LanguageCode.en]: 'You haven’t answered any questions today. Let’s start!',
+    [LanguageCode.ru]: 'Сегодня вы ещё не ответили ни на один вопрос. Давайте начнём!',
+    [LanguageCode.by]: 'Сёння вы яшчэ не адказалі ні на адно пытанне. Пачнём!',
+  },
+  'dashboard.hero.active.subtitle.one': {
+    [LanguageCode.en]: 'You’ve answered {count} question today. Keep it going.',
+    [LanguageCode.ru]: 'Сегодня вы ответили на {count} вопрос. Продолжайте в том же духе.',
+    [LanguageCode.by]: 'Сёння вы адказалі на {count} пытанне. Працягвайце ў тым жа духу.',
+  },
+  'dashboard.hero.active.subtitle.few': {
+    [LanguageCode.en]: 'You’ve answered {count} questions today. Keep it going.',
+    [LanguageCode.ru]: 'Сегодня вы ответили на {count} вопроса. Продолжайте в том же духе.',
+    [LanguageCode.by]: 'Сёння вы адказалі на {count} пытанні. Працягвайце ў тым жа духу.',
+  },
+  'dashboard.hero.active.subtitle.many': {
+    [LanguageCode.en]: 'You’ve answered {count} questions today. Keep it going.',
+    [LanguageCode.ru]: 'Сегодня вы ответили на {count} вопросов. Продолжайте в том же духе.',
+    [LanguageCode.by]: 'Сёння вы адказалі на {count} пытанняў. Працягвайце ў тым жа духу.',
+  },
+  'dashboard.hero.active.subtitle.other': {
+    [LanguageCode.en]: 'You’ve answered {count} questions today. Keep it going.',
+    [LanguageCode.ru]: 'Сегодня вы ответили на {count} вопроса. Продолжайте в том же духе.',
+    [LanguageCode.by]: 'Сёння вы адказалі на {count} пытанні. Працягвайце ў тым жа духу.',
+  },
+  'dashboard.hero.active.cta': {
+    [LanguageCode.en]: 'Resume practice',
+    [LanguageCode.ru]: 'Продолжить практику',
+    [LanguageCode.by]: 'Працягнуць практыку',
+  },
+  'dashboard.hero.returning.label': {
+    [LanguageCode.en]: 'Your learning space',
+    [LanguageCode.ru]: 'Ваше место для обучения',
+    [LanguageCode.by]: 'Ваша месца для навучання',
+  },
+  'dashboard.hero.returning.title': {
+    [LanguageCode.en]: 'Ready to continue, {{name}}?',
+    [LanguageCode.ru]: 'Готовы продолжить, {{name}}?',
+    [LanguageCode.by]: 'Гатовы працягнуць, {{name}}?',
+  },
+  'dashboard.hero.returning.subtitle': {
+    [LanguageCode.en]: 'Pick up where you left off or start something new.',
+    [LanguageCode.ru]: 'Продолжите с места, где остановились, или начните что-то новое.',
+    [LanguageCode.by]: 'Працягніце з месца, дзе спыніліся, або пачніце нешта новае.',
+  },
+  'dashboard.hero.returning.cta': {
+    [LanguageCode.en]: 'Continue practice',
+    [LanguageCode.ru]: 'Продолжить практику',
+    [LanguageCode.by]: 'Працягнуць практыку',
+  },
+  'dashboard.practice.title': {
+    [LanguageCode.en]: 'Practice snapshot',
+    [LanguageCode.ru]: 'Статистика практики',
+    [LanguageCode.by]: 'Статыстыка практыкі',
+  },
+  'dashboard.practice.correct': {
+    [LanguageCode.en]: 'Correct answers',
+    [LanguageCode.ru]: 'Правильных ответов',
+    [LanguageCode.by]: 'Правільных адказаў',
+  },
+  'dashboard.practice.accuracy': {
+    [LanguageCode.en]: 'Accuracy',
+    [LanguageCode.ru]: 'Процент правильных',
+    [LanguageCode.by]: 'Працэнт правільных',
+  },
+  'dashboard.practice.total': {
+    [LanguageCode.en]: 'Total answers',
+    [LanguageCode.ru]: 'Всего ответов',
+    [LanguageCode.by]: 'Усяго адказаў',
+  },
+  'dashboard.practice.days': {
+    [LanguageCode.en]: 'Total days',
+    [LanguageCode.ru]: 'Дней практики',
+    [LanguageCode.by]: 'Дзён практыкі',
+  },
+  'dashboard.streak.title.one': {
+    [LanguageCode.en]: '{count} day streak',
+    [LanguageCode.ru]: '{count} день подряд',
+    [LanguageCode.by]: '{count} дзень запар',
+  },
+  'dashboard.streak.title.few': {
+    [LanguageCode.en]: '{count} day streak',
+    [LanguageCode.ru]: '{count} дня подряд',
+    [LanguageCode.by]: '{count} дні запар',
+  },
+  'dashboard.streak.title.many': {
+    [LanguageCode.en]: '{count} day streak',
+    [LanguageCode.ru]: '{count} дней подряд',
+    [LanguageCode.by]: '{count} дзён запар',
+  },
+  'dashboard.streak.title.other': {
+    [LanguageCode.en]: '{count} day streak',
+    [LanguageCode.ru]: '{count} дня подряд',
+    [LanguageCode.by]: '{count} дня запар',
+  },
+  'dashboard.streak.keep': {
+    [LanguageCode.en]: 'Don’t break the chain',
+    [LanguageCode.ru]: 'Не останавливайся!',
+    [LanguageCode.by]: 'Не спыняйся!',
+  },
+  'dashboard.streak.best.one': {
+    [LanguageCode.en]: 'Personal best: {count} day',
+    [LanguageCode.ru]: 'Лучший результат: {count} день',
+    [LanguageCode.by]: 'Лепшы вынік: {count} дзень',
+  },
+  'dashboard.streak.best.few': {
+    [LanguageCode.en]: 'Personal best: {count} days',
+    [LanguageCode.ru]: 'Лучший результат: {count} дня',
+    [LanguageCode.by]: 'Лепшы вынік: {count} дні',
+  },
+  'dashboard.streak.best.many': {
+    [LanguageCode.en]: 'Personal best: {count} days',
+    [LanguageCode.ru]: 'Лучший результат: {count} дней',
+    [LanguageCode.by]: 'Лепшы вынік: {count} дзён',
+  },
+  'dashboard.streak.best.other': {
+    [LanguageCode.en]: 'Personal best: {count} days',
+    [LanguageCode.ru]: 'Лучший результат: {count} дня',
+    [LanguageCode.by]: 'Лепшы вынік: {count} дня',
+  },
+  'dashboard.recent.title': {
+    [LanguageCode.en]: 'Recent topics',
+    [LanguageCode.ru]: 'Прохожу сейчас',
+    [LanguageCode.by]: 'Праходжу зараз',
+  },
+  'dashboard.tip.jsfact.title': {
+    [LanguageCode.en]: 'JavaScript fact',
+    [LanguageCode.ru]: 'Факт о JavaScript',
+    [LanguageCode.by]: 'Факт пра JavaScript',
+  },
+  'dashboard.tip.jsfact.null': {
+    [LanguageCode.en]: '`typeof null` returns "object" — this is a historical bug in JavaScript.',
+    [LanguageCode.ru]: '`typeof null` возвращает "object" — историческая ошибка JS.',
+    [LanguageCode.by]: '`typeof null` вяртае "object" — гістарычная памылка JS.',
+  },
+  'dashboard.tip.jsfact.nan': {
+    [LanguageCode.en]: '`NaN === NaN` is false. Use Number.isNaN() to check it.',
+    [LanguageCode.ru]: '`NaN === NaN` возвращает false. Используйте Number.isNaN().',
+    [LanguageCode.by]: '`NaN === NaN` вяртае false. Выкарыстоўвайце Number.isNaN().',
+  },
+  'dashboard.tip.jsfact.array_plus_array': {
+    [LanguageCode.en]: '`[] + []` results in an empty string "" because of type coercion.',
+    [LanguageCode.ru]: '`[] + []` даёт пустую строку "" из-за приведения типов.',
+    [LanguageCode.by]: '`[] + []` дае пусты радок "" праз прывядзенне тыпаў.',
   },
 
   /// results

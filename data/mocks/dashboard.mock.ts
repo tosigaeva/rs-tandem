@@ -13,8 +13,10 @@ export const mockDashboardStats: DashboardStats = {
     { date: today.toISOString().slice(0, 10), count: 5 },
   ] satisfies ActivityDay[],
   todayAnswers: 5,
+  correctAnswers: 6,
   totalAnswers: 10,
   accuracy: 50,
+  totalDays: 12,
   streak: 3,
   bestStreak: 7,
 };

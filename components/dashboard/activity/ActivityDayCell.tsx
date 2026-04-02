@@ -3,6 +3,7 @@
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
+import { formatMessage } from '@/services/locale/format-message';
 import { LanguageCode } from '@/services/locale/locale.service';
 import type { MessageKey } from '@/services/locale/messages';
 import { selectPluralCategory } from '@/services/locale/plural';
@@ -14,10 +15,6 @@ import { formatDateLabel } from './activity-date.utilities';
 type ActivityDayCellProperties = {
   day: ActivityCell;
 };
-
-function formatMessage(template: string, values: Record<string, string | number>): string {
-  return template.replaceAll(/\{(\w+)\}/g, (match, token) => String(values[token] ?? match));
-}
 
 function getAnswerLabelKey(count: number, languageCode: LanguageCode): MessageKey {
   const category = selectPluralCategory(count, languageCode);
