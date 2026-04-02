@@ -155,6 +155,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Поддерживайте серию, {name}',
     [LanguageCode.by]: 'Падтрымлівайце серыю, {name}',
   },
+  'dashboard.hero.active.subtitle.zero': {
+    [LanguageCode.en]: 'You haven’t answered any questions today. Let’s start!',
+    [LanguageCode.ru]: 'Сегодня вы ещё не ответили ни на один вопрос. Давайте начнём!',
+    [LanguageCode.by]: 'Сёння вы яшчэ не адказалі ні на адно пытанне. Пачнём!',
+  },
   'dashboard.hero.active.subtitle.one': {
     [LanguageCode.en]: 'You’ve answered {count} question today. Keep it going.',
     [LanguageCode.ru]: 'Сегодня вы ответили на {count} вопрос. Продолжайте в том же духе.',

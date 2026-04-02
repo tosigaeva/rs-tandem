@@ -12,6 +12,8 @@ function getHeroState(stats: HeroStats): HeroState {
 }
 
 function getHeroSubtitleKey(count: number, languageCode: LanguageCode): MessageKey {
+  if (count === 0) return 'dashboard.hero.active.subtitle.zero';
+
   const category = selectPluralCategory(count, languageCode);
 
   if (category === 'one') return 'dashboard.hero.active.subtitle.one';
