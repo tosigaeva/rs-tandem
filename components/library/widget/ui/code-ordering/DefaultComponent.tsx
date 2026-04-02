@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import BlockItem from '@/components/library/widget/ui/code-ordering/BlockItem';
 import { InsertionSlot } from '@/components/library/widget/ui/code-ordering/InsertionSlot';
@@ -47,7 +47,18 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   const [dragIndex, setDragIndex] = useState<number | undefined>();
   const [hoverIndex, setHoverIndex] = useState<number | undefined>();
   const [isOverArea, setIsOverArea] = useState(false);
+
+  const [keyboardIndex, setKeyboardIndex] = useState<number>(0);
+  const [keyboardDragIndex, setKeyboardDragIndex] = useState<number | undefined>();
+  const [isKeyboardMode, setIsKeyboardMode] = useState(false);
+
   const [verdict, setVerdict] = useState<boolean[] | undefined>();
+
+  const sectionReference = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    sectionReference.current?.focus();
+  }, [questionId]);
 
   function handleReorder(from: number, to: number) {
     if (from === to) return;
@@ -61,6 +72,70 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
       copy.splice(correctedTo, 0, moved);
       return copy;
     });
+  }
+
+  function handleKeyboardDnD(event: React.KeyboardEvent<HTMLDivElement>) {
+    const maxIndex = keyboardDragIndex === undefined ? blocks.length - 1 : blocks.length;
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      setKeyboardIndex((previous) => {
+        const next = Math.max(0, previous - 1);
+
+        if (keyboardDragIndex !== undefined) {
+          setHoverIndex(next);
+        }
+
+        return next;
+      });
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setKeyboardIndex((previous) => {
+        const next = Math.min(maxIndex, previous + 1);
+
+        if (keyboardDragIndex !== undefined) {
+          setHoverIndex(next);
+        }
+
+        return next;
+      });
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      setKeyboardDragIndex(undefined);
+      setDragIndex(undefined);
+      setHoverIndex(undefined);
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      if (keyboardDragIndex === undefined && keyboardIndex < blocks.length) {
+        setKeyboardDragIndex(keyboardIndex);
+        setDragIndex(keyboardIndex);
+        setHoverIndex(keyboardIndex);
+        return;
+      }
+
+      if (keyboardDragIndex !== undefined) {
+        const from = keyboardDragIndex;
+        const to = keyboardIndex;
+
+        const correctedTo = from < to ? to - 1 : to;
+
+        handleReorder(from, to);
+
+        setKeyboardIndex(correctedTo);
+        setKeyboardDragIndex(undefined);
+        setDragIndex(undefined);
+        setHoverIndex(undefined);
+      }
+    }
   }
 
   const handleCheck = async () => {
@@ -89,8 +164,13 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
         <CardContent className="space-y-4">
           <CardDescription>Расставь строки кода в правильном порядке</CardDescription>
           <div
-            className={`rounded-md px-2 transition-all duration-200
-            ${isOverArea ? 'bg-primary/5 ring-primary/40 bg-secondary/25 ring-2' : 'bg-secondary/10'}
+            ref={sectionReference}
+            tabIndex={0}
+            onFocus={() => setIsKeyboardMode(true)}
+            onBlur={() => setIsKeyboardMode(false)}
+            onKeyDown={handleKeyboardDnD}
+            className={`rounded-md px-2 transition-all duration-200 focus-visible:outline-0
+            ${isOverArea ? 'ring-primary/40 bg-secondary/25 ring-2' : 'bg-secondary/10'}
             `}
           >
             {blocks.map((block, index) => (
@@ -112,7 +192,10 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     setDragIndex(undefined);
                     setIsOverArea(false);
                   }}
-                  className="cursor-grab active:cursor-grabbing"
+                  className={`
+    cursor-grab active:cursor-grabbing
+    ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}
+  `}
                 >
                   <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
                 </div>
