@@ -27,7 +27,7 @@ export default async function Page({ params, searchParams }: PageProperties) {
   const { widgetType } = await searchParams;
 
   return (
-    <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
+    <main className="mx-auto max-w-6xl space-y-12 divide-y px-6 py-10">
       <section className="space-y-2 pb-6">
         <h1 className="text-4xl font-semibold tracking-tight">{topicName[languageCode]}</h1>
       </section>
