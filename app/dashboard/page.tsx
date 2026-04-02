@@ -1,46 +1,36 @@
+import { DashboardContent } from '@/app/dashboard/dashboard-content';
+import { getRandomTip } from '@/components/dashboard/tip/tip.utilities';
 import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
+import { getServerLanguageCode } from '@/services/locale/locale.server';
 
-import { DashboardContent } from './dashboard-content';
-
-export type Tip = {
-  title: string;
-  text: string;
-};
-
-const tips: Tip[] = [
-  {
-    title: 'JavaScript fact',
-    text: '`typeof null` returns "object" — this is a historical bug in JavaScript.',
-  },
-  {
-    title: 'JavaScript fact',
-    text: '`NaN === NaN` is false. Use Number.isNaN() to check it.',
-  },
-  {
-    title: 'JavaScript fact',
-    text: '`[] + []` results in an empty string "" because of type coercion.',
-  },
-];
-
-const tipOfTheDay = tips[Math.floor(Math.random() * tips.length)];
+const randomTip = getRandomTip();
 
 export default async function Page() {
-  const [dashboardStatsResult, inProgressTopicsResult] = await Promise.all([
+  const [dashboardStatsResult, inProgressTopicsResult, languageCode] = await Promise.all([
     getDashboardStats(),
     getInProgressTopics(),
+    getServerLanguageCode(),
   ]);
-
   const dashboardStats = dashboardStatsResult.data ?? {
     days: [],
     todayAnswers: 0,
+    correctAnswers: 0,
     totalAnswers: 0,
     accuracy: 0,
+    totalDays: 0,
     streak: 0,
     bestStreak: 0,
   };
-  const inProgressTopics = inProgressTopicsResult.data ?? [];
-
+  const inProgressTopics = (inProgressTopicsResult.data ?? []).map((topic) => ({
+    ...topic,
+    title: topic.title[languageCode],
+  }));
   return (
-    <DashboardContent dashboardStats={dashboardStats} tipOfTheDay={tipOfTheDay} inProgressTopics={inProgressTopics} />
+    <DashboardContent
+      dashboardStats={dashboardStats}
+      randomTip={randomTip}
+      inProgressTopics={inProgressTopics}
+      languageCode={languageCode}
+    />
   );
 }
