@@ -61,9 +61,9 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
   return (
     <main className="text-foreground py-8">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6">
-        <section className="space-y-6">
-          <h1 className="text-4xl font-semibold tracking-tight">{t('library.title')}</h1>
-          <p className="text-muted-foreground">{t('library.description')}</p>
+        <section className="space-y-3">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-4xl">{t('library.title')}</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">{t('library.description')}</p>
         </section>
 
         {recentTopics.length > 0 && (
