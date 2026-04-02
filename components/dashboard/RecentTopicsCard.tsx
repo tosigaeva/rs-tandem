@@ -4,8 +4,9 @@ import { formatDistanceToNow } from 'date-fns';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
+import { DashboardCard } from '@/components/dashboard/DashboardCard';
 import { Progress } from '@/components/ui';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InProgressTopic } from '@/data/dashboard.api';
 import { useTranslation } from '@/hooks/use-translation';
 import { getDateFnsLocale } from '@/services/locale/locale-format';
@@ -24,7 +25,7 @@ export default function RecentTopicsCard({ topics }: RecentTopicsCardProperties)
   if (topics.length === 0) return;
 
   return (
-    <Card className="border-border/60 from-background via-muted/40 to-muted/10 h-full rounded-3xl border bg-linear-to-br shadow-sm">
+    <DashboardCard>
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">{t('dashboard.recent.title')}</CardTitle>
       </CardHeader>
@@ -62,6 +63,6 @@ export default function RecentTopicsCard({ topics }: RecentTopicsCardProperties)
           );
         })}
       </CardContent>
-    </Card>
+    </DashboardCard>
   );
 }

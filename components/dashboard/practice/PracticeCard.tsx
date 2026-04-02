@@ -1,7 +1,8 @@
 'use client';
 
+import { DashboardCard } from '@/components/dashboard/DashboardCard';
 import Metric from '@/components/dashboard/practice/Metric';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 
 type PracticeCardProperties = {
@@ -14,7 +15,7 @@ type PracticeCardProperties = {
 export function PracticeCard({ correctAnswers, totalAnswers, accuracy, totalDays }: PracticeCardProperties) {
   const { t } = useTranslation();
   return (
-    <Card className="border-border/60 from-background via-muted/40 to-muted/20 flex h-full justify-start rounded-3xl border bg-linear-to-br py-4 shadow-sm">
+    <DashboardCard className="py-4">
       <CardHeader className="px-5 pt-4 pb-0">
         <CardTitle className="text-foreground text-lg">{t('dashboard.practice.title')}</CardTitle>
       </CardHeader>
@@ -27,6 +28,6 @@ export function PracticeCard({ correctAnswers, totalAnswers, accuracy, totalDays
           <Metric label={t('dashboard.practice.days')} value={totalDays} />
         </div>
       </CardContent>
-    </Card>
+    </DashboardCard>
   );
 }
