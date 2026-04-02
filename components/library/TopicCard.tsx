@@ -3,6 +3,7 @@
 import { Badge, Progress } from '@/components/ui';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
+import { formatPercent, roundPercent } from '@/lib/format';
 import { LevelLocales, TopicOverview } from '@/types/schemas/topic-schema';
 
 type TopicCardProperties = {
@@ -14,7 +15,7 @@ export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
   const { languageCode, translate } = useTranslation();
 
   return (
-    <Card className="group transform-gp w-xs shrink-0 cursor-pointer transition-all duration-300 ease-out hover:scale-105">
+    <Card className="group h-full w-full cursor-pointer transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-lg">
       <CardHeader>
         <div className="flex items-center justify-between">
           <Badge variant="secondary" className="text-xs capitalize">

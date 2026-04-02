@@ -59,31 +59,33 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
   };
 
   return (
-    <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
-      <section className="space-y-2 pb-6">
-        <h1 className="text-4xl font-semibold tracking-tight">{t('library.title')}</h1>
-        <p className="text-muted-foreground">{t('library.description')}</p>
-      </section>
+    <main className="text-foreground py-8">
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6">
+        <section className="space-y-6">
+          <h1 className="text-4xl font-semibold tracking-tight">{t('library.title')}</h1>
+          <p className="text-muted-foreground">{t('library.description')}</p>
+        </section>
 
-      {recentTopics.length > 0 && (
-        <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
-      )}
-      <section className="relative">
-        {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}
-        {!isScrollMode && isPending && (
-          <div className="bg-background/70 absolute inset-0 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
-            <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />
-          </div>
+        {recentTopics.length > 0 && (
+          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
         )}
+        <section className="relative">
+          {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}
+          {!isScrollMode && isPending && (
+            <div className="bg-background/70 absolute inset-0 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+              <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />
+            </div>
+          )}
+        </section>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={requestPage}
+          isLoading={isPending}
+          mode={paginationMode}
+          loadingLabel={t('library.loadingMore')}
+        />
       </section>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={requestPage}
-        isLoading={isPending}
-        mode={paginationMode}
-        loadingLabel={t('library.loadingMore')}
-      />
     </main>
   );
 }
