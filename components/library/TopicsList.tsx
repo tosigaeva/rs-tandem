@@ -14,11 +14,11 @@ type TopicListProperties = {
 export function TopicList({ title, topics, displayProgress = false }: TopicListProperties) {
   return (
     <section className="space-y-6 pb-6">
-      <h2 className="text-xl font-semibold">{title}</h2>
+      <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
 
-      <ul className="flex flex-wrap gap-2">
+      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map((topic) => (
-          <li key={topic.id} className="overflow-hidden rounded-xl">
+          <li key={topic.id} className="h-full rounded-xl">
             <Link href={`${Routes.Library}/${topic.id}`}>
               <TopicCard topic={topic} displayProgress={displayProgress} />
             </Link>

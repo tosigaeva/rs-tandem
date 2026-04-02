@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InProgressTopic } from '@/data/dashboard.api';
 import { useTranslation } from '@/hooks/use-translation';
+import { roundPercent } from '@/lib/format';
 import { getDateFnsLocale } from '@/services/locale/locale-format';
 
 export type RecentTopics = Omit<InProgressTopic, 'title'> & {
@@ -32,7 +33,7 @@ export default function RecentTopicsCard({ topics }: RecentTopicsCardProperties)
 
       <CardContent className="space-y-3">
         {topics.map((topic) => {
-          const percent = (topic.completed / topic.total) * 100;
+          const percent = roundPercent((topic.completed / topic.total) * 100);
 
           return (
             <Link
