@@ -16,7 +16,7 @@ export default function Hero({ label, title, subtitle, cta, href }: HeroProperti
           <CardDescription className="text-sm sm:text-base">{subtitle}</CardDescription>
         </div>
 
-        <PrimaryButton asChild size="lg" variant="outline" className="px-7 text-sm font-semibold shadow-md">
+        <PrimaryButton asChild size="lg" variant="default" className="px-7 text-[16px] font-semibold shadow-md">
           <Link href={href}>{cta}</Link>
         </PrimaryButton>
       </CardContent>

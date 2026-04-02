@@ -22,9 +22,9 @@ export default function StreakCard({ streak, bestStreak }: StreakCardProperties)
     <Card className="border-border/60 from-primary/50 via-primary/20 to-primary/10 flex h-full justify-center rounded-3xl border bg-gradient-to-br shadow-sm">
       <CardContent className="flex flex-col items-center gap-3 p-0">
         <Flame className="h-20 w-20 animate-pulse text-white" />
-        <p className="text-xl font-semibold text-white">{streakLabel}</p>
-        {streak > 1 && <p className="text-sm text-white/90">{t('dashboard.streak.keep')}</p>}
-        {bestStreak > streak && <p className="text-xs text-white/80">{bestLabel}</p>}
+        <p className="text-xl font-semibold">{streakLabel}</p>
+        {streak > 1 && <p className="text-muted-foreground text-sm">{t('dashboard.streak.keep')}</p>}
+        {bestStreak > streak && <p className="text-muted-foreground text-xs">{bestLabel}</p>}
       </CardContent>
     </Card>
   );

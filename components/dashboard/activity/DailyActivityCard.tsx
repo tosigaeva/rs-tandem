@@ -12,7 +12,7 @@ export function DailyActivityCard({ days }: DailyActivityCardProperties) {
   const { t } = useTranslation();
 
   return (
-    <Card className="bg-card/90 w-full gap-3 rounded-3xl border-none py-4 shadow-none sm:w-fit sm:max-w-full">
+    <Card className="bg-card/90 w-full gap-3 rounded-3xl border-none py-4 shadow-none sm:w-fit lg:w-full">
       <CardHeader className="px-5 pt-4 pb-0">
         <CardTitle className="text-foreground text-lg leading-tight tracking-tight">
           {t('dashboard.activity.title')}
