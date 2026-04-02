@@ -83,6 +83,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Загружаем больше тем',
     [LanguageCode.by]: 'Загружаем больш тэм',
   },
+  'library.card.questions': {
+    [LanguageCode.en]: 'Questions',
+    [LanguageCode.ru]: 'Вопросы',
+    [LanguageCode.by]: 'Пытанні',
+  },
 
   /// dashboard
   'dashboard.startPracticeButton': {

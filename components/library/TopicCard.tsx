@@ -12,9 +12,10 @@ type TopicCardProperties = {
 };
 
 export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
-  const { languageCode, translate } = useTranslation();
+  const { languageCode, translate, t } = useTranslation();
   const roundedProgress = roundPercent(topic.progress);
   const progressLabel = formatPercent(roundedProgress);
+  const totalQuestions = topic.widgets.reduce((sum, widget) => sum + widget.totalQuestions, 0);
 
   return (
     <Card className="group hover:ring-primary/40 hover:ring-offset-background h-full w-full cursor-pointer gap-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2">
@@ -37,9 +38,14 @@ export function TopicCard({ topic, displayProgress }: TopicCardProperties) {
         {displayProgress && <Progress value={roundedProgress} className="h-2" />}
       </CardContent>
       <CardFooter className="pt-0">
-        <Badge variant="outline" className="text-xs font-normal">
-          {topic.subject}
-        </Badge>
+        <div className="flex w-full items-center justify-between gap-2 text-xs">
+          <Badge variant="outline" className="text-xs font-normal">
+            {topic.subject}
+          </Badge>
+          <span className="text-muted-foreground">
+            {t('library.card.questions')}: {totalQuestions}
+          </span>
+        </div>
       </CardFooter>
     </Card>
   );
