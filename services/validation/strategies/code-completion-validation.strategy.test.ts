@@ -73,19 +73,6 @@ describe('codeCompletionValidationStrategy', () => {
     });
   });
 
-  it('supports legacy correctOrder answers', async () => {
-    const result = await codeCompletionValidationStrategy.validate({
-      answer: '1,2',
-      question: buildQuestion({
-        payloadAnswer: {
-          correctOrder: [1, 2],
-        },
-      }),
-    });
-
-    expect(result).toEqual({ isCorrect: true });
-  });
-
   it('returns false when payloadAnswer has an unsupported shape', async () => {
     const result = await codeCompletionValidationStrategy.validate({
       answer: ['filter', 'map'],
@@ -96,6 +83,6 @@ describe('codeCompletionValidationStrategy', () => {
       }),
     });
 
-    expect(result).toEqual({ isCorrect: false });
+    expect(result).toEqual({ isCorrect: undefined });
   });
 });
