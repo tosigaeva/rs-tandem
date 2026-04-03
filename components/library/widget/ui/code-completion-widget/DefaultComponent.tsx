@@ -13,7 +13,7 @@ import { useTranslation } from '@/hooks/use-translation';
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: CodeCompletionPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 

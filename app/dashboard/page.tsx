@@ -1,32 +1,36 @@
-import Link from 'next/link';
-
-import { DailyActivityCard } from '@/components/dashboard/activity';
-import { PrimaryButton } from '@/components/PrimaryButton';
-import { getDailyActivity } from '@/data/activity.api';
-import { getUser } from '@/data/user.api';
-import { Routes } from '@/lib/routes';
+import { DashboardContent } from '@/app/dashboard/dashboard-content';
+import { getRandomTip } from '@/components/dashboard/tip/tip.utilities';
+import { getDashboardStats, getInProgressTopics } from '@/data/dashboard.api';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
-import { AppMessages } from '@/services/locale/messages';
+
+const randomTip = getRandomTip();
 
 export default async function Page() {
-  const [user, activity, languageCode] = await Promise.all([getUser(), getDailyActivity(), getServerLanguageCode()]);
-  const days = activity.data ?? [];
-
+  const [dashboardStatsResult, inProgressTopicsResult, languageCode] = await Promise.all([
+    getDashboardStats(),
+    getInProgressTopics(),
+    getServerLanguageCode(),
+  ]);
+  const dashboardStats = dashboardStatsResult.data ?? {
+    days: [],
+    todayAnswers: 0,
+    correctAnswers: 0,
+    totalAnswers: 0,
+    accuracy: 0,
+    totalDays: 0,
+    streak: 0,
+    bestStreak: 0,
+  };
+  const inProgressTopics = (inProgressTopicsResult.data ?? []).map((topic) => ({
+    ...topic,
+    title: topic.title[languageCode],
+  }));
   return (
-    <main className="text-foreground px-6 py-8">
-      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
-        <article className="space-y-6">
-          <h1 className="text-2xl font-bold sm:text-4xl">
-            {AppMessages['dashboard.greeting'][languageCode]}, {user.name}!
-          </h1>
-
-          <PrimaryButton asChild>
-            <Link href={Routes.Library}>{AppMessages['dashboard.startPracticeButton'][languageCode]}</Link>
-          </PrimaryButton>
-        </article>
-
-        <DailyActivityCard days={days} />
-      </section>
-    </main>
+    <DashboardContent
+      dashboardStats={dashboardStats}
+      randomTip={randomTip}
+      inProgressTopics={inProgressTopics}
+      languageCode={languageCode}
+    />
   );
 }

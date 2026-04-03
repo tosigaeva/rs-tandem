@@ -4,7 +4,7 @@ import QuestionCard from '@/components/QuestionCard';
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: TrueFalsePayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
 
