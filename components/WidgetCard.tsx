@@ -18,7 +18,9 @@ export default function WidgetCard({ widget }: WidgetCardProperties) {
         <CardTitle className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
           {widget.title}
         </CardTitle>
-        <CardDescription className="line-clamp-2 min-h-10 text-sm">{widget.description}</CardDescription>
+        <CardDescription className="line-clamp-2 min-h-10 text-sm" title={widget.description}>
+          {widget.description}
+        </CardDescription>
       </CardHeader>
     </Card>
   );
