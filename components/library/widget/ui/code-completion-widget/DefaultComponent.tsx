@@ -9,27 +9,20 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/hooks/use-translation';
+import { ValidationResult } from '@/types/validation';
 
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: CodeCompletionPayload;
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
-
-function validateAnswer(questionId: string, userAnswers: string[]) {
-  const answers: Record<string, string[]> = {
-    'cc-001': ['filter'],
-    'cc-002': ['filter', 'map'],
-  };
-  const correctAnswers = answers[questionId];
-  return userAnswers.map((answer, index) => answer === correctAnswers[index]);
-}
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const { t } = useTranslation();
 
-  const { code, blanks, hints } = questionPayload;
+  const { code, blanks } = questionPayload;
+  const hints = questionPayload.hints ?? [];
 
   const [inputs, setInputs] = useState<string[]>(Array.from({ length: blanks.length }, () => ''));
   const [verdict, setVerdict] = useState<boolean[] | undefined>();
@@ -40,10 +33,10 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   }, [questionId]);
 
   const handleCheck = async () => {
-    await onCheck(inputs.join(''));
+    const result = await onCheck(inputs);
+    if (result.isCorrect === undefined) return;
 
-    const result = validateAnswer(questionId, inputs);
-    setVerdict(result);
+    setVerdict(result.details?.blankResults ?? inputs.map(() => result.isCorrect ?? false));
   };
 
   const handleNext = () => {

@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 
 import { WidgetPayloadMap } from '@/types/question';
+import { ValidationResult } from '@/types/validation';
 import { WidgetType } from '@/types/widget';
 
 export type WidgetSkinsMap = {
@@ -15,7 +16,7 @@ export type WidgetSkinsMap = {
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
   questionId: string;
   questionPayload: WidgetPayloadMap[T];
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 export type WidgetComponent<T extends WidgetType = WidgetType> = ComponentType<WidgetComponentProperties<T>>;

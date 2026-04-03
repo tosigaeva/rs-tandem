@@ -323,6 +323,15 @@ const displayTrueFalsePayloadAnswer = (answer: TrueFalsePayloadAnswer) => {
 };
 
 const displayCodeCompletionPayloadAnswer = (answer: CodeCompletionPayloadAnswer) => {
+  if ('answers' in answer) {
+    return (
+      <div className="flex justify-start gap-1">
+        <span className="font-semibold">Answers: </span>
+        <p>{answer.answers.join(' -> ')}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-start gap-1">
       <span className="font-semibold">Correct Order: </span>

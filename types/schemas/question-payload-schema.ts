@@ -26,7 +26,7 @@ export type TrueFalsePayloadQuestion = z.infer<typeof TrueFalsePayloadQuestionSc
 export const CodeCompletionPayloadQuestionSchema = z.object({
   code: z.string(),
   blanks: z.array(z.string()).min(1),
-  hints: z.array(z.string()).nullish(),
+  hints: z.array(LocaleStringSchema).nullish(),
 });
 export type CodeCompletionPayloadQuestion = z.infer<typeof CodeCompletionPayloadQuestionSchema>;
 
@@ -54,7 +54,7 @@ export const TrueFalsePayloadAnswerSchema = z.object({
 export type TrueFalsePayloadAnswer = z.infer<typeof TrueFalsePayloadAnswerSchema>;
 
 export const CodeCompletionPayloadAnswerSchema = z.object({
-  correctOrder: z.array(z.number()),
+  answers: z.array(z.string()).min(1),
 });
 export type CodeCompletionPayloadAnswer = z.infer<typeof CodeCompletionPayloadAnswerSchema>;
 

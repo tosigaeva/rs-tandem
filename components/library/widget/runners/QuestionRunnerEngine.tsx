@@ -7,6 +7,7 @@ import Results from '@/components/Results';
 import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
 import { Question as QuestionType } from '@/types/question';
+import { ValidationResult } from '@/types/validation';
 
 export type AnswersHistory = (boolean | undefined)[];
 
@@ -15,7 +16,7 @@ type RunnerRenderProperties = {
   currentIndex: number;
   answersHistory: AnswersHistory;
   isValidating: boolean;
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   nextQuestion: () => void;
 };
 
@@ -44,7 +45,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   };
 
   const onCheck = async (answer: unknown) => {
-    if (isValidationInFlight.current) return;
+    if (isValidationInFlight.current) return { isCorrect: undefined };
 
     isValidationInFlight.current = true;
     setIsValidating(true);
@@ -52,18 +53,18 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
     try {
       const result = await validateAnswer(currentQuestion.id, answer);
 
-      if (result === true) setCorrectAnswers((previous) => previous + 1);
+      if (result.isCorrect === true) setCorrectAnswers((previous) => previous + 1);
 
       setAnswersHistory((previous) => {
         const copyHistory = [...previous];
-        copyHistory[currentIndex] = result;
+        copyHistory[currentIndex] = result.isCorrect;
         return copyHistory;
       });
 
       try {
         await trackQuestionAttempt({
           questionId: currentQuestion.id,
-          isSuccess: result,
+          isSuccess: result.isCorrect,
         });
       } catch {
         // ignored due to not blocking an answer validation flow.

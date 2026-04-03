@@ -6,12 +6,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import { FlipCardPayloadQuestion } from '@/types/schemas/question-payload-schema';
+import { ValidationResult } from '@/types/validation';
 
 import styles from './FlipCard.module.css';
 
 type WidgetComponentProperties = {
   questionPayload: FlipCardPayloadQuestion;
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 

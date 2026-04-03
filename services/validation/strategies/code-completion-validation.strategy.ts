@@ -1,17 +1,37 @@
-import { CodeCompletionPayloadAnswerSchema } from '@/types/schemas/question-payload-schema';
+import {
+  CodeCompletionPayloadAnswerSchema,
+  CodeCompletionPayloadQuestionSchema,
+} from '@/types/schemas/question-payload-schema';
 
-import { isEqualNumberArray, parseNumberArray } from './helpers';
 import { ValidationStrategy } from './types';
 
 export const codeCompletionValidationStrategy: ValidationStrategy = {
   validate: async ({ answer, question }) => {
-    const answerResult = await CodeCompletionPayloadAnswerSchema.safeParseAsync(question.payloadAnswer);
-    const submittedOrder = parseNumberArray(answer);
+    const [questionResult, answerResult] = await Promise.all([
+      CodeCompletionPayloadQuestionSchema.safeParseAsync(question.payloadQuestion),
+      CodeCompletionPayloadAnswerSchema.safeParseAsync(question.payloadAnswer),
+    ]);
 
-    if (!answerResult.success || submittedOrder === undefined) {
-      return;
+    if (!questionResult.success || !answerResult.success) {
+      return { isCorrect: undefined };
     }
 
-    return isEqualNumberArray(submittedOrder, answerResult.data.correctOrder);
+    if (Array.isArray(answer) && answer.every((item) => typeof item === 'string')) {
+      const submittedAnswers = answer.map((item) => item.trim());
+      const expectedAnswers = answerResult.data.answers;
+
+      if (expectedAnswers !== undefined) {
+        const blankResults = expectedAnswers.map((value, index) => value === submittedAnswers[index]);
+
+        return {
+          isCorrect: blankResults.every(Boolean),
+          details: {
+            blankResults,
+          },
+        };
+      }
+    }
+
+    return { isCorrect: undefined };
   },
 };
