@@ -54,34 +54,39 @@ export const AppMessages = {
 
   /// library
   'library.title': {
-    [LanguageCode.en]: 'Library',
-    [LanguageCode.ru]: 'Библиотека',
-    [LanguageCode.by]: 'Бібліятэка',
+    [LanguageCode.en]: 'Topics',
+    [LanguageCode.ru]: 'Темы',
+    [LanguageCode.by]: 'Тэмы',
   },
   'library.description': {
-    [LanguageCode.en]: 'Track your progress and explore new topics.',
-    [LanguageCode.ru]: 'Отслеживайте свой прогресс и изучайте новые темы.',
-    [LanguageCode.by]: 'Сачыце за сваім прагрэсам і вывучайце новыя тэмы.',
+    [LanguageCode.en]: 'Mixed questions and steady progress, topic by topic.',
+    [LanguageCode.ru]: 'Смешанные вопросы и стабильный прогресс по темам.',
+    [LanguageCode.by]: 'Змешаныя пытанні і стабільны прагрэс па тэмах.',
   },
   'library.section.start': {
-    [LanguageCode.en]: 'Start Learning',
-    [LanguageCode.ru]: 'Начать обучение',
-    [LanguageCode.by]: 'Пачаць навучанне',
+    [LanguageCode.en]: 'Pick one to start',
+    [LanguageCode.ru]: 'Выберите, с чего начать',
+    [LanguageCode.by]: 'Абярыце, з чаго пачаць',
   },
   'library.section.continue': {
-    [LanguageCode.en]: 'Continue Learning',
-    [LanguageCode.ru]: 'Продолжить обучение',
-    [LanguageCode.by]: 'Працягнуць навучанне',
+    [LanguageCode.en]: 'Recently practiced',
+    [LanguageCode.ru]: 'Недавно практиковались',
+    [LanguageCode.by]: 'Нядаўна практыкаваліся',
   },
   'library.section.explore': {
-    [LanguageCode.en]: 'Explore More',
-    [LanguageCode.ru]: 'Узнать больше',
-    [LanguageCode.by]: 'Даведацца больш',
+    [LanguageCode.en]: 'Discover more',
+    [LanguageCode.ru]: 'Больше тем',
+    [LanguageCode.by]: 'Больш тэм',
   },
   'library.loadingMore': {
     [LanguageCode.en]: 'Loading more topics',
     [LanguageCode.ru]: 'Загружаем больше тем',
     [LanguageCode.by]: 'Загружаем больш тэм',
+  },
+  'library.card.questions': {
+    [LanguageCode.en]: 'Questions',
+    [LanguageCode.ru]: 'Вопросы',
+    [LanguageCode.by]: 'Пытанні',
   },
 
   /// dashboard
@@ -131,9 +136,9 @@ export const AppMessages = {
     [LanguageCode.by]: 'Сардэчна запрашаем',
   },
   'dashboard.hero.first.title': {
-    [LanguageCode.en]: 'Let’s start your learning journey, {{name}}',
-    [LanguageCode.ru]: 'Давайте начнём ваше обучение, {{name}}',
-    [LanguageCode.by]: 'Пачнём ваш шлях навучання, {{name}}',
+    [LanguageCode.en]: 'Let’s start your learning journey, {name}',
+    [LanguageCode.ru]: 'Давайте начнём ваше обучение, {name}',
+    [LanguageCode.by]: 'Пачнём ваш шлях навучання, {name}',
   },
   'dashboard.hero.first.subtitle': {
     [LanguageCode.en]: 'Build your first habit in just a few minutes.',

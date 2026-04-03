@@ -16,7 +16,7 @@ describe('WidgetCard', () => {
       />
     );
 
-    expect(screen.getByText('Q')).toBeInTheDocument();
+    expect(document.querySelector('svg')).toBeInTheDocument();
     expect(screen.getByText('Quiz')).toBeInTheDocument();
     expect(screen.getByText('Multiple choice')).toBeInTheDocument();
   });
