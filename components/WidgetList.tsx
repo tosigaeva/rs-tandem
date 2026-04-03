@@ -1,15 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 
 import WidgetCard from '@/components/WidgetCard';
+import { useTranslation } from '@/hooks/use-translation';
 import { Routes } from '@/lib/routes';
 import { AllWidget, Widget } from '@/types/widget';
-
-const ALL_WIDGET: AllWidget = {
-  type: 'all',
-  icon: 'A',
-  title: 'All Exercises',
-  description: 'Practice with all available question types in this topic.',
-};
 
 type WidgetListProperties = {
   widgets: Widget[];
@@ -17,7 +13,14 @@ type WidgetListProperties = {
 };
 
 export default function WidgetList({ widgets, topicId }: WidgetListProperties) {
-  const widgetsWithAll = [...widgets, ALL_WIDGET];
+  const { t } = useTranslation();
+  const allWidget: AllWidget = {
+    type: 'all',
+    icon: 'A',
+    title: t('library.widget.all.title'),
+    description: t('library.widget.all.description'),
+  };
+  const widgetsWithAll = [...widgets, allWidget];
   return (
     <section>
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
