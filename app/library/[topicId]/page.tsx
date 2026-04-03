@@ -29,7 +29,7 @@ export default async function Page({ params, searchParams }: PageProperties) {
   return (
     <main className="mx-auto max-w-6xl space-y-12 divide-y px-6 py-10">
       <section className="space-y-2 pb-6">
-        <h1 className="text-4xl font-semibold tracking-tight">{topicName[languageCode]}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{topicName[languageCode]}</h1>
       </section>
 
       <TopicContent topicId={topicId} widgetType={widgetType} />
