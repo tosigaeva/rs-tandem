@@ -58,7 +58,11 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
   const showSlider = selectedFilter === WidgetType.FlipCard;
 
   if (!topic) {
-    return <SpinnerCustom />;
+    return (
+      <section className="space-y-2 pb-6">
+        <SpinnerCustom />
+      </section>
+    );
   }
 
   return (
@@ -76,7 +80,7 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
         ) : (
           <WidgetList widgets={topic?.widgets} topicId={topicId} />
         )}
-      </section>{' '}
+      </section>
       *
     </>
   );
