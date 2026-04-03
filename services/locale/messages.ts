@@ -206,9 +206,9 @@ export const AppMessages = {
     [LanguageCode.by]: 'Ваша месца для навучання',
   },
   'dashboard.hero.returning.title': {
-    [LanguageCode.en]: 'Ready to continue, {{name}}?',
-    [LanguageCode.ru]: 'Готовы продолжить, {{name}}?',
-    [LanguageCode.by]: 'Гатовы працягнуць, {{name}}?',
+    [LanguageCode.en]: 'Ready to continue, {name}?',
+    [LanguageCode.ru]: 'Готовы продолжить, {name}?',
+    [LanguageCode.by]: 'Гатовы працягнуць, {name}?',
   },
   'dashboard.hero.returning.subtitle': {
     [LanguageCode.en]: 'Pick up where you left off or start something new.',
