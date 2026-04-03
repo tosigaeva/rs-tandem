@@ -10,7 +10,7 @@ export default function WidgetCard({ widget }: WidgetCardProperties) {
   const icon = getWidgetIcon(widget.type);
 
   return (
-    <Card className="group flex cursor-pointer flex-row items-center gap-4 px-4 transition-all duration-300 ease-out">
+    <Card className="group hover:ring-primary/40 hover:ring-offset-background flex cursor-pointer flex-row items-center gap-4 px-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2">
       <span className="bg-secondary flex h-17 w-24 items-center justify-center rounded-xl text-3xl font-light">
         {icon}
       </span>
