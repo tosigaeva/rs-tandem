@@ -108,3 +108,35 @@ export async function getTopicsPage(
     };
   }
 }
+
+export async function getTopicById(topicId: number): Promise<{ data: TopicOverview | undefined; error?: string }> {
+  try {
+    console.log(topicId);
+    const supabase = await supabaseServer();
+
+    const { data, error } = await supabase
+      .from('topic_widget_summary')
+      .select('*')
+      .filter('last_accessed_at', 'not.is', 'null')
+      .order('last_accessed_at', { ascending: false })
+      .eq('id', topicId)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data != undefined) {
+      const result = TopicOverviewSchema.safeParse(data);
+
+      if (result.success) return { data: result.data };
+    }
+
+    return { data: undefined };
+  } catch (error: unknown) {
+    return {
+      data: undefined,
+      error: error instanceof Error ? error.message : 'An unexpected error occurred',
+    };
+  }
+}

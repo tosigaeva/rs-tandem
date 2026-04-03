@@ -15,8 +15,19 @@ describe('TrueFalse DefaultComponent', () => {
   it('passes statement and fixed options to QuestionCard', () => {
     render(
       <DefaultComponent
-        questionId="q1"
-        questionPayload={{ statement: 'Statement', explanation: 'Explanation' }}
+        questionId={1}
+        questionPayload={{
+          statement: {
+            en: 'Statement',
+            ru: 'Утверждение',
+            by: 'Зацвярджэнне',
+          },
+          explanation: {
+            en: 'Explanation',
+            ru: 'Объяснение',
+            by: 'Тлумачэнне',
+          },
+        }}
         onCheck={async () => true}
         onNext={() => {}}
       />

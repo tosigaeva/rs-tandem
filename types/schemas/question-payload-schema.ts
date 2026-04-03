@@ -26,7 +26,7 @@ export type TrueFalsePayloadQuestion = z.infer<typeof TrueFalsePayloadQuestionSc
 export const CodeCompletionPayloadQuestionSchema = z.object({
   code: z.string(),
   blanks: z.array(z.string()).min(1),
-  hints: z.array(z.string()).nullish(),
+  hints: z.array(LocaleStringSchema).nullish(),
 });
 export type CodeCompletionPayloadQuestion = z.infer<typeof CodeCompletionPayloadQuestionSchema>;
 
@@ -41,6 +41,13 @@ export const BigOPayloadQuestionSchema = z.object({
   codeExample: z.string(),
 });
 export type BigOPayloadQuestion = z.infer<typeof BigOPayloadQuestionSchema>;
+
+export type AnyQuestionPayload =
+  | QuizPayloadQuestion
+  | TrueFalsePayloadQuestion
+  | CodeCompletionPayloadQuestion
+  | FlipCardPayloadQuestion
+  | BigOPayloadQuestion;
 
 /// Payload Answer Schemas
 export const QuizPayloadAnswerSchema = z.object({

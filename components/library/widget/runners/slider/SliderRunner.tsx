@@ -6,10 +6,10 @@ import QuestionWrapper from '@/components/library/widget/runners/QuestionWrapper
 import { getWidgetComponent } from '@/components/library/widget/widget.engine';
 import type { CarouselApi } from '@/components/ui/carousel';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import { Question as QuestionType } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 
 type QuestionsRunnerProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
 };
 
 export function SliderRunner({ questions }: QuestionsRunnerProperties) {

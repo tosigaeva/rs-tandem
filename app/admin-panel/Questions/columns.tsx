@@ -233,7 +233,9 @@ const displayCodeCompletionPayloadQuestion = (question: CodeCompletionPayloadQue
       </div>
       <div className="flex justify-start gap-1">
         <span>hints: </span>
-        <p>{question.hints?.join(', ')}</p>
+        {question.hints?.map((hint, index) => (
+          <LocaleStringTooltip data={hint} key={index} />
+        ))}
       </div>
     </>
   );

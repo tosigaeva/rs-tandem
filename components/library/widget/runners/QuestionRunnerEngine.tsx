@@ -6,12 +6,13 @@ import { useRef, useState } from 'react';
 import Results from '@/components/Results';
 import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
-import { Question as QuestionType } from '@/types/question';
+import { useAuth } from '@/providers/auth-state.provider';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 
 export type AnswersHistory = (boolean | undefined)[];
 
 type RunnerRenderProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
   currentIndex: number;
   answersHistory: AnswersHistory;
   isValidating: boolean;
@@ -20,7 +21,7 @@ type RunnerRenderProperties = {
 };
 
 type QuestionRunnerEngineProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
   children: (properties: RunnerRenderProperties) => React.ReactNode;
 };
 
@@ -33,6 +34,8 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   );
   const isValidationInFlight = useRef(false);
 
+  const { user } = useAuth();
+
   const currentQuestion = questions[currentIndex];
 
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
@@ -44,6 +47,8 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   };
 
   const onCheck = async (answer: unknown) => {
+    if (user == undefined) return;
+
     if (isValidationInFlight.current) return;
 
     isValidationInFlight.current = true;
@@ -63,6 +68,7 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
       try {
         await trackQuestionAttempt({
           questionId: currentQuestion.id,
+          userId: user.id,
           isSuccess: result,
         });
       } catch {

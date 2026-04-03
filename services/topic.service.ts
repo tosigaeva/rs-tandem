@@ -1,5 +1,5 @@
 import { LIBRARY_TOPICS_PAGE_SIZE } from '@/app/library/library-topics';
-import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
+import { getRecentTopics, getTopicById, getTopicsPage } from '@/data/topic.api';
 import { QueryStorage } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { TopicOverview } from '@/types/schemas/topic-schema';
@@ -31,6 +31,35 @@ export const TopicService = {
       queryFn: () => getTopicsPage(queryParameters, skipIds),
     });
   },
+
+  getTopicById: async (topicId: number): Promise<TopicOverview | undefined> => {
+    const cacheResult = getTopicFromCache(topicId);
+
+    if (cacheResult) {
+      console.log('returning from cache');
+
+      return cacheResult;
+    }
+
+    const { data } = await getTopicById(topicId);
+
+    return data;
+  },
+};
+
+const getTopicFromCache = (topicId: number): TopicOverview | undefined => {
+  const recentTopics = QueryStorage.getQueryData<TopicOverview[]>([RECENT_TOPICS]);
+  const recentFind = recentTopics?.find((t) => t.id === topicId);
+  if (recentFind) return recentFind;
+
+  const allPagesData = QueryStorage.getQueriesData<PaginatedResult<TopicOverview, 'Topic'>>({
+    queryKey: [TOPIC_PAGES],
+  });
+
+  for (const [, page] of allPagesData) {
+    const foundInPage = page?.items.find((t) => t.id === topicId);
+    if (foundInPage) return foundInPage;
+  }
 };
 
 export const getQueryParameters = (pageInfo: PageInfo<'Topic'>) => {

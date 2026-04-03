@@ -9,8 +9,18 @@ describe('WidgetList', () => {
       <WidgetList
         topicId="t1"
         widgets={[
-          { type: WidgetType.Quiz, icon: 'Q', title: 'Quiz', description: 'desc' },
-          { type: WidgetType.TrueFalse, icon: 'T', title: 'True/False', description: 'desc' },
+          {
+            type: WidgetType.Quiz,
+            icon: 'Q',
+            name: { en: 'Quiz', ru: 'Квиз', by: 'Квіз' },
+            description: { en: 'Multiple choice', ru: 'Множественный выбор', by: 'Множны выбар' },
+          },
+          {
+            type: WidgetType.TrueFalse,
+            icon: 'T',
+            name: { en: 'True/False', ru: 'Верно/Неверно', by: 'Верна/Не' },
+            description: { en: 'Select true or false', ru: 'Выберите верно или неверно', by: 'Выберыце верна ці не' },
+          },
         ]}
       />
     );

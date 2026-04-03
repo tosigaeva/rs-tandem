@@ -4,10 +4,10 @@ import QuestionProgress from '@/components/library/widget/runners/QuestionProgre
 import QuestionRunnerEngine from '@/components/library/widget/runners/QuestionRunnerEngine';
 import QuestionWrapper from '@/components/library/widget/runners/QuestionWrapper';
 import { getWidgetComponent } from '@/components/library/widget/widget.engine';
-import { Question as QuestionType } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 
 type DefaultRunnerProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
 };
 
 export default function DefaultRunner({ questions }: DefaultRunnerProperties) {

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import QuestionRunnerEngine from '@/components/library/widget/runners/QuestionRunnerEngine';
 import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
-import { Question } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
 jest.mock('@/data/validate.api', () => ({
@@ -28,8 +28,18 @@ describe('QuestionRunnerEngine', () => {
         })
     );
 
-    const questions: Question[] = [
-      { id: 'q1', topicId: 't1', type: WidgetType.Quiz, payload: { question: 'Q1', options: ['a'] } },
+    const questions: QuestionInfo[] = [
+      {
+        id: 1,
+        topicId: 101,
+        type: WidgetType.Quiz,
+        isSuccess: false,
+        updatedAt: undefined,
+        payload: {
+          question: { en: 'Q1', ru: 'Q1', by: 'Q1' },
+          options: [{ en: 'a', ru: 'a', by: 'a' }],
+        },
+      },
     ];
 
     render(
@@ -52,7 +62,7 @@ describe('QuestionRunnerEngine', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'Submit' })).toBeEnabled();
       expect(screen.queryByLabelText('Validating answer')).not.toBeInTheDocument();
-      expect(trackQuestionAttempt).toHaveBeenCalledWith({ questionId: 'q1', isSuccess: true });
+      expect(trackQuestionAttempt).toHaveBeenCalledWith({ questionId: 1, isSuccess: true, userId: 'test-user-uuid' });
     });
   });
 });

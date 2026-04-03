@@ -1,12 +1,14 @@
-import { supabaseServer } from '@/lib/supabase/server';
-import { getServerLanguageCode } from '@/services/locale/locale.server';
-import { LanguageCode } from '@/services/locale/locale.service';
-import { Question } from '@/types/question';
-import { WidgetFilter, WidgetType } from '@/types/widget';
+'use server';
 
-export async function getQuestions(topicId: string, widgetType: WidgetFilter): Promise<Question[]> {
+import z from 'zod';
+
+import { supabaseServer } from '@/lib/supabase/server';
+import { QuestionInfo, QuestionInfoSchema } from '@/types/schemas/question-schemas';
+import { WidgetFilter } from '@/types/widget';
+
+export async function getQuestions(topicId: number, widgetType: WidgetFilter): Promise<QuestionInfo[]> {
   const supabase = await supabaseServer();
-  const languageCode = await getServerLanguageCode();
+  console.log('getQuestions', topicId, widgetType);
 
   let query = supabase
     .from('questions_info')
@@ -28,37 +30,9 @@ export async function getQuestions(topicId: string, widgetType: WidgetFilter): P
     return [];
   }
 
-  console.log(data);
+  const parsed = z.array(QuestionInfoSchema).safeParse(data);
 
-  return data.map((q) => {
-    if (q.widget_type === WidgetType.Quiz) {
-      return {
-        id: q.id,
-        topicId: q.topic_id,
-        type: q.widget_type,
-        payload: {
-          question: q.payload_question.question[languageCode],
-          options: q.payload_question.options.map((option: Record<LanguageCode, string>) => option[languageCode]),
-        },
-      };
-    }
-    if (q.widget_type === WidgetType.TrueFalse) {
-      return {
-        id: q.id,
-        topicId: q.topic_id,
-        type: q.widget_type,
-        payload: {
-          statement: q.payload_question.statement[languageCode],
-          explanation: q.payload_question.explanation[languageCode],
-        },
-      };
-    }
+  if (parsed.success) return parsed.data;
 
-    return {
-      id: q.id,
-      topicId: q.topic_id,
-      type: q.widget_type,
-      payload: q.payload_question,
-    };
-  });
+  return [];
 }

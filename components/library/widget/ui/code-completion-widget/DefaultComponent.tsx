@@ -1,8 +1,9 @@
-import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
+import { useTranslation } from '@/hooks/use-translation';
+import { CodeCompletionPayloadQuestion } from '@/types/schemas/question-payload-schema';
 
 type WidgetComponentProperties = {
-  questionPayload: CodeCompletionPayload;
+  questionPayload: CodeCompletionPayloadQuestion;
   onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
 };
@@ -14,14 +15,16 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
     onNext();
   };
 
+  const { translate } = useTranslation();
+
   return (
     <>
       <p>{questionPayload.code}</p>
       {questionPayload.blanks.map((option, key) => (
         <p key={key}>{option}</p>
       ))}
-      {questionPayload.hints.map((option, key) => (
-        <p key={key}>{option}</p>
+      {questionPayload?.hints?.map((option, key) => (
+        <p key={key}>{translate(option)}</p>
       ))}
 
       <PrimaryButton onClick={() => validate()}>Check</PrimaryButton>

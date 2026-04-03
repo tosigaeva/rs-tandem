@@ -3,7 +3,7 @@ import { getValidationQuestion } from '@/data/supabase/validate.supabase';
 import { validationStrategies } from './validation/strategies';
 
 export const ValidationService = {
-  validateAnswer: async (questionId: string, answer: unknown): Promise<boolean | undefined> => {
+  validateAnswer: async (questionId: number, answer: unknown): Promise<boolean | undefined> => {
     const question = await getValidationQuestion(questionId);
 
     if (question.payloadAnswer === null) {

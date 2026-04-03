@@ -13,7 +13,7 @@ export type WidgetSkinsMap = {
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
-  questionId: string;
+  questionId: number;
   questionPayload: WidgetPayloadMap[T];
   onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;

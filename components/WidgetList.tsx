@@ -2,13 +2,21 @@ import Link from 'next/link';
 
 import WidgetCard from '@/components/WidgetCard';
 import { Routes } from '@/lib/routes';
-import { AllWidget, Widget } from '@/types/widget';
+import { AllWidget, Widget } from '@/types/schemas/widget-schema';
 
 const ALL_WIDGET: AllWidget = {
   type: 'all',
   icon: 'A',
-  title: 'All Exercises',
-  description: 'Practice with all available question types in this topic.',
+  name: {
+    en: 'All Exercises',
+    ru: 'Все упражнения',
+    by: 'Усе практыкаванні',
+  },
+  description: {
+    en: 'Practice with all available question types in this topic.',
+    ru: 'Практикуйтесь со всеми доступными типами вопросов в этой теме.',
+    by: 'Практыкуйцеся з усімі даступнымі тыпамі пытанняў у гэтай тэме.',
+  },
 };
 
 type WidgetListProperties = {

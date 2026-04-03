@@ -52,3 +52,8 @@ export const WidgetAdminListItemSchema = WidgetBaseSchema.extend({
   };
 });
 export type WidgetAdminListItem = z.infer<typeof WidgetAdminListItemSchema>;
+
+export const AllWidgetSchema = WidgetSchema.omit({ type: true }).extend({
+  type: z.literal('all'),
+});
+export type AllWidget = z.infer<typeof AllWidgetSchema>;

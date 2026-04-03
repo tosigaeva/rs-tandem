@@ -1,8 +1,17 @@
+'use client';
+
+import { notFound } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import DefaultRunner from '@/components/library/widget/runners/default/DefaultRunner';
 import { SliderRunner } from '@/components/library/widget/runners/slider/SliderRunner';
+import { SpinnerCustom } from '@/components/ui/SpinnerCustom';
 import WidgetList from '@/components/WidgetList';
-import { getQuestions } from '@/data/trainer.api';
-import { getWidgetsByTopic } from '@/data/widget.api';
+import { getQuestions, getTopicById } from '@/data/trainer.api';
+import { useTranslation } from '@/hooks/use-translation';
+import { toPositiveInteger } from '@/lib/parse-id';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 import { toWidgetFilter, WidgetType } from '@/types/widget';
 
 type TopicContentProperties = {
@@ -10,19 +19,65 @@ type TopicContentProperties = {
   widgetType: string | undefined;
 };
 
-export default async function TopicContent({ topicId, widgetType }: TopicContentProperties) {
+export default function TopicContent({ topicId, widgetType }: TopicContentProperties) {
+  const [topic, setTopic] = useState<TopicOverview | undefined>();
+  const [questions, setQuestions] = useState<QuestionInfo[] | undefined>();
+
+  const { translate } = useTranslation();
   const selectedFilter = toWidgetFilter(widgetType);
 
-  if (selectedFilter === undefined) {
-    const widgets = await getWidgetsByTopic(topicId);
-    return <WidgetList widgets={widgets} topicId={topicId} />;
+  useEffect(() => {
+    const parsedId = toPositiveInteger(topicId);
+
+    if (parsedId === undefined) {
+      notFound();
+    }
+
+    getTopicById(parsedId)
+      .then((result) => {
+        console.log('resuuult', result);
+        if (!result) notFound();
+        setTopic(result);
+      })
+      .catch(() => notFound());
+  }, [topicId, setTopic]);
+
+  useEffect(() => {
+    if (selectedFilter === undefined) return;
+
+    const parsedId = toPositiveInteger(topicId);
+    if (parsedId === undefined) {
+      notFound();
+    }
+
+    getQuestions(parsedId, selectedFilter).then((data) => setQuestions(data));
+  }, [topicId, selectedFilter]);
+
+  const showRunner = selectedFilter != undefined && questions != undefined;
+
+  const showSlider = selectedFilter === WidgetType.FlipCard;
+
+  if (!topic) {
+    return <SpinnerCustom />;
   }
 
-  const questions = await getQuestions(topicId, selectedFilter);
-
-  if (widgetType === WidgetType.FlipCard) {
-    return <SliderRunner questions={questions} />;
-  }
-
-  return <DefaultRunner questions={questions} />;
+  return (
+    <>
+      <section className="space-y-2 pb-6">
+        <h1 className="text-4xl font-semibold tracking-tight">{translate(topic?.name)}</h1>
+      </section>
+      <section className="pt-10">
+        {showRunner ? (
+          showSlider ? (
+            <SliderRunner questions={questions} />
+          ) : (
+            <DefaultRunner questions={questions} />
+          )
+        ) : (
+          <WidgetList widgets={topic?.widgets} topicId={topicId} />
+        )}
+      </section>{' '}
+      *
+    </>
+  );
 }

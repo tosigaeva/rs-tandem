@@ -10,8 +10,16 @@ describe('WidgetCard', () => {
         widget={{
           type: WidgetType.Quiz,
           icon: 'Q',
-          title: 'Quiz',
-          description: 'Multiple choice',
+          name: {
+            en: 'Quiz',
+            ru: 'Квиз',
+            by: 'Квіз',
+          },
+          description: {
+            en: 'Multiple choice',
+            ru: 'Множественный выбор',
+            by: 'Множны выбар',
+          },
         }}
       />
     );
