@@ -96,8 +96,6 @@ export async function getTopicsPage(
 
         return { data: result };
       }
-
-      console.error(data, array);
     }
 
     throw new Error('Something went wrong');
@@ -111,16 +109,9 @@ export async function getTopicsPage(
 
 export async function getTopicById(topicId: number): Promise<{ data: TopicOverview | undefined; error?: string }> {
   try {
-    console.log(topicId);
     const supabase = await supabaseServer();
 
-    const { data, error } = await supabase
-      .from('topic_widget_summary')
-      .select('*')
-      .filter('last_accessed_at', 'not.is', 'null')
-      .order('last_accessed_at', { ascending: false })
-      .eq('id', topicId)
-      .single();
+    const { data, error } = await supabase.from('topic_widget_summary').select('*').eq('id', topicId).single();
 
     if (error) {
       throw error;

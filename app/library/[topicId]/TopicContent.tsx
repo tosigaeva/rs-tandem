@@ -3,9 +3,9 @@
 import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import NotFound from '@/app/not-found';
 import DefaultRunner from '@/components/library/widget/runners/default/DefaultRunner';
 import { SliderRunner } from '@/components/library/widget/runners/slider/SliderRunner';
-import { SpinnerCustom } from '@/components/ui/SpinnerCustom';
 import WidgetList from '@/components/WidgetList';
 import { getQuestions, getTopicById } from '@/data/trainer.api';
 import { useTranslation } from '@/hooks/use-translation';
@@ -14,6 +14,8 @@ import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { TopicOverview } from '@/types/schemas/topic-schema';
 import { toWidgetFilter, WidgetType } from '@/types/widget';
 
+import { WidgetListSkeleton } from './WidgetListSkeleton';
+
 type TopicContentProperties = {
   topicId: string;
   widgetType: string | undefined;
@@ -21,6 +23,7 @@ type TopicContentProperties = {
 
 export default function TopicContent({ topicId, widgetType }: TopicContentProperties) {
   const [topic, setTopic] = useState<TopicOverview | undefined>();
+  const [isNotFound, setIsNotFound] = useState<boolean>(false);
   const [questions, setQuestions] = useState<QuestionInfo[] | undefined>();
 
   const { translate } = useTranslation();
@@ -35,8 +38,7 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
 
     getTopicById(parsedId)
       .then((result) => {
-        console.log('resuuult', result);
-        if (!result) notFound();
+        if (!result) setIsNotFound(true);
         setTopic(result);
       })
       .catch(() => notFound());
@@ -57,18 +59,18 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
 
   const showSlider = selectedFilter === WidgetType.FlipCard;
 
+  if (isNotFound) {
+    return NotFound();
+  }
+
   if (!topic) {
-    return (
-      <section className="space-y-2 pb-6">
-        <SpinnerCustom />
-      </section>
-    );
+    return WidgetListSkeleton();
   }
 
   return (
     <>
       <section className="space-y-2 pb-6">
-        <h1 className="text-4xl font-semibold tracking-tight">{translate(topic?.name)}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{translate(topic?.name)}</h1>
       </section>
       <section className="pt-10">
         {showRunner ? (
@@ -81,7 +83,6 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
           <WidgetList widgets={topic?.widgets} topicId={topicId} />
         )}
       </section>
-      *
     </>
   );
 }

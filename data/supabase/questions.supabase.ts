@@ -7,8 +7,9 @@ import { QuestionInfo, QuestionInfoSchema } from '@/types/schemas/question-schem
 import { WidgetFilter } from '@/types/widget';
 
 export async function getQuestions(topicId: number, widgetType: WidgetFilter): Promise<QuestionInfo[]> {
-  const supabase = await supabaseServer();
   console.log('getQuestions', topicId, widgetType);
+
+  const supabase = await supabaseServer();
 
   let query = supabase
     .from('questions_info')

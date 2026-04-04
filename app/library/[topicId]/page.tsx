@@ -12,7 +12,7 @@ export default async function Page({ params, searchParams }: PageProperties) {
   console.log(topicId, widgetType);
 
   return (
-    <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
+    <main className="mx-auto max-w-6xl space-y-12 divide-y px-6 py-10">
       <TopicContent topicId={topicId} widgetType={widgetType} />
     </main>
   );

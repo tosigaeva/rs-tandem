@@ -1,6 +1,7 @@
 import { CircleHelp, FileCode2, LayoutGrid, Repeat2, Scale, TrendingUp } from 'lucide-react';
 
-import { AllWidget, Widget, WidgetType } from '@/types/widget';
+import { AllWidget, Widget } from '@/types/schemas/widget-schema';
+import { WidgetType } from '@/types/widget';
 
 const ICON_CLASSNAME = 'text-foreground h-9 w-9';
 

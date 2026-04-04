@@ -1,6 +1,6 @@
 import { LIBRARY_TOPICS_PAGE_SIZE } from '@/app/library/library-topics';
 import { getRecentTopics, getTopicById, getTopicsPage } from '@/data/topic.api';
-import { QueryStorage } from '@/lib/query-storage';
+import { getQueryClient } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
 import { TopicOverview } from '@/types/schemas/topic-schema';
 
@@ -9,7 +9,7 @@ const TOPIC_PAGES = 'topic_pages';
 
 export const TopicService = {
   loadRecentTopics: (): Promise<{ data: TopicOverview[] | undefined; error?: string }> => {
-    return QueryStorage.fetchQuery({
+    return getQueryClient().fetchQuery({
       queryKey: [RECENT_TOPICS],
       queryFn: () => getRecentTopics(),
     });
@@ -26,7 +26,7 @@ export const TopicService = {
       ascending: true,
     };
 
-    return QueryStorage.fetchQuery({
+    return getQueryClient().fetchQuery({
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],
       queryFn: () => getTopicsPage(queryParameters, skipIds),
     });
@@ -34,6 +34,13 @@ export const TopicService = {
 
   getTopicById: async (topicId: number): Promise<TopicOverview | undefined> => {
     const cacheResult = getTopicFromCache(topicId);
+    console.log(
+      'cached result',
+      cacheResult,
+      'cache',
+      getQueryClient().getQueryData<TopicOverview[]>([RECENT_TOPICS]),
+      getQueryClient().getQueryData<TopicOverview[]>([TOPIC_PAGES])
+    );
 
     if (cacheResult) {
       console.log('returning from cache');
@@ -41,18 +48,21 @@ export const TopicService = {
       return cacheResult;
     }
 
-    const { data } = await getTopicById(topicId);
+    console.log('topic service', topicId);
+    const { data, error } = await getTopicById(topicId);
+
+    console.log('error', error);
 
     return data;
   },
 };
 
 const getTopicFromCache = (topicId: number): TopicOverview | undefined => {
-  const recentTopics = QueryStorage.getQueryData<TopicOverview[]>([RECENT_TOPICS]);
+  const recentTopics = getQueryClient().getQueryData<TopicOverview[]>([RECENT_TOPICS]);
   const recentFind = recentTopics?.find((t) => t.id === topicId);
   if (recentFind) return recentFind;
 
-  const allPagesData = QueryStorage.getQueriesData<PaginatedResult<TopicOverview, 'Topic'>>({
+  const allPagesData = getQueryClient().getQueriesData<PaginatedResult<TopicOverview, 'Topic'>>({
     queryKey: [TOPIC_PAGES],
   });
 

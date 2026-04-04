@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import WidgetCard from '@/components/WidgetCard';
