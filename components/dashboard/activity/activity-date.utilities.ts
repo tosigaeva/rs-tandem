@@ -1,7 +1,10 @@
 import { eachDayOfInterval, format, parseISO, startOfDay, subDays } from 'date-fns';
 
+import { LanguageCode } from '@/services/locale/locale.service';
+import { getDateFnsLocale } from '@/services/locale/locale-format';
+
 const dateKeyFormat = 'yyyy-MM-dd';
-const dateLabelFormat = 'MMM d, yyyy';
+const dateLabelFormat = 'PPP';
 const monthLabelFormat = 'MMM';
 
 export function getDateKey(date: Date): string {
@@ -18,24 +21,24 @@ export function parseDateKey(date: string): Date | undefined {
   return parsedDate;
 }
 
-export function formatDateLabel(date: string): string {
+export function formatDateLabel(date: string, languageCode: LanguageCode = LanguageCode.en): string {
   const parsedDate = parseDateKey(date);
 
   if (parsedDate === undefined) {
     return date;
   }
 
-  return format(parsedDate, dateLabelFormat);
+  return format(parsedDate, dateLabelFormat, { locale: getDateFnsLocale(languageCode) });
 }
 
-export function formatMonthLabel(date: string): string {
+export function formatMonthLabel(date: string, languageCode: LanguageCode = LanguageCode.en): string {
   const parsedDate = parseDateKey(date);
 
   if (parsedDate === undefined) {
     return date;
   }
 
-  return format(parsedDate, monthLabelFormat);
+  return format(parsedDate, monthLabelFormat, { locale: getDateFnsLocale(languageCode) });
 }
 
 export function normalizeDate(date: Date): Date {

@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Routes } from '@/lib/routes';
-import { useAuth } from '@/services/authorization/auth.store';
+import { useAuth } from '@/providers/auth-state.provider';
 
 export default function Page() {
   const { isAuthorized } = useAuth();

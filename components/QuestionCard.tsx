@@ -9,13 +9,14 @@ import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/
 import { Field, FieldDescription, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTranslation } from '@/hooks/use-translation';
+import { ValidationResult } from '@/types/validation';
 
 type QuestionCardProperties = {
   questionId: string;
   question: string;
   options: string[];
   instruction: string;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
@@ -47,7 +48,7 @@ export default function QuestionCard({
   const handleCheck = useCallback(async () => {
     if (selected === undefined) return;
     const result = await onCheck(selected);
-    setVerdict(result);
+    setVerdict(result.isCorrect);
   }, [selected, onCheck]);
 
   const handleNext = useCallback(() => {
@@ -76,7 +77,12 @@ export default function QuestionCard({
   );
 
   return (
-    <section ref={sectionReference} tabIndex={0} onKeyDown={handleKeyDown} className="mx-auto max-w-2xl space-y-8">
+    <section
+      ref={sectionReference}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      className="mx-auto max-w-2xl space-y-8 focus-visible:outline-0"
+    >
       <Card>
         <CardHeader>
           <CodeBlock code={question} />
