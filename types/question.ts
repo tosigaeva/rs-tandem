@@ -12,12 +12,14 @@ import {
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
   CodeCompletionPayloadQuestion,
+  CodeOrderingPayloadAnswer,
   FlipCardPayloadQuestion,
   QuizPayloadAnswer,
   QuizPayloadQuestion,
   TrueFalsePayloadAnswer,
   TrueFalsePayloadQuestion,
 } from '@/types/schemas/question-payload-schema';
+import { CodeOrderingQuestion } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
 export type QuestionPayload =
@@ -41,6 +43,7 @@ export type WidgetQuestionPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadQuestion;
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingQuestion;
 };
 
 export type WidgetAnswerPayloadMap = {
@@ -49,6 +52,7 @@ export type WidgetAnswerPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadAnswer;
   [WidgetType.FlipCard]: null;
   [WidgetType.BigONotation]: BigOPayloadAnswer;
+  [WidgetType.CodeOrdering]: CodeOrderingPayloadAnswer;
 };
 
 export type WidgetPayloadMap = {

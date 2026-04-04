@@ -7,6 +7,7 @@ import { CodeOrderingPayload } from '@/components/library/widget/ui/code-orderin
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
+import { ValidationResult } from '@/types/validation';
 
 type Block = {
   id: string;
@@ -17,7 +18,7 @@ type Block = {
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: CodeOrderingPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
