@@ -70,6 +70,17 @@ export async function getQuestions(topicId: string, widgetType: WidgetFilter): P
         },
       };
     }
+    if (q.widget_type === WidgetType.CodeOrdering) {
+      return {
+        id: q.id,
+        topicId: q.topic_id,
+        type: q.widget_type,
+        payload: {
+          ...q.payload_question,
+          description: q.payload_question.description[languageCode],
+        },
+      };
+    }
 
     return {
       id: q.id,
