@@ -70,6 +70,6 @@ export const BigOPayloadAnswerSchema = z.object({
 export type BigOPayloadAnswer = z.infer<typeof BigOPayloadAnswerSchema>;
 
 export const CodeOrderingPayloadAnswerSchema = z.object({
-  answers: z.array(z.string()).min(1),
+  answers: z.array(z.number().int()).min(1),
 });
 export type CodeOrderingPayloadAnswer = z.infer<typeof CodeOrderingPayloadAnswerSchema>;

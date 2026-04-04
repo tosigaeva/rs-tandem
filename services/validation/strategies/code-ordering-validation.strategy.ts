@@ -1,5 +1,6 @@
 import { CodeOrderingPayloadAnswerSchema } from '@/types/schemas/question-payload-schema';
 
+import { isEqualNumberArray, parseNumberArray } from './helpers';
 import { ValidationStrategy } from './types';
 
 export const codeOrderingValidationStrategy: ValidationStrategy = {
@@ -10,22 +11,21 @@ export const codeOrderingValidationStrategy: ValidationStrategy = {
       return { isCorrect: undefined };
     }
 
-    if (Array.isArray(answer) && answer.every((item) => typeof item === 'string')) {
-      const submittedAnswers = answer.map((item) => item.trim());
-      const expectedAnswers = answerResult.data.answers;
+    const submittedOrder =
+      Array.isArray(answer) && answer.every((item) => typeof item === 'number') ? answer : parseNumberArray(answer);
 
-      if (expectedAnswers !== undefined) {
-        const blankResults = expectedAnswers.map((value, index) => value === submittedAnswers[index]);
-
-        return {
-          isCorrect: blankResults.every(Boolean),
-          details: {
-            blankResults,
-          },
-        };
-      }
+    if (submittedOrder === undefined) {
+      return { isCorrect: undefined };
     }
 
-    return { isCorrect: undefined };
+    const expectedOrder = answerResult.data.answers;
+    const blankResults = expectedOrder.map((value, index) => value === submittedOrder[index]);
+
+    return {
+      isCorrect: isEqualNumberArray(submittedOrder, expectedOrder),
+      details: {
+        blankResults,
+      },
+    };
   },
 };

@@ -18,6 +18,12 @@ export default function QuestionWrapper({
   onNext,
 }: QuestionProperties) {
   return (
-    <WidgetComponent questionId={questionId} questionPayload={questionPayload} onCheck={onCheck} onNext={onNext} />
+    <WidgetComponent
+      key={questionId}
+      questionId={questionId}
+      questionPayload={questionPayload}
+      onCheck={onCheck}
+      onNext={onNext}
+    />
   );
 }

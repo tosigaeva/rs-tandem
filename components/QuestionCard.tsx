@@ -3,12 +3,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import InfoBox from '@/components/InfoBox';
-import { formatMessage } from '@/components/library/widget/ui/code-ordering/DefaultComponent';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Field, FieldDescription, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTranslation } from '@/hooks/use-translation';
+import { formatMessage } from '@/services/locale/format-message';
 import { ValidationResult } from '@/types/validation';
 
 type QuestionCardProperties = {

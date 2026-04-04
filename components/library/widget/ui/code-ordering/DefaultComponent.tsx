@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import InfoBox from '@/components/InfoBox';
 import BlockItem from '@/components/library/widget/ui/code-ordering/BlockItem';
@@ -26,18 +26,6 @@ export const messages = {
   checkAnswer: 'Check Answer',
   nextQuestion: 'Next Question',
 };
-
-function validateAnswer(questionId: string, userAnswers: number[]) {
-  const answers: Record<string, number[]> = {
-    'co-001': [1, 0, 2, 3, 4],
-  };
-  const correctOrder = answers[questionId];
-  return userAnswers.map((answer, index) => answer === correctOrder[index]);
-}
-
-export function formatMessage(template: string, values: Record<string, string | number>): string {
-  return template.replaceAll(/\{(\w+)\}/g, (match, token) => String(values[token] ?? match));
-}
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const { t } = useTranslation();
@@ -150,14 +138,13 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   const handleCheck = async () => {
     const userOrder = blocks.map((block) => block.order);
 
-    await onCheck(userOrder.join(''));
+    const result = await onCheck(userOrder);
+    if (result.isCorrect === undefined) return;
 
-    const result = validateAnswer(questionId, userOrder);
-    setVerdict(result);
+    setVerdict(result.details?.blankResults ?? userOrder.map(() => result.isCorrect ?? false));
   };
 
   const handleNext = () => {
-    setBlocks(initialBlocks);
     setVerdict(undefined);
     onNext();
   };
@@ -183,7 +170,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             `}
           >
             {blocks.map((block, index) => (
-              <div key={block.id} className="mb-0.5">
+              <div key={questionId + block.id} className="mb-0.5">
                 <InsertionSlot
                   index={index}
                   hoverIndex={hoverIndex}
