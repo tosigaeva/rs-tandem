@@ -125,6 +125,29 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
   },
+
+  'widget.codeOrdering.description': {
+    [LanguageCode.en]: 'Arrange the code lines in the correct order',
+    [LanguageCode.ru]: 'Расставь строки кода в правильном порядке',
+    [LanguageCode.by]: 'Размясці радкі кода ў правільным парадку',
+  },
+  'widget.codeOrdering.keyboardHint': {
+    [LanguageCode.en]: 'Arrows — move • Enter — pick/place • Esc — cancel',
+    [LanguageCode.ru]: 'Стрелки — перемещение • Enter — взять/вставить • Esc — отменить',
+    [LanguageCode.by]: 'Стрэлкі — перамяшчэнне • Enter — узяць/уставіць • Esc — адмяніць',
+  },
+
+  'widget.questionCard.keyboardHint': {
+    [LanguageCode.en]: 'Numbers 1–{count} — select option • Enter — check/next question',
+    [LanguageCode.ru]: 'Цифры 1–{count} — выбрать вариант • Enter — проверить/следующий вопрос',
+    [LanguageCode.by]: 'Лічбы 1–{count} — выбраць варыянт • Enter — праверыць/наступнае пытанне',
+  },
+
+  'widget.keyboardHint.title': {
+    [LanguageCode.en]: 'Keyboard controls',
+    [LanguageCode.ru]: 'Управление с клавиатуры',
+    [LanguageCode.by]: 'Кіраванне з клавіятуры',
+  },
 } satisfies Record<string, LocaleString>;
 
 export type MessageKey = keyof typeof AppMessages;

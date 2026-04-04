@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import InfoBox from '@/components/InfoBox';
 import BlockItem from '@/components/library/widget/ui/code-ordering/BlockItem';
 import { InsertionSlot } from '@/components/library/widget/ui/code-ordering/InsertionSlot';
 import { CodeOrderingPayload } from '@/components/library/widget/ui/code-ordering/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 
 type Block = {
   id: string;
@@ -32,7 +34,13 @@ function validateAnswer(questionId: string, userAnswers: number[]) {
   return userAnswers.map((answer, index) => answer === correctOrder[index]);
 }
 
+export function formatMessage(template: string, values: Record<string, string | number>): string {
+  return template.replaceAll(/\{(\w+)\}/g, (match, token) => String(values[token] ?? match));
+}
+
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
+  const { t } = useTranslation();
+
   const initialBlocks: Block[] = useMemo(
     () =>
       questionPayload.lines.map((line, index) => ({
@@ -50,7 +58,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
 
   const [keyboardIndex, setKeyboardIndex] = useState<number>(0);
   const [keyboardDragIndex, setKeyboardDragIndex] = useState<number | undefined>();
-  const [isKeyboardMode, setIsKeyboardMode] = useState(false);
+  const [, setIsKeyboardMode] = useState(false);
 
   const [verdict, setVerdict] = useState<boolean[] | undefined>();
 
@@ -162,7 +170,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
           <CardTitle>{questionPayload.description}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <CardDescription>Расставь строки кода в правильном порядке</CardDescription>
+          <CardDescription>{t('widget.codeOrdering.description')}</CardDescription>
           <div
             ref={sectionReference}
             tabIndex={0}
@@ -192,10 +200,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     setDragIndex(undefined);
                     setIsOverArea(false);
                   }}
-                  className={`
-    cursor-grab active:cursor-grabbing
-    ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}
-  `}
+                  className={`cursor-grab active:cursor-grabbing ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}`}
                 >
                   <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
                 </div>
@@ -209,6 +214,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
               onInsert={handleReorder}
             />
           </div>
+          <InfoBox title={t('widget.keyboardHint.title')} description={t('widget.codeOrdering.keyboardHint')} />
           <PrimaryButton
             variant="secondary"
             onClick={isChecked ? handleNext : handleCheck}
