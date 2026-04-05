@@ -68,7 +68,10 @@ export const widgetRegistry: {
   },
   [WidgetType.CodeOrdering]: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeOrdering>>(
-      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent')
+      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent'),
+      {
+        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+      }
     ),
   },
 };

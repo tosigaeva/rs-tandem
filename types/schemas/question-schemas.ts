@@ -62,6 +62,10 @@ export const UniversalPayloadQuestionSchema = z.discriminatedUnion('type', [
     data: CodeCompletionPayloadQuestionSchema,
   }),
   z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingPayloadQuestionSchema,
+  }),
+  z.object({
     type: z.literal(WidgetType.FlipCard),
     data: FlipCardPayloadQuestionSchema,
   }),

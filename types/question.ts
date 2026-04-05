@@ -1,10 +1,10 @@
-import { CodeOrderingPayload } from '@/components/library/widget/ui/code-ordering/type';
 import {
   BigOPayloadAnswer,
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
   CodeCompletionPayloadQuestion,
   CodeOrderingPayloadAnswer,
+  CodeOrderingPayloadQuestion,
   FlipCardPayloadQuestion,
   QuizPayloadAnswer,
   QuizPayloadQuestion,
@@ -38,7 +38,7 @@ export type WidgetPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadQuestion;
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
-  [WidgetType.CodeOrdering]: CodeOrderingPayload;
+  [WidgetType.CodeOrdering]: CodeOrderingPayloadQuestion;
 };
 
 export type AnswerPayload = WidgetAnswerPayloadMap[WidgetType];

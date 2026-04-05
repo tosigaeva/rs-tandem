@@ -4,9 +4,20 @@ import { WidgetType } from '@/types/widget';
 export const mockWidgets: WidgetOverview[] = [
   {
     type: WidgetType.CodeOrdering,
-    title: 'Code Ordering',
-    description: 'Arrange the code lines in the correct execution order.',
+    name: {
+      en: 'Code Ordering',
+      ru: 'Порядок кода',
+      by: 'Парадак кода',
+    },
+    description: {
+      en: 'Arrange the code lines in the correct execution order.',
+      ru: 'Расположите строки кода в правильном порядке выполнения.',
+      by: 'Размясціце радкі кода ў правільным парадку выканання.',
+    },
     icon: 'C',
+    createdAt: new Date(),
+    totalQuestions: 0,
+    correctAnswers: 0,
   },
   {
     type: WidgetType.Quiz,
