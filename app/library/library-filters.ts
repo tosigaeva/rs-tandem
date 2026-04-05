@@ -76,7 +76,7 @@ export function useLibraryFilters() {
     return () => {
       globalThis.clearTimeout(timeoutId);
     };
-  }, [searchInputValue, searchQuery, searchParameters, pathname, router]);
+  }, [searchInputValue, searchQuery]);
 
   return {
     filters: {
