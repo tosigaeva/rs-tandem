@@ -28,12 +28,12 @@ type QuestionRunnerEngineProperties = {
 
 export default function QuestionRunnerEngine({ questions, children, onComplete }: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
   const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(
     Array.from<undefined>({ length: questions.length })
   );
   const isValidationInFlight = useRef(false);
+  const correctAnswers = answersHistory.filter(Boolean).length;
 
   const { user } = useAuth();
 
@@ -44,7 +44,6 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
   const startOver = () => {
     onComplete();
     setCurrentIndex(0);
-    setCorrectAnswers(0);
     setAnswersHistory([]);
   };
 
@@ -57,13 +56,10 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
     setIsValidating(true);
 
     try {
-      console.log('we here');
       const result = await validateAnswer(currentQuestion.id, answer);
 
       currentQuestion.isSuccess = result ?? false;
       currentQuestion.updatedAt = new Date();
-
-      if (result === true) setCorrectAnswers((previous) => previous + 1);
 
       setAnswersHistory((previous) => {
         const copyHistory = [...previous];

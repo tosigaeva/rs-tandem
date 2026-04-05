@@ -14,12 +14,18 @@ describe('WidgetList', () => {
             icon: 'Q',
             name: { en: 'Quiz', ru: 'Квиз', by: 'Квіз' },
             description: { en: 'Multiple choice', ru: 'Множественный выбор', by: 'Множны выбар' },
+            createdAt: new Date(),
+            totalQuestions: 0,
+            correctAnswers: 0,
           },
           {
             type: WidgetType.TrueFalse,
             icon: 'T',
             name: { en: 'True/False', ru: 'Верно/Неверно', by: 'Верна/Не' },
             description: { en: 'Select true or false', ru: 'Выберите верно или неверно', by: 'Выберыце верна ці не' },
+            createdAt: new Date(),
+            totalQuestions: 0,
+            correctAnswers: 0,
           },
         ]}
       />

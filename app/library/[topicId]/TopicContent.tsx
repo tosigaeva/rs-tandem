@@ -90,7 +90,12 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
             <DefaultRunner questions={activeQuestions} onComplete={handleFinishRound} />
           )
         ) : (
-          <WidgetList widgets={topic?.widgets} topicId={topicId} />
+          <WidgetList
+            widgets={topic?.widgets}
+            topicId={topicId}
+            totalQuestions={topic.totalQuestions}
+            correctAnswers={topic.correctAnswers}
+          />
         )}
       </section>
     </>

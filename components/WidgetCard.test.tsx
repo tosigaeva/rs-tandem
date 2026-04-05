@@ -20,6 +20,8 @@ describe('WidgetCard', () => {
             ru: 'Множественный выбор',
             by: 'Множны выбар',
           },
+          totalQuestions: 0,
+          correctAnswers: 0,
         }}
       />
     );

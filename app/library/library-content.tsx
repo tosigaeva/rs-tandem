@@ -67,7 +67,7 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
         </section>
 
         {recentTopics.length > 0 && (
-          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
+          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgressBar={true} />
         )}
         <section className="relative">
           {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}

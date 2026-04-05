@@ -51,7 +51,7 @@ export function createColumns({ handleOpenDialog, handleAddQuestion }: MetaPrope
     {
       accessorKey: 'createdAt',
       header: 'Created At',
-      cell: ({ row }) => row.original.createdAt.toLocaleDateString(),
+      cell: ({ row }) => row.original.createdAt?.toLocaleDateString() ?? 'N/A',
     },
     {
       id: 'actions',

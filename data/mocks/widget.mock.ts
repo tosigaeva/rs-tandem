@@ -16,10 +16,8 @@ export const mockWidgets: WidgetOverview[] = [
     },
     icon: 'Q',
     createdAt: new Date(),
-    lastTrainedAt: new Date(),
     totalQuestions: 0,
     correctAnswers: 0,
-    progress: 0,
   },
   {
     type: WidgetType.TrueFalse,
@@ -35,10 +33,8 @@ export const mockWidgets: WidgetOverview[] = [
     },
     icon: 'T',
     createdAt: new Date(),
-    lastTrainedAt: new Date(),
     totalQuestions: 0,
     correctAnswers: 0,
-    progress: 0,
   },
   {
     type: WidgetType.CodeCompletion,
@@ -54,10 +50,8 @@ export const mockWidgets: WidgetOverview[] = [
     },
     icon: 'C',
     createdAt: new Date(),
-    lastTrainedAt: new Date(),
     totalQuestions: 0,
     correctAnswers: 0,
-    progress: 0,
   },
   {
     type: WidgetType.FlipCard,
@@ -73,10 +67,8 @@ export const mockWidgets: WidgetOverview[] = [
     },
     icon: 'F',
     createdAt: new Date(),
-    lastTrainedAt: new Date(),
     totalQuestions: 0,
     correctAnswers: 0,
-    progress: 0,
   },
   {
     type: WidgetType.BigONotation,
@@ -92,9 +84,7 @@ export const mockWidgets: WidgetOverview[] = [
     },
     icon: 'O',
     createdAt: new Date(),
-    lastTrainedAt: new Date(),
     totalQuestions: 0,
     correctAnswers: 0,
-    progress: 0,
   },
 ];

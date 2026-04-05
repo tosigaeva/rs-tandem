@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import WidgetCard from '@/components/WidgetCard';
 import { Routes } from '@/lib/routes';
-import { AllWidget, Widget } from '@/types/schemas/widget-schema';
+import { AllWidget, WidgetOverview } from '@/types/schemas/widget-schema';
 
 const ALL_WIDGET: AllWidget = {
   type: 'all',
@@ -19,15 +19,20 @@ const ALL_WIDGET: AllWidget = {
     ru: 'Практикуйтесь со всеми доступными типами вопросов в этой теме.',
     by: 'Практыкуйцеся з усімі даступнымі тыпамі пытанняў у гэтай тэме.',
   },
+  totalQuestions: 0,
+  correctAnswers: 0,
 };
 
 type WidgetListProperties = {
-  widgets: Widget[];
+  widgets: WidgetOverview[];
   topicId: string;
+  totalQuestions: number;
+  correctAnswers: number;
 };
 
-export default function WidgetList({ widgets, topicId }: WidgetListProperties) {
-  const widgetsWithAll = [...widgets, ALL_WIDGET];
+export default function WidgetList({ widgets, topicId, totalQuestions, correctAnswers }: WidgetListProperties) {
+  const allWidget = { ...ALL_WIDGET, totalQuestions, correctAnswers };
+  const widgetsWithAll = [...widgets, allWidget];
   return (
     <section>
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

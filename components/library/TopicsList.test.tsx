@@ -16,6 +16,8 @@ describe('TopicList', () => {
         lastTrainedAt: undefined,
         createdAt: new Date(),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
       {
         id: 2,
@@ -27,6 +29,8 @@ describe('TopicList', () => {
         lastTrainedAt: undefined,
         createdAt: new Date(),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
     ];
 
