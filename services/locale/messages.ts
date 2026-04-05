@@ -391,6 +391,22 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
   },
+  /// widget
+  'widget.button.checkAnswer': {
+    [LanguageCode.en]: 'Check Answer',
+    [LanguageCode.ru]: 'Проверить ответ',
+    [LanguageCode.by]: 'Праверыць адказ',
+  },
+  'widget.button.nextQuestion': {
+    [LanguageCode.en]: 'Next Question',
+    [LanguageCode.ru]: 'Следующий вопрос',
+    [LanguageCode.by]: 'Наступнае пытанне',
+  },
+  'widget.codeComplition.description': {
+    [LanguageCode.en]: 'Fill in the missing code',
+    [LanguageCode.ru]: 'Заполните пропущенный код',
+    [LanguageCode.by]: 'Запоўніце прапушчаны код',
+  },
   /// runner
   'runner.progress.question': {
     [LanguageCode.en]: 'Question',
@@ -588,6 +604,29 @@ export const AppMessages = {
     [LanguageCode.en]: 'Must contain at least one uppercase letter.',
     [LanguageCode.ru]: 'Должен содержать хотя бы одну заглавную букву.',
     [LanguageCode.by]: 'Павінен утрымліваць хаця б адну вялікую літару.',
+  },
+
+  'widget.codeOrdering.description': {
+    [LanguageCode.en]: 'Arrange the code lines in the correct order',
+    [LanguageCode.ru]: 'Расставь строки кода в правильном порядке',
+    [LanguageCode.by]: 'Размясці радкі кода ў правільным парадку',
+  },
+  'widget.codeOrdering.keyboardHint': {
+    [LanguageCode.en]: 'Arrows — move • Enter — pick/place • Esc — cancel',
+    [LanguageCode.ru]: 'Стрелки — перемещение • Enter — взять/вставить • Esc — отменить',
+    [LanguageCode.by]: 'Стрэлкі — перамяшчэнне • Enter — узяць/уставіць • Esc — адмяніць',
+  },
+
+  'widget.questionCard.keyboardHint': {
+    [LanguageCode.en]: 'Numbers 1–{count} — select option • Enter — check/next question',
+    [LanguageCode.ru]: 'Цифры 1–{count} — выбрать вариант • Enter — проверить/следующий вопрос',
+    [LanguageCode.by]: 'Лічбы 1–{count} — выбраць варыянт • Enter — праверыць/наступнае пытанне',
+  },
+
+  'widget.keyboardHint.title': {
+    [LanguageCode.en]: 'Keyboard controls',
+    [LanguageCode.ru]: 'Управление с клавиатуры',
+    [LanguageCode.by]: 'Кіраванне з клавіятуры',
   },
 } satisfies Record<string, LocaleString>;
 

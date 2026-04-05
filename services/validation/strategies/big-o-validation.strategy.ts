@@ -7,9 +7,9 @@ export const bigOValidationStrategy: ValidationStrategy = {
     const answerResult = await BigOPayloadAnswerSchema.safeParseAsync(question.payloadAnswer);
 
     if (!answerResult.success || typeof answer !== 'string') {
-      return;
+      return { isCorrect: undefined };
     }
 
-    return answer === answerResult.data.correctComplexity;
+    return { isCorrect: answer === answerResult.data.correctComplexity };
   },
 };

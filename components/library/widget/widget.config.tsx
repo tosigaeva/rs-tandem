@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 
 import { WidgetPayloadMap } from '@/types/question';
+import { ValidationResult } from '@/types/validation';
 import { WidgetType } from '@/types/widget';
 
 export type WidgetSkinsMap = {
@@ -10,12 +11,13 @@ export type WidgetSkinsMap = {
   [WidgetType.CodeCompletion]: 'default';
   [WidgetType.FlipCard]: 'default';
   [WidgetType.BigONotation]: 'default';
+  [WidgetType.CodeOrdering]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
   questionId: number;
   questionPayload: WidgetPayloadMap[T];
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 export type WidgetComponent<T extends WidgetType = WidgetType> = ComponentType<WidgetComponentProperties<T>>;
@@ -62,6 +64,11 @@ export const widgetRegistry: {
       {
         loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
       }
+    ),
+  },
+  [WidgetType.CodeOrdering]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.CodeOrdering>>(
+      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent')
     ),
   },
 };

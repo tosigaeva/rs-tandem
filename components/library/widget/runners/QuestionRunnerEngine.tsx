@@ -8,6 +8,7 @@ import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
 import { useAuth } from '@/providers/auth-state.provider';
 import { QuestionInfo } from '@/types/schemas/question-schemas';
+import { ValidationResult } from '@/types/validation';
 
 export type AnswersHistory = (boolean | undefined)[];
 
@@ -16,7 +17,7 @@ type RunnerRenderProperties = {
   currentIndex: number;
   answersHistory: AnswersHistory;
   isValidating: boolean;
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   nextQuestion: () => void;
 };
 
@@ -47,10 +48,10 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
     setAnswersHistory([]);
   };
 
-  const onCheck = async (answer: unknown) => {
-    if (user == undefined) return;
+  const onCheck = async (answer: unknown): Promise<ValidationResult> => {
+    if (user == undefined) return { isCorrect: undefined };
 
-    if (isValidationInFlight.current) return;
+    if (isValidationInFlight.current) return { isCorrect: undefined };
 
     isValidationInFlight.current = true;
     setIsValidating(true);
@@ -58,12 +59,12 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
     try {
       const result = await validateAnswer(currentQuestion.id, answer);
 
-      currentQuestion.isSuccess = result ?? false;
+      currentQuestion.isSuccess = result.isCorrect ?? false;
       currentQuestion.updatedAt = new Date();
 
       setAnswersHistory((previous) => {
         const copyHistory = [...previous];
-        copyHistory[currentIndex] = result;
+        copyHistory[currentIndex] = result.isCorrect;
         return copyHistory;
       });
 
@@ -71,7 +72,7 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
         await trackQuestionAttempt({
           questionId: currentQuestion.id,
           userId: user.id,
-          isSuccess: result,
+          isSuccess: result.isCorrect,
         });
       } catch {
         // ignored due to not blocking an answer validation flow.

@@ -21,5 +21,5 @@ export const RoutePermissions: Record<Routes, RouteConfig> = {
   [Routes.SignIn]: { access: 'unauthorized' },
   [Routes.Dashboard]: { access: 'authorized', allowedRoles: [UserRole.User, UserRole.Admin] },
   [Routes.Library]: { access: 'authorized', allowedRoles: [UserRole.User, UserRole.Admin] },
-  [Routes.Admin]: { access: 'authorized', allowedRoles: [UserRole.Admin] },
+  [Routes.Admin]: { access: 'authorized', allowedRoles: [UserRole.User] },
 };

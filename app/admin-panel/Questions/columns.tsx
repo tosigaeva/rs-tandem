@@ -12,6 +12,7 @@ import {
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
   CodeCompletionPayloadQuestion,
+  CodeOrderingPayloadAnswer,
   FlipCardPayloadQuestion,
   QuizPayloadAnswer,
   QuizPayloadQuestion,
@@ -298,6 +299,9 @@ const displayPayloadAnswer = (answer: unknown, widgetString: string) => {
       case WidgetType.BigONotation: {
         return displayBigOPayloadAnswer(parsed.data.data);
       }
+      case WidgetType.CodeOrdering: {
+        return displayCodeOrderingPayloadAnswer(parsed.data.data);
+      }
     }
   }
 
@@ -327,8 +331,8 @@ const displayTrueFalsePayloadAnswer = (answer: TrueFalsePayloadAnswer) => {
 const displayCodeCompletionPayloadAnswer = (answer: CodeCompletionPayloadAnswer) => {
   return (
     <div className="flex justify-start gap-1">
-      <span className="font-semibold">Correct Order: </span>
-      <p>{answer.correctOrder.join(' -> ')}</p>
+      <span className="font-semibold">Answers: </span>
+      <p>{answer.answers.join(' -> ')}</p>
     </div>
   );
 };
@@ -338,6 +342,15 @@ const displayBigOPayloadAnswer = (answer: BigOPayloadAnswer) => {
     <div className="flex justify-start gap-1">
       <span className="font-semibold">Expected Complexity: </span>
       <code className="rounded-sm bg-slate-100 px-1">{answer.correctComplexity}</code>
+    </div>
+  );
+};
+
+const displayCodeOrderingPayloadAnswer = (answer: CodeOrderingPayloadAnswer) => {
+  return (
+    <div className="flex justify-start gap-1">
+      <span className="font-semibold">Answers: </span>
+      <p>{answer.answers.join(' -> ')}</p>
     </div>
   );
 };

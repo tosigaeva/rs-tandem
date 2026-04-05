@@ -5,6 +5,27 @@ export const mockQuestions: QuestionInfo[] = [
   {
     id: 1,
     topicId: 1,
+    type: WidgetType.CodeOrdering,
+    payload: {
+      description: {
+        en: 'Implement a debounce function',
+        ru: 'Реализуй функцию debounce',
+        by: 'Рэалізуй функцыю debounce',
+      },
+      lines: [
+        'return function(...args) {',
+        'let timeout;',
+        'clearTimeout(timeout);',
+        'timeout = setTimeout(() => fn(...args), delay);',
+        '};',
+      ],
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 2,
+    topicId: 1,
     type: WidgetType.Quiz,
     payload: {
       question: {
@@ -23,7 +44,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 2,
+    id: 3,
     topicId: 1,
     type: WidgetType.TrueFalse,
     payload: {
@@ -42,7 +63,30 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 3,
+    id: 4,
+    topicId: 1,
+    type: WidgetType.CodeCompletion,
+    payload: {
+      code: 'const result = arr.___(x => x > 0).___(x => x * 2);',
+      blanks: ['___', '___'],
+      hints: [
+        {
+          en: 'This method filters elements based on a condition',
+          ru: 'Этот метод фильтрует элементы на основе условия',
+          by: 'Гэты метад фільтруе элементы на аснове ўмовы',
+        },
+        {
+          en: 'This method transforms each element of the array',
+          ru: 'Этот метод преобразует каждый элемент массива',
+          by: 'Гэты метад пераўтварае кожны элемент масіва',
+        },
+      ],
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 5,
     topicId: 1,
     type: WidgetType.CodeCompletion,
     payload: {
@@ -60,7 +104,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 4,
+    id: 6,
     topicId: 1,
     type: WidgetType.BigONotation,
     payload: {
@@ -75,7 +119,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 5,
+    id: 7,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -90,7 +134,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 6,
+    id: 8,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -105,7 +149,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 7,
+    id: 9,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -120,7 +164,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 8,
+    id: 10,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -135,7 +179,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 9,
+    id: 11,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -150,7 +194,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 10,
+    id: 12,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -165,7 +209,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 11,
+    id: 13,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -180,7 +224,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 12,
+    id: 14,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -195,7 +239,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 13,
+    id: 15,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {
@@ -210,7 +254,7 @@ export const mockQuestions: QuestionInfo[] = [
     updatedAt: undefined,
   },
   {
-    id: 14,
+    id: 16,
     topicId: 1,
     type: WidgetType.FlipCard,
     payload: {

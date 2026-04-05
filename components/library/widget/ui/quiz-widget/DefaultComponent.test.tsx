@@ -23,7 +23,7 @@ describe('Quiz DefaultComponent', () => {
             { en: 'b', ru: 'б', by: 'б' },
           ],
         }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

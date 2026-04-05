@@ -16,7 +16,7 @@ describe('QuestionCard', () => {
         question="What?"
         options={['a', 'b']}
         instruction="Pick one"
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

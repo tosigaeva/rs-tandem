@@ -3,6 +3,12 @@ import { WidgetType } from '@/types/widget';
 
 export const mockWidgets: WidgetOverview[] = [
   {
+    type: WidgetType.CodeOrdering,
+    title: 'Code Ordering',
+    description: 'Arrange the code lines in the correct execution order.',
+    icon: 'C',
+  },
+  {
     type: WidgetType.Quiz,
     name: {
       en: 'Single Choice Quiz',

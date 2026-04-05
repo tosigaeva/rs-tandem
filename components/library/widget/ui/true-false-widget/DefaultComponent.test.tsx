@@ -28,7 +28,7 @@ describe('TrueFalse DefaultComponent', () => {
             by: 'Тлумачэнне',
           },
         }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

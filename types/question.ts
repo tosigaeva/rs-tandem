@@ -1,14 +1,17 @@
+import { CodeOrderingPayload } from '@/components/library/widget/ui/code-ordering/type';
 import {
   BigOPayloadAnswer,
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
   CodeCompletionPayloadQuestion,
+  CodeOrderingPayloadAnswer,
   FlipCardPayloadQuestion,
   QuizPayloadAnswer,
   QuizPayloadQuestion,
   TrueFalsePayloadAnswer,
   TrueFalsePayloadQuestion,
 } from '@/types/schemas/question-payload-schema';
+import { CodeOrderingQuestion } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
 export type WidgetQuestionPayloadMap = {
@@ -17,6 +20,7 @@ export type WidgetQuestionPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadQuestion;
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingQuestion;
 };
 
 export type WidgetAnswerPayloadMap = {
@@ -25,6 +29,7 @@ export type WidgetAnswerPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadAnswer;
   [WidgetType.FlipCard]: null;
   [WidgetType.BigONotation]: BigOPayloadAnswer;
+  [WidgetType.CodeOrdering]: CodeOrderingPayloadAnswer;
 };
 
 export type WidgetPayloadMap = {
@@ -33,6 +38,7 @@ export type WidgetPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadQuestion;
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingPayload;
 };
 
 export type AnswerPayload = WidgetAnswerPayloadMap[WidgetType];

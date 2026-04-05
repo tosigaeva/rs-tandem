@@ -25,7 +25,7 @@ describe('QuestionWrapper', () => {
           question: { en: 'Test', ru: 'Тест', by: 'Тэст' },
           options: [{ en: 'a', ru: 'а', by: 'а' }],
         }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );
