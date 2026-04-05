@@ -28,6 +28,8 @@ describe('WidgetList', () => {
             correctAnswers: 0,
           },
         ]}
+        totalQuestions={0}
+        correctAnswers={0}
       />
     );
 
