@@ -98,6 +98,91 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Практикуйтесь со всеми доступными типами вопросов в этой теме.',
     [LanguageCode.by]: 'Практыкуйцеся з усімі даступнымі тыпамі пытанняў у гэтай тэме.',
   },
+  'library.filter.label': {
+    [LanguageCode.en]: 'Discover filters',
+    [LanguageCode.ru]: 'Фильтры для тем',
+    [LanguageCode.by]: 'Фільтры для тэм',
+  },
+  'library.filter.description': {
+    [LanguageCode.en]: 'Narrow the discover list by widget, level, or topic name.',
+    [LanguageCode.ru]: 'Сужайте список тем по виджету, уровню или названию темы.',
+    [LanguageCode.by]: 'Звужайце спіс тэм па віджэце, узроўні або назве тэмы.',
+  },
+  'library.filter.widgetLabel': {
+    [LanguageCode.en]: 'Widget type',
+    [LanguageCode.ru]: 'Тип виджета',
+    [LanguageCode.by]: 'Тып віджэта',
+  },
+  'library.filter.levelLabel': {
+    [LanguageCode.en]: 'Topic level',
+    [LanguageCode.ru]: 'Уровень темы',
+    [LanguageCode.by]: 'Узровень тэмы',
+  },
+  'library.filter.option.levelAll': {
+    [LanguageCode.en]: 'All levels',
+    [LanguageCode.ru]: 'Все уровни',
+    [LanguageCode.by]: 'Усе ўзроўні',
+  },
+  'library.search.label': {
+    [LanguageCode.en]: 'Search by topic name',
+    [LanguageCode.ru]: 'Поиск по названию темы',
+    [LanguageCode.by]: 'Пошук па назве тэмы',
+  },
+  'library.search.placeholder': {
+    [LanguageCode.en]: 'Start typing a topic name',
+    [LanguageCode.ru]: 'Начните вводить название темы',
+    [LanguageCode.by]: 'Пачніце ўводзіць назву тэмы',
+  },
+  'library.filter.option.all': {
+    [LanguageCode.en]: 'All widgets',
+    [LanguageCode.ru]: 'Все виджеты',
+    [LanguageCode.by]: 'Усе віджэты',
+  },
+  'library.filter.option.quiz': {
+    [LanguageCode.en]: 'Quiz',
+    [LanguageCode.ru]: 'Квиз',
+    [LanguageCode.by]: 'Квіз',
+  },
+  'library.filter.option.trueFalse': {
+    [LanguageCode.en]: 'True / False',
+    [LanguageCode.ru]: 'Верно / Неверно',
+    [LanguageCode.by]: 'Праўда / Няпраўда',
+  },
+  'library.filter.option.codeCompletion': {
+    [LanguageCode.en]: 'Code Completion',
+    [LanguageCode.ru]: 'Заполнение кода',
+    [LanguageCode.by]: 'Дапаўненне кода',
+  },
+  'library.filter.option.flipCard': {
+    [LanguageCode.en]: 'Flip Card',
+    [LanguageCode.ru]: 'Флип-карта',
+    [LanguageCode.by]: 'Фліп-карта',
+  },
+  'library.filter.option.bigO': {
+    [LanguageCode.en]: 'Big O',
+    [LanguageCode.ru]: 'Big O',
+    [LanguageCode.by]: 'Big O',
+  },
+  'library.filter.option.codeOrdering': {
+    [LanguageCode.en]: 'Code Ordering',
+    [LanguageCode.ru]: 'Порядок кода',
+    [LanguageCode.by]: 'Парадак кода',
+  },
+  'library.empty.title': {
+    [LanguageCode.en]: 'No matching topics yet',
+    [LanguageCode.ru]: 'Подходящих тем пока нет',
+    [LanguageCode.by]: 'Падыходных тэм пакуль няма',
+  },
+  'library.empty.description.default': {
+    [LanguageCode.en]: 'No topics are available to explore yet.',
+    [LanguageCode.ru]: 'Пока нет тем для изучения.',
+    [LanguageCode.by]: 'Пакуль няма тэм для вывучэння.',
+  },
+  'library.empty.description.filtered': {
+    [LanguageCode.en]: 'Try adjusting the widget, level, or search filters.',
+    [LanguageCode.ru]: 'Попробуйте изменить виджет, уровень или поисковый запрос.',
+    [LanguageCode.by]: 'Паспрабуйце змяніць віджэт, узровень або пошукавы запыт.',
+  },
 
   /// dashboard
   'dashboard.startPracticeButton': {
