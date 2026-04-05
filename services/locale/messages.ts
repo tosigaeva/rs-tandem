@@ -88,6 +88,16 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Вопросы',
     [LanguageCode.by]: 'Пытанні',
   },
+  'library.widget.all.title': {
+    [LanguageCode.en]: 'All Exercises',
+    [LanguageCode.ru]: 'Все упражнения',
+    [LanguageCode.by]: 'Усе практыкаванні',
+  },
+  'library.widget.all.description': {
+    [LanguageCode.en]: 'Practice with all available question types in this topic.',
+    [LanguageCode.ru]: 'Практикуйтесь со всеми доступными типами вопросов в этой теме.',
+    [LanguageCode.by]: 'Практыкуйцеся з усімі даступнымі тыпамі пытанняў у гэтай тэме.',
+  },
 
   /// dashboard
   'dashboard.startPracticeButton': {
@@ -196,9 +206,9 @@ export const AppMessages = {
     [LanguageCode.by]: 'Ваша месца для навучання',
   },
   'dashboard.hero.returning.title': {
-    [LanguageCode.en]: 'Ready to continue, {{name}}?',
-    [LanguageCode.ru]: 'Готовы продолжить, {{name}}?',
-    [LanguageCode.by]: 'Гатовы працягнуць, {{name}}?',
+    [LanguageCode.en]: 'Ready to continue, {name}?',
+    [LanguageCode.ru]: 'Готовы продолжить, {name}?',
+    [LanguageCode.by]: 'Гатовы працягнуць, {name}?',
   },
   'dashboard.hero.returning.subtitle': {
     [LanguageCode.en]: 'Pick up where you left off or start something new.',
