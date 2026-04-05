@@ -2,6 +2,7 @@ import { supabaseServer } from '@/lib/supabase/server';
 import { getServerLanguageCode } from '@/services/locale/locale.server';
 import { LanguageCode } from '@/services/locale/locale.service';
 import { Question } from '@/types/question';
+import { LocaleString } from '@/types/schemas/locale-schemas';
 import { WidgetFilter, WidgetType } from '@/types/widget';
 
 export async function getQuestions(topicId: string, widgetType: WidgetFilter): Promise<Question[]> {
@@ -53,6 +54,19 @@ export async function getQuestions(topicId: string, widgetType: WidgetFilter): P
         payload: {
           statement: q.payload_question.statement[languageCode],
           explanation: q.payload_question.explanation[languageCode],
+        },
+      };
+    }
+    if (q.widget_type === WidgetType.CodeCompletion) {
+      return {
+        id: q.id,
+        topicId: q.topic_id,
+        type: q.widget_type,
+        payload: {
+          ...q.payload_question,
+          hints: q.payload_question.hints?.map((hint: LocaleString | string) =>
+            typeof hint === 'string' ? hint : (hint[languageCode] ?? hint[LanguageCode.en] ?? '')
+          ),
         },
       };
     }

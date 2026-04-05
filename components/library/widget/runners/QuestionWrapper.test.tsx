@@ -25,7 +25,7 @@ describe('QuestionWrapper', () => {
         questionId="q1"
         WidgetComponent={WidgetComponent}
         questionPayload={{ question: 'Test', options: ['a'] }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

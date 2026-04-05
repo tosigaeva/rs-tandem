@@ -21,6 +21,16 @@ export const mockQuestions: Question[] = [
     },
   },
   {
+    id: 'cc-002',
+    topicId: '1',
+    type: WidgetType.CodeCompletion,
+    payload: {
+      code: 'const result = arr.___(x => x > 0).___(x => x * 2);',
+      blanks: ['___', '___'],
+      hints: ['This method filters elements based on a condition', 'This method transforms each element of the array'],
+    },
+  },
+  {
     id: 'cc-001',
     topicId: '1',
     type: WidgetType.CodeCompletion,

@@ -17,7 +17,7 @@ describe('TrueFalse DefaultComponent', () => {
       <DefaultComponent
         questionId="q1"
         questionPayload={{ statement: 'Statement', explanation: 'Explanation' }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

@@ -18,12 +18,12 @@ jest.mock('@/data/activity.action', () => ({
 describe('QuestionRunnerEngine', () => {
   it('shows a loader while answer validation is in flight', async () => {
     const user = userEvent.setup();
-    let resolveValidation!: (value: boolean) => void;
+    let resolveValidation!: (value: { isCorrect: boolean }) => void;
     const validateAnswerMock = jest.mocked(validateAnswer);
 
     validateAnswerMock.mockImplementation(
       () =>
-        new Promise<boolean>((resolve) => {
+        new Promise<{ isCorrect: boolean }>((resolve) => {
           resolveValidation = resolve;
         })
     );
@@ -47,7 +47,7 @@ describe('QuestionRunnerEngine', () => {
     expect(screen.getByLabelText('Validating answer')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
 
-    resolveValidation(true);
+    resolveValidation({ isCorrect: true });
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'Submit' })).toBeEnabled();

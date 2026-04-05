@@ -58,7 +58,7 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
       <CustomArrayInput name={'payloadQuestion.blanks'} label={'Blanks'} type={'text'} />
       <CustomArrayInput name={'payloadQuestion.hints'} label={'Hints'} type={'text'} />
       <h3 className="text-sm font-medium">Code Completion Configuration</h3>
-      <CustomArrayInput name={'payloadAnswer.correctOrder'} label={'Correct order'} type={'number'} />
+      <CustomArrayInput name={'payloadAnswer.answers'} label={'Answers'} type={'text'} />
     </div>
   );
 

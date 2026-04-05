@@ -391,6 +391,22 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
   },
+  /// widget
+  'widget.button.checkAnswer': {
+    [LanguageCode.en]: 'Check Answer',
+    [LanguageCode.ru]: 'Проверить ответ',
+    [LanguageCode.by]: 'Праверыць адказ',
+  },
+  'widget.button.nextQuestion': {
+    [LanguageCode.en]: 'Next Question',
+    [LanguageCode.ru]: 'Следующий вопрос',
+    [LanguageCode.by]: 'Наступнае пытанне',
+  },
+  'widget.codeComplition.description': {
+    [LanguageCode.en]: 'Fill in the missing code',
+    [LanguageCode.ru]: 'Заполните пропущенный код',
+    [LanguageCode.by]: 'Запоўніце прапушчаны код',
+  },
   /// runner
   'runner.progress.question': {
     [LanguageCode.en]: 'Question',
