@@ -1,9 +1,9 @@
-import * as TooltipPrimitives from '@radix-ui/react-tooltip';
 import { Info } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+import { InfoTooltip } from '@/components/InfoTooltip';
 import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
@@ -61,23 +61,16 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
         <CardHeader>
           {hints.length > 0 && (
             <div className="text-primary text-end">
-              <TooltipPrimitives.Root>
-                <TooltipPrimitives.Trigger asChild>
-                  <Info className="inline-flex h-5 w-5" />
-                </TooltipPrimitives.Trigger>
-                <TooltipPrimitives.Portal>
-                  <TooltipPrimitives.Content
-                    side="left"
-                    className="bg-secondary text-secondary-foreground rounded-md px-3
-                    py-1.5 text-xs text-balance shadow-lg"
-                  >
-                    {hints.map((hint, index) => (
-                      <div key={index}>{`${index + 1} - ${hint}`}</div>
-                    ))}
-                    <TooltipPrimitives.Arrow className="fill-secondary!" />
-                  </TooltipPrimitives.Content>
-                </TooltipPrimitives.Portal>
-              </TooltipPrimitives.Root>
+              <InfoTooltip
+                trigger={<Info className="inline-flex h-5 w-5" />}
+                side="left"
+                variant="secondary"
+                className="shadow-lg"
+              >
+                {hints.map((hint, index) => (
+                  <div key={index}>{`${index + 1} - ${hint}`}</div>
+                ))}
+              </InfoTooltip>
             </div>
           )}
         </CardHeader>
