@@ -1,3 +1,4 @@
+import { codeOrderingValidationStrategy } from '@/services/validation/strategies/code-ordering-validation.strategy';
 import { WidgetType } from '@/types/widget';
 
 import { bigOValidationStrategy } from './big-o-validation.strategy';
@@ -13,4 +14,5 @@ export const validationStrategies: Record<WidgetType, ValidationStrategy> = {
   [WidgetType.CodeCompletion]: codeCompletionValidationStrategy,
   [WidgetType.FlipCard]: flipCardValidationStrategy,
   [WidgetType.BigONotation]: bigOValidationStrategy,
+  [WidgetType.CodeOrdering]: codeOrderingValidationStrategy,
 };

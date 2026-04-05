@@ -7,6 +7,8 @@ import {
   BigOPayloadQuestionSchema,
   CodeCompletionPayloadAnswerSchema,
   CodeCompletionPayloadQuestionSchema,
+  CodeOrderingPayloadAnswerSchema,
+  CodeOrderingPayloadQuestionSchema,
   FlipCardPayloadQuestionSchema,
   QuizPayloadAnswerSchema,
   QuizPayloadQuestionSchema,
@@ -91,6 +93,10 @@ export const UniversalPayloadAnswerSchema = z.discriminatedUnion('type', [
     type: z.literal(WidgetType.BigONotation),
     data: BigOPayloadAnswerSchema,
   }),
+  z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingPayloadAnswerSchema,
+  }),
 ]);
 export type UniversalPayloadAnswer = z.output<typeof UniversalPayloadAnswerSchema>;
 
@@ -128,6 +134,12 @@ export const BigOQuestionSchema = BlankQuestionSchema.extend({
   payloadAnswer: BigOPayloadAnswerSchema,
 });
 export type BigOQuestion = z.infer<typeof BigOQuestionSchema>;
+
+export const CodeOrderingQuestionSchema = BlankQuestionSchema.extend({
+  payloadQuestion: CodeOrderingPayloadQuestionSchema,
+  payloadAnswer: CodeOrderingPayloadAnswerSchema,
+});
+export type CodeOrderingQuestion = z.infer<typeof CodeOrderingQuestionSchema>;
 
 export const UniversalQuestionSchema = z.discriminatedUnion('type', [
   z.object({

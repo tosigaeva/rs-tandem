@@ -2,10 +2,13 @@ import { CircleCheckBig, CircleX } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
+import InfoBox from '@/components/InfoBox';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Field, FieldDescription, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useTranslation } from '@/hooks/use-translation';
+import { formatMessage } from '@/services/locale/format-message';
 import { ValidationResult } from '@/types/validation';
 
 type QuestionCardProperties = {
@@ -30,6 +33,8 @@ export default function QuestionCard({
   onCheck,
   onNext,
 }: QuestionCardProperties) {
+  const { t } = useTranslation();
+
   const [selected, setSelected] = useState<string | undefined>();
   const [verdict, setVerdict] = useState<boolean | undefined>();
   const isChecked = verdict !== undefined;
@@ -119,7 +124,10 @@ export default function QuestionCard({
               );
             })}
           </RadioGroup>
-
+          <InfoBox
+            title={t('widget.keyboardHint.title')}
+            description={formatMessage(t('widget.codeOrdering.keyboardHint'), { count: options.length })}
+          />
           <PrimaryButton
             variant="secondary"
             onClick={isChecked ? handleNext : handleCheck}

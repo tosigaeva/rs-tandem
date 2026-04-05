@@ -16,6 +16,8 @@ import {
   BlankQuestion,
   CodeCompletionQuestion,
   CodeCompletionQuestionSchema,
+  CodeOrderingQuestion,
+  CodeOrderingQuestionSchema,
   FlipCardQuestion,
   FlipCardQuestionSchema,
   QuizQuestion,
@@ -27,7 +29,13 @@ import { WidgetType } from '@/types/widget';
 
 import { PayloadFields } from './PayloadFields';
 
-export type FullQuestion = QuizQuestion | TrueFalseQuestion | CodeCompletionQuestion | FlipCardQuestion | BigOQuestion;
+export type FullQuestion =
+  | QuizQuestion
+  | TrueFalseQuestion
+  | CodeCompletionQuestion
+  | FlipCardQuestion
+  | BigOQuestion
+  | CodeOrderingQuestion;
 
 type QuestionDialogProperties = {
   open: boolean;
@@ -49,6 +57,7 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
       [WidgetType.CodeCompletion]: CodeCompletionQuestionSchema,
       [WidgetType.FlipCard]: FlipCardQuestionSchema,
       [WidgetType.BigONotation]: BigOQuestionSchema,
+      [WidgetType.CodeOrdering]: CodeOrderingQuestionSchema,
     };
 
     const selected = schemaMap[selectedWidget];

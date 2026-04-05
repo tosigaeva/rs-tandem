@@ -3,6 +3,21 @@ import { WidgetType } from '@/types/widget';
 
 export const mockQuestions: Question[] = [
   {
+    id: 'co-001',
+    topicId: '1',
+    type: WidgetType.CodeOrdering,
+    payload: {
+      description: 'Реализуй debounce функцию',
+      lines: [
+        'return function(...args) {',
+        'let timeout;',
+        'clearTimeout(timeout);',
+        'timeout = setTimeout(() => fn(...args), delay);',
+        '};',
+      ],
+    },
+  },
+  {
     id: 'quiz-001',
     topicId: '1',
     type: WidgetType.Quiz,

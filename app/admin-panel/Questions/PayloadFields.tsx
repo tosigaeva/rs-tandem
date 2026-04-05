@@ -87,6 +87,16 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
     </div>
   );
 
+  const renderCodeOrderingPayload = () => (
+    <div className="space-y-4 border-t pt-4">
+      <h3 className="text-sm font-medium">Code Ordering Question Configuration</h3>
+      <LocaleInput name={'payloadQuestion.description'} label={'Description'} />
+      <CustomArrayInput name={'payloadQuestion.lines'} label={'Lines'} type={'text'} />
+      <h3 className="text-sm font-medium">Code Ordering Answer Configuration</h3>
+      <CustomArrayInput name={'payloadAnswer.answers'} label={'Correct order'} type={'number'} />
+    </div>
+  );
+
   switch (widgetType) {
     case WidgetType.Quiz: {
       return renderQuizPayload();
@@ -102,6 +112,9 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
     }
     case WidgetType.BigONotation: {
       return renderBigONotationPayload();
+    }
+    case WidgetType.CodeOrdering: {
+      return renderCodeOrderingPayload();
     }
     default: {
       return;
