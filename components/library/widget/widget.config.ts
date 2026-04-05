@@ -11,6 +11,7 @@ export type WidgetSkinsMap = {
   [WidgetType.CodeCompletion]: 'default';
   [WidgetType.FlipCard]: 'default';
   [WidgetType.BigONotation]: 'default';
+  [WidgetType.CodeOrdering]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
@@ -48,6 +49,11 @@ export const widgetRegistry: {
   [WidgetType.BigONotation]: {
     default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
       () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent')
+    ),
+  },
+  [WidgetType.CodeOrdering]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.CodeOrdering>>(
+      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent')
     ),
   },
 };

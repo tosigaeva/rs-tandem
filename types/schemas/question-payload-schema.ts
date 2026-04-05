@@ -42,6 +42,12 @@ export const BigOPayloadQuestionSchema = z.object({
 });
 export type BigOPayloadQuestion = z.infer<typeof BigOPayloadQuestionSchema>;
 
+export const CodeOrderingPayloadQuestionSchema = z.object({
+  description: LocaleStringSchema,
+  lines: z.array(z.string()).min(1),
+});
+export type CodeOrderingPayloadQuestion = z.infer<typeof CodeOrderingPayloadQuestionSchema>;
+
 /// Payload Answer Schemas
 export const QuizPayloadAnswerSchema = z.object({
   correctIndex: z.number().min(1).max(4),
@@ -62,3 +68,8 @@ export const BigOPayloadAnswerSchema = z.object({
   correctComplexity: z.enum(BigOComplexity),
 });
 export type BigOPayloadAnswer = z.infer<typeof BigOPayloadAnswerSchema>;
+
+export const CodeOrderingPayloadAnswerSchema = z.object({
+  answers: z.array(z.number().int()).min(1),
+});
+export type CodeOrderingPayloadAnswer = z.infer<typeof CodeOrderingPayloadAnswerSchema>;

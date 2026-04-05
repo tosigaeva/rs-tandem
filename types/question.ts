@@ -3,6 +3,7 @@ import {
   CodeCompletionPayload,
   CodeCompletionWidget,
 } from '@/components/library/widget/ui/code-completion-widget/type';
+import { CodeOrderingPayload, CodeOrderingWidget } from '@/components/library/widget/ui/code-ordering/type';
 import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { QuizPayload, QuizWidget } from '@/components/library/widget/ui/quiz-widget/type';
 import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/ui/true-false-widget/type';
@@ -11,12 +12,14 @@ import {
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
   CodeCompletionPayloadQuestion,
+  CodeOrderingPayloadAnswer,
   FlipCardPayloadQuestion,
   QuizPayloadAnswer,
   QuizPayloadQuestion,
   TrueFalsePayloadAnswer,
   TrueFalsePayloadQuestion,
 } from '@/types/schemas/question-payload-schema';
+import { CodeOrderingQuestion } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
 export type QuestionPayload =
@@ -24,8 +27,15 @@ export type QuestionPayload =
   | TrueFalsePayload
   | CodeCompletionPayload
   | FlipCardPayloadQuestion
-  | BigOPayloadQuestion;
-export type QuestionWidget = QuizWidget | TrueFalseWidget | CodeCompletionWidget | FlipCardWidget | BigOWidget;
+  | BigOPayloadQuestion
+  | CodeOrderingPayload;
+export type QuestionWidget =
+  | QuizWidget
+  | TrueFalseWidget
+  | CodeCompletionWidget
+  | FlipCardWidget
+  | BigOWidget
+  | CodeOrderingWidget;
 
 export type WidgetQuestionPayloadMap = {
   [WidgetType.Quiz]: QuizPayloadQuestion;
@@ -33,6 +43,7 @@ export type WidgetQuestionPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadQuestion;
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingQuestion;
 };
 
 export type WidgetAnswerPayloadMap = {
@@ -41,6 +52,7 @@ export type WidgetAnswerPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayloadAnswer;
   [WidgetType.FlipCard]: null;
   [WidgetType.BigONotation]: BigOPayloadAnswer;
+  [WidgetType.CodeOrdering]: CodeOrderingPayloadAnswer;
 };
 
 export type WidgetPayloadMap = {
@@ -49,6 +61,7 @@ export type WidgetPayloadMap = {
   [WidgetType.CodeCompletion]: CodeCompletionPayload;
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingPayload;
 };
 
 export type AnswerPayload = WidgetAnswerPayloadMap[WidgetType];
