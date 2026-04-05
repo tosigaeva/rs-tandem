@@ -43,7 +43,7 @@ describe('QuestionRunnerEngine', () => {
     ];
 
     render(
-      <QuestionRunnerEngine questions={questions}>
+      <QuestionRunnerEngine questions={questions} onComplete={() => {}}>
         {({ onCheck, isValidating }) => (
           <button disabled={isValidating} onClick={() => void onCheck('answer')}>
             Submit
@@ -64,5 +64,38 @@ describe('QuestionRunnerEngine', () => {
       expect(screen.queryByLabelText('Validating answer')).not.toBeInTheDocument();
       expect(trackQuestionAttempt).toHaveBeenCalledWith({ questionId: 1, isSuccess: true, userId: 'test-user-uuid' });
     });
+  });
+  it('calls onComplete and shows results when all questions are answered', async () => {
+    const onCompleteMock = jest.fn();
+    const user = userEvent.setup();
+
+    const questions: QuestionInfo[] = [
+      {
+        id: 1,
+        topicId: 101,
+        type: WidgetType.Quiz,
+        isSuccess: false,
+        updatedAt: undefined,
+        payload: {
+          question: { en: 'Q1', ru: 'Q1', by: 'Q1' },
+          options: [{ en: 'a', ru: 'a', by: 'a' }],
+        },
+      },
+    ];
+
+    render(
+      <QuestionRunnerEngine questions={questions} onComplete={onCompleteMock}>
+        {({ nextQuestion }) => <button onClick={nextQuestion}>test</button>}
+      </QuestionRunnerEngine>
+    );
+
+    const finishButton = screen.getByRole('button', { name: /test/i });
+    await user.click(finishButton);
+
+    const redoButton = screen.getByRole('button', { name: /Start Over/i });
+
+    await user.click(redoButton);
+
+    expect(onCompleteMock).toHaveBeenCalledTimes(1);
   });
 });

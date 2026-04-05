@@ -50,7 +50,7 @@ describe('DefaultRunner', () => {
       },
     ];
 
-    render(<QuestionsRunner questions={questions} />);
+    render(<QuestionsRunner questions={questions} onComplete={() => {}} />);
 
     expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument();
     expect(getWidgetComponentMock).toHaveBeenCalledWith(WidgetType.Quiz);
