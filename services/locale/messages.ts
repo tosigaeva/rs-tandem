@@ -409,6 +409,16 @@ export const AppMessages = {
   },
 
   /// Widgets
+  'widget.question.check': {
+    [LanguageCode.en]: 'Check Answer',
+    [LanguageCode.ru]: 'Проверить ответ',
+    [LanguageCode.by]: 'Праверыць адказ',
+  },
+  'widget.question.next': {
+    [LanguageCode.en]: 'Next Question',
+    [LanguageCode.ru]: 'Следующий вопрос',
+    [LanguageCode.by]: 'Наступнае пытанне',
+  },
   /// FlipCard Widget
   'widget.flip-card.tooltip_hint': {
     [LanguageCode.en]:

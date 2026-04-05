@@ -23,9 +23,10 @@ type RunnerRenderProperties = {
 type QuestionRunnerEngineProperties = {
   questions: QuestionInfo[];
   children: (properties: RunnerRenderProperties) => React.ReactNode;
+  onComplete: () => void;
 };
 
-export default function QuestionRunnerEngine({ questions, children }: QuestionRunnerEngineProperties) {
+export default function QuestionRunnerEngine({ questions, children, onComplete }: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
@@ -41,9 +42,10 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
 
   const startOver = () => {
+    onComplete();
     setCurrentIndex(0);
     setCorrectAnswers(0);
-    setAnswersHistory(Array.from<undefined>({ length: questions.length }));
+    setAnswersHistory([]);
   };
 
   const onCheck = async (answer: unknown) => {
@@ -55,7 +57,11 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
     setIsValidating(true);
 
     try {
+      console.log('we here');
       const result = await validateAnswer(currentQuestion.id, answer);
+
+      currentQuestion.isSuccess = result ?? false;
+      currentQuestion.updatedAt = new Date();
 
       if (result === true) setCorrectAnswers((previous) => previous + 1);
 
@@ -74,6 +80,8 @@ export default function QuestionRunnerEngine({ questions, children }: QuestionRu
       } catch {
         // ignored due to not blocking an answer validation flow.
       }
+
+      console.log(currentQuestion);
 
       return result;
     } finally {

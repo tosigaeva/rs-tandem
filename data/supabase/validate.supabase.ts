@@ -28,6 +28,8 @@ export async function getValidationQuestion(questionId: number): Promise<Validat
     payload_answer: unknown;
   }>();
 
+  console.log('payload_answer', data);
+
   if (error) {
     throw error;
   }

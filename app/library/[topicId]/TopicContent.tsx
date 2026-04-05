@@ -1,7 +1,7 @@
 'use client';
 
 import { notFound } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import NotFound from '@/app/not-found';
 import DefaultRunner from '@/components/library/widget/runners/default/DefaultRunner';
@@ -24,7 +24,8 @@ type TopicContentProperties = {
 export default function TopicContent({ topicId, widgetType }: TopicContentProperties) {
   const [topic, setTopic] = useState<TopicOverview | undefined>();
   const [isNotFound, setIsNotFound] = useState<boolean>(false);
-  const [questions, setQuestions] = useState<QuestionInfo[] | undefined>();
+  const [allQuestions, setAllQuestions] = useState<QuestionInfo[] | undefined>();
+  const [repeatCount, setRepeatCount] = useState<number>(0);
 
   const { translate } = useTranslation();
   const selectedFilter = toWidgetFilter(widgetType);
@@ -52,10 +53,19 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
       notFound();
     }
 
-    getQuestions(parsedId, selectedFilter).then((data) => setQuestions(data));
+    getQuestions(parsedId, selectedFilter).then((data) => setAllQuestions(data));
   }, [topicId, selectedFilter]);
 
-  const showRunner = selectedFilter != undefined && questions != undefined;
+  const activeQuestions = useMemo(() => {
+    console.log('Re-filtering questions, round:', repeatCount);
+    return allQuestions === undefined ? [] : allQuestions.filter((q) => q.isSuccess === null || q.isSuccess === false);
+  }, [allQuestions, repeatCount]);
+
+  const handleFinishRound = () => {
+    setRepeatCount((previous) => (previous += 1));
+  };
+
+  const showRunner = selectedFilter != undefined && allQuestions != undefined;
 
   const showSlider = selectedFilter === WidgetType.FlipCard;
 
@@ -75,9 +85,9 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
       <section className="pt-10">
         {showRunner ? (
           showSlider ? (
-            <SliderRunner questions={questions} />
+            <SliderRunner questions={activeQuestions} onComplete={handleFinishRound} />
           ) : (
-            <DefaultRunner questions={questions} />
+            <DefaultRunner questions={activeQuestions} onComplete={handleFinishRound} />
           )
         ) : (
           <WidgetList widgets={topic?.widgets} topicId={topicId} />

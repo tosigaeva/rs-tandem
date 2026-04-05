@@ -6,6 +6,7 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Field, FieldDescription, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useTranslation } from '@/hooks/use-translation';
 
 type QuestionCardProperties = {
   questionId: string;
@@ -14,11 +15,6 @@ type QuestionCardProperties = {
   instruction: string;
   onCheck: (answer: unknown) => Promise<boolean | undefined>;
   onNext: () => void;
-};
-
-export const messages = {
-  checkAnswer: 'Check Answer',
-  nextQuestion: 'Next Question',
 };
 
 export default function QuestionCard({
@@ -32,6 +28,8 @@ export default function QuestionCard({
   const [selected, setSelected] = useState<string | undefined>();
   const [verdict, setVerdict] = useState<boolean | undefined>();
   const isChecked = verdict !== undefined;
+
+  const { t } = useTranslation();
 
   const sectionReference = useRef<HTMLElement>(null);
 
@@ -85,7 +83,7 @@ export default function QuestionCard({
         <CardContent className="space-y-4">
           <CardDescription>{instruction}</CardDescription>
 
-          <RadioGroup key={questionId} value={selected} onValueChange={setSelected} disabled={isChecked}>
+          <RadioGroup key={questionId} value={selected ?? ''} onValueChange={setSelected} disabled={isChecked}>
             {options.map((option, index) => {
               const isSelected = option === selected;
 
@@ -125,7 +123,7 @@ export default function QuestionCard({
             disabled={selected === undefined}
             className="mt-4 w-full py-6"
           >
-            {isChecked ? messages.nextQuestion : messages.checkAnswer}
+            {isChecked ? t('widget.question.next') : t('widget.question.check')}
           </PrimaryButton>
         </CardContent>
       </Card>

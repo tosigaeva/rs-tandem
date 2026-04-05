@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
-import QuestionCard, { messages } from '@/components/QuestionCard';
+import QuestionCard from '@/components/QuestionCard';
 
 jest.mock('@/components/CodeBlock', () => ({
   __esModule: true,
@@ -21,7 +21,7 @@ describe('QuestionCard', () => {
       />
     );
 
-    const button = screen.getByRole('button', { name: messages.checkAnswer });
+    const button = screen.getByRole('button', { name: 'Check Answer' });
     expect(button).toBeDisabled();
   });
 });

@@ -10,13 +10,14 @@ import { QuestionInfo } from '@/types/schemas/question-schemas';
 
 type QuestionsRunnerProperties = {
   questions: QuestionInfo[];
+  onComplete: () => void;
 };
 
-export function SliderRunner({ questions }: QuestionsRunnerProperties) {
+export function SliderRunner({ questions, onComplete }: QuestionsRunnerProperties) {
   const [api, setApi] = useState<CarouselApi>();
 
   return (
-    <QuestionRunnerEngine questions={questions}>
+    <QuestionRunnerEngine questions={questions} onComplete={onComplete}>
       {({ questions, nextQuestion, onCheck }) => (
         <Carousel setApi={setApi} opts={{ watchDrag: false }} className="w-full">
           <CarouselContent>
