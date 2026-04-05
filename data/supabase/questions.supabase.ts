@@ -7,15 +7,12 @@ import { QuestionInfo, QuestionInfoSchema } from '@/types/schemas/question-schem
 import { WidgetFilter } from '@/types/widget';
 
 export async function getQuestions(topicId: number, widgetType: WidgetFilter): Promise<QuestionInfo[]> {
-  console.log('getQuestions', topicId, widgetType);
-
   const supabase = await supabaseServer();
 
   let query = supabase
     .from('questions_info')
     .select(`*`)
     .eq('topic_id', topicId)
-    .or('is_success.is.null,is_success.eq.false')
     .order('updated_at', { ascending: false, nullsFirst: true });
 
   if (widgetType !== 'all') {

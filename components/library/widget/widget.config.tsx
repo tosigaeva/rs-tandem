@@ -26,27 +26,42 @@ export const widgetRegistry: {
 } = {
   [WidgetType.Quiz]: {
     default: dynamic<WidgetComponentProperties<WidgetType.Quiz>>(
-      () => import('@/components/library/widget/ui/quiz-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/quiz-widget/DefaultComponent'),
+      {
+        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+      }
     ),
   },
   [WidgetType.TrueFalse]: {
     default: dynamic<WidgetComponentProperties<WidgetType.TrueFalse>>(
-      () => import('@/components/library/widget/ui/true-false-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/true-false-widget/DefaultComponent'),
+      {
+        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+      }
     ),
   },
   [WidgetType.CodeCompletion]: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeCompletion>>(
-      () => import('@/components/library/widget/ui/code-completion-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/code-completion-widget/DefaultComponent'),
+      {
+        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+      }
     ),
   },
   [WidgetType.FlipCard]: {
     default: dynamic<WidgetComponentProperties<WidgetType.FlipCard>>(
-      () => import('@/components/library/widget/ui/flip-card/FlipCard')
+      () => import('@/components/library/widget/ui/flip-card/FlipCard'),
+      {
+        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+      }
     ),
   },
   [WidgetType.BigONotation]: {
     default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
-      () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent'),
+      {
+        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+      }
     ),
   },
 };

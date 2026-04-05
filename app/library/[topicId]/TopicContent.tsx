@@ -58,7 +58,14 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
 
   const activeQuestions = useMemo(() => {
     console.log('Re-filtering questions, round:', repeatCount);
-    return allQuestions === undefined ? [] : allQuestions.filter((q) => q.isSuccess === null || q.isSuccess === false);
+    const active = allQuestions?.filter((q) => q.isSuccess === null || q.isSuccess === false) ?? [];
+
+    if (active.length === 0) {
+      console.log('length is 0');
+      return allQuestions ?? [];
+    }
+
+    return active;
   }, [allQuestions, repeatCount]);
 
   const handleFinishRound = () => {

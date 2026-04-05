@@ -34,24 +34,12 @@ export const TopicService = {
 
   getTopicById: async (topicId: number): Promise<TopicOverview | undefined> => {
     const cacheResult = getTopicFromCache(topicId);
-    console.log(
-      'cached result',
-      cacheResult,
-      'cache',
-      getQueryClient().getQueryData<TopicOverview[]>([RECENT_TOPICS]),
-      getQueryClient().getQueryData<TopicOverview[]>([TOPIC_PAGES])
-    );
 
     if (cacheResult) {
-      console.log('returning from cache');
-
       return cacheResult;
     }
 
-    console.log('topic service', topicId);
-    const { data, error } = await getTopicById(topicId);
-
-    console.log('error', error);
+    const { data } = await getTopicById(topicId);
 
     return data;
   },

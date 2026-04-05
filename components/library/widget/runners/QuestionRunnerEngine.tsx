@@ -77,8 +77,6 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
         // ignored due to not blocking an answer validation flow.
       }
 
-      console.log(currentQuestion);
-
       return result;
     } finally {
       isValidationInFlight.current = false;
