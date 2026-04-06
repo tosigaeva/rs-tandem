@@ -24,3 +24,43 @@ Some of the things that I have done are:
 As part of this project, I worked with react and next.js as the technologies defined within the team. But also I used more 'classic' technologies to implement my widget ideas: js+typescript+css.
 
 The biggest challenge was to work in a team: I had to resolve conflicts when interacting with other team members components and even fix my own components after they have been updated as part of the integration into common widget runner (initially I created mine in integration with a temporary more simple widget runner). It was also a challenge to decide - what to do and in what order (and some ideas remained ideas for now due to 'teamwork challenges'). But at the same time - I am happy I could work at my own pace with my personal components where I practiced more 'classic' js.
+
+***
+
+**Flip Card Component**
+
+The FlipCard component presents a term on the front side and its definition on the back side. The user interacts with the card in the following way:
+- Initially, the term is displayed.
+- When the user selects whether they know or do not know the answer, the card flips to reveal the definition.
+- The user can then proceed to the next item while their response is recorded.
+
+I built this component using React with TypeScript, focusing on clean state management and reusable structure.
+
+Technical implementation:
+- isFlipped controls the card rotation.
+- selected stores the user’s answer ("know" / "don’t know").
+- Clicking an answer triggers both selection and card flipping.
+- Event propagation is controlled using event.stopPropagation() to prevent unintended flips.
+- The handleNext function ensures that the answer is processed (onCheck) before moving forward (onNext).
+
+The flip effect is implemented using CSS 3D transforms:
+- perspective creates a 3D space.
+- transform-style: preserve-3d maintains depth for child elements.
+- rotateY(180deg) is used to flip the card.
+- backface-visibility: hidden ensures only one side is visible at a time.
+This approach keeps animation smooth and performant without relying on external libraries.
+
+The component is designed to be modular and reusable:
+- It receives data via a questionPayload.
+- Logic for checking answers and navigating is passed through props (onCheck, onNext).
+- It integrates with shared UI components such as Card, Button, and Hint.
+
+This separation of concerns allows the component to remain flexible and easy to integrate into different learning flows.
+
+The component uses a translation hook to support multiple languages:
+- translate() is used for dynamic content (term/definition).
+- t() is used for UI labels.
+
+The FlipCard component helped me practice implementation of an interactive, user-focused feature from scratch. I practiced work with CSS animations, React, asynchronous user interactions.
+
+**BigO Component**
