@@ -63,4 +63,59 @@ The component uses a translation hook to support multiple languages:
 
 The FlipCard component helped me practice implementation of an interactive, user-focused feature from scratch. I practiced work with CSS animations, React, asynchronous user interactions.
 
+***
+
 **BigO Component**
+
+The main goal of this component is to teach users how to recognize time complexity (Big O notation) by combining code analysis with graphical intuition.
+
+The interaction flow is as follows:
+- The user is presented with a programming problem and a code example.
+- A graph displays multiple time complexity curves (e.g., O(1), O(log n), O(n), etc.).
+- The user selects the curve they believe matches the algorithm’s complexity.
+After submission:
+- The selected curve is highlighted.
+- The result is visually validated (correct or incorrect).
+- The user can then proceed to the next question.
+
+
+Technical implementation:
+
+I implemented this component using React with TypeScript, with a focus on canvas rendering =>
+- selectedComplexity tracks the user’s chosen answer.
+- isSubmitted controls whether the answer has been checked.
+- isCorrect stores the evaluation result.
+- Additional internal state tracks hovered and selected graph lines.
+- A container component (DefaultComponent) handling state and business logic.
+- A presentational component (BigOCanvas) responsible for rendering and interaction.
+- Mouse movement dynamically detects the closest curve using geometric calculations.
+- Clicking selects the nearest complexity curve.
+- Hovering displays a tooltip with the complexity name.
+
+Core features:
+- Custom Graph Rendering
+- Axes are drawn using a dedicated drawAxes function.
+- Complexity curves are generated dynamically from mathematical functions.
+- Each complexity is defined as a function (e.g., n, log n, n²).
+- The getClosestComplexity function calculates the shortest distance between the mouse position and all curves.
+- The canvas is scaled using devicePixelRatio to ensure quality rendering on high-DPI screens.
+- The component integrates with shared UI elements such as Card, PrimaryButton, Hint, and HoverCard.
+
+Visual feedback:
+- Selected curve is highlighted before submission.
+- A tooltip appears on hover, improving discoverability.
+- Colors are dynamically retrieved from CSS variables, ensuring consistency with the application theme.
+
+After submission:
+- Correct answer is shown in a success color.
+- Incorrect answer is shown in an error color.
+- The UI prevents interaction after submission to maintain consistency.
+
+The component fully supports internationalization:
+Questions and UI text are translated using the translation hook.
+
+While building this component, I significantly improved my skills in:
+- Working with the HTML Canvas API
+- Translating abstract concepts (Big O) into interactive UI
+- Handling complex user interactions (hover, click, proximity detection)
+- Optimizing rendering for performance and visual clarity
