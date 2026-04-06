@@ -62,7 +62,7 @@ describe('QuestionRunnerEngine', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'Submit' })).toBeEnabled();
       expect(screen.queryByLabelText('Validating answer')).not.toBeInTheDocument();
-      expect(trackQuestionAttempt).toHaveBeenCalledWith({ questionId: 1, isSuccess: true, userId: 'test-user-uuid' });
+      expect(trackQuestionAttempt).toHaveBeenCalledWith({ questionId: 1, isSuccess: true });
     });
   });
   it('calls onComplete and shows results when all questions are answered', async () => {

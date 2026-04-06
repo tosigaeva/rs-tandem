@@ -4,21 +4,25 @@ import { supabaseServer } from '@/lib/supabase/server';
 
 type TrackQuestionAttemptProperties = {
   questionId: number;
-  userId: string;
   isSuccess: boolean | undefined;
 };
 
-export async function trackQuestionAttempt({
-  questionId,
-  userId,
-  isSuccess,
-}: TrackQuestionAttemptProperties): Promise<void> {
+export async function trackQuestionAttempt({ questionId, isSuccess }: TrackQuestionAttemptProperties): Promise<void> {
   const supabase = await supabaseServer();
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    throw new Error('Unauthorized: You must be logged in to track progress.');
+  }
 
   const { error } = await supabase.from('profile_questions').upsert(
     {
-      user_id: userId,
       question_id: questionId,
+      user_id: user.id,
       is_success: isSuccess ?? false,
     },
     {

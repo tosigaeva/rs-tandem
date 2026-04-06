@@ -5,6 +5,8 @@ import { WidgetPayloadMap } from '@/types/question';
 import { ValidationResult } from '@/types/validation';
 import { WidgetType } from '@/types/widget';
 
+import { WidgetSkeleton } from './widget.skeleton';
+
 export type WidgetSkinsMap = {
   [WidgetType.Quiz]: 'default';
   [WidgetType.TrueFalse]: 'default';
@@ -30,7 +32,7 @@ export const widgetRegistry: {
     default: dynamic<WidgetComponentProperties<WidgetType.Quiz>>(
       () => import('@/components/library/widget/ui/quiz-widget/DefaultComponent'),
       {
-        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+        loading: () => <WidgetSkeleton />,
       }
     ),
   },
@@ -38,7 +40,7 @@ export const widgetRegistry: {
     default: dynamic<WidgetComponentProperties<WidgetType.TrueFalse>>(
       () => import('@/components/library/widget/ui/true-false-widget/DefaultComponent'),
       {
-        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+        loading: () => <WidgetSkeleton />,
       }
     ),
   },
@@ -46,7 +48,7 @@ export const widgetRegistry: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeCompletion>>(
       () => import('@/components/library/widget/ui/code-completion-widget/DefaultComponent'),
       {
-        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+        loading: () => <WidgetSkeleton />,
       }
     ),
   },
@@ -54,7 +56,7 @@ export const widgetRegistry: {
     default: dynamic<WidgetComponentProperties<WidgetType.FlipCard>>(
       () => import('@/components/library/widget/ui/flip-card/FlipCard'),
       {
-        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+        loading: () => <WidgetSkeleton />,
       }
     ),
   },
@@ -62,7 +64,7 @@ export const widgetRegistry: {
     default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
       () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent'),
       {
-        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+        loading: () => <WidgetSkeleton />,
       }
     ),
   },
@@ -70,7 +72,7 @@ export const widgetRegistry: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeOrdering>>(
       () => import('@/components/library/widget/ui/code-ordering/DefaultComponent'),
       {
-        loading: () => <div className="bg-secondary/20 min-h-100 w-full animate-pulse rounded-xl" />,
+        loading: () => <WidgetSkeleton />,
       }
     ),
   },

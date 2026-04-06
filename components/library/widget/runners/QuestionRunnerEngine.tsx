@@ -71,7 +71,6 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
       try {
         await trackQuestionAttempt({
           questionId: currentQuestion.id,
-          userId: user.id,
           isSuccess: result.isCorrect,
         });
       } catch {
