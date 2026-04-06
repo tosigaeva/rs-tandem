@@ -1,3 +1,4 @@
+import { AsyncSorterPayload, AsyncSorterWidget } from '@/components/library/widget/ui/async-sorter/type';
 import { BigOWidget } from '@/components/library/widget/ui/big-o-widget/type';
 import {
   CodeCompletionPayload,
@@ -8,6 +9,8 @@ import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { QuizPayload, QuizWidget } from '@/components/library/widget/ui/quiz-widget/type';
 import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/ui/true-false-widget/type';
 import {
+  AsyncSorterPayloadAnswer,
+  AsyncSorterPayloadQuestion,
   BigOPayloadAnswer,
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
@@ -28,14 +31,16 @@ export type QuestionPayload =
   | CodeCompletionPayload
   | FlipCardPayloadQuestion
   | BigOPayloadQuestion
-  | CodeOrderingPayload;
+  | CodeOrderingPayload
+  | AsyncSorterPayload;
 export type QuestionWidget =
   | QuizWidget
   | TrueFalseWidget
   | CodeCompletionWidget
   | FlipCardWidget
   | BigOWidget
-  | CodeOrderingWidget;
+  | CodeOrderingWidget
+  | AsyncSorterWidget;
 
 export type WidgetQuestionPayloadMap = {
   [WidgetType.Quiz]: QuizPayloadQuestion;
@@ -44,6 +49,7 @@ export type WidgetQuestionPayloadMap = {
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
   [WidgetType.CodeOrdering]: CodeOrderingQuestion;
+  [WidgetType.AsyncSorter]: AsyncSorterPayloadQuestion;
 };
 
 export type WidgetAnswerPayloadMap = {
@@ -53,6 +59,7 @@ export type WidgetAnswerPayloadMap = {
   [WidgetType.FlipCard]: null;
   [WidgetType.BigONotation]: BigOPayloadAnswer;
   [WidgetType.CodeOrdering]: CodeOrderingPayloadAnswer;
+  [WidgetType.AsyncSorter]: AsyncSorterPayloadAnswer;
 };
 
 export type WidgetPayloadMap = {
@@ -62,6 +69,7 @@ export type WidgetPayloadMap = {
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
   [WidgetType.CodeOrdering]: CodeOrderingPayload;
+  [WidgetType.AsyncSorter]: AsyncSorterPayload;
 };
 
 export type AnswerPayload = WidgetAnswerPayloadMap[WidgetType];

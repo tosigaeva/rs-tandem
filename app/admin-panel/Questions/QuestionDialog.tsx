@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import {
+  AsyncSorterQuestion,
+  AsyncSorterQuestionSchema,
   BigOQuestion,
   BigOQuestionSchema,
   BlankQuestion,
@@ -35,7 +37,8 @@ export type FullQuestion =
   | CodeCompletionQuestion
   | FlipCardQuestion
   | BigOQuestion
-  | CodeOrderingQuestion;
+  | CodeOrderingQuestion
+  | AsyncSorterQuestion;
 
 type QuestionDialogProperties = {
   open: boolean;
@@ -58,6 +61,7 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
       [WidgetType.FlipCard]: FlipCardQuestionSchema,
       [WidgetType.BigONotation]: BigOQuestionSchema,
       [WidgetType.CodeOrdering]: CodeOrderingQuestionSchema,
+      [WidgetType.AsyncSorter]: AsyncSorterQuestionSchema,
     };
 
     const selected = schemaMap[selectedWidget];

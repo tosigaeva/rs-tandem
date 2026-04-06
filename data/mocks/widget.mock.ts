@@ -8,6 +8,12 @@ export const mockWidgets = [
     icon: 'C',
   },
   {
+    type: WidgetType.AsyncSorter,
+    title: 'Async Code Sorter',
+    description: 'Arrange the code blocks in the order they will execute.',
+    icon: 'A',
+  },
+  {
     type: WidgetType.Quiz,
     title: 'Single Choice Quiz',
     description: 'Select the correct answer from the given options.',

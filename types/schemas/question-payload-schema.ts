@@ -48,6 +48,20 @@ export const CodeOrderingPayloadQuestionSchema = z.object({
 });
 export type CodeOrderingPayloadQuestion = z.infer<typeof CodeOrderingPayloadQuestionSchema>;
 
+export const AsyncSorterPayloadQuestionSchema = z.object({
+  codeSnippet: z.string(),
+  blocks: z
+    .array(
+      z.object({
+        id: z.string(),
+        code: z.string(),
+        label: z.string(),
+      })
+    )
+    .min(1),
+});
+export type AsyncSorterPayloadQuestion = z.infer<typeof AsyncSorterPayloadQuestionSchema>;
+
 /// Payload Answer Schemas
 export const QuizPayloadAnswerSchema = z.object({
   correctIndex: z.number().min(1).max(4),
@@ -73,3 +87,11 @@ export const CodeOrderingPayloadAnswerSchema = z.object({
   answers: z.array(z.number().int()).min(1),
 });
 export type CodeOrderingPayloadAnswer = z.infer<typeof CodeOrderingPayloadAnswerSchema>;
+
+export const AsyncSorterPayloadAnswerSchema = z.object({
+  callStack: z.array(z.string()),
+  microtasks: z.array(z.string()),
+  macrotasks: z.array(z.string()),
+  outputOrder: z.array(z.string()),
+});
+export type AsyncSorterPayloadAnswer = z.infer<typeof AsyncSorterPayloadAnswerSchema>;
