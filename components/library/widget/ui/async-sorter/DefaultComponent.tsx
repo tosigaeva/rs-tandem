@@ -1,5 +1,5 @@
 import { Box, Layers, Terminal, Zap } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { BlocksContainer } from '@/components/library/widget/ui/async-sorter/BlocksContainer';
@@ -11,7 +11,7 @@ import {
 import ZoneColumn from '@/components/library/widget/ui/async-sorter/ZoneColumn';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { validateAnswer } from '@/data/validate.api';
+import { ValidationResult } from '@/types/validation';
 
 export type ZoneType = 'pool' | 'callstack' | 'microtasks' | 'macrotasks' | 'output';
 export type ZonesState = Record<ZoneType, AsyncSorterBlock[]>;
@@ -19,7 +19,7 @@ export type ZonesState = Record<ZoneType, AsyncSorterBlock[]>;
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: AsyncSorterPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
@@ -33,18 +33,24 @@ function canDrop(from?: ZoneType, to?: ZoneType) {
 }
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
-  const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
-  const [sourceZone, setSourceZone] = useState<ZoneType | undefined>();
-
-  const [zones, setZones] = useState<ZonesState>({
+  const initialZones = {
     pool: questionPayload.blocks,
     callstack: [],
     microtasks: [],
     macrotasks: [],
     output: questionPayload.blocks,
-  });
+  };
+
+  const [draggedBlock, setDraggedBlock] = useState<AsyncSorterBlock | undefined>();
+  const [sourceZone, setSourceZone] = useState<ZoneType | undefined>();
+  const [zones, setZones] = useState<ZonesState>(initialZones);
 
   const [validationResult, setValidationResult] = useState<Record<keyof AsyncSorterAnswer, boolean[]> | undefined>();
+
+  useEffect(() => {
+    setZones(initialZones);
+    setValidationResult(undefined);
+  }, [questionId, questionPayload.blocks]);
 
   function handleDrop(targetZone: ZoneType, index: number) {
     if (draggedBlock === undefined || sourceZone === undefined) return;
@@ -87,13 +93,23 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
       callStack: zones.callstack.map((b) => b.id),
       microtasks: zones.microtasks.map((b) => b.id),
       macrotasks: zones.macrotasks.map((b) => b.id),
-      output: zones.output.map((b) => b.id),
+      outputOrder: zones.output.map((b) => b.id),
     };
 
-    const result = await validateAnswer('as-001', userAnswer);
+    const result = await onCheck(userAnswer);
 
-    setValidationResult(result as Record<keyof AsyncSorterAnswer, boolean[]>);
+    if (result.isCorrect === undefined || result.details === undefined || !('zoneResults' in result.details)) return;
+
+    setValidationResult(result.details.zoneResults);
   }
+
+  function handleNext() {
+    setValidationResult(undefined);
+    setZones(initialZones);
+    onNext();
+  }
+
+  const isChecked = validationResult !== undefined;
 
   return (
     <section className="max-w-9xl mx-auto">
@@ -103,7 +119,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             <CardHeader className="px-4">
               <CardTitle>What is the order of console.log outputs?</CardTitle>
             </CardHeader>
-            <CodeBlock code={questionPayload.code} showCopyButton={false} />
+            <CodeBlock code={questionPayload.codeSnippet} showCopyButton={false} />
             <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
             <BlocksContainer
               blocks={zones.pool}
@@ -158,7 +174,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             Icon={Terminal}
             description="Drag logs to match the expected execution order."
             blocks={zones.output}
-            validation={validationResult?.output}
+            validation={validationResult?.outputOrder}
             onDragStart={(block) => handleDragStart(block, 'output')}
             onDrop={(index) => handleDrop('output', index)}
             onDragEnd={handleDragEnd}
@@ -169,9 +185,9 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             variant="secondary"
             className="w-full py-6"
             disabled={zones.pool.length > 0}
-            onClick={handleCheckAnswer}
+            onClick={isChecked ? handleNext : handleCheckAnswer}
           >
-            Check Answer
+            {isChecked ? 'Next Question' : 'Check Answer'}
           </PrimaryButton>
         </div>
       </div>

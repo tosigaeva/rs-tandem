@@ -7,7 +7,7 @@ export type AsyncSorterBlock = {
 };
 
 export type AsyncSorterPayload = {
-  code: string;
+  codeSnippet: string;
   blocks: AsyncSorterBlock[];
 };
 
@@ -20,5 +20,5 @@ export type AsyncSorterAnswer = {
   callStack: string[];
   microtasks: string[];
   macrotasks: string[];
-  output: string[];
+  outputOrder: string[];
 };

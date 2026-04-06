@@ -7,7 +7,8 @@ export const mockQuestions: Question[] = [
     topicId: '1',
     type: WidgetType.AsyncSorter,
     payload: {
-      code: "<code>console.log('Start');\n\nsetTimeout(() => {\n  console.log('Timeout');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('Promise');\n});\n\nconsole.log('End');</code>",
+      codeSnippet:
+        "<code>console.log('Start');\n\nsetTimeout(() => {\n  console.log('Timeout');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('Promise');\n});\n\nconsole.log('End');</code>",
       blocks: [
         { id: 'b1', code: 'Start', label: '1' },
         { id: 'b2', code: 'Timeout', label: '2' },

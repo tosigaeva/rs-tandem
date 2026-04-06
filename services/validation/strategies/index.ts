@@ -1,6 +1,7 @@
 import { codeOrderingValidationStrategy } from '@/services/validation/strategies/code-ordering-validation.strategy';
 import { WidgetType } from '@/types/widget';
 
+import { asyncSorterValidationStrategy } from './async-sorter-validation.strategy';
 import { bigOValidationStrategy } from './big-o-validation.strategy';
 import { codeCompletionValidationStrategy } from './code-completion-validation.strategy';
 import { flipCardValidationStrategy } from './flip-card-validation.strategy';
@@ -15,4 +16,5 @@ export const validationStrategies: Record<WidgetType, ValidationStrategy> = {
   [WidgetType.FlipCard]: flipCardValidationStrategy,
   [WidgetType.BigONotation]: bigOValidationStrategy,
   [WidgetType.CodeOrdering]: codeOrderingValidationStrategy,
+  [WidgetType.AsyncSorter]: asyncSorterValidationStrategy,
 };

@@ -9,6 +9,8 @@ import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { QuizPayload, QuizWidget } from '@/components/library/widget/ui/quiz-widget/type';
 import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/ui/true-false-widget/type';
 import {
+  AsyncSorterPayloadAnswer,
+  AsyncSorterPayloadQuestion,
   BigOPayloadAnswer,
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
@@ -47,7 +49,7 @@ export type WidgetQuestionPayloadMap = {
   [WidgetType.FlipCard]: FlipCardPayloadQuestion;
   [WidgetType.BigONotation]: BigOPayloadQuestion;
   [WidgetType.CodeOrdering]: CodeOrderingQuestion;
-  [WidgetType.AsyncSorter]: AsyncSorterQuestion;
+  [WidgetType.AsyncSorter]: AsyncSorterPayloadQuestion;
 };
 
 export type WidgetAnswerPayloadMap = {
@@ -57,7 +59,7 @@ export type WidgetAnswerPayloadMap = {
   [WidgetType.FlipCard]: null;
   [WidgetType.BigONotation]: BigOPayloadAnswer;
   [WidgetType.CodeOrdering]: CodeOrderingPayloadAnswer;
-  [WidgetType.AsyncSorter]: AsyncSorterAnswer;
+  [WidgetType.AsyncSorter]: AsyncSorterPayloadAnswer;
 };
 
 export type WidgetPayloadMap = {
