@@ -193,6 +193,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Порядок кода',
     [LanguageCode.by]: 'Парадак кода',
   },
+  'library.filter.option.asyncSorter': {
+    [LanguageCode.en]: 'Async Code Sorter',
+    [LanguageCode.ru]: 'Сортировщик асинхронного кода',
+    [LanguageCode.by]: 'Сартыроўшчык асінхроннага кода',
+  },
   'library.empty.title': {
     [LanguageCode.en]: 'No matching topics yet',
     [LanguageCode.ru]: 'Подходящих тем пока нет',

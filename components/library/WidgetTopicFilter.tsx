@@ -28,6 +28,7 @@ const WIDGET_FILTER_OPTIONS: { value: WidgetFilter; labelKey: WidgetFilterLabelK
   { value: WidgetType.FlipCard, labelKey: 'library.filter.option.flipCard' },
   { value: WidgetType.BigONotation, labelKey: 'library.filter.option.bigO' },
   { value: WidgetType.CodeOrdering, labelKey: 'library.filter.option.codeOrdering' },
+  { value: WidgetType.AsyncSorter, labelKey: 'library.filter.option.asyncSorter' },
 ];
 
 const LEVEL_FILTER_OPTIONS: LevelFilter[] = ['all', Level.beginner, Level.intermediate, Level.advanced];
@@ -39,7 +40,8 @@ type WidgetFilterLabelKey =
   | 'library.filter.option.codeCompletion'
   | 'library.filter.option.flipCard'
   | 'library.filter.option.bigO'
-  | 'library.filter.option.codeOrdering';
+  | 'library.filter.option.codeOrdering'
+  | 'library.filter.option.asyncSorter';
 
 export function WidgetTopicFilter({
   widgetFilter,
