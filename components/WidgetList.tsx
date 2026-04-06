@@ -8,7 +8,6 @@ import { AllWidget, WidgetOverview } from '@/types/schemas/widget-schema';
 
 const ALL_WIDGET: AllWidget = {
   type: 'all',
-  icon: 'A',
   name: {
     en: 'All Exercises',
     ru: 'Все упражнения',

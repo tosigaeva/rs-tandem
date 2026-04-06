@@ -7,7 +7,6 @@ export const WidgetBaseSchema = z.object({
   type: z.enum(WidgetType),
   name: LocaleStringSchema,
   description: LocaleStringSchema,
-  icon: z.string().length(1, 'Icon must be a single character'),
   created_at: z.coerce.date(),
 });
 export type WidgetBase = z.infer<typeof WidgetBaseSchema>;
@@ -16,7 +15,6 @@ export const mapWidgetBaseFields = (data: WidgetBase) => ({
   type: data.type,
   name: data.name,
   description: data.description,
-  icon: data.icon,
   createdAt: data.created_at,
 });
 
@@ -60,7 +58,6 @@ export const AllWidgetSchema = WidgetExtendedSchema.omit({ type: true })
     type: 'all',
     name: data.name,
     description: data.description,
-    icon: data.icon,
     totalQuestions: data.total_questions,
     correctAnswers: data.correct_answers,
   }));

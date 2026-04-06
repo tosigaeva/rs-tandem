@@ -57,7 +57,7 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
     setIsValidating(true);
 
     try {
-      const result = await validateAnswer(currentQuestion.id, answer);
+      const result = await validateAnswer(currentQuestion.id, currentQuestion.type, answer);
 
       currentQuestion.isSuccess = result.isCorrect ?? false;
       currentQuestion.updatedAt = new Date();

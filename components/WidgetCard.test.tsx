@@ -9,7 +9,6 @@ describe('WidgetCard', () => {
       <WidgetCard
         widget={{
           type: WidgetType.Quiz,
-          icon: 'Q',
           name: {
             en: 'Quiz',
             ru: 'Квиз',

@@ -30,7 +30,7 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
   const recentTopicIds = recentTopics.map((topic) => topic.id);
 
   const requestPage = (page: number, mode: PaginationMode) => {
-    if (page === currentPage || page < 1 || page >= totalPages) return;
+    if (page === currentPage || page < 1 || page > totalPages) return;
     if (requestedPageReference.current === page) return;
 
     requestedPageReference.current = page;
