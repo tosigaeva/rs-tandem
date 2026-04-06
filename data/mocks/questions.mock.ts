@@ -3,6 +3,21 @@ import { WidgetType } from '@/types/widget';
 
 export const mockQuestions: Question[] = [
   {
+    id: 'as-001',
+    topicId: '1',
+    type: WidgetType.AsyncSorter,
+    payload: {
+      codeSnippet:
+        "<code>console.log('Start');\n\nsetTimeout(() => {\n  console.log('Timeout');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('Promise');\n});\n\nconsole.log('End');</code>",
+      blocks: [
+        { id: 'b1', code: 'Start', label: '1' },
+        { id: 'b2', code: 'Timeout', label: '2' },
+        { id: 'b3', code: 'Promise', label: '3' },
+        { id: 'b4', code: 'End', label: '4' },
+      ],
+    },
+  },
+  {
     id: 'co-001',
     topicId: '1',
     type: WidgetType.CodeOrdering,
