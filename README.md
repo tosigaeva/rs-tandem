@@ -54,7 +54,7 @@ The application includes multiple training formats to cover different learning s
 
 ![Board](./development-notes/github-project-board.png)
 
-## Code Review
+## Top PRs
 - [feat: widget engine #42](https://github.com/tosigaeva/rs-tandem/pull/42)
 - [feat: learning widget implementation #43](https://github.com/tosigaeva/rs-tandem/pull/43)
 - [feat: pagination on library page #77](https://github.com/tosigaeva/rs-tandem/pull/77)
