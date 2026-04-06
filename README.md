@@ -27,8 +27,13 @@ The application includes multiple training formats to cover different learning s
 - **Extensible widget architecture.** `widget engine`, `widget registry`, and runner system make it easy to plug in new exercise types without rewriting the training flow.
 - **Multiple interactive learning formats.** The app supports not only basic widgets like Quiz and True/False, but also more advanced components such as Code Completion, Code Ordering, Async Sorter, Big-O Notation, and Flip Card.
 - **Reusable runner flow.** The same question set can be rendered through different runners (`DefaultRunner` and `SliderRunner`) depending on the learning scenario.
+- **Admin panel for content management.** The project includes a dedicated admin area for managing topics, questions, and widgets through CRUD screens.
 - **Flexible data layer.** The project supports both `mock mode` and `Supabase mode`, which helped us develop UI independently and then connect it to real data.
+- **Database restrictions and safe data modeling.** Question, widget, topic, and locale payloads are validated through schemas, and the project structure supports controlled work with Supabase data instead of mixing DB logic directly into UI.
 - **Strong validation layer.** Answer checking is centralized in `ValidationService` and split into validation strategies by widget type.
+- **Interactive 2D learning mechanics.** In addition to form-based widgets, the app includes visual 2D interactions such as the Big-O graph canvas and drag-and-drop based exercises.
+- **Custom routing and error states.** The app includes a dedicated `404` page and explicit fallback handling for invalid routes or missing data.
+- **Clear project structure.** The repository is split into route-level screens, reusable components, data layer, validation services, schemas, providers, and SQL scripts, which keeps the codebase easier to extend.
 - **Good learning UX.** The app includes Dashboard, Library, progress tracking, results screen, keyboard interaction, translations, and responsive layout.
 - **Solid test coverage.** The repository includes unit and integration tests for widgets, runners, validation strategies, and shared UI logic.
 
