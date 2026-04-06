@@ -14,9 +14,7 @@ const isStringArray = (value: unknown): value is string[] =>
 const isAsyncSorterAnswer = (value: unknown): value is AsyncSorterAnswer => {
   if (typeof value !== 'object' || value === null) return false;
 
-  const candidate = value as Record<string, unknown>;
-
-  return ASYNC_SORTER_ZONES.every((zone) => isStringArray(candidate[zone]));
+  return ASYNC_SORTER_ZONES.every((zone) => isStringArray(Reflect.get(value, zone)));
 };
 
 const isEqualStringArray = (left: string[], right: string[]) =>
