@@ -5,6 +5,8 @@ import { WidgetPayloadMap } from '@/types/question';
 import { ValidationResult } from '@/types/validation';
 import { WidgetType } from '@/types/widget';
 
+import { WidgetSkeleton } from './widget.skeleton';
+
 export type WidgetSkinsMap = {
   [WidgetType.Quiz]: 'default';
   [WidgetType.TrueFalse]: 'default';
@@ -16,7 +18,7 @@ export type WidgetSkinsMap = {
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
-  questionId: string;
+  questionId: number;
   questionPayload: WidgetPayloadMap[T];
   onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
@@ -29,32 +31,50 @@ export const widgetRegistry: {
 } = {
   [WidgetType.Quiz]: {
     default: dynamic<WidgetComponentProperties<WidgetType.Quiz>>(
-      () => import('@/components/library/widget/ui/quiz-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/quiz-widget/DefaultComponent'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
   [WidgetType.TrueFalse]: {
     default: dynamic<WidgetComponentProperties<WidgetType.TrueFalse>>(
-      () => import('@/components/library/widget/ui/true-false-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/true-false-widget/DefaultComponent'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
   [WidgetType.CodeCompletion]: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeCompletion>>(
-      () => import('@/components/library/widget/ui/code-completion-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/code-completion-widget/DefaultComponent'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
   [WidgetType.FlipCard]: {
     default: dynamic<WidgetComponentProperties<WidgetType.FlipCard>>(
-      () => import('@/components/library/widget/ui/flip-card/FlipCard')
+      () => import('@/components/library/widget/ui/flip-card/FlipCard'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
   [WidgetType.BigONotation]: {
     default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
-      () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent')
+      () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
   [WidgetType.CodeOrdering]: {
     default: dynamic<WidgetComponentProperties<WidgetType.CodeOrdering>>(
-      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent')
+      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
   [WidgetType.AsyncSorter]: {

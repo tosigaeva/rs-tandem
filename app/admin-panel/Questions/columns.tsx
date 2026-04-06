@@ -6,6 +6,7 @@ import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { cn } from '@/lib/utils';
 import { LocaleStringSchema } from '@/types/schemas/locale-schemas';
 import {
   BigOPayloadAnswer,
@@ -13,6 +14,7 @@ import {
   CodeCompletionPayloadAnswer,
   CodeCompletionPayloadQuestion,
   CodeOrderingPayloadAnswer,
+  CodeOrderingPayloadQuestion,
   FlipCardPayloadQuestion,
   QuizPayloadAnswer,
   QuizPayloadQuestion,
@@ -172,6 +174,9 @@ const displayPayloadQuestion = (question: unknown, widgetString: string) => {
       case WidgetType.CodeCompletion: {
         return displayCodeCompletionPayloadQuestion(parsed.data.data);
       }
+      case WidgetType.CodeOrdering: {
+        return displayCodeOrderingPayloadQuestion(parsed.data.data);
+      }
       case WidgetType.FlipCard: {
         return displayFlipCardPayloadQuestion(parsed.data.data);
       }
@@ -188,10 +193,11 @@ const displayQuizPayloadQuestion = (question: QuizPayloadQuestion) => {
   return (
     <>
       <div className="flex justify-start gap-1">
-        <span className="font-semibold text-slate-500">Q:</span>
-        <LocaleStringTooltip data={question.question} />
+        <span className="font-bold text-slate-500">Question:</span>
+        <LocaleStringTooltip data={question.question} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
       </div>
       <div className="mt-1 flex flex-wrap justify-start gap-2">
+        <span className="font-bold text-slate-500">Option:</span>
         {question.options.map((option, index) => (
           <LocaleStringTooltip
             data={option}
@@ -210,12 +216,14 @@ const displayTrueFalsePayloadQuestion = (question: TrueFalsePayloadQuestion) => 
   return (
     <>
       <div className="flex justify-start gap-1">
-        <span className="font-semibold">Statement: </span>
-        <LocaleStringTooltip data={question.statement} />
+        <span className="font-bold text-slate-500">Statement: </span>
+        <LocaleStringTooltip data={question.statement} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
       </div>
       <div className="flex justify-start gap-1">
-        <span className="font-semibold">Explanation: </span>
-        {explanation.success && <LocaleStringTooltip data={explanation.data} />}
+        <span className="font-bold text-slate-500">Explanation: </span>
+        {explanation.success && (
+          <LocaleStringTooltip data={explanation.data} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
+        )}
       </div>
     </>
   );
@@ -225,16 +233,42 @@ const displayCodeCompletionPayloadQuestion = (question: CodeCompletionPayloadQue
   return (
     <>
       <div className="flex justify-start gap-1">
-        <span>code: </span>
-        <p>{question.code}</p>
+        <span className="font-bold text-slate-500">Code: </span>
+        <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{question.code}</p>
       </div>
       <div className="flex justify-start gap-1">
-        <span>blanks: </span>
-        <p>{question.blanks.join(', ')}</p>
+        <span className="font-bold text-slate-500">blanks: </span>
+        <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{question.blanks.join(', ')}</p>
       </div>
       <div className="flex justify-start gap-1">
-        <span>hints: </span>
-        <p>{question.hints?.join(', ')}</p>
+        <span className="font-bold text-slate-500">hints: </span>
+        {question.hints?.map((hint, index) => (
+          <LocaleStringTooltip data={hint} key={index} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
+        ))}
+      </div>
+    </>
+  );
+};
+
+const displayCodeOrderingPayloadQuestion = (question: CodeOrderingPayloadQuestion) => {
+  return (
+    <>
+      <div className="flex justify-start gap-1">
+        <span className="font-bold text-slate-500">Description: </span>
+        <LocaleStringTooltip
+          data={question.description}
+          className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs"
+        />
+      </div>
+      <div className="flex flex-col justify-start gap-2 align-super">
+        <span className="font-bold text-slate-500">Lines: </span>
+        <div className="flex w-min flex-col justify-start gap-1 rounded-sm border bg-slate-50 px-2 py-0.5 align-super text-xs">
+          {question.lines.map((line, index) => (
+            <p key={index}>
+              {index + 1}: {line}
+            </p>
+          ))}
+        </div>
       </div>
     </>
   );
@@ -244,12 +278,12 @@ const displayFlipCardPayloadQuestion = (question: FlipCardPayloadQuestion) => {
   return (
     <>
       <div className="flex justify-start gap-1">
-        <span>term: </span>
-        <LocaleStringTooltip data={question.term} />
+        <span className="font-bold text-slate-500">Term: </span>
+        <LocaleStringTooltip data={question.term} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
       </div>
       <div className="flex justify-start gap-1">
-        <span>definition: </span>
-        <LocaleStringTooltip data={question.definition} />
+        <span className="font-bold text-slate-500">Definition: </span>
+        <LocaleStringTooltip data={question.definition} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
       </div>
     </>
   );
@@ -259,12 +293,12 @@ const displayBigOPayloadQuestion = (question: BigOPayloadQuestion) => {
   return (
     <>
       <div className="flex justify-start gap-1">
-        <span>question: </span>
-        <LocaleStringTooltip data={question.question} />
+        <span className="font-bold text-slate-500">Question: </span>
+        <LocaleStringTooltip data={question.question} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
       </div>
       <div className="flex justify-start gap-1">
-        <span>example: </span>
-        <p>{question.codeExample}</p>
+        <span className="font-bold text-slate-500">Example: </span>
+        <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{question.codeExample}</p>
       </div>
     </>
   );
@@ -309,8 +343,8 @@ const displayPayloadAnswer = (answer: unknown, widgetString: string) => {
 const displayQuizPayloadAnswer = (answer: QuizPayloadAnswer) => {
   return (
     <div className="flex justify-start gap-1">
-      <span className="font-semibold">Cor. Id: </span>
-      <p>{answer.correctIndex}</p>
+      <span className="font-bold text-slate-500">Cor. Id: </span>
+      <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{answer.correctIndex}</p>
     </div>
   );
 };
@@ -319,8 +353,15 @@ const displayTrueFalsePayloadAnswer = (answer: TrueFalsePayloadAnswer) => {
   return (
     <>
       <div className="flex justify-start gap-1">
-        <span className="font-semibold">Correct Value: </span>
-        <p className={answer.correct ? 'text-green-600' : 'text-red-600'}>{answer.correct ? 'True' : 'False'}</p>
+        <span className="font-bold text-slate-500">Correct Value: </span>
+        <p
+          className={cn(
+            'rounded-sm border bg-slate-50 px-2 py-0.5 text-xs',
+            answer.correct ? 'text-green-600' : 'text-red-600'
+          )}
+        >
+          {answer.correct ? 'True' : 'False'}
+        </p>
       </div>
     </>
   );
@@ -329,8 +370,8 @@ const displayTrueFalsePayloadAnswer = (answer: TrueFalsePayloadAnswer) => {
 const displayCodeCompletionPayloadAnswer = (answer: CodeCompletionPayloadAnswer) => {
   return (
     <div className="flex justify-start gap-1">
-      <span className="font-semibold">Answers: </span>
-      <p>{answer.answers.join(' -> ')}</p>
+      <span className="font-bold text-slate-500">Answers: </span>
+      <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{answer.answers.join(' -> ')}</p>
     </div>
   );
 };
@@ -338,7 +379,7 @@ const displayCodeCompletionPayloadAnswer = (answer: CodeCompletionPayloadAnswer)
 const displayBigOPayloadAnswer = (answer: BigOPayloadAnswer) => {
   return (
     <div className="flex justify-start gap-1">
-      <span className="font-semibold">Expected Complexity: </span>
+      <span className="font-bold text-slate-500">Expected Complexity: </span>
       <code className="rounded-sm bg-slate-100 px-1">{answer.correctComplexity}</code>
     </div>
   );
@@ -347,8 +388,8 @@ const displayBigOPayloadAnswer = (answer: BigOPayloadAnswer) => {
 const displayCodeOrderingPayloadAnswer = (answer: CodeOrderingPayloadAnswer) => {
   return (
     <div className="flex justify-start gap-1">
-      <span className="font-semibold">Answers: </span>
-      <p>{answer.answers.join(' -> ')}</p>
+      <span className="font-bold text-slate-500">Answers: </span>
+      <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{answer.answers.join(' -> ')}</p>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { Box, Layers, Terminal, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import CodeBlock from '@/components/CodeBlock';
 import { BlocksContainer } from '@/components/library/widget/ui/async-sorter/BlocksContainer';
@@ -17,7 +17,7 @@ export type ZoneType = 'pool' | 'callstack' | 'microtasks' | 'macrotasks' | 'out
 export type ZonesState = Record<ZoneType, AsyncSorterBlock[]>;
 
 type WidgetComponentProperties = {
-  questionId: string;
+  questionId: number;
   questionPayload: AsyncSorterPayload;
   onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
@@ -40,7 +40,7 @@ function normalizeCodeSnippet(codeSnippet: string) {
   return `<code>${codeSnippet}</code>`;
 }
 
-export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
+export default function DefaultComponent({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const formattedCodeSnippet = normalizeCodeSnippet(questionPayload.codeSnippet);
   const initialZones = {
     pool: questionPayload.blocks,

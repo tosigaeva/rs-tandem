@@ -1,5 +1,11 @@
 import { ValidationStrategy } from './types';
 
 export const flipCardValidationStrategy: ValidationStrategy = {
-  validate: async () => ({ isCorrect: undefined }),
+  validate: async ({ answer }) => {
+    if (typeof answer === 'boolean') {
+      return { isCorrect: answer };
+    }
+
+    return { isCorrect: false };
+  },
 };

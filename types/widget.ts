@@ -8,20 +8,6 @@ export enum WidgetType {
   AsyncSorter = 'async-sorter',
 }
 
-export type Widget = {
-  type: WidgetType;
-  title: string;
-  description: string;
-  icon: string;
-};
-
-export type AllWidget = {
-  type: 'all';
-  title: string;
-  description: string;
-  icon: string;
-};
-
 export type WidgetFilter = WidgetType | 'all';
 
 const WIDGET_TYPE_SET = new Set<string>(Object.values(WidgetType));

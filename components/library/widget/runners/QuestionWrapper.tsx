@@ -1,11 +1,11 @@
 import { WidgetComponent } from '@/components/library/widget/widget.config';
-import { QuestionPayload } from '@/types/question';
+import { AnyQuestionPayload } from '@/types/schemas/question-payload-schema';
 import { ValidationResult } from '@/types/validation';
 
 type QuestionProperties = {
-  questionId: string;
+  questionId: number;
   WidgetComponent: WidgetComponent;
-  questionPayload: QuestionPayload;
+  questionPayload: AnyQuestionPayload;
   onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };

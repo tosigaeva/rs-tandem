@@ -6,13 +6,14 @@ import { useRef, useState } from 'react';
 import Results from '@/components/Results';
 import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
-import { Question as QuestionType } from '@/types/question';
+import { useAuth } from '@/providers/auth-state.provider';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { ValidationResult } from '@/types/validation';
 
 export type AnswersHistory = (boolean | undefined)[];
 
 type RunnerRenderProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
   currentIndex: number;
   answersHistory: AnswersHistory;
   isValidating: boolean;
@@ -21,39 +22,45 @@ type RunnerRenderProperties = {
 };
 
 type QuestionRunnerEngineProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
   children: (properties: RunnerRenderProperties) => React.ReactNode;
+  onComplete: () => void;
 };
 
-export default function QuestionRunnerEngine({ questions, children }: QuestionRunnerEngineProperties) {
+export default function QuestionRunnerEngine({ questions, children, onComplete }: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
   const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(
     Array.from<undefined>({ length: questions.length })
   );
   const isValidationInFlight = useRef(false);
+  const correctAnswers = answersHistory.filter(Boolean).length;
+
+  const { user } = useAuth();
 
   const currentQuestion = questions[currentIndex];
 
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
 
   const startOver = () => {
+    onComplete();
     setCurrentIndex(0);
-    setCorrectAnswers(0);
-    setAnswersHistory(Array.from<undefined>({ length: questions.length }));
+    setAnswersHistory([]);
   };
 
-  const onCheck = async (answer: unknown) => {
+  const onCheck = async (answer: unknown): Promise<ValidationResult> => {
+    if (user == undefined) return { isCorrect: undefined };
+
     if (isValidationInFlight.current) return { isCorrect: undefined };
 
     isValidationInFlight.current = true;
     setIsValidating(true);
 
     try {
-      const result = await validateAnswer(currentQuestion.id, answer);
+      const result = await validateAnswer(currentQuestion.id, currentQuestion.type, answer);
 
-      if (result.isCorrect === true) setCorrectAnswers((previous) => previous + 1);
+      currentQuestion.isSuccess = result.isCorrect ?? false;
+      currentQuestion.updatedAt = new Date();
 
       setAnswersHistory((previous) => {
         const copyHistory = [...previous];

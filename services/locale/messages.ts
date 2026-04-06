@@ -193,6 +193,11 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Порядок кода',
     [LanguageCode.by]: 'Парадак кода',
   },
+  'library.filter.option.asyncSorter': {
+    [LanguageCode.en]: 'Async Code Sorter',
+    [LanguageCode.ru]: 'Сортировщик асинхронного кода',
+    [LanguageCode.by]: 'Сартыроўшчык асінхроннага кода',
+  },
   'library.empty.title': {
     [LanguageCode.en]: 'No matching topics yet',
     [LanguageCode.ru]: 'Подходящих тем пока нет',
@@ -512,7 +517,7 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Следующий вопрос',
     [LanguageCode.by]: 'Наступнае пытанне',
   },
-  'widget.codeComplition.description': {
+  'widget.codeCompletion.description': {
     [LanguageCode.en]: 'Fill in the missing code',
     [LanguageCode.ru]: 'Заполните пропущенный код',
     [LanguageCode.by]: 'Запоўніце прапушчаны код',
@@ -535,6 +540,16 @@ export const AppMessages = {
   },
 
   /// Widgets
+  'widget.question.check': {
+    [LanguageCode.en]: 'Check Answer',
+    [LanguageCode.ru]: 'Проверить ответ',
+    [LanguageCode.by]: 'Праверыць адказ',
+  },
+  'widget.question.next': {
+    [LanguageCode.en]: 'Next Question',
+    [LanguageCode.ru]: 'Следующий вопрос',
+    [LanguageCode.by]: 'Наступнае пытанне',
+  },
   /// FlipCard Widget
   'widget.flip-card.tooltip_hint': {
     [LanguageCode.en]:

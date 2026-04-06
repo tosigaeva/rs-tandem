@@ -81,7 +81,7 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
           onSearchQueryChange={setSearchInputValue}
         />
         {filteredRecentTopics.length > 0 && (
-          <TopicList title={t('library.section.continue')} topics={filteredRecentTopics} displayProgress={true} />
+          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgressBar={true} />
         )}
         <section className="relative space-y-6">
           {filteredPageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={filteredPageTopics} />}

@@ -27,13 +27,8 @@ export async function updateSession(request: NextRequest) {
       role: userRole,
     };
 
-    console.log('user found', userRole);
-
     response.cookies.set(userDetailsCookieName, JSON.stringify(userDetails));
-  } else {
-    console.log('user not found');
   }
-
   const path = request.nextUrl.pathname;
 
   const correctPath = getNavigation(path);

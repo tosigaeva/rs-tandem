@@ -3,10 +3,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import InfoBox from '@/components/InfoBox';
 import BlockItem from '@/components/library/widget/ui/code-ordering/BlockItem';
 import { InsertionSlot } from '@/components/library/widget/ui/code-ordering/InsertionSlot';
-import { CodeOrderingPayload } from '@/components/library/widget/ui/code-ordering/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
+import { CodeOrderingPayloadQuestion } from '@/types/schemas/question-payload-schema';
 import { ValidationResult } from '@/types/validation';
 
 type Block = {
@@ -16,19 +16,14 @@ type Block = {
 };
 
 type WidgetComponentProperties = {
-  questionId: string;
-  questionPayload: CodeOrderingPayload;
+  questionId: number;
+  questionPayload: CodeOrderingPayloadQuestion;
   onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
-export const messages = {
-  checkAnswer: 'Check Answer',
-  nextQuestion: 'Next Question',
-};
-
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
-  const { t } = useTranslation();
+  const { t, translate } = useTranslation();
 
   const initialBlocks: Block[] = useMemo(
     () =>
@@ -155,7 +150,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
     <section className="mx-auto max-w-2xl space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>{questionPayload.description}</CardTitle>
+          <CardTitle>{translate(questionPayload.description)}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription>{t('widget.codeOrdering.description')}</CardDescription>
@@ -208,7 +203,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             onClick={isChecked ? handleNext : handleCheck}
             className="mt-4 w-full py-6"
           >
-            {isChecked ? messages.nextQuestion : messages.checkAnswer}
+            {isChecked ? t('widget.question.next') : t('widget.question.check')}
           </PrimaryButton>
         </CardContent>
       </Card>

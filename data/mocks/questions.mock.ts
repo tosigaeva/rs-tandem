@@ -1,10 +1,276 @@
-import { Question } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
-export const mockQuestions: Question[] = [
+export const mockQuestions: QuestionInfo[] = [
   {
-    id: 'as-001',
-    topicId: '1',
+    id: 1,
+    topicId: 1,
+    type: WidgetType.CodeOrdering,
+    payload: {
+      description: {
+        en: 'Implement a debounce function',
+        ru: 'Реализуй функцию debounce',
+        by: 'Рэалізуй функцыю debounce',
+      },
+      lines: [
+        'return function(...args) {',
+        'let timeout;',
+        'clearTimeout(timeout);',
+        'timeout = setTimeout(() => fn(...args), delay);',
+        '};',
+      ],
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 2,
+    topicId: 1,
+    type: WidgetType.Quiz,
+    payload: {
+      question: {
+        en: 'What does <i>typeof null</i> return?',
+        ru: 'Что возвращает <i>typeof null</i>?',
+        by: 'Што вяртае <i>typeof null</i>?',
+      },
+      options: [
+        { en: 'null', ru: 'null', by: 'null' },
+        { en: 'undefined', ru: 'undefined', by: 'undefined' },
+        { en: 'object', ru: 'объект', by: 'аб’ект' },
+        { en: 'NaN', ru: 'NaN', by: 'NaN' },
+      ],
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 3,
+    topicId: 1,
+    type: WidgetType.TrueFalse,
+    payload: {
+      statement: {
+        en: '<i>Promise.all()</i> returns results in order of completion',
+        ru: '<i>Promise.all()</i> возвращает результаты в порядке завершения',
+        by: '<i>Promise.all()</i> вяртае вынікі ў парадку завяршэння',
+      },
+      explanation: {
+        en: '<i>Promise.all()</i> preserves input array order, regardless of completion time',
+        ru: '<i>Promise.all()</i> сохраняет порядок входного массива, независимо от времени завершения',
+        by: '<i>Promise.all()</i> захоўвае парадак уваходнага масіва, незалежна ад часу завяршэння',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 4,
+    topicId: 1,
+    type: WidgetType.CodeCompletion,
+    payload: {
+      code: 'const result = arr.___(x => x > 0).___(x => x * 2);',
+      blanks: ['___', '___'],
+      hints: [
+        {
+          en: 'This method filters elements based on a condition',
+          ru: 'Этот метод фильтрует элементы на основе условия',
+          by: 'Гэты метад фільтруе элементы на аснове ўмовы',
+        },
+        {
+          en: 'This method transforms each element of the array',
+          ru: 'Этот метод преобразует каждый элемент массива',
+          by: 'Гэты метад пераўтварае кожны элемент масіва',
+        },
+      ],
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 5,
+    topicId: 1,
+    type: WidgetType.CodeCompletion,
+    payload: {
+      code: 'const result = arr.___(x => x > 0);',
+      blanks: ['filter'],
+      hints: [
+        {
+          en: 'This method returns a new array with elements that pass the test',
+          ru: 'Этот метод возвращает новый массив с элементами, прошедшими проверку',
+          by: 'Гэты метад вяртае новы масіў з элементамі, якія прайшлі праверку',
+        },
+      ],
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 6,
+    topicId: 1,
+    type: WidgetType.BigONotation,
+    payload: {
+      question: {
+        en: 'What is the time complexity of this algorithm?',
+        ru: 'Какова временная сложность этого алгоритма?',
+        by: 'Якая часавая складанасць гэтага алгарытму?',
+      },
+      codeExample: '<code>for (let i = 0; i < n; i++) { \n  console.log(i); \n}</code>',
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 7,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Closure', ru: 'Замыкание', by: 'Замыканне' },
+      definition: {
+        en: 'A function that remembers variables from its lexical scope.',
+        ru: 'Функция, которая запоминает переменные из своей области видимости.',
+        by: 'Функцыя, якая запамінае зменныя са сваёй вобласці бачнасці.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 8,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Hoisting', ru: 'Поднятие (Hoisting)', by: 'Узняцце (Hoisting)' },
+      definition: {
+        en: 'Declarations are moved to the top of their scope during compilation.',
+        ru: 'Объявления перемещаются в начало области видимости при компиляции.',
+        by: 'Аб’явы перамяшчаюцца ў пачатак вобласці бачнасці пры кампіляцыі.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 9,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Event Loop', ru: 'Цикл событий', by: 'Цыкл падзей' },
+      definition: {
+        en: 'Mechanism that handles asynchronous callbacks.',
+        ru: 'Механизм, обрабатывающий асинхронные вызовы.',
+        by: 'Механізм, які апрацоўвае асінхронныя выклікі.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 10,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Promise', ru: 'Промис', by: 'Проміс' },
+      definition: {
+        en: 'Object representing eventual completion of an async operation.',
+        ru: 'Объект, представляющий результат асинхронной операции.',
+        by: 'Аб’ект, які прадстаўляе вынік асінхроннай аперацыі.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 11,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Callback', ru: 'Колбэк', by: 'Колбэк' },
+      definition: {
+        en: 'Function passed as an argument to be executed later.',
+        ru: 'Функция, переданная как аргумент для вызова позже.',
+        by: 'Функцыя, перададзеная як аргумент для выкліку пазней.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 12,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Arrow Function', ru: 'Стрелочная функция', by: 'Стрэлачная функцыя' },
+      definition: {
+        en: 'Shorter syntax that does not have its own "this".',
+        ru: 'Краткий синтаксис, не имеющий собственного "this".',
+        by: 'Краткі сінтаксіс, які не мае ўласнага "this".',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 13,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Prototype', ru: 'Прототип', by: 'Прататып' },
+      definition: {
+        en: 'Object from which other objects inherit properties.',
+        ru: 'Объект, от которого наследуются свойства.',
+        by: 'Аб’ект, ад якога ўспадкоўваюцца ўласцівасці.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 14,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Destructuring', ru: 'Деструктуризация', by: 'Дэструктурызацыя' },
+      definition: {
+        en: 'Extracting values from arrays/objects into variables.',
+        ru: 'Извлечение значений в отдельные переменные.',
+        by: 'Здабыванне значэнняў у асобныя зменныя.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 15,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Strict Mode', ru: 'Строгий режим', by: 'Строгі рэжым' },
+      definition: {
+        en: 'Restricted variant of JS that prevents unsafe actions.',
+        ru: 'Вариант JS, предотвращающий небезопасные действия.',
+        by: 'Варыянт JS, які прадухіляе небяспечныя дзеянні.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 16,
+    topicId: 1,
+    type: WidgetType.FlipCard,
+    payload: {
+      term: { en: 'Debouncing', ru: 'Debouncing', by: 'Debouncing' },
+      definition: {
+        en: 'Limiting frequency of function execution.',
+        ru: 'Ограничение частоты выполнения функции.',
+        by: 'Абмежаванне частаты выканання функцыі.',
+      },
+    },
+    isSuccess: false,
+    updatedAt: undefined,
+  },
+  {
+    id: 17,
+    topicId: 1,
     type: WidgetType.AsyncSorter,
     payload: {
       codeSnippet:
@@ -16,241 +282,7 @@ export const mockQuestions: Question[] = [
         { id: 'b4', code: 'End', label: '4' },
       ],
     },
-  },
-  {
-    id: 'co-001',
-    topicId: '1',
-    type: WidgetType.CodeOrdering,
-    payload: {
-      description: 'Реализуй debounce функцию',
-      lines: [
-        'return function(...args) {',
-        'let timeout;',
-        'clearTimeout(timeout);',
-        'timeout = setTimeout(() => fn(...args), delay);',
-        '};',
-      ],
-    },
-  },
-  {
-    id: 'quiz-001',
-    topicId: '1',
-    type: WidgetType.Quiz,
-    payload: {
-      question: 'What does <i>typeof null</i> return? <code>example of code \n with new line</code>',
-      options: ['null', 'undefined', 'object', 'NaN'],
-    },
-  },
-  {
-    id: 'tf-001',
-    topicId: '1',
-    type: WidgetType.TrueFalse,
-    payload: {
-      statement: '<i>Promise.all()</i> returns results in order of completion',
-      explanation: '<i>Promise.all()</i> preserves input array order, regardless of completion time',
-    },
-  },
-  {
-    id: 'cc-002',
-    topicId: '1',
-    type: WidgetType.CodeCompletion,
-    payload: {
-      code: 'const result = arr.___(x => x > 0).___(x => x * 2);',
-      blanks: ['___', '___'],
-      hints: ['This method filters elements based on a condition', 'This method transforms each element of the array'],
-    },
-  },
-  {
-    id: 'cc-001',
-    topicId: '1',
-    type: WidgetType.CodeCompletion,
-    payload: {
-      code: 'const result = arr.___(x => x > 0);',
-      blanks: ['___'],
-      hints: ['This method returns a new array with elements that pass the test'],
-    },
-  },
-  {
-    id: 'big-o-001',
-    topicId: '1',
-    type: WidgetType.BigONotation,
-    payload: {
-      question: {
-        en: 'What is the time complexity of this algorithm?',
-        ru: 'Какова временная сложность этого алгоритма?',
-        by: 'Якая часавая складанасць гэтага алгарытму?',
-      },
-      codeExample: '<code>for (let i = 0; i < n; i++) { \n  console.log(i); \n}</code>',
-    },
-  },
-  {
-    id: 'Learning-1',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Closure',
-        ru: 'Замыкание',
-        by: 'Замыканне',
-      },
-      definition: {
-        en: 'A function that remembers and can access variables from its lexical scope even after the outer function has finished executing.',
-        ru: 'Функция, которая запоминает и может обращаться к переменным из своей лексической области видимости даже после того, как внешняя функция завершила выполнение.',
-        by: 'Функцыя, якая запамінае і можа звяртацца да зменных са сваёй лексічнай вобласці бачнасці нават пасля таго, як вонкавая функцыя завяршыла выкананне.',
-      },
-    },
-  },
-  {
-    id: 'Learning-2',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Hoisting',
-        ru: 'Поднятие (Hoisting)',
-        by: 'Узняцце (Hoisting)',
-      },
-      definition: {
-        en: 'JavaScript behavior where variable and function declarations are moved to the top of their containing scope during compilation.',
-        ru: 'Поведение в JavaScript, при котором объявления переменных и функций перемещаются в начало их области видимости на этапе компиляции.',
-        by: 'Паводзіны ў JavaScript, пры якіх аб’явы зменных і функцый перамяшчаюцца ў пачатак іх вобласці бачнасці на этапе кампіляцыі.',
-      },
-    },
-  },
-  {
-    id: 'Learning-3',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Event Loop',
-        ru: 'Цикл событий (Event Loop)',
-        by: 'Цыкл падзей (Event Loop)',
-      },
-      definition: {
-        en: 'The mechanism that handles asynchronous callbacks by continuously checking the call stack and task queue.',
-        ru: 'Механизм, который обрабатывает асинхронные колбэки, постоянно проверяя стек вызовов и очередь задач.',
-        by: 'Механізм, які апрацоўвае асінхронныя колбэкі, пастаянна правяраючы стэк выклікаў і чаргу задач.',
-      },
-    },
-  },
-  {
-    id: 'Learning-4',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Promise',
-        ru: 'Промис (Promise)',
-        by: 'Проміс (Promise)',
-      },
-      definition: {
-        en: 'An object representing the eventual completion or failure of an asynchronous operation.',
-        ru: 'Объект, представляющий результат (успешный или нет) асинхронной операции.',
-        by: 'Аб’ект, які прадстаўляе вынік (паспяховы ці не) асінхроннай аперацыі.',
-      },
-    },
-  },
-  {
-    id: 'Learning-5',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Callback Function',
-        ru: 'Функция обратного вызова (Callback)',
-        by: 'Функцыя зваротнага выкліку (Callback)',
-      },
-      definition: {
-        en: 'A function passed as an argument to another function to be executed later.',
-        ru: 'Функция, переданная в другую функцию в качестве аргумента для последующего вызова.',
-        by: 'Функцыя, перададзеная ў іншую функцыю ў якасці аргумента для наступнага выкліку.',
-      },
-    },
-  },
-  {
-    id: 'Learning-6',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Arrow Function',
-        ru: 'Стрелочная функция',
-        by: 'Стрэлачная функцыя',
-      },
-      definition: {
-        en: 'A shorter function syntax introduced in ES6 that does not have its own this binding.',
-        ru: 'Более краткий синтаксис функций, введенный в ES6, который не имеет собственной привязки this.',
-        by: 'Больш кароткі сінтаксіс функцый, уведзены ў ES6, які не мае ўласнай прывязкі this.',
-      },
-    },
-  },
-  {
-    id: 'Learning-7',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Prototype',
-        ru: 'Прототип',
-        by: 'Прататып',
-      },
-      definition: {
-        en: 'An object from which other objects inherit properties and methods in JavaScript.',
-        ru: 'Объект, от которого другие объекты наследуют свойства и методы в JavaScript.',
-        by: 'Аб’ект, ад якога іншыя аб’екты ўспадкоўваюць уласцівасці і метады ў JavaScript.',
-      },
-    },
-  },
-  {
-    id: 'Learning-8',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Destructuring',
-        ru: 'Деструктуризация',
-        by: 'Дэструктурызацыя',
-      },
-      definition: {
-        en: 'A syntax that allows extracting values from arrays or properties from objects into distinct variables.',
-        ru: 'Синтаксис, позволяющий извлекать значения из массивов или свойства из объектов в отдельные переменные.',
-        by: 'Сінтаксіс, які дазваляе здабываць значэнні з масіваў або ўласцівасці з аб’ектаў у асобныя зменныя.',
-      },
-    },
-  },
-  {
-    id: 'Learning-9',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Strict Mode',
-        ru: 'Строгий режим (Strict Mode)',
-        by: 'Строгі рэжым (Strict Mode)',
-      },
-      definition: {
-        en: 'A restricted variant of JavaScript that eliminates some silent errors and prevents unsafe actions.',
-        ru: 'Ограниченный вариант JavaScript, который устраняет некоторые неявные ошибки и предотвращает небезопасные действия.',
-        by: 'Абмежаваны варыянт JavaScript, які ліквідуе некаторыя няяўныя памылкі і прадухіляе небяспечныя дзеянні.',
-      },
-    },
-  },
-  {
-    id: 'Learning-10',
-    topicId: '1',
-    type: WidgetType.FlipCard,
-    payload: {
-      term: {
-        en: 'Debouncing',
-        ru: 'Устранение дребезга (Debouncing)',
-        by: 'Ухіленне дрыгацення (Debouncing)',
-      },
-      definition: {
-        en: 'A technique that limits how often a function is executed by delaying its invocation until after a specified time has passed.',
-        ru: 'Метод, ограничивающий частоту выполнения функции путем задержки её вызова до истечения определенного времени.',
-        by: 'Метад, які абмяжоўвае частату выканання функцыі шляхам затрымкі яе выкліку да заканчэння пэўнага часу.',
-      },
-    },
+    isSuccess: false,
+    updatedAt: undefined,
   },
 ];

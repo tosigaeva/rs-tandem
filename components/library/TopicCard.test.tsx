@@ -23,9 +23,11 @@ describe('TopicCard', () => {
       lastTrainedAt: undefined,
       createdAt: new Date(),
       widgets: [],
+      correctAnswers: 0,
+      totalQuestions: 0,
     };
 
-    render(<TopicCard topic={topic} displayProgress={false} />);
+    render(<TopicCard topic={topic} displayProgressBar={false} />);
 
     expect(screen.getByText('beginner')).toBeInTheDocument();
     expect(screen.getByText('Variables')).toBeInTheDocument();
@@ -53,9 +55,11 @@ describe('TopicCard', () => {
       lastTrainedAt: new Date('2026-02-24T18:10:00Z'),
       createdAt: new Date('2026-01-01T12:00:00Z'),
       widgets: [],
+      correctAnswers: 0,
+      totalQuestions: 0,
     };
 
-    const { container } = render(<TopicCard topic={topic} displayProgress={true} />);
+    const { container } = render(<TopicCard topic={topic} displayProgressBar={true} />);
 
     expect(screen.getByText('intermediate')).toBeInTheDocument();
     expect(screen.getByText('Promises')).toBeInTheDocument();

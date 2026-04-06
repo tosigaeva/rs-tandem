@@ -4,22 +4,22 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import { InfoTooltip } from '@/components/InfoTooltip';
-import { CodeCompletionPayload } from '@/components/library/widget/ui/code-completion-widget/type';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/hooks/use-translation';
+import { CodeCompletionPayloadQuestion } from '@/types/schemas/question-payload-schema';
 import { ValidationResult } from '@/types/validation';
 
 type WidgetComponentProperties = {
-  questionId: string;
-  questionPayload: CodeCompletionPayload;
+  questionId: number;
+  questionPayload: CodeCompletionPayloadQuestion;
   onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
-  const { t } = useTranslation();
+  const { t, translate } = useTranslation();
 
   const { code, blanks } = questionPayload;
   const hints = questionPayload.hints ?? [];
@@ -68,14 +68,14 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                 className="shadow-lg"
               >
                 {hints.map((hint, index) => (
-                  <div key={index}>{`${index + 1} - ${hint}`}</div>
+                  <div key={index}>{`${index + 1} - ${translate(hint)}`}</div>
                 ))}
               </InfoTooltip>
             </div>
           )}
         </CardHeader>
         <CardContent className="space-y-4">
-          <CardDescription>{t('widget.codeComplition.description')}</CardDescription>
+          <CardDescription>{t('widget.codeCompletion.description')}</CardDescription>
           <pre className="overflow-x-auto">
             {codeParts.map((part, index) => {
               const inputClass = isChecked

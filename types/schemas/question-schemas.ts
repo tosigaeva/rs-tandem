@@ -192,3 +192,30 @@ export const UniversalQuestionSchema = z.discriminatedUnion('type', [
   }),
 ]);
 export type UniversalQuestion = z.output<typeof UniversalQuestionSchema>;
+
+export const QuestionInfoSchema = z
+  .object({
+    id: z.number().int(),
+    topic_id: z.number().int(),
+    widget_type: z.enum(WidgetType),
+    payload_question: z.unknown(),
+    payload_answer: z.unknown().nullable(),
+    is_success: z.boolean().nullish(),
+    updated_at: z.coerce.date().nullish(),
+  })
+  .transform((data) => {
+    const parsed = UniversalPayloadQuestionSchema.parse({
+      type: data.widget_type,
+      data: data.payload_question,
+    });
+
+    return {
+      id: data.id,
+      topicId: data.topic_id,
+      type: parsed.type,
+      payload: parsed.data,
+      isSuccess: data.is_success ?? false,
+      updatedAt: data.updated_at ?? undefined,
+    };
+  });
+export type QuestionInfo = z.output<typeof QuestionInfoSchema>;
