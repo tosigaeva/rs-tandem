@@ -6,7 +6,7 @@ It provides hands-on exercises, tracks performance in real-time, and helps learn
 
 ## About the Project
 
-Tandem: Widget Trainer is designed to make JavaScript learning interactive and practical.
+JS Interview Trainer is designed to make JavaScript learning interactive and practical.
 
 The platform uses modular widgets to deliver hands-on exercises, manage training sessions, and provide real-time performance analytics.
 
@@ -41,7 +41,7 @@ The application includes multiple training formats to cover different learning s
 [![View Deployed App](https://img.shields.io/badge/View-Deployed%20App-000000?style=flat&logo=vercel&logoColor=white)](https://rs-tandem.vercel.app/)
 
 ## Demo Video
-[![Watch on YouTube](https://img.shields.io/badge/Watch-YouTube-FF0000?style=flat&logo=youtube&logoColor=white)](https://youtube.com/your-video-link)
+[![Watch on Loom](https://img.shields.io/badge/Watch-Loom-00B0F0?style=flat&logo=loom&logoColor=white)](https://www.loom.com/share/17341cfb1a9f409c867e02c5a2372a0e)
 
 
 ## Team
