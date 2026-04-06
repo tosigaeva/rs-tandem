@@ -1,7 +1,7 @@
 # Self-Assessment
 
 **GitHub username:** `tosigaeva`  
-**PR:** `TODO` -> добавить ссылку после создания pull request
+**PR:** `https://github.com/tosigaeva/rs-tandem/pull/150`
 
 ## Таблица фич
 
