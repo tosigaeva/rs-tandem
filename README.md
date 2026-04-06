@@ -12,6 +12,16 @@ The platform uses modular widgets to deliver hands-on exercises, manage training
 
 Its flexible architecture allows for easy addition of new exercises and scalable session management, helping learners improve efficiently.
 
+The application includes multiple training formats to cover different learning scenarios:
+
+- Quiz
+- True/False
+- Code Completion
+- Code Ordering
+- Async Sorter
+- Big-O Notation
+- Flip Card
+
 ## What are we proud of?
 
 ## Deploy link
@@ -63,4 +73,51 @@ Its flexible architecture allows for easy addition of new exercises and scalable
 
 ## Tech Stack
 
+### Frontend
+- **Framework:** Next.js 16
+- **Library:** React 19
+- **Styling:** Tailwind CSS 4, clsx, tailwind-merge
+- **UI Components:** Shadcn/UI, Radix UI, Lucide Icons
+- **Animations:** Framer Motion, Embla Carousel
+- **Code Highlighting:** react-syntax-highlighter
+- **Utilities:** date-fns, js-cookie, react-use
+
+### State Management & Data
+- **State:** Zustand
+- **Forms:** react-hook-form, @hookform/resolvers, @hookform/devtools
+- **API & Data Fetching:** @tanstack/react-query
+- **Validation:** Zod
+
+### Backend & Auth
+- **Database/Auth:** Supabase (@supabase/supabase-js, @supabase/auth-helpers-nextjs, @supabase/ssr)
+- **Authentication:** NextAuth.js
+
+### Testing
+- **Unit & Integration Testing:** Jest, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event
+- **Mocks:** jest-canvas-mock
+
+### Tooling & Dev
+- **TypeScript & Node:** TypeScript 5, ts-node, @types/* packages
+- **Linting:** ESLint, eslint-config-next, eslint-config-prettier, eslint-plugin-*
+- **Formatting:** Prettier
+- **Hooks:** Husky, lint-staged
+
+### Other
+- **Notifications:** Sonner
+- **Text Highlighting:** react-highlight-words
+- **Animations/Effects:** react-confetti
+
+
 ## Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/tosigaeva/rs-tandem.git
+cd rs-tandem
+
+# 2. Install dependencies
+npm install
+
+# 3. Start development server
+npm run dev
+```
