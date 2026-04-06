@@ -24,6 +24,14 @@ The application includes multiple training formats to cover different learning s
 
 ## What are we proud of?
 
+- **Extensible widget architecture.** `widget engine`, `widget registry`, and runner system make it easy to plug in new exercise types without rewriting the training flow.
+- **Multiple interactive learning formats.** The app supports not only basic widgets like Quiz and True/False, but also more advanced components such as Code Completion, Code Ordering, Async Sorter, Big-O Notation, and Flip Card.
+- **Reusable runner flow.** The same question set can be rendered through different runners (`DefaultRunner` and `SliderRunner`) depending on the learning scenario.
+- **Flexible data layer.** The project supports both `mock mode` and `Supabase mode`, which helped us develop UI independently and then connect it to real data.
+- **Strong validation layer.** Answer checking is centralized in `ValidationService` and split into validation strategies by widget type.
+- **Good learning UX.** The app includes Dashboard, Library, progress tracking, results screen, keyboard interaction, translations, and responsive layout.
+- **Solid test coverage.** The repository includes unit and integration tests for widgets, runners, validation strategies, and shared UI logic.
+
 ## Deploy link
 [![View Deployed App](https://img.shields.io/badge/View-Deployed%20App-000000?style=flat&logo=vercel&logoColor=white)](https://rs-tandem.vercel.app/)
 
@@ -70,6 +78,55 @@ The application includes multiple training formats to cover different learning s
 - [Note #3](./meeting-notes/meeting-2026-03-01.md)
 
 ## Project Structure
+
+```text
+app/
+  dashboard/            Dashboard page and dashboard content
+  library/              Library pages, topic flow, filters, and server actions
+  sign-in/              Authentication UI
+  admin-panel/          Admin CRUD for topics, questions, and widgets
+
+components/
+  dashboard/            Dashboard cards, hero, streak, activity, tips
+  library/              Topic cards, widget filters, widget list
+  library/widget/       Widget engine, registry, runners, and widget UI
+  ui/                   Shared UI primitives based on shadcn/ui
+  *.tsx                 Reusable app-level components like Pagination, Results, QuestionCard
+
+data/
+  mocks/                Mock data for local development
+  supabase/             Supabase-backed data access
+  *.api.ts              API layer used by UI and server actions
+  activity.action.ts    Server action for answer tracking
+
+services/
+  validation/           Validation strategies by widget type
+  locale/               Translation and locale utilities
+  authorization/        Client/server auth helpers
+  validation.service.ts Centralized answer validation entry point
+
+types/
+  schemas/              Zod schemas for questions, widgets, topics, and locale payloads
+  *.ts                  Shared domain types
+
+lib/
+  supabase/             Supabase client/server/admin setup
+  *.ts                  Shared helpers, routes, and formatting utilities
+
+providers/              Global app providers for auth, locale, and spinner state
+store/                  Shared Zustand store
+sql/                    SQL scripts for seeds and updates
+development-notes/      Team diaries and self-assessments
+meeting-notes/          Team meeting notes
+```
+
+### Architecture Overview
+
+- `app/` contains route-level screens and page composition.
+- `components/` contains reusable UI, dashboard modules, and the full widget system.
+- `data/` isolates data fetching and switching between mocks and Supabase.
+- `services/validation/strategies/` contains per-widget validation logic.
+- `types/schemas/` keeps runtime-safe schemas for admin, API, and widget payloads.
 
 ## Tech Stack
 
