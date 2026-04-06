@@ -37,7 +37,7 @@ export function createColumns({ handleOpenDialog, handleAddQuestion }: MetaPrope
     {
       accessorKey: 'icon',
       header: 'Icon',
-      cell: ({ row }) => row.original.icon,
+      cell: ({ row }) => '',
     },
     {
       accessorKey: 'sumQuestions',

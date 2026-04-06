@@ -108,6 +108,31 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Сужайте список тем по виджету, уровню или названию темы.',
     [LanguageCode.by]: 'Звужайце спіс тэм па віджэце, узроўні або назве тэмы.',
   },
+  'library.filter.expand': {
+    [LanguageCode.en]: 'Show filters',
+    [LanguageCode.ru]: 'Показать фильтры',
+    [LanguageCode.by]: 'Паказаць фільтры',
+  },
+  'library.filter.collapse': {
+    [LanguageCode.en]: 'Hide filters',
+    [LanguageCode.ru]: 'Скрыть фильтры',
+    [LanguageCode.by]: 'Схаваць фільтры',
+  },
+  'library.filter.summary.widget': {
+    [LanguageCode.en]: 'Filter:',
+    [LanguageCode.ru]: 'Фильтр:',
+    [LanguageCode.by]: 'Фільтр:',
+  },
+  'library.filter.summary.level': {
+    [LanguageCode.en]: 'Level:',
+    [LanguageCode.ru]: 'Уровень:',
+    [LanguageCode.by]: 'Узровень:',
+  },
+  'library.filter.summary.search': {
+    [LanguageCode.en]: 'Search by:',
+    [LanguageCode.ru]: 'Поиск:',
+    [LanguageCode.by]: 'Пошук:',
+  },
   'library.filter.widgetLabel': {
     [LanguageCode.en]: 'Widget type',
     [LanguageCode.ru]: 'Тип виджета',
