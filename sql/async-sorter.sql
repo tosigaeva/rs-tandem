@@ -53,7 +53,7 @@ FROM new_topic nt
     -- QUESTION 1
     (
     '{
-      "code": "console.log(\"1\");\nsetTimeout(() => console.log(\"2\"), 0);\nPromise.resolve().then(() => console.log(\"3\"));\nconsole.log(\"4\");",
+      "codeSnippet": "<code>console.log(\"1\");\nsetTimeout(() => console.log(\"2\"), 0);\nPromise.resolve().then(() => console.log(\"3\"));\nconsole.log(\"4\");",
       "blocks": [
         { "id": "b1", "code": "console.log(1)", "label": "1" },
         { "id": "b2", "code": "setTimeout callback", "label": "2" },
@@ -72,7 +72,7 @@ FROM new_topic nt
     -- QUESTION 2
     (
     '{
-      "code": "console.log(\"A\");\nPromise.resolve().then(() => console.log(\"B\"));\nconsole.log(\"C\");",
+      "codeSnippet": "console.log(\"A\");\nPromise.resolve().then(() => console.log(\"B\"));\nconsole.log(\"C\");",
       "blocks": [
         { "id": "b1", "code": "console.log(A)", "label": "A" },
         { "id": "b2", "code": "Promise.then callback", "label": "B" },
@@ -90,7 +90,7 @@ FROM new_topic nt
     -- QUESTION 3
     (
     '{
-      "code": "setTimeout(() => console.log(\"X\"), 0);\nPromise.resolve().then(() => console.log(\"Y\"));\nconsole.log(\"Z\");",
+      "codeSnippet": "setTimeout(() => console.log(\"X\"), 0);\nPromise.resolve().then(() => console.log(\"Y\"));\nconsole.log(\"Z\");",
       "blocks": [
         { "id": "b1", "code": "setTimeout callback", "label": "X" },
         { "id": "b2", "code": "Promise.then callback", "label": "Y" },

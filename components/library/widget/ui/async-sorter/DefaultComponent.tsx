@@ -27,12 +27,21 @@ function canDrop(from?: ZoneType, to?: ZoneType) {
   if (!from || !to) return false;
 
   if (to === 'output' && from !== 'output') return false;
-  if (to !== 'output' && from === 'output') return false;
+  return !(to !== 'output' && from === 'output');
+}
 
-  return true;
+function normalizeCodeSnippet(codeSnippet: string) {
+  const trimmedSnippet = codeSnippet.trim();
+
+  if (trimmedSnippet.startsWith('<code>') && trimmedSnippet.endsWith('</code>')) {
+    return codeSnippet;
+  }
+
+  return `<code>${codeSnippet}</code>`;
 }
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
+  const formattedCodeSnippet = normalizeCodeSnippet(questionPayload.codeSnippet);
   const initialZones = {
     pool: questionPayload.blocks,
     callstack: [],
@@ -46,11 +55,6 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
   const [zones, setZones] = useState<ZonesState>(initialZones);
 
   const [validationResult, setValidationResult] = useState<Record<keyof AsyncSorterAnswer, boolean[]> | undefined>();
-
-  useEffect(() => {
-    setZones(initialZones);
-    setValidationResult(undefined);
-  }, [questionId, questionPayload.blocks]);
 
   function handleDrop(targetZone: ZoneType, index: number) {
     if (draggedBlock === undefined || sourceZone === undefined) return;
@@ -119,7 +123,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             <CardHeader className="px-4">
               <CardTitle>What is the order of console.log outputs?</CardTitle>
             </CardHeader>
-            <CodeBlock code={questionPayload.codeSnippet} showCopyButton={false} />
+            <CodeBlock code={formattedCodeSnippet} showCopyButton={false} />
             <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
             <BlocksContainer
               blocks={zones.pool}

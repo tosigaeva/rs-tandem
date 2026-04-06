@@ -8,7 +8,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type Properties = {
-  code: string;
+  code: string | undefined | null;
   language?: string;
   showLineNumbers?: boolean;
   showCopyButton?: boolean;
@@ -21,6 +21,7 @@ export default function CodeBlock({
   showCopyButton = true,
 }: Properties) {
   const [copied, setCopied] = useState(false);
+  const safeCode = typeof code === 'string' ? code : '';
 
   const copyCode = async (copiedCode: string) => {
     await navigator.clipboard.writeText(copiedCode);
@@ -77,5 +78,5 @@ export default function CodeBlock({
     },
   };
 
-  return <div>{parse(code, options)}</div>;
+  return <div>{parse(safeCode, options)}</div>;
 }
