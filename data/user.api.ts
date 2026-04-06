@@ -1,6 +1,6 @@
-import { mockUser } from '@/data/user.mock';
-import { User } from '@/types/user';
+import { mockUser } from '@/data/mocks/user.mock';
+import { UserDetails } from '@/types/schemas/authorization-schemas';
 
-export async function getUser(): Promise<User> {
+export function getUser(): UserDetails {
   return mockUser;
 }

@@ -1,18 +1,11 @@
 import { render, screen } from '@testing-library/react';
 
 import { TopicCard } from '@/components/library/TopicCard';
-import { Locale, useLocale } from '@/services/locale/locale.service';
-import { Level, Subject, Topic } from '@/types/schemas/topic-schema';
+import { Level, Subject, TopicOverview } from '@/types/schemas/topic-schema';
 
 describe('TopicCard', () => {
-  beforeEach(() => {
-    useLocale.setState({
-      locale: Locale.gb,
-    });
-  });
-
   it('renders basic topic fields', () => {
-    const topic: Topic = {
+    const topic: TopicOverview = {
       id: 1,
       name: {
         en: 'Variables',
@@ -42,7 +35,7 @@ describe('TopicCard', () => {
   });
 
   it('renders progress for user topic', () => {
-    const topic: Topic = {
+    const topic: TopicOverview = {
       id: 2,
       name: {
         en: 'Promises',
@@ -68,7 +61,7 @@ describe('TopicCard', () => {
     expect(screen.getByText('Promises')).toBeInTheDocument();
     expect(screen.getByText('promise, then, catch')).toBeInTheDocument();
     expect(screen.getByText('JavaScript')).toBeInTheDocument();
-    expect(screen.getByText('42.00%')).toBeInTheDocument();
+    expect(screen.getByText('42%')).toBeInTheDocument();
     expect(container.querySelector("[data-slot='progress']")).toBeTruthy();
   });
 });

@@ -17,7 +17,7 @@ describe('Quiz DefaultComponent', () => {
       <DefaultComponent
         questionId="q1"
         questionPayload={{ question: 'What?', options: ['a', 'b'] }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

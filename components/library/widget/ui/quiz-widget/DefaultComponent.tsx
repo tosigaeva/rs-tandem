@@ -1,10 +1,11 @@
 import { QuizPayload } from '@/components/library/widget/ui/quiz-widget/type';
 import QuestionCard from '@/components/QuestionCard';
+import { ValidationResult } from '@/types/validation';
 
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: QuizPayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 

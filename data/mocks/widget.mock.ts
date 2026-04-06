@@ -2,6 +2,12 @@ import { WidgetType } from '@/types/widget';
 
 export const mockWidgets = [
   {
+    type: WidgetType.CodeOrdering,
+    title: 'Code Ordering',
+    description: 'Arrange the code lines in the correct execution order.',
+    icon: 'C',
+  },
+  {
     type: WidgetType.AsyncSorter,
     title: 'Async Code Sorter',
     description: 'Arrange the code blocks in the order they will execute.',

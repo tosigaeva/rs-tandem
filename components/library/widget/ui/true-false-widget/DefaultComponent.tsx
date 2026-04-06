@@ -1,10 +1,11 @@
 import { TrueFalsePayload } from '@/components/library/widget/ui/true-false-widget/type';
 import QuestionCard from '@/components/QuestionCard';
+import { ValidationResult } from '@/types/validation';
 
 type WidgetComponentProperties = {
   questionId: string;
   questionPayload: TrueFalsePayload;
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 

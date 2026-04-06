@@ -13,7 +13,10 @@ describe('QuestionWrapper', () => {
       questionPayload: QuestionPayload;
     }) => (
       <div data-testid="widget">
-        {questionId}:{'question' in questionPayload ? questionPayload.question : 'payload'}
+        {questionId}:
+        {'question' in questionPayload && typeof questionPayload.question === 'string'
+          ? questionPayload.question
+          : 'payload'}
       </div>
     );
 
@@ -22,7 +25,7 @@ describe('QuestionWrapper', () => {
         questionId="q1"
         WidgetComponent={WidgetComponent}
         questionPayload={{ question: 'Test', options: ['a'] }}
-        onCheck={async () => true}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );

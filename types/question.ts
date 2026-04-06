@@ -1,20 +1,35 @@
 import { AsyncSorterPayload, AsyncSorterWidget } from '@/components/library/widget/ui/async-sorter/type';
-import { BigOPayload, BigOWidget } from '@/components/library/widget/ui/big-o-widget/type';
+import { BigOWidget } from '@/components/library/widget/ui/big-o-widget/type';
 import {
   CodeCompletionPayload,
   CodeCompletionWidget,
 } from '@/components/library/widget/ui/code-completion-widget/type';
-import { FlipCardPayload, FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
+import { CodeOrderingPayload, CodeOrderingWidget } from '@/components/library/widget/ui/code-ordering/type';
+import { FlipCardWidget } from '@/components/library/widget/ui/flip-card/type';
 import { QuizPayload, QuizWidget } from '@/components/library/widget/ui/quiz-widget/type';
 import { TrueFalsePayload, TrueFalseWidget } from '@/components/library/widget/ui/true-false-widget/type';
+import {
+  BigOPayloadAnswer,
+  BigOPayloadQuestion,
+  CodeCompletionPayloadAnswer,
+  CodeCompletionPayloadQuestion,
+  CodeOrderingPayloadAnswer,
+  FlipCardPayloadQuestion,
+  QuizPayloadAnswer,
+  QuizPayloadQuestion,
+  TrueFalsePayloadAnswer,
+  TrueFalsePayloadQuestion,
+} from '@/types/schemas/question-payload-schema';
+import { CodeOrderingQuestion } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
 export type QuestionPayload =
   | QuizPayload
   | TrueFalsePayload
   | CodeCompletionPayload
-  | FlipCardPayload
-  | BigOPayload
+  | FlipCardPayloadQuestion
+  | BigOPayloadQuestion
+  | CodeOrderingPayload
   | AsyncSorterPayload;
 export type QuestionWidget =
   | QuizWidget
@@ -22,16 +37,40 @@ export type QuestionWidget =
   | CodeCompletionWidget
   | FlipCardWidget
   | BigOWidget
+  | CodeOrderingWidget
   | AsyncSorterWidget;
+
+export type WidgetQuestionPayloadMap = {
+  [WidgetType.Quiz]: QuizPayloadQuestion;
+  [WidgetType.TrueFalse]: TrueFalsePayloadQuestion;
+  [WidgetType.CodeCompletion]: CodeCompletionPayloadQuestion;
+  [WidgetType.FlipCard]: FlipCardPayloadQuestion;
+  [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingQuestion;
+  [WidgetType.AsyncSorter]: AsyncSorterQuestion;
+};
+
+export type WidgetAnswerPayloadMap = {
+  [WidgetType.Quiz]: QuizPayloadAnswer;
+  [WidgetType.TrueFalse]: TrueFalsePayloadAnswer;
+  [WidgetType.CodeCompletion]: CodeCompletionPayloadAnswer;
+  [WidgetType.FlipCard]: null;
+  [WidgetType.BigONotation]: BigOPayloadAnswer;
+  [WidgetType.CodeOrdering]: CodeOrderingPayloadAnswer;
+  [WidgetType.AsyncSorter]: AsyncSorterAnswer;
+};
 
 export type WidgetPayloadMap = {
   [WidgetType.Quiz]: QuizPayload;
   [WidgetType.TrueFalse]: TrueFalsePayload;
   [WidgetType.CodeCompletion]: CodeCompletionPayload;
-  [WidgetType.FlipCard]: FlipCardPayload;
-  [WidgetType.BigONotation]: BigOPayload;
+  [WidgetType.FlipCard]: FlipCardPayloadQuestion;
+  [WidgetType.BigONotation]: BigOPayloadQuestion;
+  [WidgetType.CodeOrdering]: CodeOrderingPayload;
   [WidgetType.AsyncSorter]: AsyncSorterPayload;
 };
+
+export type AnswerPayload = WidgetAnswerPayloadMap[WidgetType];
 
 export type BaseQuestion = {
   id: string;

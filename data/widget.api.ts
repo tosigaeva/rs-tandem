@@ -1,7 +1,11 @@
 import { mockWidgets } from '@/data/mocks/widget.mock';
+import { getWidgets } from '@/data/supabase/widget.supabase';
 import { Widget } from '@/types/widget';
 
 export async function getWidgetsByTopic(topicId: string): Promise<Widget[]> {
-  console.log(topicId); //TODO: must be deleted. added to pass the linter check
-  return mockWidgets;
+  if (process.env.MOCK_MODE === 'true') {
+    return mockWidgets;
+  }
+
+  return getWidgets(topicId);
 }

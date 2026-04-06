@@ -1,6 +1,7 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DashboardCard } from '@/components/dashboard/DashboardCard';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 
 import { DailyActivityCardProperties } from './activity.types';
@@ -12,7 +13,7 @@ export function DailyActivityCard({ days }: DailyActivityCardProperties) {
   const { t } = useTranslation();
 
   return (
-    <Card className="bg-card/90 w-full gap-3 rounded-3xl border-none py-4 shadow-none sm:w-fit sm:max-w-full">
+    <DashboardCard className="w-full gap-3 py-4">
       <CardHeader className="px-5 pt-4 pb-0">
         <CardTitle className="text-foreground text-lg leading-tight tracking-tight">
           {t('dashboard.activity.title')}
@@ -27,6 +28,6 @@ export function DailyActivityCard({ days }: DailyActivityCardProperties) {
           {!hasDays && <p className="text-muted-foreground text-sm">{t('dashboard.activity.empty')}</p>}
         </section>
       </CardContent>
-    </Card>
+    </DashboardCard>
   );
 }

@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 
 import { WidgetPayloadMap } from '@/types/question';
+import { ValidationResult } from '@/types/validation';
 import { WidgetType } from '@/types/widget';
 
 export type WidgetSkinsMap = {
@@ -10,13 +11,14 @@ export type WidgetSkinsMap = {
   [WidgetType.CodeCompletion]: 'default';
   [WidgetType.FlipCard]: 'default';
   [WidgetType.BigONotation]: 'default';
+  [WidgetType.CodeOrdering]: 'default';
   [WidgetType.AsyncSorter]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
   questionId: string;
   questionPayload: WidgetPayloadMap[T];
-  onCheck: (answer: string) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 export type WidgetComponent<T extends WidgetType = WidgetType> = ComponentType<WidgetComponentProperties<T>>;
@@ -48,6 +50,11 @@ export const widgetRegistry: {
   [WidgetType.BigONotation]: {
     default: dynamic<WidgetComponentProperties<WidgetType.BigONotation>>(
       () => import('@/components/library/widget/ui/big-o-widget/DefaultComponent')
+    ),
+  },
+  [WidgetType.CodeOrdering]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.CodeOrdering>>(
+      () => import('@/components/library/widget/ui/code-ordering/DefaultComponent')
     ),
   },
   [WidgetType.AsyncSorter]: {
