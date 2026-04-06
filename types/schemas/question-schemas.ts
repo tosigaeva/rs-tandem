@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { WidgetType } from '../widget';
 import { LocaleStringSchema } from './locale-schemas';
 import {
+  AsyncSorterPayloadAnswerSchema,
+  AsyncSorterPayloadQuestionSchema,
   BigOPayloadAnswerSchema,
   BigOPayloadQuestionSchema,
   CodeCompletionPayloadAnswerSchema,
@@ -73,6 +75,14 @@ export const UniversalPayloadQuestionSchema = z.discriminatedUnion('type', [
     type: z.literal(WidgetType.BigONotation),
     data: BigOPayloadQuestionSchema,
   }),
+  z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingPayloadQuestionSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.AsyncSorter),
+    data: AsyncSorterPayloadQuestionSchema,
+  }),
 ]);
 export type UniversalPayloadQuestion = z.output<typeof UniversalPayloadQuestionSchema>;
 
@@ -100,6 +110,10 @@ export const UniversalPayloadAnswerSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(WidgetType.CodeOrdering),
     data: CodeOrderingPayloadAnswerSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.AsyncSorter),
+    data: AsyncSorterPayloadAnswerSchema,
   }),
 ]);
 export type UniversalPayloadAnswer = z.output<typeof UniversalPayloadAnswerSchema>;
@@ -145,6 +159,12 @@ export const CodeOrderingQuestionSchema = BlankQuestionSchema.extend({
 });
 export type CodeOrderingQuestion = z.infer<typeof CodeOrderingQuestionSchema>;
 
+export const AsyncSorterQuestionSchema = BlankQuestionSchema.extend({
+  payloadQuestion: AsyncSorterPayloadQuestionSchema,
+  payloadAnswer: AsyncSorterPayloadAnswerSchema,
+});
+export type AsyncSorterQuestion = z.infer<typeof AsyncSorterQuestionSchema>;
+
 export const UniversalQuestionSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(WidgetType.Quiz),
@@ -165,6 +185,14 @@ export const UniversalQuestionSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(WidgetType.BigONotation),
     data: BigOQuestionSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingQuestionSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.AsyncSorter),
+    data: AsyncSorterQuestionSchema,
   }),
 ]);
 export type UniversalQuestion = z.output<typeof UniversalQuestionSchema>;

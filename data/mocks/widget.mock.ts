@@ -19,6 +19,22 @@ export const mockWidgets: WidgetOverview[] = [
     correctAnswers: 0,
   },
   {
+    type: WidgetType.AsyncSorter,
+    name: {
+      en: 'Async Code Sorter',
+      ru: 'Сортировщик асинхронного кода',
+      by: 'Сартыроўшчык асінхроннага кода',
+    },
+    description: {
+      en: 'Arrange the code blocks in the order they will execute.',
+      ru: 'Расставьте блоки кода в порядке их выполнения.',
+      by: 'Расстаўце блокі кода ў парадку іх выканання.',
+    },
+    createdAt: new Date(),
+    totalQuestions: 0,
+    correctAnswers: 0,
+  },
+  {
     type: WidgetType.Quiz,
     name: {
       en: 'Single Choice Quiz',

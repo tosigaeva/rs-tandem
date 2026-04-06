@@ -14,6 +14,7 @@ export type WidgetSkinsMap = {
   [WidgetType.FlipCard]: 'default';
   [WidgetType.BigONotation]: 'default';
   [WidgetType.CodeOrdering]: 'default';
+  [WidgetType.AsyncSorter]: 'default';
 };
 
 type WidgetComponentProperties<T extends WidgetType = WidgetType> = {
@@ -74,6 +75,11 @@ export const widgetRegistry: {
       {
         loading: () => <WidgetSkeleton />,
       }
+    ),
+  },
+  [WidgetType.AsyncSorter]: {
+    default: dynamic<WidgetComponentProperties<WidgetType.AsyncSorter>>(
+      () => import('@/components/library/widget/ui/async-sorter/DefaultComponent')
     ),
   },
 };

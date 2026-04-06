@@ -97,6 +97,19 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
     </div>
   );
 
+  const renderAsyncSorterPayload = () => (
+    <div className="space-y-4 border-t pt-4">
+      <h3 className="text-sm font-medium">Async Sorter Question Configuration</h3>
+      <CustomInput name={'payloadQuestion.codeSnippet'} label={'Code Snippet'} type={'text'} />
+      <CustomArrayInput name={'payloadQuestion.blocks'} label={'Blocks'} type={'text'} />
+      <h3 className="text-sm font-medium">Async Sorter Answer Configuration</h3>
+      <CustomArrayInput name={'payloadAnswer.callStack'} label={'Call Stack'} type={'text'} />
+      <CustomArrayInput name={'payloadAnswer.microtasks'} label={'Microtasks'} type={'text'} />
+      <CustomArrayInput name={'payloadAnswer.macrotasks'} label={'Macrotasks'} type={'text'} />
+      <CustomArrayInput name={'payloadAnswer.outputOrder'} label={'Output Order'} type={'text'} />
+    </div>
+  );
+
   switch (widgetType) {
     case WidgetType.Quiz: {
       return renderQuizPayload();
@@ -115,6 +128,9 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
     }
     case WidgetType.CodeOrdering: {
       return renderCodeOrderingPayload();
+    }
+    case WidgetType.AsyncSorter: {
+      return renderAsyncSorterPayload();
     }
     default: {
       return;
