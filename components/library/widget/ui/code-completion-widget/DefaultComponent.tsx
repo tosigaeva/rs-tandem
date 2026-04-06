@@ -19,7 +19,7 @@ type WidgetComponentProperties = {
 };
 
 export default function DefaultComponent({ questionId, questionPayload, onCheck, onNext }: WidgetComponentProperties) {
-  const { t } = useTranslation();
+  const { t, translate } = useTranslation();
 
   const { code, blanks } = questionPayload;
   const hints = questionPayload.hints ?? [];
@@ -68,14 +68,14 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                 className="shadow-lg"
               >
                 {hints.map((hint, index) => (
-                  <div key={index}>{`${index + 1} - ${hint}`}</div>
+                  <div key={index}>{`${index + 1} - ${translate(hint)}`}</div>
                 ))}
               </InfoTooltip>
             </div>
           )}
         </CardHeader>
         <CardContent className="space-y-4">
-          <CardDescription>{t('widget.codeComplition.description')}</CardDescription>
+          <CardDescription>{t('widget.codeCompletion.description')}</CardDescription>
           <pre className="overflow-x-auto">
             {codeParts.map((part, index) => {
               const inputClass = isChecked

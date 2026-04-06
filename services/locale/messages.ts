@@ -402,7 +402,7 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Следующий вопрос',
     [LanguageCode.by]: 'Наступнае пытанне',
   },
-  'widget.codeComplition.description': {
+  'widget.codeCompletion.description': {
     [LanguageCode.en]: 'Fill in the missing code',
     [LanguageCode.ru]: 'Заполните пропущенный код',
     [LanguageCode.by]: 'Запоўніце прапушчаны код',

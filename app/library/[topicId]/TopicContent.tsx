@@ -57,11 +57,9 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
   }, [topicId, selectedFilter]);
 
   const activeQuestions = useMemo(() => {
-    console.log('Re-filtering questions, round:', repeatCount);
     const active = allQuestions?.filter((q) => q.isSuccess === null || q.isSuccess === false) ?? [];
 
-    if (active.length === 0) {
-      console.log('length is 0');
+    if (active.length === 0 && repeatCount >= 0) {
       return allQuestions ?? [];
     }
 
