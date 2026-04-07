@@ -37,6 +37,38 @@ export default function Page() {
       width: 697,
       height: 798,
     },
+    {
+      value: 'code-completion',
+      label: 'Code Completion',
+      title: 'Fill in the blanks in the code',
+      image: '/example-code-completion.jpg',
+      width: 1118,
+      height: 478,
+    },
+    {
+      value: 'async-sorter',
+      label: 'Async Sorter',
+      title: 'Set correct order of operations execution',
+      image: '/example-async-sorter.jpg',
+      width: 1488,
+      height: 864,
+    },
+    {
+      value: 'code-ordering',
+      label: 'Code Ordering',
+      title: 'Put lines of code in the correct order',
+      image: '/example-order-lines.jpg',
+      width: 1091,
+      height: 801,
+    },
+    {
+      value: 'true-or-false',
+      label: 'True or False',
+      title: 'Determine if the statement is true or false',
+      image: '/example-true-false.jpg',
+      width: 909,
+      height: 580,
+    },
   ];
 
   return (
@@ -97,7 +129,7 @@ export default function Page() {
           {FEATURES.map((feature) => (
             <TabsContent key={feature.value} value={feature.value}>
               <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
-              <div className="mx-auto h-72 w-full max-w-4xl">
+              <div className="m-4 mx-auto h-72 w-full max-w-4xl">
                 <Image
                   src={feature.image}
                   width={feature.width}
