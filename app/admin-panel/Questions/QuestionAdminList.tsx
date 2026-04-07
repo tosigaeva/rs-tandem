@@ -136,36 +136,34 @@ export default function QuestionAdminList() {
 
   return (
     <>
-      {isLoading && <div>Waiting for response from server...</div>}
-      <>
-        {!isLoading && questions && (
-          <DataTable columns={createColumns({ handleOpenDialog, confirmDelete })} data={questions}></DataTable>
-        )}
-        {topics && isDialogOpen && (
-          <QuestionDialog
-            topics={topics}
-            open={isDialogOpen}
-            onOpenChange={setIsDialogOpen}
-            onSubmit={handleSubmit}
-            defaultValues={selectedQuestion}
-          />
-        )}
-        <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete {idsToDelete.length} Questions
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </>
-      {!isLoading && !questions && <div>Failed to load items</div>}
+      <DataTable
+        columns={createColumns({ handleOpenDialog, confirmDelete })}
+        data={questions ?? []}
+        isLoading={isLoading}
+      ></DataTable>
+      {topics && isDialogOpen && (
+        <QuestionDialog
+          topics={topics}
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          onSubmit={handleSubmit}
+          defaultValues={selectedQuestion}
+        />
+      )}
+      <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete {idsToDelete.length} Questions
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
