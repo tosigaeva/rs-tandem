@@ -72,7 +72,7 @@ export default function Page() {
   ];
 
   return (
-    <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
+    <div className="bg-background text-foreground flex min-h-[calc(80dvh)] flex-col">
       <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center gap-10 px-6 py-10 text-center">
         <div className="h-full justify-center">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
