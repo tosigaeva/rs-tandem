@@ -37,10 +37,42 @@ export default function Page() {
       width: 697,
       height: 798,
     },
+    {
+      value: 'code-completion',
+      label: 'Code Completion',
+      title: 'Fill in the blanks in the code',
+      image: '/example-code-completion.jpg',
+      width: 1118,
+      height: 478,
+    },
+    {
+      value: 'async-sorter',
+      label: 'Async Sorter',
+      title: 'Set correct order of operations execution',
+      image: '/example-async-sorter.jpg',
+      width: 1488,
+      height: 864,
+    },
+    {
+      value: 'code-ordering',
+      label: 'Code Ordering',
+      title: 'Put lines of code in the correct order',
+      image: '/example-order-lines.jpg',
+      width: 1091,
+      height: 801,
+    },
+    {
+      value: 'true-or-false',
+      label: 'True or False',
+      title: 'Determine if the statement is true or false',
+      image: '/example-true-false.jpg',
+      width: 909,
+      height: 580,
+    },
   ];
 
   return (
-    <div className="bg-background text-foreground flex min-h-[calc(100dvh-4rem)] flex-col">
+    <div className="bg-background text-foreground flex min-h-[calc(80dvh)] flex-col">
       <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center gap-10 px-6 py-10 text-center">
         <div className="h-full justify-center">
           <h1 className="text-4xl font-bold sm:text-6xl">JS Interview Trainer</h1>
@@ -87,7 +119,10 @@ export default function Page() {
       </div>
       <div className="mx-auto mb-10 w-full max-w-6xl px-6 text-center">
         <Tabs defaultValue={FEATURES[0].value}>
-          <TabsList variant="line" className="mx-auto mb-6 h-7 w-full justify-start border-b border-neutral-300 p-1">
+          <TabsList
+            variant="line"
+            className="scrollbar-none mx-auto mb-6 flex w-full justify-start overflow-x-auto border-b border-neutral-300 p-1"
+          >
             {FEATURES.map((feature) => (
               <TabsTrigger key={feature.value} value={feature.value}>
                 {feature.label}
@@ -97,7 +132,7 @@ export default function Page() {
           {FEATURES.map((feature) => (
             <TabsContent key={feature.value} value={feature.value}>
               <p className="text-muted-foreground text-lg font-medium md:text-2xl">{feature.title}</p>
-              <div className="mx-auto h-72 w-full max-w-4xl">
+              <div className="m-4 mx-auto h-72 w-full max-w-4xl">
                 <Image
                   src={feature.image}
                   width={feature.width}
