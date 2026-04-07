@@ -74,7 +74,7 @@ export function Header() {
     <header
       className={cn('border-border bg-card relative z-25 border-b', isAuthorizing ? 'cursor-wait select-none' : '')}
     >
-      <div className="mx-auto flex h-16 w-full max-w-480 items-center px-6">
+      <div className="mx-auto flex h-16 w-full max-w-360 items-center px-6">
         <div className="flex flex-1">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
