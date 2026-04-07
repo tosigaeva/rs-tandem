@@ -41,7 +41,7 @@ The application includes multiple training formats to cover different learning s
 [![View Deployed App](https://img.shields.io/badge/View-Deployed%20App-000000?style=flat&logo=vercel&logoColor=white)](https://rs-tandem.vercel.app/)
 
 ## Demo Video
-[![Watch on Loom](https://img.shields.io/badge/Watch-Loom-00B0F0?style=flat&logo=loom&logoColor=white)](https://www.loom.com/share/17341cfb1a9f409c867e02c5a2372a0e)
+[![Watch on Loom](https://img.shields.io/badge/Watch-Loom-00B0F0?style=flat&logo=loom&logoColor=white)](https://www.loom.com/share/548ae3da518b487daa0bce12a91a9d49)
 
 
 ## Team
