@@ -1,7 +1,7 @@
 # Self-Assessment
 
 **GitHub username:** `tosigaeva`  
-**PR:** `https://github.com/tosigaeva/rs-tandem/pull/150`
+**PR:** [PR-150](https://github.com/tosigaeva/rs-tandem/pull/150) `https://github.com/tosigaeva/rs-tandem/pull/150`
 
 ## Таблица фич
 
