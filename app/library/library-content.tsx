@@ -4,7 +4,9 @@ import { LoaderIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 
 import { getLibraryTopicsPageAction } from '@/app/library/actions';
+import { filterTopics, useLibraryFilters } from '@/app/library/library-filters';
 import { TopicList } from '@/components/library/TopicsList';
+import { WidgetTopicFilter } from '@/components/library/WidgetTopicFilter';
 import Pagination, { type PaginationMode } from '@/components/Pagination';
 import { useTranslation } from '@/hooks/use-translation';
 import { PaginatedResult } from '@/types/pagination';
@@ -24,8 +26,12 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
   const [isPending, startTransition] = useTransition();
   const requestedPageReference = useRef<number | undefined>(undefined);
   const isScrollMode = paginationMode === 'scroll';
+  const { filters, searchInputValue, setSearchInputValue, setWidgetFilter, setLevelFilter, hasActiveFilters } =
+    useLibraryFilters();
 
-  const hasRecentTopics = recentTopics != undefined && recentTopics.length > 0;
+  const filteredRecentTopics = filterTopics(recentTopics, filters);
+  const filteredPageTopics = filterTopics(pageTopics, filters);
+  const hasRecentTopics = filteredRecentTopics.length > 0;
   const topicsTitleCode = hasRecentTopics ? 'library.section.explore' : 'library.section.start';
   const recentTopicIds = recentTopics.map((topic) => topic.id);
 
@@ -59,31 +65,49 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
   };
 
   return (
-    <main className="mx-auto max-w-5xl space-y-12 divide-y py-10 sm:px-6">
-      <section className="space-y-2 pb-6">
-        <h1 className="text-4xl font-semibold tracking-tight">{t('library.title')}</h1>
-        <p className="text-muted-foreground">{t('library.description')}</p>
-      </section>
+    <main className="text-foreground py-8">
+      <section className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6">
+        <section className="space-y-3">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-4xl">{t('library.title')}</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">{t('library.description')}</p>
+        </section>
 
-      {recentTopics.length > 0 && (
-        <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
-      )}
-      <section className="relative">
-        {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}
-        {!isScrollMode && isPending && (
-          <div className="bg-background/70 absolute inset-0 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
-            <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />
-          </div>
+        <WidgetTopicFilter
+          widgetFilter={filters.widgetFilter}
+          levelFilter={filters.levelFilter}
+          searchQuery={searchInputValue}
+          onWidgetFilterChange={setWidgetFilter}
+          onLevelFilterChange={setLevelFilter}
+          onSearchQueryChange={setSearchInputValue}
+        />
+        {filteredRecentTopics.length > 0 && (
+          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgressBar={true} />
         )}
+        <section className="relative space-y-6">
+          {filteredPageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={filteredPageTopics} />}
+          {filteredRecentTopics.length === 0 && filteredPageTopics.length === 0 && (
+            <div className="border-border bg-card rounded-2xl border border-dashed px-6 py-10 text-center">
+              <p className="text-lg font-semibold">{t('library.empty.title')}</p>
+              <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+                {hasActiveFilters ? t('library.empty.description.filtered') : t('library.empty.description.default')}
+              </p>
+            </div>
+          )}
+          {!isScrollMode && isPending && (
+            <div className="bg-background/70 absolute inset-0 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+              <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />
+            </div>
+          )}
+        </section>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={requestPage}
+          isLoading={isPending}
+          mode={paginationMode}
+          loadingLabel={t('library.loadingMore')}
+        />
       </section>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={requestPage}
-        isLoading={isPending}
-        mode={paginationMode}
-        loadingLabel={t('library.loadingMore')}
-      />
     </main>
   );
 }

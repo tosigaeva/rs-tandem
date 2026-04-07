@@ -4,10 +4,11 @@ import { useState } from 'react';
 
 import { BigOCanvas } from '@/components/library/widget/ui/big-o-widget/BigOWidget';
 import { BigOPayloadQuestion } from '@/types/schemas/question-payload-schema';
+import { ValidationResult } from '@/types/validation';
 
 type WidgetComponentProperties = {
   questionPayload: BigOPayloadQuestion;
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
@@ -25,7 +26,7 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
       onNext();
     } else {
       const result = await onCheck(selectedComplexity);
-      setIsCorrect(result);
+      setIsCorrect(result.isCorrect);
       setIsSubmitted(true);
     }
   };

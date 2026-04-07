@@ -1,21 +1,12 @@
-import { supabaseServer } from '@/lib/supabase/server';
-import { getServerLanguageCode } from '@/services/locale/locale.server';
-import { Widget, WidgetType } from '@/types/widget';
+import z from 'zod';
 
-type WidgetRow = {
-  widget_type: WidgetType;
-  widgets: {
-    name: Record<string, string>;
-    description: Record<string, string>;
-    icon: string;
-  };
-};
+import { supabaseServer } from '@/lib/supabase/server';
+import { Widget, WidgetSchema } from '@/types/schemas/widget-schema';
 
 export async function getWidgets(topicId: string): Promise<Widget[]> {
   const supabase = await supabaseServer();
-  const languageCode = await getServerLanguageCode();
 
-  const query = supabase
+  const { data, error } = await supabase
     .from('topic_widgets')
     .select(
       `
@@ -29,7 +20,6 @@ export async function getWidgets(topicId: string): Promise<Widget[]> {
     )
     .eq('topic_id', topicId);
 
-  const { data, error } = await query.overrideTypes<WidgetRow[]>();
   if (error) {
     throw error;
   }
@@ -38,10 +28,11 @@ export async function getWidgets(topicId: string): Promise<Widget[]> {
     return [];
   }
 
-  return data.map((q) => ({
-    type: q.widget_type,
-    title: q.widgets.name[languageCode],
-    description: q.widgets.description[languageCode],
-    icon: q.widgets.icon,
-  }));
+  const parsed = z.array(WidgetSchema).safeParse(data);
+
+  if (parsed.success) {
+    return parsed.data;
+  }
+
+  return [];
 }

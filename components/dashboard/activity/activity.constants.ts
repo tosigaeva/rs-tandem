@@ -7,9 +7,11 @@ export const activityLevelColorMap: Record<ActivityLevel, string> = {
   high: 'var(--heatmap-high)',
 };
 
+export type ActivityLegendLevel = Exclude<ActivityLevel, 'medium'>;
+
 type ActivityLegendItem = {
   label: string;
-  level: ActivityLevel;
+  level: ActivityLegendLevel;
 };
 
 export const activityLegendItems: ReadonlyArray<ActivityLegendItem> = [

@@ -31,8 +31,10 @@ export async function getDashboardStats(): Promise<{ data: DashboardStats | unde
         data: {
           days: [],
           todayAnswers: 0,
+          correctAnswers: 0,
           totalAnswers: 0,
           accuracy: 0,
+          totalDays: 0,
           streak: 0,
           bestStreak: 0,
         },
@@ -89,6 +91,7 @@ export async function getDashboardStats(): Promise<{ data: DashboardStats | unde
     const todayAnswers = days.find((day) => day.date === todayKey)?.count ?? 0;
     const resolvedTotalAnswers = totalAnswers ?? 0;
     const resolvedCorrectAnswers = correctAnswers ?? 0;
+    const totalDays = parsedStreak.data.length;
     const { streak, bestStreak } = calculateStreaks(
       parsedStreak.data.map((row) => row.day),
       today
@@ -98,8 +101,10 @@ export async function getDashboardStats(): Promise<{ data: DashboardStats | unde
       data: {
         days,
         todayAnswers,
+        correctAnswers: resolvedCorrectAnswers,
         totalAnswers: resolvedTotalAnswers,
         accuracy: resolvedTotalAnswers === 0 ? 0 : Math.round((resolvedCorrectAnswers / resolvedTotalAnswers) * 100),
+        totalDays,
         streak,
         bestStreak,
       },

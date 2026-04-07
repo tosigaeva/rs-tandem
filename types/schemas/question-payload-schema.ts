@@ -26,7 +26,7 @@ export type TrueFalsePayloadQuestion = z.infer<typeof TrueFalsePayloadQuestionSc
 export const CodeCompletionPayloadQuestionSchema = z.object({
   code: z.string(),
   blanks: z.array(z.string()).min(1),
-  hints: z.array(z.string()).nullish(),
+  hints: z.array(LocaleStringSchema).nullish(),
 });
 export type CodeCompletionPayloadQuestion = z.infer<typeof CodeCompletionPayloadQuestionSchema>;
 
@@ -42,6 +42,34 @@ export const BigOPayloadQuestionSchema = z.object({
 });
 export type BigOPayloadQuestion = z.infer<typeof BigOPayloadQuestionSchema>;
 
+export const CodeOrderingPayloadQuestionSchema = z.object({
+  description: LocaleStringSchema,
+  lines: z.array(z.string()).min(1),
+});
+export type CodeOrderingPayloadQuestion = z.infer<typeof CodeOrderingPayloadQuestionSchema>;
+
+export const BlockSchema = z.object({
+  id: z.string(),
+  code: z.string(),
+  label: z.string(),
+});
+export type Block = z.infer<typeof BlockSchema>;
+
+export const AsyncSorterPayloadQuestionSchema = z.object({
+  codeSnippet: z.string(),
+  blocks: z.array(BlockSchema).min(1),
+});
+export type AsyncSorterPayloadQuestion = z.infer<typeof AsyncSorterPayloadQuestionSchema>;
+
+export type AnyQuestionPayload =
+  | QuizPayloadQuestion
+  | TrueFalsePayloadQuestion
+  | CodeCompletionPayloadQuestion
+  | CodeOrderingPayloadQuestion
+  | FlipCardPayloadQuestion
+  | BigOPayloadQuestion
+  | AsyncSorterPayloadQuestion;
+
 /// Payload Answer Schemas
 export const QuizPayloadAnswerSchema = z.object({
   correctIndex: z.number().min(1).max(4),
@@ -54,7 +82,7 @@ export const TrueFalsePayloadAnswerSchema = z.object({
 export type TrueFalsePayloadAnswer = z.infer<typeof TrueFalsePayloadAnswerSchema>;
 
 export const CodeCompletionPayloadAnswerSchema = z.object({
-  correctOrder: z.array(z.number()),
+  answers: z.array(z.string()).min(1),
 });
 export type CodeCompletionPayloadAnswer = z.infer<typeof CodeCompletionPayloadAnswerSchema>;
 
@@ -62,3 +90,16 @@ export const BigOPayloadAnswerSchema = z.object({
   correctComplexity: z.enum(BigOComplexity),
 });
 export type BigOPayloadAnswer = z.infer<typeof BigOPayloadAnswerSchema>;
+
+export const CodeOrderingPayloadAnswerSchema = z.object({
+  answers: z.array(z.number().int()).min(1),
+});
+export type CodeOrderingPayloadAnswer = z.infer<typeof CodeOrderingPayloadAnswerSchema>;
+
+export const AsyncSorterPayloadAnswerSchema = z.object({
+  callStack: z.array(z.string()),
+  microtasks: z.array(z.string()),
+  macrotasks: z.array(z.string()),
+  outputOrder: z.array(z.string()),
+});
+export type AsyncSorterPayloadAnswer = z.infer<typeof AsyncSorterPayloadAnswerSchema>;

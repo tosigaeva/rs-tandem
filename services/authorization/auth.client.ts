@@ -1,140 +1,34 @@
-import { supabaseBrowser } from '@/lib/supabase/client';
-import { UserDetails } from '@/types/user';
+import Cookies from 'js-cookie';
 
-export async function signIn({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): Promise<{ data: UserDetails | undefined; error?: string }> {
-  if (!email || !password) {
-    throw new Error('Email and password are required');
-  }
+import { UserDetails, UserDetailsSchema } from '@/types/schemas/authorization-schemas';
 
-  const supabase = supabaseBrowser();
+const userDetailsCookieName = 'your-cookie-name'; // Replace with your actual name
+
+export function getUserFromCookies(): UserDetails | undefined {
+  const cookieValue = Cookies.get(userDetailsCookieName);
+
+  if (cookieValue == undefined) return;
 
   try {
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const jsonObject = JSON.parse(cookieValue);
 
-    if (authError) {
-      throw authError;
+    if (jsonObject !== undefined) {
+      const parsed = UserDetailsSchema.safeParse(jsonObject);
+      if (parsed.success) return parsed.data;
     }
-
-    if (!user || user.email == undefined) {
-      throw new Error('User not found');
-    }
-
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('id', user.id)
-      .single<{ username: string }>();
-
-    if (profileError) {
-      throw profileError;
-    }
-
-    return { data: { email: user.email, id: user.id, username: profile.username } };
-  } catch (error: unknown) {
-    return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
+  } catch {
+    return undefined;
   }
 }
 
-export async function signUp({
-  email,
-  password,
-  username,
-}: {
-  email: string;
-  password: string;
-  username: string;
-}): Promise<{ data: UserDetails | undefined; error?: string }> {
-  if (!email || !password || !username) {
-    throw new Error('Email, password and username are required');
-  }
+export function removeAuthCookies() {
+  const allCookies = Cookies.get();
 
-  const supabase = supabaseBrowser();
-  try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          username,
-        },
-      },
-    });
-
-    if (error) {
-      if (error?.message.includes('profiles_username_key') || error.code === '23505') {
-        throw new Error('Username already exists');
-      }
-
-      throw new Error(error.message);
+  Object.keys(allCookies).forEach((name) => {
+    if (name.startsWith(userDetailsCookieName) || (name.startsWith('sb-') && name.endsWith('-auth-token'))) {
+      Cookies.remove(name, { path: '/', domain: 'localhost' });
+      Cookies.remove(name, { path: '/' });
+      Cookies.remove(name);
     }
-
-    const user = data.user;
-
-    if (user && user.email != undefined) {
-      return { data: { email: user.email, id: user.id, username } };
-    }
-
-    throw new Error('Something went wrong');
-  } catch (error: unknown) {
-    return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
-  }
-}
-
-export async function signOut() {
-  const supabase = supabaseBrowser();
-
-  try {
-    const { error } = await supabase.auth.signOut();
-
-    if (error != undefined) {
-      throw new Error(error.message);
-    }
-  } catch (error: unknown) {
-    return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
-  }
-}
-
-export async function getUser(): Promise<{ data: UserDetails | undefined; error?: string }> {
-  const supabase = supabaseBrowser();
-
-  try {
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError) {
-      throw authError;
-    }
-
-    if (!user || user.email == undefined) {
-      throw new Error('User not found');
-    }
-
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('id', user.id)
-      .single<{ username: string }>();
-
-    if (profileError) {
-      throw profileError;
-    }
-
-    return { data: { email: user.email, id: user.id, username: profile.username } };
-  } catch (error: unknown) {
-    return { data: undefined, error: error instanceof Error ? error.message : 'An unexpected error occurred' };
-  }
+  });
 }

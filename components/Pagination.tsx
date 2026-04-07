@@ -28,14 +28,23 @@ export default function Pagination({
   onPageChange,
   isLoading = false,
   mode = 'buttons',
-  loadingLabel,
 }: PaginationProperties) {
   const loadMoreReference = useRef<HTMLDivElement | null>(null);
+  const requestedScrollPageReference = useRef<number | undefined>(undefined);
   const isScrollMode = mode === 'scroll';
   const pages = getVisiblePages(currentPage, totalPages);
   const handleIntersection = useEffectEvent(() => {
-    onPageChange(currentPage + 1, 'scroll');
+    const nextPage = currentPage + 1;
+
+    if (requestedScrollPageReference.current === nextPage) return;
+
+    requestedScrollPageReference.current = nextPage;
+    onPageChange(nextPage, 'scroll');
   });
+
+  useEffect(() => {
+    requestedScrollPageReference.current = undefined;
+  }, [currentPage]);
 
   useEffect(() => {
     if (!isScrollMode) return;
@@ -72,11 +81,7 @@ export default function Pagination({
 
     return (
       <div ref={loadMoreReference} className="flex min-h-16 items-center justify-center">
-        {isLoading ? (
-          <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />
-        ) : (
-          <span className="text-muted-foreground text-sm">{loadingLabel}</span>
-        )}
+        {isLoading && <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />}
       </div>
     );
   }

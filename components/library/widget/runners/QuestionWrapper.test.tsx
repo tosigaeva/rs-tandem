@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import QuestionWrapper from '@/components/library/widget/runners/QuestionWrapper';
-import { QuestionPayload } from '@/types/question';
+import { AnyQuestionPayload } from '@/types/schemas/question-payload-schema';
 
 describe('QuestionWrapper', () => {
   it('renders provided widget component with props', () => {
@@ -9,27 +9,27 @@ describe('QuestionWrapper', () => {
       questionId,
       questionPayload,
     }: {
-      questionId: string;
-      questionPayload: QuestionPayload;
+      questionId: number;
+      questionPayload: AnyQuestionPayload;
     }) => (
       <div data-testid="widget">
-        {questionId}:
-        {'question' in questionPayload && typeof questionPayload.question === 'string'
-          ? questionPayload.question
-          : 'payload'}
+        {questionId}:{'question' in questionPayload ? questionPayload.question.en : 'payload'}
       </div>
     );
 
     render(
       <QuestionWrapper
-        questionId="q1"
+        questionId={1}
         WidgetComponent={WidgetComponent}
-        questionPayload={{ question: 'Test', options: ['a'] }}
-        onCheck={async () => true}
+        questionPayload={{
+          question: { en: 'Test', ru: 'Тест', by: 'Тэст' },
+          options: [{ en: 'a', ru: 'а', by: 'а' }],
+        }}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );
 
-    expect(screen.getByTestId('widget')).toHaveTextContent('q1:Test');
+    expect(screen.getByTestId('widget')).toHaveTextContent('1:Test');
   });
 });

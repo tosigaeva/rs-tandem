@@ -1,14 +1,14 @@
 import { getLibraryTopicsPage } from '@/app/library/library-topics';
 import { mockQuestions } from '@/data/mocks/questions.mock';
-import { mockLibraryTopics, mockTopics } from '@/data/mocks/topics.mock';
-import { getQuestions as supaGetQuestions } from '@/data/supabase/questions.supabase';
-import { getTopicName as supaGetTopicName } from '@/data/supabase/topics.supabase';
-import { toPositiveInteger } from '@/lib/parse-id';
-import { LanguageCode } from '@/services/locale/locale.service';
+import { mockLibraryTopics } from '@/data/mocks/topics.mock';
+import { QuestionService } from '@/services/question.service';
 import { TopicService } from '@/services/topic.service';
-import { Question } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 import { LibraryTopicsResponse } from '@/types/topic';
 import { WidgetFilter, WidgetType } from '@/types/widget';
+
+import { mockWidgets } from './mocks/widget.mock';
 
 export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse> {
   if (process.env.MOCK_MODE === 'true') {
@@ -26,28 +26,29 @@ export async function getTopicsOverview(page = 1): Promise<LibraryTopicsResponse
       topicsPage,
       topicsPageError,
     };
-  } catch (error) {
-    console.log(error);
+  } catch {
     return { recentTopics: undefined, topicsPage: undefined, recentTopicsError: 'something went wrong' };
   }
 }
 
-export async function getTopicName(topicId: string): Promise<Record<LanguageCode, string> | undefined> {
-  const id = toPositiveInteger(topicId);
-  if (id == undefined) throw new Error('Topic id is undefined');
-
+export async function getTopicById(topicId: number): Promise<TopicOverview | undefined> {
   if (process.env.MOCK_MODE === 'true') {
-    return mockTopics.find((topic) => topic.id === id)?.name;
+    const topic = mockLibraryTopics?.recentTopics?.[0];
+    const widgets = mockWidgets;
+
+    if (topic == undefined) return;
+
+    return { ...topic, widgets };
   }
 
-  return supaGetTopicName(topicId);
+  return await TopicService.getTopicById(topicId);
 }
 
-export async function getQuestions(topicId: string, filter: WidgetFilter): Promise<Question[]> {
+export async function getQuestions(topicId: number, filter: WidgetFilter): Promise<QuestionInfo[]> {
   if (process.env.MOCK_MODE === 'true') {
     let questions = mockQuestions;
 
-    questions = questions.filter((q) => q.topicId === topicId);
+    questions = questions.filter((q) => q.topicId === 1);
 
     if (filter !== undefined) {
       questions = questions.filter((q) => (filter === 'all' ? q.type !== WidgetType.FlipCard : q.type === filter));
@@ -56,5 +57,5 @@ export async function getQuestions(topicId: string, filter: WidgetFilter): Promi
     return questions;
   }
 
-  return supaGetQuestions(topicId, filter);
+  return QuestionService.loadQuestions(topicId, filter);
 }

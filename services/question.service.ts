@@ -1,11 +1,9 @@
-import { getAllQuestions } from '@/api/question.api';
-import { QuestionAdminListItem } from '@/types/schemas/question-schemas';
+import { getQuestions } from '@/data/supabase/questions.supabase';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
+import { WidgetFilter } from '@/types/widget';
 
 export const QuestionService = {
-  loadQuestionAdminList: (): Promise<{
-    data: QuestionAdminListItem[] | undefined;
-    error?: string;
-  }> => {
-    return getAllQuestions();
+  loadQuestions: (topicId: number, widgetType: WidgetFilter): Promise<QuestionInfo[]> => {
+    return getQuestions(topicId, widgetType);
   },
 };

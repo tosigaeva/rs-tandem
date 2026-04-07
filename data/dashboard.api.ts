@@ -22,8 +22,10 @@ export type DashboardStats = {
     count: number;
   }[];
   todayAnswers: number;
+  correctAnswers: number;
   totalAnswers: number;
   accuracy: number;
+  totalDays: number;
   streak: number;
   bestStreak: number;
 };

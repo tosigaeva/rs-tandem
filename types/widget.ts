@@ -4,21 +4,9 @@ export enum WidgetType {
   CodeCompletion = 'code-completion',
   FlipCard = 'flip-card',
   BigONotation = 'big-o',
+  CodeOrdering = 'code-ordering',
+  AsyncSorter = 'async-sorter',
 }
-
-export type Widget = {
-  type: WidgetType;
-  title: string;
-  description: string;
-  icon: string;
-};
-
-export type AllWidget = {
-  type: 'all';
-  title: string;
-  description: string;
-  icon: string;
-};
 
 export type WidgetFilter = WidgetType | 'all';
 

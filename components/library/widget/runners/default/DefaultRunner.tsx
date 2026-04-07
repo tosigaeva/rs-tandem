@@ -4,15 +4,16 @@ import QuestionProgress from '@/components/library/widget/runners/QuestionProgre
 import QuestionRunnerEngine from '@/components/library/widget/runners/QuestionRunnerEngine';
 import QuestionWrapper from '@/components/library/widget/runners/QuestionWrapper';
 import { getWidgetComponent } from '@/components/library/widget/widget.engine';
-import { Question as QuestionType } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 
 type DefaultRunnerProperties = {
-  questions: QuestionType[];
+  questions: QuestionInfo[];
+  onComplete: () => void;
 };
 
-export default function DefaultRunner({ questions }: DefaultRunnerProperties) {
+export default function DefaultRunner({ questions, onComplete }: DefaultRunnerProperties) {
   return (
-    <QuestionRunnerEngine questions={questions}>
+    <QuestionRunnerEngine questions={questions} onComplete={onComplete}>
       {({ questions, currentIndex, answersHistory, nextQuestion, onCheck }) => {
         const question = questions[currentIndex];
 

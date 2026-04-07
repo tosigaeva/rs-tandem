@@ -7,9 +7,9 @@ export const trueFalseValidationStrategy: ValidationStrategy = {
     const answerResult = await TrueFalsePayloadAnswerSchema.safeParseAsync(question.payloadAnswer);
 
     if (!answerResult.success || typeof answer !== 'string') {
-      return;
+      return { isCorrect: undefined };
     }
 
-    return answer === String(answerResult.data.correct);
+    return { isCorrect: answer === String(answerResult.data.correct) };
   },
 };

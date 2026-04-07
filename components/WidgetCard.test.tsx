@@ -9,14 +9,23 @@ describe('WidgetCard', () => {
       <WidgetCard
         widget={{
           type: WidgetType.Quiz,
-          icon: 'Q',
-          title: 'Quiz',
-          description: 'Multiple choice',
+          name: {
+            en: 'Quiz',
+            ru: 'Квиз',
+            by: 'Квіз',
+          },
+          description: {
+            en: 'Multiple choice',
+            ru: 'Множественный выбор',
+            by: 'Множны выбар',
+          },
+          totalQuestions: 0,
+          correctAnswers: 0,
         }}
       />
     );
 
-    expect(screen.getByText('Q')).toBeInTheDocument();
+    expect(document.querySelector('svg')).toBeInTheDocument();
     expect(screen.getByText('Quiz')).toBeInTheDocument();
     expect(screen.getByText('Multiple choice')).toBeInTheDocument();
   });

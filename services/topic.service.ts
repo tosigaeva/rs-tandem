@@ -1,16 +1,15 @@
 import { LIBRARY_TOPICS_PAGE_SIZE } from '@/app/library/library-topics';
-import { getRecentTopics, getTopicsPage } from '@/data/topic.api';
-import { getAllTopics } from '@/data/topic.client';
-import { QueryStorage } from '@/lib/query-storage';
+import { getRecentTopics, getTopicById, getTopicsPage } from '@/data/topic.api';
+import { getQueryClient } from '@/lib/query-storage';
 import { PageInfo, PaginatedResult } from '@/types/pagination';
-import { TopicAdminListItem, TopicOverview } from '@/types/schemas/topic-schema';
+import { TopicOverview } from '@/types/schemas/topic-schema';
 
 const RECENT_TOPICS = 'recent_topics';
 const TOPIC_PAGES = 'topic_pages';
 
 export const TopicService = {
   loadRecentTopics: (): Promise<{ data: TopicOverview[] | undefined; error?: string }> => {
-    return QueryStorage.fetchQuery({
+    return getQueryClient().fetchQuery({
       queryKey: [RECENT_TOPICS],
       queryFn: () => getRecentTopics(),
     });
@@ -27,15 +26,38 @@ export const TopicService = {
       ascending: true,
     };
 
-    return QueryStorage.fetchQuery({
+    return getQueryClient().fetchQuery({
       queryKey: [TOPIC_PAGES, queryParameters, skipIds],
       queryFn: () => getTopicsPage(queryParameters, skipIds),
     });
   },
 
-  loadTopicsAdminList: (): Promise<{ data: TopicAdminListItem[] | undefined; error?: string }> => {
-    return getAllTopics();
+  getTopicById: async (topicId: number): Promise<TopicOverview | undefined> => {
+    const cacheResult = getTopicFromCache(topicId);
+
+    if (cacheResult) {
+      return cacheResult;
+    }
+
+    const { data } = await getTopicById(topicId);
+
+    return data;
   },
+};
+
+const getTopicFromCache = (topicId: number): TopicOverview | undefined => {
+  const recentTopics = getQueryClient().getQueryData<TopicOverview[]>([RECENT_TOPICS]);
+  const recentFind = recentTopics?.find((t) => t.id === topicId);
+  if (recentFind) return recentFind;
+
+  const allPagesData = getQueryClient().getQueriesData<PaginatedResult<TopicOverview, 'Topic'>>({
+    queryKey: [TOPIC_PAGES],
+  });
+
+  for (const [, page] of allPagesData) {
+    const foundInPage = page?.items.find((t) => t.id === topicId);
+    if (foundInPage) return foundInPage;
+  }
 };
 
 export const getQueryParameters = (pageInfo: PageInfo<'Topic'>) => {

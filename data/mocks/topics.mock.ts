@@ -21,6 +21,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
       lastTrainedAt: new Date('2026-02-21T09:30:00Z'),
       createdAt: new Date('2026-01-01T10:00:00Z'),
       widgets: [],
+      correctAnswers: 0,
+      totalQuestions: 0,
     },
     {
       id: 2,
@@ -40,6 +42,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
       lastTrainedAt: new Date('2026-02-24T18:10:00Z'),
       createdAt: new Date('2026-01-05T10:00:00Z'),
       widgets: [],
+      correctAnswers: 0,
+      totalQuestions: 0,
     },
     {
       id: 3,
@@ -59,6 +63,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
       lastTrainedAt: new Date('2026-02-23T07:45:00Z'),
       createdAt: new Date('2026-01-10T10:00:00Z'),
       widgets: [],
+      correctAnswers: 0,
+      totalQuestions: 0,
     },
   ],
   topicsPage: {
@@ -77,6 +83,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
         lastTrainedAt: undefined,
         createdAt: new Date('2026-03-01T12:00:00Z'),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
       {
         id: 5,
@@ -92,6 +100,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
         lastTrainedAt: undefined,
         createdAt: new Date('2026-03-02T12:00:00Z'),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
       {
         id: 6,
@@ -107,6 +117,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
         lastTrainedAt: undefined,
         createdAt: new Date('2026-03-03T12:00:00Z'),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
       {
         id: 7,
@@ -122,6 +134,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
         lastTrainedAt: undefined,
         createdAt: new Date('2026-03-04T12:00:00Z'),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
       {
         id: 8,
@@ -137,6 +151,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
         lastTrainedAt: undefined,
         createdAt: new Date('2026-03-05T12:00:00Z'),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
       {
         id: 9,
@@ -152,6 +168,8 @@ export const mockLibraryTopics: LibraryTopicsResponse = {
         lastTrainedAt: undefined,
         createdAt: new Date('2026-03-06T12:00:00Z'),
         widgets: [],
+        correctAnswers: 0,
+        totalQuestions: 0,
       },
     ],
     page: 1,
@@ -178,6 +196,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-01T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 2,
@@ -193,6 +213,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-02T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 3,
@@ -208,6 +230,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-03T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 4,
@@ -223,6 +247,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-04T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 5,
@@ -234,6 +260,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-05T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 6,
@@ -249,6 +277,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-06T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 7,
@@ -264,6 +294,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-07T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 8,
@@ -279,6 +311,8 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-08T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
   {
     id: 9,
@@ -294,5 +328,7 @@ export const mockTopics: TopicsResponse = [
     lastTrainedAt: undefined,
     createdAt: new Date('2026-03-09T12:00:00Z'),
     widgets: [],
+    correctAnswers: 0,
+    totalQuestions: 0,
   },
 ];
