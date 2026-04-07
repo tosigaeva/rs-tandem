@@ -11,12 +11,12 @@ export const quizValidationStrategy: ValidationStrategy = {
     ]);
 
     if (!questionResult.success || !answerResult.success || typeof answer !== 'string') {
-      return;
+      return { isCorrect: undefined };
     }
 
     const languageCode = await getServerLanguageCode();
     const correctOption = questionResult.data.options[answerResult.data.correctIndex - 1]?.[languageCode];
 
-    return correctOption !== undefined && answer === correctOption;
+    return { isCorrect: correctOption !== undefined && answer === correctOption };
   },
 };

@@ -8,7 +8,7 @@ export type ValidationQuestion = {
   payloadAnswer: unknown;
 };
 
-export async function getValidationQuestion(questionId: string): Promise<ValidationQuestion> {
+export async function getValidationQuestion(questionId: number): Promise<ValidationQuestion> {
   const supabase = await supabaseServer();
   const query = supabase
     .from('questions')

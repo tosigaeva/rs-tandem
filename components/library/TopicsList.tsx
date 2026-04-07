@@ -8,10 +8,10 @@ import { TopicCard } from './TopicCard';
 type TopicListProperties = {
   title: string;
   topics: TopicOverview[];
-  displayProgress?: boolean;
+  displayProgressBar?: boolean;
 };
 
-export function TopicList({ title, topics, displayProgress = false }: TopicListProperties) {
+export function TopicList({ title, topics, displayProgressBar = false }: TopicListProperties) {
   return (
     <section className="space-y-6 pb-6">
       <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
@@ -20,7 +20,7 @@ export function TopicList({ title, topics, displayProgress = false }: TopicListP
         {topics.map((topic) => (
           <li key={topic.id} className="h-full rounded-xl">
             <Link href={`${Routes.Library}/${topic.id}`}>
-              <TopicCard topic={topic} displayProgress={displayProgress} />
+              <TopicCard topic={topic} displayProgressBar={displayProgressBar} />
             </Link>
           </li>
         ))}

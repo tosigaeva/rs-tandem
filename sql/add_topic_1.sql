@@ -4,7 +4,10 @@ BEGIN;
 INSERT INTO public.widgets (type, name)
 VALUES ('quiz', '{"en":"Quiz","ru":"Тест","by":"Тэст"}'),
        ('true-false',
-        '{"en":"True / False","ru":"Верно / Неверно","by":"Праўда / Хлусня"}') ON CONFLICT (type) DO NOTHING;
+        '{"en":"True / False","ru":"Верно / Неверно","by":"Праўда / Хлусня"}'),
+       ('code-completion', '{"en":"Code Completion","ru":"Дополнение кода","by":"Дапаўненне кода"}'),
+       ('code-ordering', '{"en":"Code Ordering","ru":"Упорядочивание кода","by":"Упарадкаванне кода"}')
+    ON CONFLICT (type) DO NOTHING;
 
 -- 2️⃣ Create topic
 WITH new_topic AS (

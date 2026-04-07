@@ -6,18 +6,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import { FlipCardPayloadQuestion } from '@/types/schemas/question-payload-schema';
+import { ValidationResult } from '@/types/validation';
 
 import styles from './FlipCard.module.css';
 
 type WidgetComponentProperties = {
   questionPayload: FlipCardPayloadQuestion;
-  onCheck: (answer: unknown) => Promise<boolean | undefined>;
+  onCheck: (answer: unknown) => Promise<ValidationResult>;
   onNext: () => void;
 };
 
 export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetComponentProperties) {
   const [isFlipped, setFlipped] = useState(false);
-  const [selected, setSelected] = useState<string | undefined>();
+  const [selected, setSelected] = useState<boolean | undefined>();
 
   const { t, translate } = useTranslation();
 
@@ -32,7 +33,7 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
       handleFlip();
     }
 
-    setSelected(value);
+    setSelected(value === 'true');
   };
 
   const handleNext = async () => {
@@ -59,7 +60,7 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
       <div className="m-2 flex justify-center gap-1">
         <Button
           className={`${
-            selected === 'true' ? 'bg-correct-answer' : 'bg-correct-answer-muted'
+            selected === true ? 'bg-correct-answer' : 'bg-correct-answer-muted'
           } text-primary-foreground hover:bg-correct-answer/90 rounded-lg px-4 py-2 transition-colors`}
           onClick={(event) => handleSelect('true', event)}
         >
@@ -67,7 +68,7 @@ export default function FlipCard({ questionPayload, onCheck, onNext }: WidgetCom
         </Button>
         <Button
           className={`${
-            selected === 'false' ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
+            selected === false ? 'bg-wrong-answer' : 'bg-wrong-answer-muted'
           } text-primary-foreground hover:bg-wrong-answer/90 rounded-lg px-4 py-2 transition-colors`}
           onClick={(event) => handleSelect('false', event)}
         >

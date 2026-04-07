@@ -4,7 +4,9 @@ import { LoaderIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 
 import { getLibraryTopicsPageAction } from '@/app/library/actions';
+import { filterTopics, useLibraryFilters } from '@/app/library/library-filters';
 import { TopicList } from '@/components/library/TopicsList';
+import { WidgetTopicFilter } from '@/components/library/WidgetTopicFilter';
 import Pagination, { type PaginationMode } from '@/components/Pagination';
 import { useTranslation } from '@/hooks/use-translation';
 import { PaginatedResult } from '@/types/pagination';
@@ -24,8 +26,12 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
   const [isPending, startTransition] = useTransition();
   const requestedPageReference = useRef<number | undefined>(undefined);
   const isScrollMode = paginationMode === 'scroll';
+  const { filters, searchInputValue, setSearchInputValue, setWidgetFilter, setLevelFilter, hasActiveFilters } =
+    useLibraryFilters();
 
-  const hasRecentTopics = recentTopics != undefined && recentTopics.length > 0;
+  const filteredRecentTopics = filterTopics(recentTopics, filters);
+  const filteredPageTopics = filterTopics(pageTopics, filters);
+  const hasRecentTopics = filteredRecentTopics.length > 0;
   const topicsTitleCode = hasRecentTopics ? 'library.section.explore' : 'library.section.start';
   const recentTopicIds = recentTopics.map((topic) => topic.id);
 
@@ -66,11 +72,27 @@ export default function LibraryContent({ recentTopics, topicsPage, paginationMod
           <p className="text-muted-foreground text-sm sm:text-base">{t('library.description')}</p>
         </section>
 
-        {recentTopics.length > 0 && (
-          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgress={true} />
+        <WidgetTopicFilter
+          widgetFilter={filters.widgetFilter}
+          levelFilter={filters.levelFilter}
+          searchQuery={searchInputValue}
+          onWidgetFilterChange={setWidgetFilter}
+          onLevelFilterChange={setLevelFilter}
+          onSearchQueryChange={setSearchInputValue}
+        />
+        {filteredRecentTopics.length > 0 && (
+          <TopicList title={t('library.section.continue')} topics={recentTopics} displayProgressBar={true} />
         )}
-        <section className="relative">
-          {pageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={pageTopics} />}
+        <section className="relative space-y-6">
+          {filteredPageTopics.length > 0 && <TopicList title={t(topicsTitleCode)} topics={filteredPageTopics} />}
+          {filteredRecentTopics.length === 0 && filteredPageTopics.length === 0 && (
+            <div className="border-border bg-card rounded-2xl border border-dashed px-6 py-10 text-center">
+              <p className="text-lg font-semibold">{t('library.empty.title')}</p>
+              <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+                {hasActiveFilters ? t('library.empty.description.filtered') : t('library.empty.description.default')}
+              </p>
+            </div>
+          )}
           {!isScrollMode && isPending && (
             <div className="bg-background/70 absolute inset-0 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
               <LoaderIcon className="text-muted-foreground size-6 animate-spin" aria-label="Loading topics" />

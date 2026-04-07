@@ -1,4 +1,5 @@
 import { ValidationQuestion } from '@/data/supabase/validate.supabase';
+import { ValidationResult } from '@/types/validation';
 
 export type ValidationStrategyContext = {
   answer: unknown;
@@ -6,5 +7,5 @@ export type ValidationStrategyContext = {
 };
 
 export type ValidationStrategy = {
-  validate: (context: ValidationStrategyContext) => Promise<boolean | undefined>;
+  validate: (context: ValidationStrategyContext) => Promise<ValidationResult>;
 };

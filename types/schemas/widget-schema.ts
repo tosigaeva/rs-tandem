@@ -7,7 +7,6 @@ export const WidgetBaseSchema = z.object({
   type: z.enum(WidgetType),
   name: LocaleStringSchema,
   description: LocaleStringSchema,
-  icon: z.string().length(1, 'Icon must be a single character'),
   created_at: z.coerce.date(),
 });
 export type WidgetBase = z.infer<typeof WidgetBaseSchema>;
@@ -16,27 +15,25 @@ export const mapWidgetBaseFields = (data: WidgetBase) => ({
   type: data.type,
   name: data.name,
   description: data.description,
-  icon: data.icon,
   createdAt: data.created_at,
 });
 
 export const WidgetSchema = WidgetBaseSchema.omit({ created_at: true });
 export type Widget = z.infer<typeof WidgetSchema>;
 
-export const WidgetOverviewSchema = WidgetBaseSchema.extend({
+const WidgetExtendedSchema = WidgetBaseSchema.extend({
   last_accessed_at: z.coerce.date().nullable(),
   total_questions: z.number(),
   correct_answers: z.number(),
-}).transform((data) => {
+});
+export const WidgetOverviewSchema = WidgetExtendedSchema.transform((data) => {
   const base = mapWidgetBaseFields(data);
 
   return {
     ...base,
     createdAt: data.created_at,
-    lastTrainedAt: data.last_accessed_at,
     totalQuestions: data.total_questions,
     correctAnswers: data.correct_answers,
-    progress: (data.correct_answers / data.total_questions) * 100,
   };
 });
 export type WidgetOverview = z.infer<typeof WidgetOverviewSchema>;
@@ -52,3 +49,16 @@ export const WidgetAdminListItemSchema = WidgetBaseSchema.extend({
   };
 });
 export type WidgetAdminListItem = z.infer<typeof WidgetAdminListItemSchema>;
+
+export const AllWidgetSchema = WidgetExtendedSchema.omit({ type: true })
+  .extend({
+    type: z.literal('all'),
+  })
+  .transform((data) => ({
+    type: 'all',
+    name: data.name,
+    description: data.description,
+    totalQuestions: data.total_questions,
+    correctAnswers: data.correct_answers,
+  }));
+export type AllWidget = z.infer<typeof AllWidgetSchema>;

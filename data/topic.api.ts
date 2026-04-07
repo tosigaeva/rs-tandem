@@ -96,11 +96,34 @@ export async function getTopicsPage(
 
         return { data: result };
       }
-
-      console.error(data, array);
     }
 
     throw new Error('Something went wrong');
+  } catch (error: unknown) {
+    return {
+      data: undefined,
+      error: error instanceof Error ? error.message : 'An unexpected error occurred',
+    };
+  }
+}
+
+export async function getTopicById(topicId: number): Promise<{ data: TopicOverview | undefined; error?: string }> {
+  try {
+    const supabase = await supabaseServer();
+
+    const { data, error } = await supabase.from('topic_widget_summary').select('*').eq('id', topicId).single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data != undefined) {
+      const result = TopicOverviewSchema.safeParse(data);
+
+      if (result.success) return { data: result.data };
+    }
+
+    return { data: undefined };
   } catch (error: unknown) {
     return {
       data: undefined,

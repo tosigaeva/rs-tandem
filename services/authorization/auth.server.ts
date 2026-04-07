@@ -144,7 +144,6 @@ export async function getUser(): Promise<{ data: UserDetails | undefined; error?
 
     return { data: parsed.data };
   } catch (error: unknown) {
-    console.log(error);
     return { data: undefined, error: handleError(error) };
   }
 }

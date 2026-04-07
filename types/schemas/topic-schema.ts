@@ -11,6 +11,20 @@ export enum Level {
   advanced = 'advanced',
 }
 
+export type LevelFilter = Level | 'all';
+
+const LEVEL_SET = new Set<string>(Object.values(Level));
+
+export function isLevel(value: string | undefined): value is Level {
+  return value !== undefined && LEVEL_SET.has(value);
+}
+
+export function toLevelFilter(value: string | undefined): LevelFilter | undefined {
+  if (value === 'all') return 'all';
+
+  return isLevel(value) ? value : undefined;
+}
+
 export enum Subject {
   javascript = 'JavaScript',
   typescript = 'TypeScript',
@@ -82,9 +96,10 @@ export const TopicOverviewSchema = TopicBaseSchema.extend({
     ),
     lastTrainedAt: data.last_accessed_at ?? undefined,
     widgets: data.widgets,
+    correctAnswers: data.widgets.reduce((sum, widget) => sum + widget.correctAnswers, 0),
+    totalQuestions: data.widgets.reduce((sum, widget) => sum + widget.totalQuestions, 0),
   };
 });
-
 export type TopicOverview = z.infer<typeof TopicOverviewSchema>;
 
 const calculateProgress = (correctAnswers: number, totalQuestions: number) => {

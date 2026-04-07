@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import QuestionsRunner from '@/components/library/widget/runners/default/DefaultRunner';
-import { Question } from '@/types/question';
+import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { WidgetType } from '@/types/widget';
 
 const getWidgetComponentMock = jest.fn((_type: WidgetType) => {
@@ -25,21 +25,41 @@ jest.mock('@/components/Results', () => {
 describe('DefaultRunner', () => {
   it('renders questions sequentially and shows results at the end', async () => {
     const user = userEvent.setup();
-    const questions: Question[] = [
-      { id: 'q1', topicId: 't1', type: WidgetType.Quiz, payload: { question: 'Q1', options: ['a'] } },
-      { id: 'q2', topicId: 't1', type: WidgetType.TrueFalse, payload: { statement: 'Q2', explanation: 'E2' } },
+    const questions: QuestionInfo[] = [
+      {
+        id: 1,
+        topicId: 101,
+        type: WidgetType.Quiz,
+        isSuccess: false,
+        updatedAt: undefined,
+        payload: {
+          question: { en: 'Q1', ru: 'Q1', by: 'Q1' },
+          options: [{ en: 'a', ru: 'a', by: 'a' }],
+        },
+      },
+      {
+        id: 2,
+        topicId: 101,
+        type: WidgetType.TrueFalse,
+        isSuccess: false,
+        updatedAt: undefined,
+        payload: {
+          statement: { en: 'Q2', ru: 'Q2', by: 'Q2' },
+          explanation: { en: 'E2', ru: 'E2', by: 'E2' },
+        },
+      },
     ];
 
-    render(<QuestionsRunner questions={questions} />);
+    render(<QuestionsRunner questions={questions} onComplete={() => {}} />);
 
-    expect(screen.getByRole('button', { name: 'q1' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument();
     expect(getWidgetComponentMock).toHaveBeenCalledWith(WidgetType.Quiz);
 
-    await user.click(screen.getByRole('button', { name: 'q1' }));
-    expect(await screen.findByRole('button', { name: 'q2' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: '1' }));
+    expect(await screen.findByRole('button', { name: '2' })).toBeInTheDocument();
     expect(getWidgetComponentMock).toHaveBeenCalledWith(WidgetType.TrueFalse);
 
-    await user.click(screen.getByRole('button', { name: 'q2' }));
+    await user.click(screen.getByRole('button', { name: '2' }));
     expect(await screen.findByTestId('mock-results')).toBeInTheDocument();
   });
 });

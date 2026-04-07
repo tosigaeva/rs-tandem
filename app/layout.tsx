@@ -24,8 +24,6 @@ export default async function RootLayout({
 
   if (await hasAuthCookie()) user = await getUserFromCookies();
 
-  console.log(user);
-
   return (
     <html lang={languageCode}>
       <body>

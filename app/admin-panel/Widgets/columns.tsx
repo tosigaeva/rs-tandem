@@ -5,6 +5,7 @@ import { Edit, MessageSquarePlus } from 'lucide-react';
 
 import { LocaleStringTooltip } from '@/components/LocaleStringTooltip';
 import { Button } from '@/components/ui/button';
+import { getWidgetIcon } from '@/lib/widget-icon';
 import { Widget, WidgetAdminListItem } from '@/types/schemas/widget-schema';
 import { WidgetType } from '@/types/widget';
 
@@ -37,7 +38,7 @@ export function createColumns({ handleOpenDialog, handleAddQuestion }: MetaPrope
     {
       accessorKey: 'icon',
       header: 'Icon',
-      cell: ({ row }) => row.original.icon,
+      cell: ({ row }) => getWidgetIcon(row.original.type),
     },
     {
       accessorKey: 'sumQuestions',
@@ -51,7 +52,7 @@ export function createColumns({ handleOpenDialog, handleAddQuestion }: MetaPrope
     {
       accessorKey: 'createdAt',
       header: 'Created At',
-      cell: ({ row }) => row.original.createdAt.toLocaleDateString(),
+      cell: ({ row }) => row.original.createdAt?.toLocaleDateString() ?? 'N/A',
     },
     {
       id: 'actions',

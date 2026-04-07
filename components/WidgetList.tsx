@@ -3,23 +3,34 @@
 import Link from 'next/link';
 
 import WidgetCard from '@/components/WidgetCard';
-import { useTranslation } from '@/hooks/use-translation';
 import { Routes } from '@/lib/routes';
-import { AllWidget, Widget } from '@/types/widget';
+import { AllWidget, WidgetOverview } from '@/types/schemas/widget-schema';
 
-type WidgetListProperties = {
-  widgets: Widget[];
-  topicId: string;
+const ALL_WIDGET: AllWidget = {
+  type: 'all',
+  name: {
+    en: 'All Exercises',
+    ru: 'Все упражнения',
+    by: 'Усе практыкаванні',
+  },
+  description: {
+    en: 'Practice with all available question types in this topic.',
+    ru: 'Практикуйтесь со всеми доступными типами вопросов в этой теме.',
+    by: 'Практыкуйцеся з усімі даступнымі тыпамі пытанняў у гэтай тэме.',
+  },
+  totalQuestions: 0,
+  correctAnswers: 0,
 };
 
-export default function WidgetList({ widgets, topicId }: WidgetListProperties) {
-  const { t } = useTranslation();
-  const allWidget: AllWidget = {
-    type: 'all',
-    icon: 'A',
-    title: t('library.widget.all.title'),
-    description: t('library.widget.all.description'),
-  };
+type WidgetListProperties = {
+  widgets: WidgetOverview[];
+  topicId: string;
+  totalQuestions: number;
+  correctAnswers: number;
+};
+
+export default function WidgetList({ widgets, topicId, totalQuestions, correctAnswers }: WidgetListProperties) {
+  const allWidget = { ...ALL_WIDGET, totalQuestions, correctAnswers };
   const widgetsWithAll = [...widgets, allWidget];
   return (
     <section>

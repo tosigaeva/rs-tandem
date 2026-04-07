@@ -3,10 +3,14 @@ import { z } from 'zod';
 import { WidgetType } from '../widget';
 import { LocaleStringSchema } from './locale-schemas';
 import {
+  AsyncSorterPayloadAnswerSchema,
+  AsyncSorterPayloadQuestionSchema,
   BigOPayloadAnswerSchema,
   BigOPayloadQuestionSchema,
   CodeCompletionPayloadAnswerSchema,
   CodeCompletionPayloadQuestionSchema,
+  CodeOrderingPayloadAnswerSchema,
+  CodeOrderingPayloadQuestionSchema,
   FlipCardPayloadQuestionSchema,
   QuizPayloadAnswerSchema,
   QuizPayloadQuestionSchema,
@@ -67,6 +71,14 @@ export const UniversalPayloadQuestionSchema = z.discriminatedUnion('type', [
     type: z.literal(WidgetType.BigONotation),
     data: BigOPayloadQuestionSchema,
   }),
+  z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingPayloadQuestionSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.AsyncSorter),
+    data: AsyncSorterPayloadQuestionSchema,
+  }),
 ]);
 export type UniversalPayloadQuestion = z.output<typeof UniversalPayloadQuestionSchema>;
 
@@ -90,6 +102,14 @@ export const UniversalPayloadAnswerSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(WidgetType.BigONotation),
     data: BigOPayloadAnswerSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingPayloadAnswerSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.AsyncSorter),
+    data: AsyncSorterPayloadAnswerSchema,
   }),
 ]);
 export type UniversalPayloadAnswer = z.output<typeof UniversalPayloadAnswerSchema>;
@@ -129,6 +149,18 @@ export const BigOQuestionSchema = BlankQuestionSchema.extend({
 });
 export type BigOQuestion = z.infer<typeof BigOQuestionSchema>;
 
+export const CodeOrderingQuestionSchema = BlankQuestionSchema.extend({
+  payloadQuestion: CodeOrderingPayloadQuestionSchema,
+  payloadAnswer: CodeOrderingPayloadAnswerSchema,
+});
+export type CodeOrderingQuestion = z.infer<typeof CodeOrderingQuestionSchema>;
+
+export const AsyncSorterQuestionSchema = BlankQuestionSchema.extend({
+  payloadQuestion: AsyncSorterPayloadQuestionSchema,
+  payloadAnswer: AsyncSorterPayloadAnswerSchema,
+});
+export type AsyncSorterQuestion = z.infer<typeof AsyncSorterQuestionSchema>;
+
 export const UniversalQuestionSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(WidgetType.Quiz),
@@ -150,5 +182,40 @@ export const UniversalQuestionSchema = z.discriminatedUnion('type', [
     type: z.literal(WidgetType.BigONotation),
     data: BigOQuestionSchema,
   }),
+  z.object({
+    type: z.literal(WidgetType.CodeOrdering),
+    data: CodeOrderingQuestionSchema,
+  }),
+  z.object({
+    type: z.literal(WidgetType.AsyncSorter),
+    data: AsyncSorterQuestionSchema,
+  }),
 ]);
 export type UniversalQuestion = z.output<typeof UniversalQuestionSchema>;
+
+export const QuestionInfoSchema = z
+  .object({
+    id: z.number().int(),
+    topic_id: z.number().int(),
+    widget_type: z.enum(WidgetType),
+    payload_question: z.unknown(),
+    payload_answer: z.unknown().nullable(),
+    is_success: z.boolean().nullish(),
+    updated_at: z.coerce.date().nullish(),
+  })
+  .transform((data) => {
+    const parsed = UniversalPayloadQuestionSchema.parse({
+      type: data.widget_type,
+      data: data.payload_question,
+    });
+
+    return {
+      id: data.id,
+      topicId: data.topic_id,
+      type: parsed.type,
+      payload: parsed.data,
+      isSuccess: data.is_success ?? false,
+      updatedAt: data.updated_at ?? undefined,
+    };
+  });
+export type QuestionInfo = z.output<typeof QuestionInfoSchema>;

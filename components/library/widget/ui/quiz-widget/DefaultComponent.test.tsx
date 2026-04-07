@@ -15,9 +15,15 @@ describe('Quiz DefaultComponent', () => {
   it('passes payload to QuestionCard', () => {
     render(
       <DefaultComponent
-        questionId="q1"
-        questionPayload={{ question: 'What?', options: ['a', 'b'] }}
-        onCheck={async () => true}
+        questionId={1}
+        questionPayload={{
+          question: { en: 'What?', ru: 'Что?', by: 'Што?' },
+          options: [
+            { en: 'a', ru: 'а', by: 'а' },
+            { en: 'b', ru: 'б', by: 'б' },
+          ],
+        }}
+        onCheck={async () => ({ isCorrect: true })}
         onNext={() => {}}
       />
     );
