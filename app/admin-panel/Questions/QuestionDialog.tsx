@@ -1,6 +1,5 @@
 'use client';
 
-import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -85,7 +84,6 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
   const {
     reset,
     formState: { isValid, errors },
-    control,
   } = methods;
 
   useEffect(() => {
@@ -163,7 +161,6 @@ export const QuestionDialog = ({ open, onOpenChange, onSubmit, defaultValues, to
         <Button variant="success" form={id} type="submit" disabled={!isValid}>
           Submit
         </Button>
-        {process.env.NODE_ENV === 'development' && <DevTool control={control} placement="top-right" />}
       </DialogContent>
     </Dialog>
   );

@@ -14,6 +14,7 @@ export type AnswersHistory = (boolean | undefined)[];
 
 type RunnerRenderProperties = {
   questions: QuestionInfo[];
+  totalLength: number;
   currentIndex: number;
   answersHistory: AnswersHistory;
   isValidating: boolean;
@@ -23,18 +24,24 @@ type RunnerRenderProperties = {
 
 type QuestionRunnerEngineProperties = {
   questions: QuestionInfo[];
+  totalLength: number;
   children: (properties: RunnerRenderProperties) => React.ReactNode;
   onComplete: () => void;
 };
 
-export default function QuestionRunnerEngine({ questions, children, onComplete }: QuestionRunnerEngineProperties) {
+export default function QuestionRunnerEngine({
+  questions,
+  totalLength,
+  children,
+  onComplete,
+}: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
   const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(
     Array.from<undefined>({ length: questions.length })
   );
   const isValidationInFlight = useRef(false);
-  const correctAnswers = answersHistory.filter(Boolean).length;
+  const correctAnswers = totalLength - questions.length + answersHistory.filter(Boolean).length;
 
   const { user } = useAuth();
 
@@ -85,13 +92,14 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
   };
 
   if (currentQuestion === undefined) {
-    return <Results questionsCount={questions.length} correctAnswers={correctAnswers} onStartOver={startOver} />;
+    return <Results questionsCount={totalLength} correctAnswers={correctAnswers} onStartOver={startOver} />;
   }
 
   return (
     <div className="relative">
       {children({
         questions,
+        totalLength,
         currentIndex,
         answersHistory,
         isValidating,

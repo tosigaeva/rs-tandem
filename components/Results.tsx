@@ -117,7 +117,7 @@ export default function Results({ questionsCount, correctAnswers, onStartOver }:
           </Link>
         </PrimaryButton>
         <PrimaryButton variant="secondary" className="mt-4 flex-1 py-6" onClick={() => onStartOver()}>
-          <RefreshCw className="mr-2 h-4 w-4" /> {t('results.startOver')}
+          <RefreshCw className="mr-2 h-4 w-4" /> {t(percentage === 100 ? 'results.startOver' : 'results.try-again')}
         </PrimaryButton>
       </div>
     </section>
