@@ -8,7 +8,7 @@ const TopicListSkeleton = ({ title, items = 3 }: { title: string; items?: number
         {Array.from({ length: items }).map((_, index) => {
           return (
             <li key={index} className="h-full rounded-xl">
-              <Skeleton className="bg-secondary h-40 w-full rounded-xl" />
+              <Skeleton className="bg-secondary h-50 w-full rounded-xl" />
             </li>
           );
         })}
@@ -28,7 +28,7 @@ export default function Loading() {
           </p>
         </section>
 
-        <Skeleton className="bg-secondary h-25 w-full rounded-xl" />
+        <Skeleton className="bg-secondary h-30 w-full rounded-xl" />
 
         <TopicListSkeleton title="Recently practiced" />
 

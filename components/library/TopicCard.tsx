@@ -17,7 +17,7 @@ export function TopicCard({ topic, displayProgressBar }: TopicCardProperties) {
   const progressLabel = formatPercent(roundedProgress);
 
   return (
-    <Card className="group hover:ring-primary/40 hover:ring-offset-background h-full w-full cursor-pointer gap-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2">
+    <Card className="group hover:ring-primary/40 hover:ring-offset-background h-full min-h-50 w-full cursor-pointer gap-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2">
       <CardHeader className="gap-2 pb-0">
         <div className="flex items-center justify-between">
           <Badge variant="secondary" className="text-xs capitalize">
