@@ -43,7 +43,7 @@ describe('QuestionRunnerEngine', () => {
     ];
 
     render(
-      <QuestionRunnerEngine questions={questions} onComplete={() => {}}>
+      <QuestionRunnerEngine questions={questions} totalLength={1} onComplete={() => {}}>
         {({ onCheck, isValidating }) => (
           <button disabled={isValidating} onClick={() => void onCheck('answer')}>
             Submit
@@ -84,7 +84,7 @@ describe('QuestionRunnerEngine', () => {
     ];
 
     render(
-      <QuestionRunnerEngine questions={questions} onComplete={onCompleteMock}>
+      <QuestionRunnerEngine questions={questions} totalLength={1} onComplete={onCompleteMock}>
         {({ nextQuestion }) => <button onClick={nextQuestion}>test</button>}
       </QuestionRunnerEngine>
     );
@@ -92,7 +92,7 @@ describe('QuestionRunnerEngine', () => {
     const finishButton = screen.getByRole('button', { name: /test/i });
     await user.click(finishButton);
 
-    const redoButton = screen.getByRole('button', { name: /Start Over/i });
+    const redoButton = screen.getByRole('button', { name: /Try Again/i });
 
     await user.click(redoButton);
 

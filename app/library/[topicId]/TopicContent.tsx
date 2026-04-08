@@ -40,9 +40,18 @@ export default function TopicContent({ topicId, widgetType }: TopicContentProper
       setStartOverCheck(false);
       initialWasComplete.current = false;
       setTopic((previous) => {
-        console.log('should be re-rendering topics', previous);
         if (!previous) return previous;
-        return { ...previous };
+        previous.widgets.map((widget) => {
+          if (allQuestions !== undefined && allQuestions.some((question) => question.type === widget.type)) {
+            widget.correctAnswers = allQuestions.filter(
+              (question) => question.type === widget.type && question.isSuccess === true
+            ).length;
+          }
+        });
+        return {
+          ...previous,
+          correctAnswers: previous.widgets.reduce((accumulator, widget) => accumulator + widget.correctAnswers, 0),
+        };
       });
     }
 
