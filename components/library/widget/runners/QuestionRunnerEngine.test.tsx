@@ -92,7 +92,7 @@ describe('QuestionRunnerEngine', () => {
     const finishButton = screen.getByRole('button', { name: /test/i });
     await user.click(finishButton);
 
-    const redoButton = screen.getByRole('button', { name: /Try Again/i });
+    const redoButton = screen.getByRole('button', { name: /Review mistakes/i });
 
     await user.click(redoButton);
 

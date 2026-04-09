@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDownIcon, ChevronUpIcon, SearchIcon } from 'lucide-react';
+import { ChevronDownIcon, SearchIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -59,7 +59,7 @@ export function WidgetTopicFilter({
   const hasSummary = activeWidgetLabel !== undefined || activeLevelLabel !== undefined || trimmedSearchQuery.length > 0;
 
   return (
-    <section className={cn('border-border bg-card space-y-5 rounded-2xl border p-5', isMinimized ? 'h-30' : '')}>
+    <section className={cn('border-border bg-card h-full rounded-2xl border p-5 transition-all duration-300')}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1">
           <h2 className="text-sm font-semibold tracking-wide uppercase">{t('library.filter.label')}</h2>
@@ -72,37 +72,17 @@ export function WidgetTopicFilter({
           onClick={() => setIsMinimized((value) => !value)}
         >
           {isMinimized ? t('library.filter.expand') : t('library.filter.collapse')}
-          {isMinimized ? <ChevronDownIcon /> : <ChevronUpIcon />}
+          {<ChevronDownIcon className={cn('size-4 transition-transform duration-300', !isMinimized && 'rotate-180')} />}
         </Button>
       </div>
 
-      {isMinimized ? (
-        hasSummary ? (
-          <div className="flex flex-row gap-3 text-sm">
-            {activeWidgetLabel !== undefined && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground">{t('library.filter.summary.widget')}</span>
-                <Badge variant="secondary">{t(activeWidgetLabel)}</Badge>
-              </div>
-            )}
-            {activeLevelLabel !== undefined && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground">{t('library.filter.summary.level')}</span>
-                <Badge variant="secondary">{activeLevelLabel}</Badge>
-              </div>
-            )}
-            {trimmedSearchQuery.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground">{t('library.filter.summary.search')}</span>
-                <Badge variant="secondary" className="max-w-full">
-                  <span className="truncate">{trimmedSearchQuery}</span>
-                </Badge>
-              </div>
-            )}
-          </div>
-        ) : undefined
-      ) : (
-        <>
+      <div
+        className={cn(
+          'grid transition-all duration-300 ease-in-out',
+          isMinimized ? 'grid-rows-[0fr] opacity-0' : 'mt-5 grid-rows-[1fr] opacity-100'
+        )}
+      >
+        <div className="space-y-5 overflow-hidden">
           <div className="space-y-2">
             <label htmlFor="discover-topics-search" className="text-sm font-medium">
               {t('library.search.label')}
@@ -122,7 +102,7 @@ export function WidgetTopicFilter({
 
           <div className="space-y-2">
             <p className="text-sm font-medium">{t('library.filter.widgetLabel')}</p>
-            <div className="-mx-1 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {WIDGET_FILTER_OPTIONS.map((option) => {
                 const isActive = option.value === widgetFilter;
 
@@ -144,9 +124,10 @@ export function WidgetTopicFilter({
 
           <div className="space-y-2">
             <p className="text-sm font-medium">{t('library.filter.levelLabel')}</p>
-            <div className="-mx-1 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {LEVEL_FILTER_OPTIONS.map((option) => {
                 const isActive = option === levelFilter;
+
                 const label =
                   option === 'all' ? t('library.filter.option.levelAll') : LevelLocales[option][languageCode];
 
@@ -155,7 +136,6 @@ export function WidgetTopicFilter({
                     key={option}
                     variant={isActive ? 'default' : 'outline'}
                     size="sm"
-                    aria-pressed={isActive}
                     className={cn('rounded-full px-4 capitalize', !isActive && 'bg-background')}
                     onClick={() => onLevelFilterChange(option)}
                   >
@@ -165,8 +145,40 @@ export function WidgetTopicFilter({
               })}
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          'overflow-hidden transition-all duration-300',
+          isMinimized ? 'mt-4 max-h-20 opacity-100' : 'max-h-0 opacity-0'
+        )}
+      >
+        {hasSummary && (
+          <div className="flex flex-row flex-wrap gap-3 text-sm">
+            {activeWidgetLabel !== undefined && (
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">{t('library.filter.summary.widget')}</span>
+                <Badge variant="secondary">{t(activeWidgetLabel)}</Badge>
+              </div>
+            )}
+            {activeLevelLabel !== undefined && (
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">{t('library.filter.summary.level')}</span>
+                <Badge variant="secondary">{activeLevelLabel}</Badge>
+              </div>
+            )}
+            {trimmedSearchQuery.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">{t('library.filter.summary.search')}</span>
+                <Badge variant="secondary" className="max-w-40 truncate">
+                  {trimmedSearchQuery}
+                </Badge>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </section>
   );
 }
