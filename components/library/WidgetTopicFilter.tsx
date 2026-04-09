@@ -59,7 +59,7 @@ export function WidgetTopicFilter({
   const hasSummary = activeWidgetLabel !== undefined || activeLevelLabel !== undefined || trimmedSearchQuery.length > 0;
 
   return (
-    <section className="border-border bg-card space-y-5 rounded-2xl border p-5">
+    <section className={cn('border-border bg-card space-y-5 rounded-2xl border p-5', isMinimized ? 'h-30' : '')}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1">
           <h2 className="text-sm font-semibold tracking-wide uppercase">{t('library.filter.label')}</h2>

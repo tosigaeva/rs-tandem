@@ -132,28 +132,26 @@ export function TopicAdminList() {
 
   return (
     <>
-      {isLoading && <div>Waiting for response from server...</div>}
-      <>
-        {!isLoading && widgets && (
-          <DataTable columns={createColumns({ handleOpenDialog, handleAddQuestion })} data={widgets}></DataTable>
-        )}
-        <WidgetDialog
-          open={isWidgetDialogOpen}
-          onOpenChange={setIsWidgetDialogOpen}
-          defaultValues={selectedWidget}
-          onSubmit={handleSubmit}
+      <DataTable
+        columns={createColumns({ handleOpenDialog, handleAddQuestion })}
+        data={widgets ?? []}
+        isLoading={isLoading}
+      ></DataTable>
+      <WidgetDialog
+        open={isWidgetDialogOpen}
+        onOpenChange={setIsWidgetDialogOpen}
+        defaultValues={selectedWidget}
+        onSubmit={handleSubmit}
+      />
+      {topics && isQuestionDialogOpen && (
+        <QuestionDialog
+          open={isQuestionDialogOpen}
+          onOpenChange={setIsQuestionDialogOpen}
+          onSubmit={handleQuestionSubmit}
+          topics={topics}
+          defaultValues={questionDefaults}
         />
-        {topics && isQuestionDialogOpen && (
-          <QuestionDialog
-            open={isQuestionDialogOpen}
-            onOpenChange={setIsQuestionDialogOpen}
-            onSubmit={handleQuestionSubmit}
-            topics={topics}
-            defaultValues={questionDefaults}
-          />
-        )}
-      </>
-      {!isLoading && !widgets && <div>Failed to load items</div>}
+      )}
     </>
   );
 }

@@ -17,12 +17,13 @@ import { cn } from '@/lib/utils';
 type DataTableProperties<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  isLoading: boolean;
   meta?: {
     onSubmit: (data: TData) => void;
   };
 };
 
-export function DataTable<TData, TValue>({ columns, data, meta }: DataTableProperties<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, isLoading, meta }: DataTableProperties<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -45,7 +46,6 @@ export function DataTable<TData, TValue>({ columns, data, meta }: DataTablePrope
   return (
     <div className="mb-20 overflow-hidden rounded-md border border-slate-200">
       <Table>
-        {/* Header: Dark Green background, White text */}
         <TableHeader className="bg-emerald-700">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="border-none hover:bg-transparent">
@@ -85,7 +85,24 @@ export function DataTable<TData, TValue>({ columns, data, meta }: DataTablePrope
         </TableHeader>
 
         <TableBody>
-          {table.getRowModel().rows?.length > 0 ? (
+          {isLoading ? (
+            Array.from({ length: 10 }).map((_, indexI) => (
+              <TableRow
+                key={`skeleton-${indexI}`}
+                className={cn(
+                  'border-none transition-colors',
+                  'odd:bg-blue-100 hover:odd:bg-blue-200',
+                  'even:bg-emerald-100 hover:even:bg-blue-200'
+                )}
+              >
+                {columns.map((_, indexJ) => (
+                  <TableCell key={`cell-${indexJ}`} className="py-4">
+                    <div className="h-4 w-full animate-pulse rounded-sm bg-slate-300/50" />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : table.getRowModel().rows?.length > 0 ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
@@ -104,7 +121,7 @@ export function DataTable<TData, TValue>({ columns, data, meta }: DataTablePrope
               </TableRow>
             ))
           ) : (
-            <TableRow>
+            <TableRow className="odd:bg-blue-100 hover:odd:bg-blue-200">
               <TableCell colSpan={columns.length} className="h-24 text-center">
                 No results.
               </TableCell>

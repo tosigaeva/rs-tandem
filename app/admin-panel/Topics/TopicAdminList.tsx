@@ -152,43 +152,41 @@ export default function TopicAdminList() {
 
   return (
     <>
-      {isLoading && <div>Waiting for response from server...</div>}
-      {!isLoading && topics && (
-        <>
-          <DataTable columns={createColumns({ handleOpenDialog, confirmDelete, handleAddQuestion })} data={topics} />
-          <TopicDialog
-            open={isTopicDialogOpen}
-            onOpenChange={setIsTopicDialogOpen}
-            defaultValues={selectedTopic}
-            onSubmit={handleSubmit}
-          />
-          {isQuestionDialogOpen && (
-            <QuestionDialog
-              open={isQuestionDialogOpen}
-              onOpenChange={setIsQuestionDialogOpen}
-              onSubmit={handleQuestionSubmit}
-              topics={topics.map((topic) => ({ id: topic.id, name: topic.name.en }))}
-              defaultValues={questionDefaults}
-            />
-          )}
-          <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete {idsToDelete.length} Topics and related
-                  questions from database
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </>
+      <DataTable
+        columns={createColumns({ handleOpenDialog, confirmDelete, handleAddQuestion })}
+        data={topics ?? []}
+        isLoading={isLoading}
+      />
+      <TopicDialog
+        open={isTopicDialogOpen}
+        onOpenChange={setIsTopicDialogOpen}
+        defaultValues={selectedTopic}
+        onSubmit={handleSubmit}
+      />
+      {isQuestionDialogOpen && topics && (
+        <QuestionDialog
+          open={isQuestionDialogOpen}
+          onOpenChange={setIsQuestionDialogOpen}
+          onSubmit={handleQuestionSubmit}
+          topics={topics.map((topic) => ({ id: topic.id, name: topic.name.en }))}
+          defaultValues={questionDefaults}
+        />
       )}
-      {!isLoading && !topics && <div>Failed to load items</div>}
+      <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete {idsToDelete.length} Topics and related
+              questions from database
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

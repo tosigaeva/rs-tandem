@@ -10,6 +10,31 @@ export const AppMessages = {
     [LanguageCode.by]: '',
   },
 
+  /// Landing Page
+  'landing.title': {
+    [LanguageCode.en]: 'JS Interview Trainer',
+    [LanguageCode.ru]: 'Тренажер для JS-собеседований',
+    [LanguageCode.by]: "Трэнажор для JS-інтэрв'ю",
+  },
+  'landing.body': {
+    [LanguageCode.en]:
+      'Learn JavaScript with the help of mini-games and prepare for technical interviews! Practice algorithms, problem solving, and core JS concepts in a fun way.',
+    [LanguageCode.ru]:
+      'Изучайте JavaScript с помощью мини-игр и готовьтесь к техническим собеседованиям! Практикуйте алгоритмы, решение задач и основные концепции JS в игровой форме.',
+    [LanguageCode.by]:
+      "Вывучайце JavaScript з дапамогай міні-гульняў і рыхтуйцеся да тэхнічных інтэрв'ю! Практыкуйце алгарытмы, вырашэнне задач і асноўныя канцэпцыі JS у гульнявой форме.",
+  },
+  'landing.go-to-dashboard': {
+    [LanguageCode.en]: 'Go to Dashboard',
+    [LanguageCode.ru]: 'Перейти в личный кабинет',
+    [LanguageCode.by]: 'Перайсці ў асабісты кабінет',
+  },
+  'landing.get-started': {
+    [LanguageCode.en]: 'Get started!',
+    [LanguageCode.ru]: 'Начать!',
+    [LanguageCode.by]: 'Пачаць!',
+  },
+
   /// Authentication
   'auth.signup.title': {
     [LanguageCode.en]: 'Create new account',

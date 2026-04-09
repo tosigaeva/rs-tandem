@@ -17,7 +17,7 @@ export function LocaleStringTooltip({ data, className }: LocaleStringTooltip) {
       <TooltipTrigger asChild>
         <span
           className={cn(
-            'inline-block max-w-62.5 cursor-help truncate underline decoration-dotted underline-offset-4',
+            'inline-block cursor-help truncate overflow-hidden break-all whitespace-normal underline decoration-dotted underline-offset-4',
             className
           )}
         >
