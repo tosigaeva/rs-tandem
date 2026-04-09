@@ -13,7 +13,7 @@ export async function getQuestions(topicId: number, widgetType: WidgetFilter): P
     .from('questions_info')
     .select(`*`)
     .eq('topic_id', topicId)
-    .order('updated_at', { ascending: false, nullsFirst: true });
+    .order('updated_at', { ascending: true, nullsFirst: true });
 
   if (widgetType !== 'all') {
     query = query.eq('widget_type', widgetType);
