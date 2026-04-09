@@ -504,10 +504,10 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
   },
-  'results.try-again': {
-    [LanguageCode.en]: 'Try again',
-    [LanguageCode.ru]: 'Попробовать снова',
-    [LanguageCode.by]: 'Паспрабаваць зноў',
+  'results.review-mistakes': {
+    [LanguageCode.en]: 'Review mistakes',
+    [LanguageCode.ru]: 'Работа над ошибками',
+    [LanguageCode.by]: 'Праца над памылкамі',
   },
   'results.start-over.title': {
     [LanguageCode.en]: 'Want to go again?',
