@@ -14,7 +14,7 @@ import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { TopicOverview } from '@/types/schemas/topic-schema';
 import { toWidgetFilter, WidgetType } from '@/types/widget';
 
-import { WidgetListSkeleton } from './WidgetListSkeleton';
+import WidgetListSkeleton from './loading';
 
 type TopicContentProperties = {
   topicId: string;

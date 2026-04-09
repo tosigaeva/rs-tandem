@@ -19,7 +19,7 @@ export default function WidgetCard({ widget }: WidgetCardProperties) {
   return (
     <Card
       className={cn(
-        'group relative flex cursor-pointer flex-row items-start gap-4 px-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2',
+        'group relative flex min-h-40 cursor-pointer flex-row items-start gap-4 px-4 transition-all duration-300 ease-out hover:shadow-lg hover:ring-2 hover:ring-offset-2',
         isComplete
           ? 'border-correct-answer/80 hover:ring-correct-answer'
           : 'hover:ring-primary/40 hover:ring-offset-background'

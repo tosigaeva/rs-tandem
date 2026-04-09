@@ -9,6 +9,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { LocaleStringSchema } from '@/types/schemas/locale-schemas';
 import {
+  AsyncSorterPayloadAnswer,
+  AsyncSorterPayloadQuestion,
   BigOPayloadAnswer,
   BigOPayloadQuestion,
   CodeCompletionPayloadAnswer,
@@ -183,6 +185,9 @@ const displayPayloadQuestion = (question: unknown, widgetString: string) => {
       case WidgetType.BigONotation: {
         return displayBigOPayloadQuestion(parsed.data.data);
       }
+      case WidgetType.AsyncSorter: {
+        return displayASyncSorterPayloadQuestion(parsed.data.data);
+      }
     }
   }
 
@@ -296,9 +301,36 @@ const displayBigOPayloadQuestion = (question: BigOPayloadQuestion) => {
         <span className="font-bold text-slate-500">Question: </span>
         <LocaleStringTooltip data={question.question} className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs" />
       </div>
-      <div className="flex justify-start gap-1">
+      <div className="flex w-full flex-wrap items-baseline justify-start gap-1">
         <span className="font-bold text-slate-500">Example: </span>
-        <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{question.codeExample}</p>
+        <p className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal">
+          {question.codeExample}
+        </p>
+      </div>
+    </>
+  );
+};
+
+const displayASyncSorterPayloadQuestion = (question: AsyncSorterPayloadQuestion) => {
+  return (
+    <>
+      <div className="flex justify-start gap-1">
+        <span className="font-bold text-slate-500">Code Snippet: </span>
+        <p className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal">
+          {question.codeSnippet}
+        </p>
+      </div>
+      <div className="flex w-full flex-col items-baseline justify-start gap-1">
+        <span className="font-bold text-slate-500">Blocks: </span>
+        {question.blocks.map((block) => (
+          <div className="flex w-full flex-row items-baseline justify-start gap-1" key={block.id}>
+            <p className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{block.id}</p>:
+            <p className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal">
+              {block.code}
+            </p>
+            :<p className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{block.label}</p>
+          </div>
+        ))}
       </div>
     </>
   );
@@ -333,6 +365,9 @@ const displayPayloadAnswer = (answer: unknown, widgetString: string) => {
       }
       case WidgetType.CodeOrdering: {
         return displayCodeOrderingPayloadAnswer(parsed.data.data);
+      }
+      case WidgetType.AsyncSorter: {
+        return displayAsyncSorterPayloadAnswer(parsed.data.data);
       }
     }
   }
@@ -391,5 +426,56 @@ const displayCodeOrderingPayloadAnswer = (answer: CodeOrderingPayloadAnswer) => 
       <span className="font-bold text-slate-500">Answers: </span>
       <p className="rounded-sm border bg-slate-50 px-2 py-0.5 text-xs">{answer.answers.join(' -> ')}</p>
     </div>
+  );
+};
+
+const displayAsyncSorterPayloadAnswer = (answer: AsyncSorterPayloadAnswer) => {
+  return (
+    <>
+      <div className="flex flex-wrap justify-start gap-1">
+        <span className="font-bold text-slate-500">Call Stack: </span>
+        {answer.callStack.map((code, index) => (
+          <p
+            className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal"
+            key={index}
+          >
+            {code}
+          </p>
+        ))}
+      </div>
+      <div className="flex flex-wrap justify-start gap-1">
+        <span className="font-bold text-slate-500">Micro Stack: </span>
+        {answer.microtasks.map((code, index) => (
+          <p
+            className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal"
+            key={index}
+          >
+            {code}
+          </p>
+        ))}
+      </div>
+      <div className="flex flex-wrap justify-start gap-1">
+        <span className="font-bold text-slate-500">Macro Stack: </span>
+        {answer.macrotasks.map((code, index) => (
+          <p
+            className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal"
+            key={index}
+          >
+            {code}
+          </p>
+        ))}
+      </div>
+      <div className="flex flex-wrap justify-start gap-1">
+        <span className="font-bold text-slate-500">Output Order: </span>
+        {answer.outputOrder.map((code, index) => (
+          <p
+            className="overflow-hidden rounded-sm border bg-slate-50 px-2 py-0.5 text-xs break-all whitespace-normal"
+            key={index}
+          >
+            {code}
+          </p>
+        ))}
+      </div>
+    </>
   );
 };
