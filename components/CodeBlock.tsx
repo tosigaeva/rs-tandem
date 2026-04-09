@@ -35,7 +35,7 @@ export default function CodeBlock({
         const childElement = domNode.children?.[0];
         if (childElement.type !== ElementType.Text) return;
 
-        const textToReplace = childElement.data || '';
+        const textToReplace = childElement.data.replaceAll(String.raw`\n`, '\n');
 
         return (
           <div style={{ position: 'relative' }}>

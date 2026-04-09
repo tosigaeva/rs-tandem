@@ -2,10 +2,12 @@
 
 import { LoaderIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 import Results from '@/components/Results';
 import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
+import { useTranslation } from '@/hooks/use-translation';
 import { useAuth } from '@/providers/auth-state.provider';
 import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { ValidationResult } from '@/types/validation';
@@ -45,6 +47,8 @@ export default function QuestionRunnerEngine({
 
   const { user } = useAuth();
 
+  const { t } = useTranslation();
+
   const currentQuestion = questions[currentIndex];
 
   const nextQuestion = () => setCurrentIndex((previousIndex) => previousIndex + 1);
@@ -81,10 +85,18 @@ export default function QuestionRunnerEngine({
           isSuccess: result.isCorrect,
         });
       } catch {
-        // ignored due to not blocking an answer validation flow.
+        toast.error(t('runner.error.could-not-update'));
       }
 
       return result;
+    } catch {
+      setAnswersHistory((previous) => {
+        const copyHistory = [...previous];
+        copyHistory[currentIndex] = false;
+        return copyHistory;
+      });
+      toast.error(t('runner.error.failed-to-validate'));
+      return { isCorrect: undefined };
     } finally {
       isValidationInFlight.current = false;
       setIsValidating(false);

@@ -585,6 +585,16 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Точность',
     [LanguageCode.by]: 'Дакладнасць',
   },
+  'runner.error.could-not-update': {
+    [LanguageCode.en]: 'Could not update',
+    [LanguageCode.ru]: 'Не удалось обновить',
+    [LanguageCode.by]: 'Не ўдалося абнавіць',
+  },
+  'runner.error.failed-to-validate': {
+    [LanguageCode.en]: 'Failed to validate',
+    [LanguageCode.ru]: 'Не удалось проверить',
+    [LanguageCode.by]: 'Не ўдалося праверыць',
+  },
 
   /// Widgets
   'widget.question.check': {
