@@ -463,11 +463,12 @@ export const AppMessages = {
     [LanguageCode.by]: 'Ідэальны вынік!',
   },
   'results.perfect.description': {
-    [LanguageCode.en]: 'Outstanding work. You got everything right!',
-    [LanguageCode.ru]: 'Отличная работа. Все ответы верны!',
-    [LanguageCode.by]: 'Выдатная праца. Усё правільна!',
+    [LanguageCode.en]: 'Outstanding work. You got everything right! You can redo exercises if you wish to!',
+    [LanguageCode.ru]:
+      'Выдающаяся работа. Вы ответили на всё правильно! Вы можете заново пройти упражнения, если захотите.',
+    [LanguageCode.by]:
+      'Выдатная праца. Вы адказалі на ўсё правільна! Вы можаце нанова прайсці практыкаванні, калі захочаце.',
   },
-
   'results.great.title': {
     [LanguageCode.en]: 'Great job!',
     [LanguageCode.ru]: 'Отличная работа!',
@@ -478,7 +479,6 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Вы справились очень хорошо. Продолжайте в том же духе!',
     [LanguageCode.by]: 'Вы справіліся вельмі добра. Працягвайце!',
   },
-
   'results.good.title': {
     [LanguageCode.en]: 'Good effort!',
     [LanguageCode.ru]: 'Хорошая попытка!',
@@ -489,7 +489,6 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Хороший прогресс. Немного практики — и вы освоите это.',
     [LanguageCode.by]: 'Добры прагрэс. Яшчэ крыху практыкі — і ўсё атрымаецца.',
   },
-
   'results.keepGoing.title': {
     [LanguageCode.en]: 'Keep going!',
     [LanguageCode.ru]: 'Продолжайте!',
@@ -500,7 +499,6 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Неплохо. Попробуйте снова — станет лучше.',
     [LanguageCode.by]: 'Нядрэнна. Паспрабуйце яшчэ раз — будзе лепш.',
   },
-
   'results.retry.title': {
     [LanguageCode.en]: 'Give it another try',
     [LanguageCode.ru]: 'Попробуйте ещё раз',
@@ -531,6 +529,30 @@ export const AppMessages = {
     [LanguageCode.ru]: 'Начать заново',
     [LanguageCode.by]: 'Пачаць зноў',
   },
+  'results.review-mistakes': {
+    [LanguageCode.en]: 'Review mistakes',
+    [LanguageCode.ru]: 'Работа над ошибками',
+    [LanguageCode.by]: 'Праца над памылкамі',
+  },
+  'results.start-over.title': {
+    [LanguageCode.en]: 'Want to go again?',
+    [LanguageCode.ru]: 'Хотите повторить?',
+    [LanguageCode.by]: 'Хочаце паўтарыць?',
+  },
+  'results.start-over.description': {
+    [LanguageCode.en]:
+      'You’ve already completed this topic. You can start over to refresh your knowledge or practice again!',
+    [LanguageCode.ru]:
+      'Вы уже прошли эту тему. Вы можете начать заново, чтобы закрепить знания или еще раз попрактиковаться!',
+    [LanguageCode.by]:
+      'Вы ўжо прайшлі гэтую тэму. Вы можаце пачаць спачатку, каб замацаваць веды ці яшчэ раз папрактыкавацца!',
+  },
+  'results.start-over.total-questions': {
+    [LanguageCode.en]: 'Total questions in session',
+    [LanguageCode.ru]: 'Всего вопросов в сессии',
+    [LanguageCode.by]: 'Усяго пытанняў у сесіі',
+  },
+
   /// widget
   'widget.button.checkAnswer': {
     [LanguageCode.en]: 'Check Answer',

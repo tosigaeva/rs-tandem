@@ -7,7 +7,8 @@ import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 
 type QuestionProgressProperties = {
-  currentQuestion: number;
+  startingIndex: number;
+  currentIndex: number;
   totalQuestions: number;
   answersHistory: AnswersHistory;
 };
@@ -32,30 +33,39 @@ export function calculateCurrentStreak(answersHistory: AnswersHistory) {
 }
 
 export default function QuestionProgress({
-  currentQuestion,
+  startingIndex,
+  currentIndex,
   totalQuestions,
   answersHistory,
 }: QuestionProgressProperties) {
   const { t } = useTranslation();
 
-  const answeredCount = currentQuestion;
-  const progress = (currentQuestion / totalQuestions) * 100;
+  const answeredCount = currentIndex;
+  const progress = ((startingIndex + currentIndex) / totalQuestions) * 100;
 
   const { currentStreak, accuracy, questionStatuses } = useMemo(() => {
-    const visibleAnswers = answersHistory.slice(0, currentQuestion);
+    const visibleAnswers = answersHistory.slice(0, currentIndex);
+
     const currentStreak = calculateCurrentStreak(visibleAnswers);
 
     const correctAnswers = visibleAnswers.filter((answer) => answer === true).length;
     const accuracy = answeredCount > 0 ? Math.round((correctAnswers / answeredCount) * 100) : 0;
 
     const questionStatuses = Array.from({ length: totalQuestions }, (_, index) => {
-      if (index < currentQuestion) return answersHistory[index];
-      if (index === currentQuestion) return 'current';
+      if (index < startingIndex) {
+        return true;
+      }
+      if (index < startingIndex + currentIndex) {
+        return answersHistory[index - startingIndex];
+      }
+      if (index === startingIndex + currentIndex) {
+        return 'current';
+      }
       return 'pending';
     });
 
     return { currentStreak, accuracy, questionStatuses };
-  }, [answersHistory, currentQuestion, answeredCount, totalQuestions]);
+  }, [answersHistory, startingIndex, currentIndex, answeredCount, totalQuestions]);
 
   //TODO: if questions will be more than 5 it should be change
   const getStreakClass = () => {
@@ -69,7 +79,7 @@ export default function QuestionProgress({
       <div className="grid grid-cols-2 items-center gap-4 sm:grid-cols-3">
         <div className="flex flex-col items-start gap-3">
           <span className="text-muted-foreground text-sm font-medium">
-            {t('runner.progress.question')} {currentQuestion} {t('runner.progress.of')} {totalQuestions}
+            {t('runner.progress.question')} {startingIndex + currentIndex} {t('runner.progress.of')} {totalQuestions}
           </span>
           <Progress value={progress} className="w-48" />
         </div>

@@ -6,6 +6,8 @@ import { useTranslation } from '@/hooks/use-translation';
 import { formatPercent, roundPercent } from '@/lib/format';
 import { LevelLocales, TopicOverview } from '@/types/schemas/topic-schema';
 
+import TopicProgressBadge from '../TopicProgressBadge';
+
 type TopicCardProperties = {
   topic: TopicOverview;
   displayProgressBar: boolean;
@@ -23,19 +25,7 @@ export function TopicCard({ topic, displayProgressBar }: TopicCardProperties) {
           <Badge variant="secondary" className="text-xs capitalize">
             {LevelLocales[topic.level][languageCode]}
           </Badge>
-          {displayProgressBar && <span className="text-muted-foreground text-xs">{progressLabel}</span>}
-          {!displayProgressBar &&
-            topic.progress > 0 &&
-            (topic.progress > 99 ? (
-              <Badge className="bg-correct-answer-muted/25 text-correct-answer border-correct-answer text-xs">
-                Completed
-              </Badge>
-            ) : (
-              <Badge className="border-blue-400 bg-blue-500/10 text-xs text-blue-400">
-                {' '}
-                In Progress: {progressLabel}
-              </Badge>
-            ))}
+          <TopicProgressBadge progressValue={topic.progress} progressLabel={progressLabel} />
         </div>
         <CardTitle
           className="group-hover:text-primary line-clamp-1 text-lg font-semibold tracking-tight transition-colors"
