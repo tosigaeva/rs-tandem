@@ -11,7 +11,7 @@ type ConfirmStartOverProperties = {
   totalLength: number;
 };
 
-export default function Results({ setStartOverCheck, totalLength }: ConfirmStartOverProperties) {
+export default function ConfirmStartOver({ setStartOverCheck, totalLength }: ConfirmStartOverProperties) {
   const { t } = useTranslation();
 
   return (
