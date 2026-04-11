@@ -30,7 +30,7 @@ export default function ZoneColumn({
   isHighlighted,
 }: ZoneColumnProperties) {
   return (
-    <Card className="flex-1 gap-1">
+    <Card className="min-w-0 flex-1 gap-1">
       <CardHeader className="px-4">
         <CardTitle className="flex items-center gap-2 text-sm uppercase">
           {Icon && <Icon className="h-4 w-4" />}

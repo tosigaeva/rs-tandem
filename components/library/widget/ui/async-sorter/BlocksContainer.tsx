@@ -30,7 +30,7 @@ export function BlocksContainer({
   return (
     <CardContent
       className={cn(
-        'bg-muted/50 flex min-h-[120px] flex-col gap-2 rounded-md border border-dashed p-3 transition-all duration-150',
+        'bg-muted/50 flex flex-wrap gap-1 rounded-md border border-dashed p-3 transition-all duration-150',
         isHighlighted && 'ring-primary/50 bg-primary/5 ring-2'
       )}
     >

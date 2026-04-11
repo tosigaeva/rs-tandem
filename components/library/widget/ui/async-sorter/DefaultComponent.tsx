@@ -116,60 +116,62 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
   const isChecked = validationResult !== undefined;
 
   return (
-    <section className="max-w-9xl mx-auto">
-      <div className="grid grid-cols-3 gap-2">
+    <section className="mx-auto max-w-2xl space-y-8">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
-          <Card className="flex-1 gap-1">
-            <CardHeader className="px-4">
-              <CardTitle>What is the order of console.log outputs?</CardTitle>
-            </CardHeader>
-            <CodeBlock code={formattedCodeSnippet} showCopyButton={false} />
-            <CardDescription className="px-4 pt-4 pb-2">Drag the blocks into the correct queues.</CardDescription>
-            <BlocksContainer
-              blocks={zones.pool}
-              onDragStart={(block) => handleDragStart(block, 'pool')}
-              onDrop={(index) => handleDrop('pool', index)}
-              onDragEnd={handleDragEnd}
-            />
+          <Card className="flex flex-col gap-2">
+            <div>
+              <CardHeader className="px-4">
+                <CardTitle>What is the order of console.log outputs?</CardTitle>
+              </CardHeader>
+              <CodeBlock code={formattedCodeSnippet} showCopyButton={false} />
+            </div>
+            <div>
+              <CardDescription className="px-4 pt-4 pb-2">Drag blocks into correct queues.</CardDescription>
+              <BlocksContainer
+                blocks={zones.pool}
+                onDragStart={(block) => handleDragStart(block, 'pool')}
+                onDrop={(index) => handleDrop('pool', index)}
+                onDragEnd={handleDragEnd}
+              />
+            </div>
           </Card>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-4">
-            <ZoneColumn
-              title="Call Stack"
-              Icon={Layers}
-              blocks={zones.callstack}
-              validation={validationResult?.callStack}
-              onDragStart={(block) => handleDragStart(block, 'callstack')}
-              onDrop={(index) => handleDrop('callstack', index)}
-              onDragEnd={handleDragEnd}
-              allowDrop={canDrop(sourceZone, 'callstack')}
-              isHighlighted={canDrop(sourceZone, 'callstack')}
-            />
-            <ZoneColumn
-              title="Microtasks"
-              Icon={Zap}
-              blocks={zones.microtasks}
-              validation={validationResult?.microtasks}
-              onDragStart={(block) => handleDragStart(block, 'microtasks')}
-              onDrop={(index) => handleDrop('microtasks', index)}
-              onDragEnd={handleDragEnd}
-              allowDrop={canDrop(sourceZone, 'microtasks')}
-              isHighlighted={canDrop(sourceZone, 'microtasks')}
-            />
-            <ZoneColumn
-              title="Macrotasks"
-              Icon={Box}
-              blocks={zones.macrotasks}
-              validation={validationResult?.macrotasks}
-              onDragStart={(block) => handleDragStart(block, 'macrotasks')}
-              onDrop={(index) => handleDrop('macrotasks', index)}
-              onDragEnd={handleDragEnd}
-              allowDrop={canDrop(sourceZone, 'macrotasks')}
-              isHighlighted={canDrop(sourceZone, 'macrotasks')}
-            />
-          </div>
+        <div className="flex flex-col gap-4 md:flex-row">
+          <ZoneColumn
+            title="Call Stack"
+            Icon={Layers}
+            blocks={zones.callstack}
+            validation={validationResult?.callStack}
+            onDragStart={(block) => handleDragStart(block, 'callstack')}
+            onDrop={(index) => handleDrop('callstack', index)}
+            onDragEnd={handleDragEnd}
+            allowDrop={canDrop(sourceZone, 'callstack')}
+            isHighlighted={canDrop(sourceZone, 'callstack')}
+          />
+          <ZoneColumn
+            title="Microtasks"
+            Icon={Zap}
+            blocks={zones.microtasks}
+            validation={validationResult?.microtasks}
+            onDragStart={(block) => handleDragStart(block, 'microtasks')}
+            onDrop={(index) => handleDrop('microtasks', index)}
+            onDragEnd={handleDragEnd}
+            allowDrop={canDrop(sourceZone, 'microtasks')}
+            isHighlighted={canDrop(sourceZone, 'microtasks')}
+          />
+          <ZoneColumn
+            title="Macrotasks"
+            Icon={Box}
+            blocks={zones.macrotasks}
+            validation={validationResult?.macrotasks}
+            onDragStart={(block) => handleDragStart(block, 'macrotasks')}
+            onDrop={(index) => handleDrop('macrotasks', index)}
+            onDragEnd={handleDragEnd}
+            allowDrop={canDrop(sourceZone, 'macrotasks')}
+            isHighlighted={canDrop(sourceZone, 'macrotasks')}
+          />
         </div>
 
         <div className="flex flex-col gap-8">
