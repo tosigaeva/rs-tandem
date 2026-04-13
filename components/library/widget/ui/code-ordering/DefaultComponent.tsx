@@ -183,7 +183,8 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     setDragIndex(undefined);
                     setIsOverArea(false);
                   }}
-                  className={`cursor-grab active:cursor-grabbing ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}`}
+                  className={`active:cursor-grabbing
+                  ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}${verdict === undefined ? 'cursor-grab' : ''}`}
                 >
                   <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
                 </div>

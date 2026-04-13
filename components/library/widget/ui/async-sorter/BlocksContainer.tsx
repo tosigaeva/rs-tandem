@@ -40,7 +40,7 @@ export function BlocksContainer({
       {blocks.map((block, index) => (
         <div
           key={block.id}
-          draggable={allowDrop}
+          draggable={validation === undefined}
           onDragStart={() => onDragStart(block)}
           onDragOver={(event) => {
             if (!allowDrop) return;
