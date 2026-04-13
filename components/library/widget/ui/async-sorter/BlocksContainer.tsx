@@ -55,7 +55,7 @@ export function BlocksContainer({
             onDragEnd();
           }}
         >
-          {hoverIndex === index && <div className="bg-primary h-0.5 w-full rounded-full transition-all duration-150" />}
+          {hoverIndex === index && <div className="bg-primary h-5 w-full rounded-full transition-all duration-150" />}
           <BlockItem code={block.code} label={block.label} isCorrect={validation ? validation[index] : undefined} />
         </div>
       ))}
@@ -75,7 +75,7 @@ export function BlocksContainer({
         }}
       >
         {hoverIndex === blocks.length && (
-          <div className="bg-primary h-0.5 w-full rounded-full transition-all duration-150" />
+          <div className="bg-primary h-5 w-full rounded-full transition-all duration-150" />
         )}
       </div>
 
