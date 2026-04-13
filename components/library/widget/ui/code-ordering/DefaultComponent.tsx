@@ -165,7 +165,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             `}
           >
             {blocks.map((block, index) => (
-              <div key={questionId + block.id} className="mb-0.5">
+              <div key={questionId + block.id}>
                 <InsertionSlot
                   index={index}
                   hoverIndex={hoverIndex}
@@ -174,7 +174,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                   onInsert={handleReorder}
                 />
                 <div
-                  draggable
+                  draggable={verdict === undefined}
                   onDragStart={() => {
                     setDragIndex(index);
                     setIsOverArea(true);
@@ -183,7 +183,8 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                     setDragIndex(undefined);
                     setIsOverArea(false);
                   }}
-                  className={`cursor-grab active:cursor-grabbing ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}`}
+                  className={`active:cursor-grabbing
+                  ${keyboardIndex === index && keyboardDragIndex === undefined ? 'ring-primary rounded-md ring-1' : ''}${verdict === undefined ? 'cursor-grab' : ''}`}
                 >
                   <BlockItem code={block.code} order={block.order} isCorrect={verdict ? verdict[index] : undefined} />
                 </div>

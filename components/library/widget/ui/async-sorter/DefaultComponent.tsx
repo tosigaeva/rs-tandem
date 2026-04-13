@@ -117,7 +117,7 @@ export default function DefaultComponent({ questionPayload, onCheck, onNext }: W
 
   return (
     <section className="max-w-9xl mx-auto">
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
         <div className="flex flex-col gap-4">
           <Card className="flex-1 gap-1">
             <CardHeader className="px-4">

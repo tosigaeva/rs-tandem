@@ -121,7 +121,7 @@ export default function QuestionCard({
           </RadioGroup>
           <InfoBox
             title={t('widget.keyboardHint.title')}
-            description={formatMessage(t('widget.codeOrdering.keyboardHint'), { count: options.length })}
+            description={formatMessage(t('widget.questionCard.keyboardHint'), { count: options.length })}
           />
           <PrimaryButton
             variant="secondary"
