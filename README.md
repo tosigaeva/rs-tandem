@@ -205,7 +205,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 ```
 
-If you want to bootstrap the database structure locally, the repository includes `dump/demo.sql`.
+If you want to bootstrap the database structure locally, the repository includes `dump/db_schema.sql`.
 This file is an example dump from Supabase and can be used as a starting point for installing a real PostgreSQL database for the project.
 
 ### 3. Start the development server

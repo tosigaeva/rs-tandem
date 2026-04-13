@@ -1,173 +1,165 @@
-BEGIN;
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
 
--- 1️⃣ Ensure all widgets exist
-INSERT INTO public.widgets (type, name)
-VALUES
-    ('quiz', '{"en":"Quiz","ru":"Тест","by":"Тэст"}'),
-    ('true-false', '{"en":"True / False","ru":"Верно / Неверно","by":"Праўда / Хлусня"}'),
-    ('code-completion', '{"en":"Code Completion","ru":"Дополнение кода","by":"Дапаўненне кода"}'),
-    ('code-ordering', '{"en":"Code Ordering","ru":"Упорядочивание кода","by":"Упарадкаванне кода"}'),
-    ('flip-card', '{"en":"Flip Card","ru":"Карточка","by":"Картка"}'),
-    ('big-o', '{"en":"Big O","ru":"Сложность","by":"Складанасць"}'),
-    ('async-sorter', '{"en":"Async Sorter","ru":"Асинхронный порядок","by":"Асінхронны парадак"}')
-    ON CONFLICT (type) DO NOTHING;
+-- 1. Types
+CREATE TYPE role AS ENUM ('user', 'admin');
+CREATE TYPE level AS ENUM ('beginner', 'intermediate', 'advanced');
+CREATE TYPE subject AS ENUM ('JavaScript', 'TypeScript');
 
--- 2️⃣ Create topic
-WITH new_topic AS (
-INSERT INTO public.topics (name, description, level)
-VALUES (
-    '{
-      "en": "Demo: All Widgets",
-      "ru": "Демо: все виджеты",
-      "by": "Дэма: усе віджэты"
-    }',
-    '{
-      "en": "Test all available widget types",
-      "ru": "Тест всех типов виджетов",
-      "by": "Тэст усіх тыпаў віджэтаў"
-    }',
-    'beginner'
-    )
-    RETURNING id
-    ),
+-- 2. Independent Tables
+CREATE TABLE public.profiles
+(
+    id       uuid NOT NULL DEFAULT auth.uid() UNIQUE,
+    username text NOT NULL UNIQUE,
+    role role DEFAULT 'user'::role,
+    CONSTRAINT profiles_pkey PRIMARY KEY (id)
+);
 
--- 3️⃣ Link all widgets
-    topic_widgets_insert AS (
-INSERT INTO public.topic_widgets (topic_id, widget_type)
-SELECT id, wt
-FROM new_topic,
-    (VALUES
-    ('quiz'),
-    ('true-false'),
-    ('code-completion'),
-    ('code-ordering'),
-    ('flip-card'),
-    ('big-o'),
-    ('async-sorter')
-    ) AS w(wt)
-    ),
+CREATE TABLE public.widgets
+(
+    type        text                     NOT NULL,
+    created_at  timestamp with time zone NOT NULL DEFAULT now(),
+    name        jsonb                             DEFAULT NULL::jsonb,
+    description jsonb,
+    icon        text,
+    CONSTRAINT widgets_pkey PRIMARY KEY (type)
+);
 
--- 4️⃣ Insert questions
-    inserted_questions AS (
-INSERT INTO public.questions (topic_id, widget_type, payload_question, payload_answer)
-SELECT
-    nt.id,
-    q.widget_type,
-    q.payload_question::jsonb,
-    q.payload_answer::jsonb
-FROM new_topic nt
-    JOIN (
-    VALUES
+CREATE TABLE public.topics
+(
+    id          bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
+    created_at  timestamp with time zone            NOT NULL DEFAULT now(),
+    level level NOT NULL DEFAULT 'beginner'::level,
+    subject subject DEFAULT 'JavaScript'::subject,
+    name        jsonb                                        DEFAULT NULL::jsonb,
+    description jsonb                                        DEFAULT NULL::jsonb,
+    CONSTRAINT topics_pkey PRIMARY KEY (id)
+);
 
--- QUIZ
-    ('quiz',
-    '{
-      "question": {
-        "en":"What is typeof null?",
-        "ru":"Что такое typeof null?",
-        "by":"Што такое typeof null?"
-      },
-      "options": [
-        {"en":"null","ru":"null","by":"null"},
-        {"en":"object","ru":"object","by":"object"},
-        {"en":"undefined","ru":"undefined","by":"undefined"},
-        {"en":"number","ru":"number","by":"number"}
-      ]
-    }',
-    '{"correctIndex":1}'
-    ),
+-- 3. Dependent Tables
+CREATE TABLE public.topic_widgets
+(
+    topic_id    bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+    widget_type text                                NOT NULL,
+    created_at  timestamp with time zone            NOT NULL DEFAULT now(),
+    CONSTRAINT topic_widgets_pkey PRIMARY KEY (topic_id, widget_type),
+    CONSTRAINT topic_widgets_topic_id_fkey FOREIGN KEY (topic_id) REFERENCES public.topics (id),
+    CONSTRAINT topic_widgets_widget_type_fkey FOREIGN KEY (widget_type) REFERENCES public.widgets (type)
+);
 
--- TRUE FALSE
-    ('true-false',
-    '{
-      "statement": {
-        "en":"JavaScript is single-threaded",
-        "ru":"JavaScript однопоточный",
-        "by":"JavaScript аднапаточны"
-      }
-    }',
-    '{"correct":true}'
-    ),
+CREATE TABLE public.questions
+(
+    id               bigint GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
+    created_at       timestamp with time zone            NOT NULL DEFAULT now(),
+    topic_id         bigint                              NOT NULL,
+    widget_type      text                                NOT NULL,
+    payload_answer   jsonb                               NOT NULL DEFAULT '{}'::jsonb,
+    payload_question jsonb                               NOT NULL DEFAULT '{}'::jsonb,
+    CONSTRAINT questions_pkey PRIMARY KEY (id),
+    CONSTRAINT questions_topic_id_widget_type_fkey FOREIGN KEY (topic_id, widget_type) REFERENCES public.topic_widgets (topic_id, widget_type)
+);
 
--- CODE COMPLETION
-    ('code-completion',
-    '{
-      "code":"const result = arr.___(x => x > 0);",
-      "blanks":["___"]
-    }',
-    '{"answers":["filter"]}'
-    ),
+CREATE TABLE public.profile_questions
+(
+    user_id     uuid                     NOT NULL,
+    question_id bigint                   NOT NULL,
+    created_at  timestamp with time zone NOT NULL DEFAULT now(),
+    is_success  boolean                  NOT NULL DEFAULT false,
+    updated_at  timestamp without time zone DEFAULT now(),
+    CONSTRAINT profile_questions_pkey PRIMARY KEY (user_id, question_id),
+    CONSTRAINT profile_questions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.profiles (id),
+    CONSTRAINT profile_questions_question_id_fkey FOREIGN KEY (question_id) REFERENCES public.questions (id)
+);
 
--- CODE ORDERING
-    ('code-ordering',
-    '{
-      "description":{
-        "en":"Arrange function",
-        "ru":"Arrange function",
-        "by":"Arrange function"
-      },
-      "lines":[
-        "return a + b;",
-        "function sum(a, b) {",
-        "}"
-      ]
-    }',
-    '{"answers":[1,0,2]}'
-    ),
+-- 4. Views
+CREATE
+OR REPLACE VIEW public.question_admin_list AS
+SELECT q.id,
+       q.topic_id,
+       t.name AS topic_name,
+       q.widget_type,
+       q.created_at,
+       q.payload_question,
+       q.payload_answer
+FROM ((questions q
+    LEFT JOIN topic_widgets tw ON (((tw.widget_type = q.widget_type) AND (tw.topic_id = q.topic_id))))
+    LEFT JOIN topics t ON ((t.id = q.topic_id)));;
 
--- FLIP CARD
-    ('flip-card',
-    '{
-      "term": {
-        "en":"Closure",
-        "ru":"Замыкание",
-        "by":"Замыканне"
-      },
-      "definition": {
-        "en":"Function with access to outer scope",
-        "ru":"Функция с доступом к внешней области",
-        "by":"Функцыя з доступам да знешняй вобласці"
-      }
-    }',
-    '{}'
-    ),
 
--- BIG-O
-    ('big-o',
-    '{
-      "question": {
-        "en":"What is complexity of linear search?",
-        "ru":"Какая сложность линейного поиска?",
-        "by":"Якая складанасць лінейнага пошуку?"
-      },
-      "codeExample":"for(let i=0;i<n;i++){ if(arr[i]===x) return i; }"
-    }',
-    '{"correct":"O(n)"}'
-    ),
+CREATE
+OR REPLACE VIEW public.topic_admin_list AS
+SELECT t.id,
+       t.created_at,
+       t.level,
+       t.subject,
+       t.name,
+       t.description,
+       sum(widget_questions.total_questions) AS sum_questions
+FROM (topics t
+    LEFT JOIN LATERAL ( SELECT count(q.id) AS total_questions
+                        FROM questions q
+                        WHERE (q.topic_id = t.id)) widget_questions ON (true))
+GROUP BY t.id;;
 
--- ASYNC SORTER
-    ('async-sorter',
-    '{
-      "codeSnippet":"console.log(1); Promise.resolve().then(()=>console.log(2)); console.log(3);",
-      "blocks":[
-        {"id":"b1","code":"console.log(1)","label":"1"},
-        {"id":"b2","code":"Promise.then","label":"2"},
-        {"id":"b3","code":"console.log(3)","label":"3"}
-      ]
-    }',
-    '{
-      "callStack":["b1","b3"],
-      "microtasks":["b2"],
-      "macrotasks":[],
-      "outputOrder":["b1","b3","b2"]
-    }'
-    )
 
-    ) AS q(widget_type, payload_question, payload_answer)
-ON TRUE
-    RETURNING id
-    )
+CREATE
+OR REPLACE VIEW public.questions_info AS
+SELECT q.id,
+       q.widget_type,
+       q.topic_id,
+       q.payload_question,
+       pq.is_success,
+       pq.updated_at
+FROM (questions q
+    LEFT JOIN profile_questions pq ON ((q.id = pq.question_id)))
+GROUP BY q.id, pq.is_success, pq.updated_at
+ORDER BY q.id;;
 
-SELECT COUNT(*) FROM inserted_questions;
 
-COMMIT;
+CREATE
+OR REPLACE VIEW public.profile_questions_daily_activity AS
+SELECT user_id,
+       (created_at) ::date AS day,
+    (count(*))::integer AS count
+FROM profile_questions
+GROUP BY user_id, ((created_at):: date);;
+
+
+CREATE
+OR REPLACE VIEW public.widget_admin_list AS
+SELECT w.type,
+       w.created_at,
+       w.name,
+       w.description,
+       w.icon,
+       sum(topic_questions.total_questions) AS sum_questions
+FROM (widgets w
+    LEFT JOIN LATERAL ( SELECT count(q.id) AS total_questions
+                        FROM questions q
+                        WHERE (q.widget_type = w.type)) topic_questions ON (true))
+GROUP BY w.type;;
+
+
+CREATE
+OR REPLACE VIEW public.topic_widget_summary AS
+SELECT t.id,
+       t.name,
+       t.description,
+       t.level,
+       t.subject,
+       t.created_at,
+       max(widget_stats.last_accessed_at)                                                                     AS last_accessed_at,
+       COALESCE(json_agg(json_build_object('type', w.type, 'name', w.name, 'description', w.description, 'created_at',
+                                           w.created_at, 'last_accessed_at', widget_stats.last_accessed_at,
+                                           'total_questions', widget_stats.total_count, 'correct_answers',
+                                           widget_stats.correct_count))
+                FILTER(WHERE ((tw.widget_type IS NOT NULL) AND (widget_stats.total_count > 0))), '[]' ::json) AS widgets
+FROM (((topics t
+    LEFT JOIN topic_widgets tw ON ((t.id = tw.topic_id)))
+    LEFT JOIN widgets w ON ((tw.widget_type = w.type)))
+    LEFT JOIN LATERAL ( SELECT count(q.id) AS        total_count,
+                               count(pq.question_id) FILTER (WHERE (pq.is_success = true)) AS correct_count, max(pq.updated_at) AS last_accessed_at
+                        FROM (questions q
+                            LEFT JOIN profile_questions pq ON (((pq.question_id = q.id) AND (pq.user_id = auth.uid()))))
+                        WHERE ((q.topic_id = t.id) AND (q.widget_type = tw.widget_type))) widget_stats ON (true))
+GROUP BY t.id;;
