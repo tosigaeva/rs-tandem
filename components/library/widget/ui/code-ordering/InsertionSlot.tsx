@@ -1,3 +1,5 @@
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
+
 type InsertionSlotProperties = {
   index: number;
   hoverIndex: number | undefined;
@@ -7,6 +9,8 @@ type InsertionSlotProperties = {
 };
 
 export function InsertionSlot({ index, hoverIndex, setHoverIndex, dragIndex, onInsert }: InsertionSlotProperties) {
+  const debouncedHoverIndex = useDebouncedValue(hoverIndex, 50);
+
   return (
     <div
       className="h-6 py-1"
@@ -21,7 +25,7 @@ export function InsertionSlot({ index, hoverIndex, setHoverIndex, dragIndex, onI
         setHoverIndex(undefined);
       }}
     >
-      {hoverIndex === index && <div className="bg-primary h-full w-full rounded-full transition-all" />}
+      {debouncedHoverIndex === index && <div className="bg-primary h-full w-full rounded-full transition-all" />}
     </div>
   );
 }

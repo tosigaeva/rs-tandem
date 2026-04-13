@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { CardContent } from '@/components/ui/card';
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { cn } from '@/lib/utils';
 
 import { BlockItem } from './BlockItem';
@@ -26,20 +27,6 @@ export function BlocksContainer({
   isHighlighted = false,
 }: BlocksContainerProperties) {
   const [hoverIndex, setHoverIndex] = useState<number | undefined>();
-
-  function useDebouncedValue(value: number | undefined, delay: number) {
-    const [debounced, setDebounced] = useState(value);
-
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setDebounced(value);
-      }, delay);
-
-      return () => clearTimeout(timeout);
-    }, [value, delay]);
-
-    return debounced;
-  }
 
   const debouncedHoverIndex = useDebouncedValue(hoverIndex, 50);
 
