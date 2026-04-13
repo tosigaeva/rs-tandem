@@ -34,6 +34,7 @@ VALUES (
 -- 3️⃣ Link all widgets
     topic_widgets_insert AS (
 INSERT INTO public.topic_widgets (topic_id, widget_type)
+OVERRIDING SYSTEM VALUE
 SELECT id, wt
 FROM new_topic,
     (VALUES
