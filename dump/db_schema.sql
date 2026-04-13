@@ -194,3 +194,22 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+create or replace function public.handle_sync_user_role()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  update auth.users
+  set raw_app_meta_data = 
+    coalesce(raw_app_meta_data, '{}'::jsonb) || jsonb_build_object('role', new.role)
+  where id = new.id;
+  return new;
+end;
+$$;
+
+create or replace trigger on_profile_role_update
+  after insert or update of role on public.profiles
+  for each row
+  execute function public.handle_sync_user_role();
