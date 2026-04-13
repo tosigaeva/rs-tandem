@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { CardContent } from '@/components/ui/card';
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { cn } from '@/lib/utils';
 
 import { BlockItem } from './BlockItem';
@@ -27,6 +28,8 @@ export function BlocksContainer({
 }: BlocksContainerProperties) {
   const [hoverIndex, setHoverIndex] = useState<number | undefined>();
 
+  const debouncedHoverIndex = useDebouncedValue(hoverIndex, 50);
+
   return (
     <CardContent
       className={cn(
@@ -37,7 +40,7 @@ export function BlocksContainer({
       {blocks.map((block, index) => (
         <div
           key={block.id}
-          draggable
+          draggable={validation === undefined}
           onDragStart={() => onDragStart(block)}
           onDragOver={(event) => {
             if (!allowDrop) return;
@@ -55,7 +58,9 @@ export function BlocksContainer({
             onDragEnd();
           }}
         >
-          {hoverIndex === index && <div className="bg-primary h-0.5 w-full rounded-full transition-all duration-150" />}
+          {debouncedHoverIndex === index && (
+            <div className="bg-primary mb-1 h-5 w-full rounded-full transition-all duration-150" />
+          )}
           <BlockItem code={block.code} label={block.label} isCorrect={validation ? validation[index] : undefined} />
         </div>
       ))}
@@ -74,8 +79,8 @@ export function BlocksContainer({
           setHoverIndex(undefined);
         }}
       >
-        {hoverIndex === blocks.length && (
-          <div className="bg-primary h-0.5 w-full rounded-full transition-all duration-150" />
+        {debouncedHoverIndex === blocks.length && (
+          <div className="bg-primary mb-1 h-5 w-full rounded-full transition-all duration-150" />
         )}
       </div>
 
