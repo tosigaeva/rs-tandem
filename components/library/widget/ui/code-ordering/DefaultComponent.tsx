@@ -165,7 +165,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
             `}
           >
             {blocks.map((block, index) => (
-              <div key={questionId + block.id} className="mb-0.5">
+              <div key={questionId + block.id}>
                 <InsertionSlot
                   index={index}
                   hoverIndex={hoverIndex}

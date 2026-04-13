@@ -9,7 +9,7 @@ type InsertionSlotProperties = {
 export function InsertionSlot({ index, hoverIndex, setHoverIndex, dragIndex, onInsert }: InsertionSlotProperties) {
   return (
     <div
-      className="h-2"
+      className="h-6 py-1"
       onDragOver={(event) => {
         event.preventDefault();
         setHoverIndex(index);
@@ -21,7 +21,7 @@ export function InsertionSlot({ index, hoverIndex, setHoverIndex, dragIndex, onI
         setHoverIndex(undefined);
       }}
     >
-      {hoverIndex === index && <div className="bg-primary h-0.5 w-full rounded-full transition-all" />}
+      {hoverIndex === index && <div className="bg-primary h-full w-full rounded-full transition-all" />}
     </div>
   );
 }
