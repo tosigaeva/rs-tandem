@@ -208,9 +208,10 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 If you want to bootstrap the real database locally, the repository includes:
 
 - `dump/db_schema.sql` for the database schema
-- `dump/db_dump.sql` for demo data
+- `dump/db_dump.sql` — demo seed data
 
-These files are based on the Supabase example and can be used as a starting point for installing a real PostgreSQL database for the project.
+They are primarily for initial setup on a clean project and for understanding the data model.
+They are not migration files and are not guaranteed to be idempotent (re-running may fail).
 
 ### 3. Start the development server
 
