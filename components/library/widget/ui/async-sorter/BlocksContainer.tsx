@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -26,6 +26,22 @@ export function BlocksContainer({
   isHighlighted = false,
 }: BlocksContainerProperties) {
   const [hoverIndex, setHoverIndex] = useState<number | undefined>();
+
+  function useDebouncedValue(value: number | undefined, delay: number) {
+    const [debounced, setDebounced] = useState(value);
+
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        setDebounced(value);
+      }, delay);
+
+      return () => clearTimeout(timeout);
+    }, [value, delay]);
+
+    return debounced;
+  }
+
+  const debouncedHoverIndex = useDebouncedValue(hoverIndex, 50);
 
   return (
     <CardContent
@@ -55,7 +71,9 @@ export function BlocksContainer({
             onDragEnd();
           }}
         >
-          {hoverIndex === index && <div className="bg-primary h-5 w-full rounded-full transition-all duration-150" />}
+          {debouncedHoverIndex === index && (
+            <div className="bg-primary mb-1 h-5 w-full rounded-full transition-all duration-150" />
+          )}
           <BlockItem code={block.code} label={block.label} isCorrect={validation ? validation[index] : undefined} />
         </div>
       ))}
@@ -74,8 +92,8 @@ export function BlocksContainer({
           setHoverIndex(undefined);
         }}
       >
-        {hoverIndex === blocks.length && (
-          <div className="bg-primary h-5 w-full rounded-full transition-all duration-150" />
+        {debouncedHoverIndex === blocks.length && (
+          <div className="bg-primary mb-1 h-5 w-full rounded-full transition-all duration-150" />
         )}
       </div>
 
