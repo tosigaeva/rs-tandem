@@ -53,7 +53,7 @@ export function BlocksContainer({
       {blocks.map((block, index) => (
         <div
           key={block.id}
-          draggable
+          draggable={allowDrop}
           onDragStart={() => onDragStart(block)}
           onDragOver={(event) => {
             if (!allowDrop) return;

@@ -174,7 +174,7 @@ export default function DefaultComponent({ questionId, questionPayload, onCheck,
                   onInsert={handleReorder}
                 />
                 <div
-                  draggable
+                  draggable={verdict === undefined}
                   onDragStart={() => {
                     setDragIndex(index);
                     setIsOverArea(true);
