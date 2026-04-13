@@ -163,3 +163,53 @@ FROM (((topics t
                             LEFT JOIN profile_questions pq ON (((pq.question_id = q.id) AND (pq.user_id = auth.uid()))))
                         WHERE ((q.topic_id = t.id) AND (q.widget_type = tw.widget_type))) widget_stats ON (true))
 GROUP BY t.id;;
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW."updated_at" = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_profile_questions_updated_at
+    BEFORE UPDATE OF "is_success" ON "profile_questions"
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_updated_at_column();
+
+
+
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.profiles (id, username)
+  values (
+    new.id, 
+    new.raw_user_meta_data->>'username'
+  );
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
+create or replace function public.handle_sync_user_role()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  update auth.users
+  set raw_app_meta_data = 
+    coalesce(raw_app_meta_data, '{}'::jsonb) || jsonb_build_object('role', new.role)
+  where id = new.id;
+  return new;
+end;
+$$;
+
+create or replace trigger on_profile_role_update
+  after insert or update of role on public.profiles
+  for each row
+  execute function public.handle_sync_user_role();
