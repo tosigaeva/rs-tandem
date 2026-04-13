@@ -1,4 +1,4 @@
-import { CircleCheck, CircleCheckBig, CircleX, GripVertical } from 'lucide-react';
+import { CircleCheckBig, CircleX, GripVertical } from 'lucide-react';
 
 type BlockItemProperties = {
   code: string;

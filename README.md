@@ -172,14 +172,44 @@ meeting-notes/          Team meeting notes
 
 ## Setup
 
+### 1. Clone the repository and install dependencies
+
 ```bash
-# 1. Clone the repository
 git clone https://github.com/tosigaeva/rs-tandem.git
 cd rs-tandem
-
-# 2. Install dependencies
 npm install
+```
 
-# 3. Start development server
+### 2. Configure environment variables
+
+The project supports two installation modes controlled by `MOCK_MODE`.
+
+#### Option A: Mock mode
+
+Use this mode if you want to run the app without a real database.
+
+```env
+MOCK_MODE=true
+```
+
+In this mode, the application uses local mock data and does not require Supabase or PostgreSQL credentials.
+
+#### Option B: Real database mode
+
+Use this mode if you want to run the app with a real Supabase/PostgreSQL database.
+
+```env
+MOCK_MODE=false
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+If you want to bootstrap the database structure locally, the repository includes `dump/demo.sql`.
+This file is an example dump from Supabase and can be used as a starting point for installing a real PostgreSQL database for the project.
+
+### 3. Start the development server
+
+```bash
 npm run dev
 ```
