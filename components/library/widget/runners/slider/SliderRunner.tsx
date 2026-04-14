@@ -12,20 +12,22 @@ import QuestionProgress from '../QuestionProgress';
 
 type QuestionsRunnerProperties = {
   questions: QuestionInfo[];
+  totalLength: number;
   onComplete: () => void;
 };
 
-export function SliderRunner({ questions, onComplete }: QuestionsRunnerProperties) {
+export function SliderRunner({ questions, totalLength, onComplete }: QuestionsRunnerProperties) {
   const [api, setApi] = useState<CarouselApi>();
 
   return (
-    <QuestionRunnerEngine questions={questions} onComplete={onComplete}>
+    <QuestionRunnerEngine questions={questions} totalLength={totalLength} onComplete={onComplete}>
       {({ questions, currentIndex, answersHistory, nextQuestion, onCheck }) => {
         return (
           <div className="space-y-4">
             <QuestionProgress
-              currentQuestion={currentIndex}
-              totalQuestions={questions.length}
+              startingIndex={totalLength - questions.length}
+              currentIndex={currentIndex}
+              totalQuestions={totalLength}
               answersHistory={answersHistory}
             />
 

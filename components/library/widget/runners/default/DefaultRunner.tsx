@@ -8,20 +8,22 @@ import { QuestionInfo } from '@/types/schemas/question-schemas';
 
 type DefaultRunnerProperties = {
   questions: QuestionInfo[];
+  totalLength: number;
   onComplete: () => void;
 };
 
-export default function DefaultRunner({ questions, onComplete }: DefaultRunnerProperties) {
+export default function DefaultRunner({ questions, totalLength, onComplete }: DefaultRunnerProperties) {
   return (
-    <QuestionRunnerEngine questions={questions} onComplete={onComplete}>
-      {({ questions, currentIndex, answersHistory, nextQuestion, onCheck }) => {
+    <QuestionRunnerEngine questions={questions} onComplete={onComplete} totalLength={totalLength}>
+      {({ questions, totalLength, currentIndex, answersHistory, nextQuestion, onCheck }) => {
         const question = questions[currentIndex];
 
         return (
           <div className="space-y-4">
             <QuestionProgress
-              currentQuestion={currentIndex}
-              totalQuestions={questions.length}
+              startingIndex={totalLength - questions.length}
+              currentIndex={currentIndex}
+              totalQuestions={totalLength}
               answersHistory={answersHistory}
             />
 

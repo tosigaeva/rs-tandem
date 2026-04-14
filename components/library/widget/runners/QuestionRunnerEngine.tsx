@@ -2,10 +2,12 @@
 
 import { LoaderIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 import Results from '@/components/Results';
 import { trackQuestionAttempt } from '@/data/activity.action';
 import { validateAnswer } from '@/data/validate.api';
+import { useTranslation } from '@/hooks/use-translation';
 import { useAuth } from '@/providers/auth-state.provider';
 import { QuestionInfo } from '@/types/schemas/question-schemas';
 import { ValidationResult } from '@/types/validation';
@@ -14,6 +16,7 @@ export type AnswersHistory = (boolean | undefined)[];
 
 type RunnerRenderProperties = {
   questions: QuestionInfo[];
+  totalLength: number;
   currentIndex: number;
   answersHistory: AnswersHistory;
   isValidating: boolean;
@@ -23,20 +26,28 @@ type RunnerRenderProperties = {
 
 type QuestionRunnerEngineProperties = {
   questions: QuestionInfo[];
+  totalLength: number;
   children: (properties: RunnerRenderProperties) => React.ReactNode;
   onComplete: () => void;
 };
 
-export default function QuestionRunnerEngine({ questions, children, onComplete }: QuestionRunnerEngineProperties) {
+export default function QuestionRunnerEngine({
+  questions,
+  totalLength,
+  children,
+  onComplete,
+}: QuestionRunnerEngineProperties) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
   const [answersHistory, setAnswersHistory] = useState<AnswersHistory>(
     Array.from<undefined>({ length: questions.length })
   );
   const isValidationInFlight = useRef(false);
-  const correctAnswers = answersHistory.filter(Boolean).length;
+  const correctAnswers = totalLength - questions.length + answersHistory.filter(Boolean).length;
 
   const { user } = useAuth();
+
+  const { t } = useTranslation();
 
   const currentQuestion = questions[currentIndex];
 
@@ -74,10 +85,18 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
           isSuccess: result.isCorrect,
         });
       } catch {
-        // ignored due to not blocking an answer validation flow.
+        toast.error(t('runner.error.could-not-update'));
       }
 
       return result;
+    } catch {
+      setAnswersHistory((previous) => {
+        const copyHistory = [...previous];
+        copyHistory[currentIndex] = false;
+        return copyHistory;
+      });
+      toast.error(t('runner.error.failed-to-validate'));
+      return { isCorrect: undefined };
     } finally {
       isValidationInFlight.current = false;
       setIsValidating(false);
@@ -85,13 +104,14 @@ export default function QuestionRunnerEngine({ questions, children, onComplete }
   };
 
   if (currentQuestion === undefined) {
-    return <Results questionsCount={questions.length} correctAnswers={correctAnswers} onStartOver={startOver} />;
+    return <Results questionsCount={totalLength} correctAnswers={correctAnswers} onStartOver={startOver} />;
   }
 
   return (
     <div className="relative">
       {children({
         questions,
+        totalLength,
         currentIndex,
         answersHistory,
         isValidating,

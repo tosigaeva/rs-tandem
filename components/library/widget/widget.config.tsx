@@ -79,7 +79,10 @@ export const widgetRegistry: {
   },
   [WidgetType.AsyncSorter]: {
     default: dynamic<WidgetComponentProperties<WidgetType.AsyncSorter>>(
-      () => import('@/components/library/widget/ui/async-sorter/DefaultComponent')
+      () => import('@/components/library/widget/ui/async-sorter/DefaultComponent'),
+      {
+        loading: () => <WidgetSkeleton />,
+      }
     ),
   },
 };

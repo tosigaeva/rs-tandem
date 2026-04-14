@@ -2,6 +2,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { CustomArrayInput } from '@/components/CustomArrayInput';
 import { CustomInput } from '@/components/CustomInput';
+import { CustomObjectArrayInput } from '@/components/CustomObjectArrayInput';
 import { CustomSelect } from '@/components/CustomSelect';
 import { LocaleInput } from '@/components/LocaleInput';
 import { BigOComplexity } from '@/types/schemas/question-payload-schema';
@@ -101,7 +102,25 @@ export const PayloadFields = ({ widgetType }: { widgetType: WidgetType }) => {
     <div className="space-y-4 border-t pt-4">
       <h3 className="text-sm font-medium">Async Sorter Question Configuration</h3>
       <CustomInput name={'payloadQuestion.codeSnippet'} label={'Code Snippet'} type={'text'} />
-      <CustomArrayInput name={'payloadQuestion.blocks'} label={'Blocks'} type={'text'} />
+      <CustomObjectArrayInput
+        name={'payloadQuestion.blocks'}
+        label={'Blocks'}
+        fieldsToEdit={[
+          {
+            key: 'id',
+            label: 'Id',
+          },
+          {
+            key: 'code',
+            label: 'Code',
+          },
+          {
+            key: 'label',
+            label: 'Label',
+          },
+        ]}
+        defaultValues={{ id: 'b1', code: '', label: '' }}
+      />
       <h3 className="text-sm font-medium">Async Sorter Answer Configuration</h3>
       <CustomArrayInput name={'payloadAnswer.callStack'} label={'Call Stack'} type={'text'} />
       <CustomArrayInput name={'payloadAnswer.microtasks'} label={'Microtasks'} type={'text'} />
